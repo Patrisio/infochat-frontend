@@ -1,4 +1,4 @@
-Стек: React, redux, redux-saga, socket-io (websockets)
+Стек: React, redux, redux-saga, socket-io (websockets), typescript
 
 <img src="https://patrisio.github.io/Screenshot%202021-04-19%20at%2010.08.10.png">
 <img src="https://github.com/Patrisio/Patrisio.github.io/blob/main/Screenshot%202021-04-19%20at%2010.08.21.png">
