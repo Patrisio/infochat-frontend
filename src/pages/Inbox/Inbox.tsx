@@ -16,6 +16,7 @@ import Header from '../../components/Header/Header';
 import SidebarList from '../../components/Sidebar/components/SidebarList/SidebarList';
 import Avatar from '../../components/Avatar/Avatar';
 import Spin from '../../components/Spin/Spin';
+import Button from '../../components/Button/Button';
 
 import AppealsContainerSelector from './components/AppealsContainerSelector/AppealsContainerSelector';
 import AppealsContainerMessages from './components/AppealsContainerMessages/AppealsContainerMessages';
@@ -495,14 +496,20 @@ export default function Inbox({
               />
               {
                 channels.length === 0 ?
-                <div>
-                  <img src={man} alt='man' />
+                <div className={styles.noChannelsContainer}>
+                  <img
+                    src={man}
+                    alt='man'
+                    className={styles.manImage}
+                  />
                   <p>У вас ещё нет ни одного канала</p>
-                  <Link
-                    to={`/project/${projectId}/settings/channels`}
+                  <Button
+                    type='button'
+                    fluid
+                    onClick={() => history.push(`/project/${projectId}/settings/channels`)}
                   >
                     Добавить канал
-                  </Link>
+                  </Button>
                 </div> :
                 selectedClient.clientId === '' ?
                 <div className={styles.notSelectedClientIdContainer}>
