@@ -190,6 +190,16 @@ const updateTariffPeriod = (payload: any) => ({
   payload,
 });
 
+const fetchTariffPlan = (payload: any) => ({
+  type: TARIFF.FETCH_PLAN,
+  payload,
+});
+
+const saveTariffPlan = (payload: any) => ({
+  type: TARIFF.SAVE_PLAN,
+  payload,
+});
+
 export {
   authInvite,
   authSignIn,
@@ -232,4 +242,6 @@ export {
 
   updateTariffPlan,
   updateTariffPeriod,
+  fetchTariffPlan,
+  saveTariffPlan,
 }

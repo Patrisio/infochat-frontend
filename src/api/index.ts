@@ -66,6 +66,9 @@ async function loadRoutes(): Promise<{[key: string]: string}> {
     api_get_templates: '/templates/project/[*:projectId]/settings/getTemplates',
 
     api_add_project: '/projects/addProject',
+
+    api_get_tariff_plan: '/projects/project/[*:projectId]/settings/getProjectTariffPlan',
+    api_update_tariff_plan: '/projects/project/[*:projectId]/settings/updateProjectTariffPlan',
   };
 }
 

@@ -178,3 +178,12 @@ export async function projectAdd(payload: { name: string, timezone: string, succ
   const { successCallback, ...projectData } = payload;
   return await requestApiPost('api_add_project', projectData, {}, successCallback);
 }
+
+export async function tariffPlanFetch(projectId: string): Promise<{ code: number, tariffPlan: any }> {
+  return await requestApiGet('api_get_tariff_plan', { projectId });
+}
+
+export async function tariffPlanUpdate(payload: any) {
+  const { projectId, ...tariffPlan } = payload;
+  return await requestApiPost('api_update_tariff_plan', tariffPlan, { projectId });
+}

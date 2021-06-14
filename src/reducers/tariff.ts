@@ -60,18 +60,43 @@ const initialState: any = {
 export const tariffReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case TARIFF.UPDATE_PLAN:
-      const { featureId, count } = action.payload;
+      if (Array.isArray(action.payload)) {
+        const tariffPlan = action.payload;
+        let formattedTariffPlan: any = {};
 
-      return {
-        ...state,
-        plan: {
-          ...state.plan,
-          [featureId]: {
-            ...state.plan[featureId],
-            count,
-          }
+        for (let i = 0; i < tariffPlan.length; i++) {
+          const tariffFeature = tariffPlan[i];
+          const featureId = tariffFeature.id
+
+          formattedTariffPlan[featureId] = { count: tariffFeature.count };
+
+          formattedTariffPlan = {
+            ...formattedTariffPlan,
+            [featureId]: {
+              ...state.plan[featureId],
+              ...formattedTariffPlan[featureId],
+            },
+          };
         }
-      };
+
+        return {
+          ...state,
+          plan: formattedTariffPlan,
+        };
+      } else {
+        const { featureId, count } = action.payload;
+
+        return {
+          ...state,
+          plan: {
+            ...state.plan,
+            [featureId]: {
+              ...state.plan[featureId],
+              count,
+            }
+          }
+        };
+      }
     
     case TARIFF.UPDATE_PERIOD:
       const { period } = action.payload;

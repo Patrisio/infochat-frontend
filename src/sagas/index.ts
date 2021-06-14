@@ -5,6 +5,7 @@ import channelsSagas from './channels';
 import inboxSagas from './inbox';
 import templatesSagas from './templates';
 import projectsSagas from './projects';
+import tariffSagas from './tariff';
 
 export default function* rootSaga() {
   yield all([
@@ -14,5 +15,6 @@ export default function* rootSaga() {
     ...inboxSagas,
     ...templatesSagas,
     ...projectsSagas,
+    ...tariffSagas,
   ]);
 }

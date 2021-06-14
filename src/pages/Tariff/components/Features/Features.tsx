@@ -9,7 +9,7 @@ import styles from './features.module.scss';
 
 export default function Features() {
   const tariffPlan = useSelector((state: any) => state.tariff.plan);
-  
+
   const features = Object.entries(tariffPlan).map((feature: any) => {
     return {
       id: feature[0],

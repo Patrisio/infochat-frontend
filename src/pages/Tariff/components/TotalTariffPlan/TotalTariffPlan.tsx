@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Title from '../../../../components/Typography/Title/Title';
 import Button from '../../../../components/Button/Button';
 
-import { updateTariffPlan } from '../../../../actions';
+import { updateTariffPlan, saveTariffPlan } from '../../../../actions';
 import { bonus, YEAR } from '../../constants';
 import styles from './totalTariffPlan.module.scss';
 
@@ -86,7 +86,7 @@ export default function TotalTariffPlan() {
             background: 'transparent',
             color: '#ccc',
           }}
-          onClick={() =>updateCounter('dec', featureId)}
+          onClick={() => updateCounter('dec', featureId)}
         >
           -
         </Button>
@@ -105,7 +105,7 @@ export default function TotalTariffPlan() {
             background: 'transparent',
             color: '#ccc',
           }}
-          onClick={() =>updateCounter('inc', featureId)}
+          onClick={() => updateCounter('inc', featureId)}
         >
           +
         </Button>
@@ -169,6 +169,17 @@ export default function TotalTariffPlan() {
       });
     };
 
+    const updateTariffPlan = () => {
+      const { operators, infochatLink, chat, templates } = tariffPlan;
+      dispatch(saveTariffPlan({
+        projectId,
+        operatorsCount: operators.count,
+        infochatLinkCount: infochatLink.count,
+        chatCount: chat.count,
+        templatesCount: templates.count,
+      }));
+    };
+
     return (
       <div className={styles.totalContainer}>
         <div className={styles.totalPriceContainer}>
@@ -183,6 +194,7 @@ export default function TotalTariffPlan() {
             padding: '15px 10px',
             marginBottom: '10px',
           }}
+          onClick={updateTariffPlan}
         >
           Сохранить изменения
         </Button>
