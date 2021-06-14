@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Table from '../../components/Table/Table';
 import Button from '../../components/Button/Button';
 import Modal from '../../components/Modal/Modal';
-import Title from '../../components/Title/Title';
+import Title from '../../components/Typography/Title/Title';
 import Switcher from '../../components/Switcher/Switcher';
 import Accordion from '../../components/Accordion2/Accordion2';
 
@@ -18,7 +18,7 @@ import ChatPreview from './components/ChatPreview/ChatPreview';
 
 import styles from './channels.module.scss';
 import cloneDeep from 'lodash/cloneDeep';
-import { addChannel as addChannelAction, fetchChannels } from '../../actions';
+import { addChannel as addChannelAction, fetchChannels, fetchChatSettings } from '../../actions';
 
 import chat from '../../assets/chat.svg';
 import chatChannels from '../../assets/chat-channels.svg';
@@ -51,6 +51,7 @@ interface RootState {
   channels: {
     channels: Channel[]
   },
+  teammates: any
 }
 
 export default function Channels() {
@@ -66,6 +67,8 @@ export default function Channels() {
     height: '',
   });
   const connectedChannels = useSelector((state: RootState) => state.channels.channels);
+  const teammates = useSelector((state: RootState) => state.teammates.teammates);
+
   let dispatch = useDispatch();
   let { projectId } = useParams<{ projectId: string }>();
 
@@ -128,7 +131,7 @@ export default function Channels() {
     {
       imageSrc: install,
       label: 'Установите чат на сайт',
-      content: <InstallBlock/>,
+      content: <InstallBlock />,
     },
     {
       imageSrc: style,
@@ -236,23 +239,27 @@ export default function Channels() {
             fontSize: '13px',
             padding: '10px 14px',
           }}
-          onClick={() => setModalProps({
-            show: true,
-            title: 'Редактировать чат на сайте',
-            body: (
-              <div className={styles.modalBody}>
-                <div className={styles.chatSettingsContainer}>
-                  <Accordion panels={panels}/>
-                </div>
+          onClick={() => {
+            dispatch(fetchChatSettings({ projectId }));
 
-                <ChatPreview />
-              </div>
-            ),
-            footer: null,
-            onClose: () => setModalProps(prev => cloneDeep(Object.assign(prev, { show: false }))),
-            width: '900px',
-            height: '90%',
-          })}
+            setModalProps({
+              show: true,
+              title: 'Редактировать чат на сайте',
+              body: (
+                <div className={styles.modalBody}>
+                  <div className={styles.chatSettingsContainer}>
+                    <Accordion panels={panels}/>
+                  </div>
+
+                  <ChatPreview />
+                </div>
+              ),
+              footer: null,
+              onClose: () => setModalProps(prev => cloneDeep(Object.assign(prev, { show: false }))),
+              width: '900px',
+              height: '90%',
+            });
+          }}
         >
           Изменить
         </Button>
@@ -305,6 +312,7 @@ export default function Channels() {
   ];
 
   useEffect(() => {
+    console.log('jjjjjjjjjj');
     getChannels();
   }, []);
 
@@ -357,7 +365,7 @@ export default function Channels() {
 
   return (
     <div className={styles.channelsContainer}>
-      <Title text='Каналы' />
+      <Title level='1' weight='bold'>Каналы</Title>
 
       <Table
         columns={columns}

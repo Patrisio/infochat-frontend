@@ -1,17 +1,45 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
 
 import Button from '../../../../components/Button/Button';
+
 import styles from './buttonsGroup.module.scss';
+import { saveChatSettings } from '../../../../actions';
 
 interface Props {
   hasChanges: Boolean,
   toggleChanges: (bool: boolean) => void,
   setActiveTab?: (index: number) => void,
   resetBlockSettings: () => void,
+  saveChangesCallback?: () => void,
 }
 
-export default function ButtonsGroup({ hasChanges, toggleChanges, setActiveTab, resetBlockSettings }: Props) {
+interface Settings {
+  chatName: '',
+  greeting: '',
+  backgroundImage: 1,
+  buttonLocation: '',
+  buttonScale: '',
+  buttonText: '',
+  infochatLinkEnabled: 1,
+  customCss: '',
+}
+
+interface State {
+  channels: [],
+  settings: Settings,
+}
+
+interface RootState {
+  channels: State,
+}
+
+export default function ButtonsGroup({ hasChanges, toggleChanges, setActiveTab, resetBlockSettings, saveChangesCallback }: Props) {
   const [isOpenButtonsGroup, toggleState] = useState(hasChanges);
+  const settings = useSelector((state: RootState) => state.channels.settings);
+  let dispatch = useDispatch();
+  let { projectId } = useParams<{ projectId: string }>();
 
   useEffect(() => {
     toggleState(hasChanges);
@@ -29,6 +57,8 @@ export default function ButtonsGroup({ hasChanges, toggleChanges, setActiveTab, 
               padding: '10px',
             }}
             onClick={() => {
+              dispatch(saveChatSettings(settings, projectId));
+              saveChangesCallback && saveChangesCallback();
               toggleChanges(false);
             }}
           >

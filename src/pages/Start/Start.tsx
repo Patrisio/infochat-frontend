@@ -1,62 +1,37 @@
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
-import Title from '../../components/Title/Title';
+import { Link, useParams, useLocation } from 'react-router-dom';
+import Title from '../../components/Typography/Title/Title';
+
+import { getSettingsFeatures, getBillingFeatures } from './constants';
 import styles from './start.module.scss';
 
-import channels from '../../assets/channels.svg';
-import teammates from '../../assets/teammates.svg';
-import template from '../../assets/template.svg';
-import stats from '../../assets/stats.svg';
+interface ILocationState {
+  feature: string
+}
 
 export default function Start() {
+  const location = useLocation<ILocationState>();
+  const locationState = location.state;
   let { projectId } = useParams<{ projectId: string }>();
 
-  const settings = [
-    {
-      imageSrc: channels,
-      alt: 'channels',
-      backgroundColor: '#f5fff5',
-      title: 'Каналы',
-      description: 'Добавьте каналы связи для вашего проекта или настройте чат для сайта.',
-      linkText: 'Добавить и настроить каналы ›',
-      linkHref: `/project/${projectId}/settings/channels`,
-    },
-    {
-      imageSrc: teammates,
-      alt: 'teammates',
-      backgroundColor: 'snow',
-      title: 'Сотрудники',
-      description: 'Пригласите в ваш проект операторов для ответов на входящие сообщения и поддержки клиентов.',
-      linkText: 'Добавить и управлять сотрудниками ›',
-      linkHref: `/project/${projectId}/settings/teammates`,
-    },
-    {
-      imageSrc: template,
-      alt: 'template',
-      backgroundColor: '#faffec',
-      title: 'Шаблоны ответов',
-      description: 'Настройте шаблоны ответов для операторов, чтобы реагировать на сообщения клиентов быстрее.',
-      linkText: 'Настроить шаблоны ответов ›',
-      linkHref: ``,
-    },
-    {
-      imageSrc: stats,
-      alt: 'stats',
-      backgroundColor: '#f4fffd',
-      title: 'Статистика',
-      description: 'Подключите статистику и определяйте популярные каналы, часы пиковой нагрузки и лучших операторов.',
-      linkText: 'Перейти к статистике ›',
-      linkHref: ``,
-    },
-  ];
+  const getFeatures = () => {
+    switch (locationState && locationState.feature) {
+      case 'settings':
+        return getSettingsFeatures(projectId);
+      case 'billing':
+        return getBillingFeatures(projectId);
+      default: 
+        return getSettingsFeatures(projectId);
+    }
+  };
 
   return (
     <div className={styles.startContainer}>
-      <Title text='Настройки' />
+      <Title level='1' weight='bold'>Настройки</Title>
 
       <div className={styles.startContent}>
         {
-          settings.map(({ imageSrc, alt, backgroundColor, title, description, linkText, linkHref }, idx) => {
+          getFeatures().map(({ imageSrc, alt, backgroundColor, title, description, linkText, linkHref }, idx) => {
             return (
               <Link
                 key={idx}

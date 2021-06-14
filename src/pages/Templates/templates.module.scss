@@ -1,0 +1,30 @@
+.channelsContainer {
+  flex-basis: 720px;
+  margin: 0 auto;
+}
+
+.channelNameContainer {
+  width: 150px
+}
+
+.channel {
+  width: 350px;
+}
+
+.modalBody {
+  padding: 35px 0;
+}
+
+.modalField {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.modalField:not(:last-child) {
+  margin-bottom: 15px;
+}
+
+.textarea {
+  font-size: 16px;
+  height: 140px;
+}

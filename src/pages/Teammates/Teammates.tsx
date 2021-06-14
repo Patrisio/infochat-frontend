@@ -1,16 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
 import CSS from 'csstype';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import Title from '../../components/Title/Title';
+import { Location } from 'history';
+
+import Title from '../../components/Typography/Title/Title';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 import Avatar from '../../components/Avatar/Avatar';
 import Modal from '../../components/Modal/Modal';
 import Table from '../../components/Table/Table';
+import EditableUserForm from '../../modules/EditableUserForm/EditableUserForm';
+
 import styles from './teammates.module.scss';
 import { generateRandomHash } from '../../utils/string';
-import { addTeammate, deleteTeammate } from '../../actions';
+import { addTeammate, deleteTeammate, fetchTeammates } from '../../actions';
 
 interface Teammate {
   id: string,
@@ -20,11 +25,6 @@ interface Teammate {
   avatar: string,
   role: string,
   status: string,
-}
-
-interface IData {
-  data: Teammate,
-  action?: () => void,
 }
 
 interface IParams {
@@ -43,8 +43,6 @@ interface RootState {
 
 export default function Teammates() {
   const [isModalEditTeammateShow, setStateModal] = useState(false);
-  const [isEditableEmail, toggleEditableEmail] = useState(false);
-  const [isEditablePassword, toggleEditablePassword] = useState(false);
 
   let { projectId } = useParams<IParams>();
   const teammates = useSelector((state: RootState) => state.teammates.teammates);
@@ -88,121 +86,29 @@ export default function Teammates() {
     dispatch(deleteTeammate({ email, projectId }));
   };
 
-  const addonAfterStyle: CSS.Properties = {
-    position: 'absolute',
-    right: '10px',
-    top: 0,
-    color: '#0a86f9',
-  };
-
-  const editEmail = () => {
-    toggleEditableEmail(true);
-  };
-
-  const editPassword = () => {
-    toggleEditablePassword(true);
-  };
-
-  const ModalBody = () => {
-    return (
-      <div className={styles.modalBody}>
-        <Input
-          type='email'
-          placeholder='Новый email'
-          disabled={!isEditableEmail}
-          fluid
-          addonAfter={
-            !isEditableEmail &&
-            <Button
-              type='button'
-              background='transparent'
-              stylesList={addonAfterStyle}
-              onClick={editEmail}
-            >
-              Изменить email
-            </Button>
-          }
-        />
-        {
-          isEditableEmail &&
-          <Input
-            type='email'
-            placeholder='Подтвердите email'
-            fluid
-          />
-        }
-    
-        <Input
-          type='password'
-          placeholder='Новый пароль'
-          disabled={!isEditablePassword}
-          fluid
-          addonAfter={
-            !isEditablePassword &&
-            <Button
-              type='button'
-              background='transparent'
-              stylesList={addonAfterStyle}
-              onClick={editPassword}
-            >
-              Изменить пароль
-            </Button>
-          }
-        />
-        {
-          isEditablePassword &&
-          <Input
-            type='password'
-            placeholder='Подтвердите пароль'
-            fluid
-          />
-        }
-
-        <Input
-          type='text'
-          placeholder='Имя'
-          fluid
-        />
-
-        <Input
-          type='text'
-          placeholder='Фамилия'
-          fluid
-        />
-      </div>
-    );
-  };
-
   const save = () => {
     console.log('SAVE');
   };
 
-  const ModalFooter = () => {
+  const EditableUserFormFooter = () => {
     return (
-      <div className={styles.modalFooter}>
-        <Button
-          type='button'
-          onClick={save}
-          stylesList={{ marginBottom: '15px' }}
-          fluid
-        >
-          Сохранить изменения
-        </Button>
-
-        <Button
-          type='button'
-          onClick={() => {
-            // removeTeammate(data.email);
-            console.log('DELETE');
-          }}
-          background='transparent'
-          fluid
-        >
-          Удалить
-        </Button>
-      </div>
+      <Button
+        type='button'
+        onClick={() => {
+          // removeTeammate(data.email);
+          console.log('DELETE');
+        }}
+        background='transparent'
+        fluid
+      >
+        Удалить
+      </Button>
     );
   };
+
+  useEffect(() => {
+    dispatch(fetchTeammates({ projectId }));
+  }, []);
 
   const columns = [
     {
@@ -282,7 +188,7 @@ export default function Teammates() {
 
   return (
     <div className={styles.teammateContainer}>
-      <Title text='Сотрудники' />
+      <Title level='1' weight='bold'>Сотрудники</Title>
 
       <form
         method='POST'
@@ -311,12 +217,20 @@ export default function Teammates() {
       <Modal
         show={isModalEditTeammateShow}
         title='Настройка профиля'
-        body={<ModalBody />}
-        footer={<ModalFooter />}
+        body={
+          <></>
+          // <EditableUserForm
+          //   saveData={saveData}
+          //   setFormData={setFormData}
+          //   email={formData.email}
+          //   password={formData.password}
+          //   name={formData.name}
+          //   surname={formData.surname}
+          //   footer={<EditableUserFormFooter />}
+          // />
+        }
         onClose={() => {
           setStateModal(false);
-          toggleEditableEmail(false);
-          toggleEditablePassword(false);
         }}
         width='498px'
       />

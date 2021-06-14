@@ -1,0 +1,35 @@
+.conditionContainer {
+
+}
+
+.conditionContainer:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.conditionLine {
+  display: flex;
+  align-items: baseline;
+  color: #000;
+}
+
+.conditionVariant {
+  padding: 0;
+  height: fit-content;
+  border: none;
+  background: transparent;
+  color: #0084ff;
+  font-size: 14px;
+  margin-left: 4px;
+  width: 207px;
+  border-radius: 0;
+  cursor: pointer;
+
+  &:focus {
+    border: none;
+  }
+}
+
+.deleteConditionIcon {
+  cursor: pointer;
+  margin-left: auto;
+}

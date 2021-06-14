@@ -5,20 +5,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 
 interface IData {
-  id?: string,
+  id?: string | number,
   icon?: string,
   value: string,
 }
 
 interface IInputProps {
   placeholder?: string,
-  value?: string,
+  value?: string | number,
   type: string,
   name?: string,
   onChange?: (e: any) => void,
   onClick?: (item: {icon?: string, value: string}) => void,
-  onSelect?: (arg0: string) => void,
-  onBlur?: () => void,
+  onSelect?: (arg0: string | number) => void,
+  onBlur?: (e: any) => void,
   onFocus?: () => void,
   fluid?: boolean,
   width?: string,
@@ -28,8 +28,14 @@ interface IInputProps {
   allowClear?: boolean,
   readOnly?: boolean,
   disabled?: boolean,
-  addonAfter?: React.ReactNode,
+  addonAfter?: React.ReactNode | HTMLDivElement,
   maxLength?: number,
+  label?: string,
+  checked?: boolean,
+  required?: boolean,
+  min?: number,
+  max?: number,
+  errorMessage?: string,
 };
 
 export default function Input({
@@ -52,12 +58,20 @@ export default function Input({
   disabled,
   addonAfter,
   maxLength,
+  label,
+  checked,
+  required,
+  min,
+  max,
+  errorMessage = '',
 }: IInputProps) {
   const [isOpen, setOpen] = useState(false);
-  const [fieldValue, setFieldValue] = useState<string>('');
+  const [fieldValue, setFieldValue] = useState<string | number | null>('');
   const inputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => setFieldValue(value), [value]);
+  useEffect(() => {
+    setFieldValue(value);
+  }, [value]);
 
   useEffect(() => {
     const clickHandler = (e: any) => {
@@ -75,55 +89,80 @@ export default function Input({
     return document.removeEventListener('click', clickHandler);
   }, [isOpen]);
 
+  const getInputValue = () => {
+    return typeof fieldValue === 'string' ? fieldValue : value;
+  }
+
   return (
     <div
       className={styles.inputContainer}
     >
-      <input
-        readOnly={readOnly}
-        ref={inputRef}
-        placeholder={placeholder}
-        value={fieldValue || value}
-        type={type}
-        name={name}
-        className={`
-          ${styles.input}
-          ${fluid ? styles.fluid : null}
-          ${classNames}
-        `}
-        style={fluid ? { width: '100%' } : { width }}
-        onChange={(e) => {
-          onChange && onChange(e);
-          setFieldValue(e.target.value);
-        }}
-        onFocus={() => {
-          setOpen(true);
-          onFocus && onFocus();
-        }}
-        onBlur={onBlur}
-        disabled={disabled}
-        maxLength={maxLength}
-      />
-
-      {
-        addonAfter
-      }
-
-      {
-        allowClear && fieldValue &&
-        <div
-          className={styles.clearSearchFieldIcon}
-          onClick={() => {
-            setFieldValue('');
+      <label className={styles.label}>
+        <input
+          readOnly={readOnly}
+          ref={inputRef}
+          placeholder={placeholder}
+          value={getInputValue()}
+          type={type}
+          name={name}
+          className={`
+            ${styles.input}
+            ${fluid ? styles.fluid : null}
+            ${type === 'radio' ? styles.radioStyles : styles.notRadioStyles}
+            ${errorMessage && styles.error}
+            ${classNames}
+          `}
+          style={fluid ? { width: '100%' } : { width }}
+          onChange={(e) => {
+            onChange && onChange(e);
+            setFieldValue(e.target.value);
           }}
-        >
-          <FontAwesomeIcon
-            icon={faTimesCircle}
-            color='#aaa'
-            size='lg'
+          onFocus={() => {
+            setOpen(true);
+            onFocus && onFocus();
+          }}
+          onBlur={onBlur}
+          disabled={disabled}
+          maxLength={maxLength}
+          checked={checked}
+          required={required}
+          min={min}
+          max={max}
+        />
+
+        {
+          errorMessage &&
+          <div className={styles.errorMessage}>
+            { errorMessage }
+          </div>
+        }
+
+        {
+          label && 
+          <span
+            className={styles.labelText}
+            dangerouslySetInnerHTML={{ __html: label }}
           />
-        </div>
-      }
+        }
+
+        { addonAfter }
+
+        {
+          allowClear && fieldValue &&
+          <div
+            className={styles.clearSearchFieldIcon}
+            onClick={() => {
+              setFieldValue('');
+            }}
+          >
+            <FontAwesomeIcon
+              icon={faTimesCircle}
+              color='#aaa'
+              size='lg'
+            />
+          </div>
+        }
+      </label>
 
       {
         isOpen && data.length > 0 &&

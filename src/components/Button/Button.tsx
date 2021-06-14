@@ -8,7 +8,7 @@ interface IButtonProps {
   fluid?: boolean,
   size?: string,
   background?: string,
-  onClick?: () => void,
+  onClick?: (e?: any) => void,
   stylesList?: CSS.Properties | undefined,
   disabled?: boolean,
 }

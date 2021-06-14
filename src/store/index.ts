@@ -4,7 +4,7 @@ import logger from 'redux-logger';
 import { rootReducer } from '../reducers';
 import rootSaga from '../sagas'
 
-export const configureStore = () => {
+const configureStore = () => {
   const sagaMiddleware = createSagaMiddleware();
 
   const store = createStore(
@@ -16,3 +16,5 @@ export const configureStore = () => {
 
   return store;
 };
+
+export const store = configureStore();

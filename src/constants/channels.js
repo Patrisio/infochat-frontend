@@ -8,3 +8,8 @@ export const CHANNELS = {
 export const CHANNEL = {
   ADD: 'ADD_CHANNEL',
 };
+
+export const CHAT = {
+  SAVE_SETTINGS: 'SAVE_CHAT_SETTINGS',
+  FETCH_SETTINGS: 'FETCH_CHAT_SETTINGS',
+};

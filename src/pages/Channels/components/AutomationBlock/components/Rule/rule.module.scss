@@ -1,0 +1,45 @@
+.ruleContainer {
+  background: #fafafa;
+  border: 1px solid #e1e1e1;
+}
+
+.ruleContainer:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.rulePreview {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+}
+
+.ruleName {
+  font-weight: 500;
+  color: #000;
+}
+
+.ruleNameEditMode {
+  height: 38px;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ruleSettingsContainer {
+  padding: 12px;
+}
+
+.conditionResult {
+  margin-top: 10px;
+}
+
+.conditionResultTitle {
+  display: flex;
+  font-weight: 500;
+  color: #000;
+  margin-bottom: 10px;
+  font-size: 15px;
+}

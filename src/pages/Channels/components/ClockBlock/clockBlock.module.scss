@@ -1,0 +1,44 @@
+.title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #000;
+  margin: 0;
+}
+
+.description {
+  margin-top: 4px;
+}
+
+.subBlock:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.radio {
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+.timezones {
+  height: 34px;
+  font-size: 14px;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+.countdown {
+  position: relative;
+  top: -5px;
+  padding: 0 5px;
+  height: 30px;
+  width: 60px;
+}
+
+.addonAfter {
+  position: absolute;
+  right: 5px;
+  top: 30%;
+  transform: translateY(-50%);
+}

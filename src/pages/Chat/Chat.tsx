@@ -1,10 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, isValidElement, cloneElement } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
+
+import OutsideClickHandler from 'react-outside-click-handler';
+import ContactField from '../../components/ContactField/ContactField';
+import Button from '../../components/Button/Button';
+
 import socket from '../../socket';
 import styles from './chat.module.scss';
-import { addMessage, fetchIncomingMessages, addToInboxIncomingMessage } from '../../actions';
+import {
+  addMessage, fetchIncomingMessages, addToInboxIncomingMessage,
+  fetchChatSettings, updateClientData
+} from '../../actions';
 import Animal from '../../components/Animal/Animal';
+import { throttle } from 'lodash';
+import { getLogicalSign, getScriptCondition } from './helpers';
+import { numericSort } from '../../lib/utils/sort';
+import { getEntityIdByValue } from '../../lib/utils/entity';
+import moment from 'moment-timezone';
+import { getTimezones, getTimezoneByCode, businessHours, weekdays, isDateBetween } from '../../lib/utils/date';
+
+import theme1 from '../../assets/theme1-big.png';
+import theme2 from '../../assets/theme2-big.png';
+import theme3 from '../../assets/theme3-big.png';
+import { request } from '../Channels/components/ClockBlock/constants';
 
 interface IMessagesHistory {
   message: string,
@@ -26,9 +45,25 @@ interface RootState {
   }
 }
 
+let parentWindowOrigin = '';
+let savedClientChatSettings: any = null;
+let savedRulesSteps: any = null;
+let countdownWithoutAnswerFromOperator: NodeJS.Timeout;
+let messagesSentCount = 0;
+
+const animal = new Animal({ name: '' });
+const avatarName = animal.validateName().animal;
+const avatarColor = animal.validateColor().color;
+
 export default function Chat() {
   const messages = useSelector((state: RootState) => state.inbox.messages);
+  const settings = useSelector((state: any) => state.channels.settings);
   const dispatch = useDispatch();
+
+  let messagesHistoryRef = useRef<HTMLDivElement>(null);
+  let infochatLinkRef = useRef<HTMLParagraphElement>(null);
+  let chatFieldRef = useRef<HTMLDivElement>(null);
+  let variantsMessageRef = useRef<HTMLDivElement>(null);
 
   interface ParamTypes {
     clientId: string,
@@ -41,8 +76,45 @@ export default function Chat() {
     msg: string
   }
 
+  interface RuleStep {
+    ruleId: string,
+    status: string
+  }
+
+  interface Background {
+    id: number,
+    path: string,
+  }
+
   let { clientId, projectId } = useParams<ParamTypes>();
+
+  const backgrounds: Background[] = [
+    {
+      id: 1,
+      path: theme1,
+    },
+    {
+      id: 2,
+      path: theme2,
+    },
+    {
+      id: 3,
+      path: theme3,
+    },
+    {
+      id: 4,
+      path: '',
+    },
+  ];
+
   let pressed = new Set();
+
+  const scrollToBottomOfChatWindow = () => {
+    if (messagesHistoryRef.current) {
+      const mesagesHistoryContainerHeight = messagesHistoryRef.current.scrollHeight;
+      messagesHistoryRef.current && messagesHistoryRef.current.scrollBy(0, mesagesHistoryContainerHeight);
+    }
+  };
 
   const runOnKeys = (event: any, func: any) => {
     const inputArea = event.target;
@@ -54,6 +126,7 @@ export default function Chat() {
 
     if (pressed.has(13) && pressed.size === 1 && inputArea.textContent !== '') {
       func(inputArea);
+      scrollToBottomOfChatWindow();
     }
     
     pressed.clear();
@@ -63,14 +136,390 @@ export default function Chat() {
     });
   }
 
+  const getBackgroundImageSettings = () => {
+    const imagePath = backgrounds.find((bg: Background) => bg.id === settings.backgroundImage)?.path;
+
+    if (imagePath) return {
+      backgroundImage: `url(${imagePath})`,
+      backgroundSize: 'cover',
+    };
+
+    return {};
+  };
+
+  const postMessageChatEventHandler = (message: any) => {
+    switch (message.event) {
+      case 'acceptDataFromClientWebsite':
+        savedClientChatSettings = message.localStorageClientChatSettings;
+        parentWindowOrigin = message.origin;
+        savedRulesSteps = message.localStorageRulesSteps;
+        console.log('HERE');
+        break;
+    }
+  };
+
+  const sendMessagesPullToGetClientData = () => {
+    const username = 'bot';
+
+    const sendBotMessageWithContacField = (field: string) => {
+      const variantsMessageNode = variantsMessageRef.current;
+      const changeClientData = (fieldValue: string) => {
+        const thankyouMessage = {
+          username,
+          message: `Спасибо. Мы вам ${field === 'email' ? 'ответим по электронной почте' : 'перезвоним'} в рабочее время.`,
+          timestamp: Date.now(),
+        };
+
+        dispatch(updateClientData({
+          projectId,
+          clientId,
+          [field]: fieldValue,
+          successCallback: sendBotMessage(thankyouMessage)
+        }));
+      };
+
+      sendBotMessage({
+        username,
+        message: (
+          <div className={styles.contactFieldContainer}>
+            <ContactField
+              field={field}
+              onClick={changeClientData}
+            />
+          </div>
+        ),
+        timestamp: Date.now(),
+      });
+
+      if (variantsMessageNode) {
+        variantsMessageNode.remove();
+      }
+    };
+
+    const warningMessage = {
+      username,
+      message: 'На данный момент все операторы оффлайн.',
+      timestamp: Date.now(),
+    };
+    const communicationMethodsMessage = {
+      username,
+      message: 'Выберите удобный для вас способ связи и мы ответим, как только будем онлайн.',
+      timestamp: Date.now(),
+    };
+    const variantsMessage = {
+      username,
+      message: (
+        <div ref={variantsMessageRef}>
+          <Button
+            type='button'
+            onClick={() => sendBotMessageWithContacField('email')}
+            stylesList={{
+              background: 'transparent',
+              color: '#0a86f9',
+              borderRadius: '100px',
+              padding: '9px',
+              fontSize: '14px',
+              margin: '0 10px 5px auto',
+            }}
+          >
+            Отправить ответ на мой e-mail.
+          </Button>
+
+          <Button
+            type='button'
+            onClick={() => sendBotMessageWithContacField('phone')}
+            stylesList={{
+              background: 'transparent',
+              color: '#0a86f9',
+              borderRadius: '100px',
+              padding: '9px',
+              fontSize: '14px',
+              margin: '0 10px 5px auto',
+            }}
+          >
+            Перезвоните мне
+          </Button>
+        </div>
+      ),
+      timestamp: Date.now(),
+    };
+
+    const messagesPull = [warningMessage, communicationMethodsMessage, variantsMessage ];
+    
+    const sendBotMessage = (message: any) => {
+      dispatch(addMessage(message));
+    };
+
+    for (let i = 0; i < messagesPull.length; i++) {
+      const delay = (i + 1) * 800;
+      const message = messagesPull[i];
+      setTimeout(() => sendBotMessage(message), delay);
+    }
+  };
+
+  const applyBusinessHoursRules = (chatSettings: any) => {
+    const requestConditionId = getEntityIdByValue(request, chatSettings.requestText)
+    if (messagesSentCount === 1 && requestConditionId === 'alwaysAfterFirstClientMessage') {
+      sendMessagesPullToGetClientData();
+      return;
+    }
+
+    const isClientMessageInNonBusinessHoursCondition: boolean = requestConditionId === 'clientMessageInNonWorkingHours';
+    if (isClientMessageInNonBusinessHoursCondition) {
+      const businessDays = chatSettings.businessDays;
+      const makeMomentDate = (weekday: number, hour: number) => {
+        const momentDate = moment();
+
+        momentDate.weekday(weekday);
+        momentDate.hour(hour);
+        momentDate.minute(0);
+        momentDate.second(0);
+
+        return momentDate;
+      };
+      const checkClientSentMessageInNotBusinessHoursByWeekday = (weekday: number): boolean => {
+        let isClientSentMessageInNonBusinessHours = false;
+
+        const businessDaysFilteredByWeekday = businessDays.filter((businessDay: any) => 
+          getEntityIdByValue(weekdays, businessDay.weekday) === weekday
+        );
+
+        for (let i = 0; i < businessDaysFilteredByWeekday.length; i++) {
+          const businessDay = businessDays[i];
+          const { weekday, timeFrom, timeTo } = businessDay;
+  
+          const weekdayId = Number(getEntityIdByValue(weekdays, weekday));
+          const hourIdFrom = Number(getEntityIdByValue(businessHours, timeFrom));
+          const hourIdTo = Number(getEntityIdByValue(businessHours, timeTo));
+          
+          const momentDateFrom = makeMomentDate(weekdayId, hourIdFrom).tz(chatSettings.timezone);
+          const momentDateTo = makeMomentDate(weekdayId, hourIdTo).tz(chatSettings.timezone);
+          
+          if (!isDateBetween(momentDateFrom, momentDateTo)) {
+            isClientSentMessageInNonBusinessHours = true;
+            break;
+          }
+        }
+
+        return isClientSentMessageInNonBusinessHours;
+      };
+
+      const clientWeekdayWithChatSettingsTimezone: number = moment().tz(chatSettings.timezone).weekday();
+      if (checkClientSentMessageInNotBusinessHoursByWeekday(clientWeekdayWithChatSettingsTimezone)) {
+        console.log('NON_WORKING_HOURS');
+        sendMessagesPullToGetClientData();
+      }
+    }
+
+    if (messagesSentCount === 1 && requestConditionId === 'wasNotAnsweredWithin') {
+      const delay = chatSettings.timeWithoutAnswer;
+      const sendMessagesCallback = () => {
+        sendMessagesPullToGetClientData();
+      };
+
+      countdownWithoutAnswerFromOperator = setTimeout(sendMessagesCallback, delay * 1000);
+    }
+  };
+
   useEffect(() => {
+    window.parent.postMessage({ event: 'getDataFromClientWebsite' }, '*');
+    
+    const messageHandler = (e: any) => {
+      postMessageChatEventHandler(e.data);
+    }
+    window.addEventListener('message', messageHandler);
+
     socket.emit('joinRoom', clientId);
+
     getMessagesHistory();
+
+    const sendMessage = (rule: any) => {
+      const botMessage = {
+        username: 'bot',
+        message: rule.result,
+        timestamp: Date.now(),
+      };
+
+      const successCallback = () => {
+        dispatch(addMessage(botMessage));
+        socket.emit('chatMessage', {
+          clientId,
+          projectId,
+          message: botMessage,
+          avatarName,
+          avatarColor,
+        }, (data: any) => console.log(data));
+        window.parent.postMessage({
+          event: 'updateRulesSteps',
+          ruleId: rule.id,
+          status: 'done'
+        }, '*');
+      };
+
+      dispatch(addToInboxIncomingMessage({
+        clientId,
+        projectId,
+        message: botMessage,
+        avatarName,
+        avatarColor,
+        successCallback,
+      }));
+    };
+
+    const runBotByRules = (rules: any) => {
+      const sendFailedStatusForRulesStepsByRuleId = (ruleId: string) => {
+        window.parent.postMessage({
+          event: 'updateRulesSteps',
+          ruleId: ruleId,
+          status: 'failed'
+        }, '*');
+      };
+
+      const timeConditionCallback = (isLastTimeValue: boolean, areAllSyncConditionsTrue: boolean, rule: any) => {
+        if (isLastTimeValue) {
+          if (areAllSyncConditionsTrue) {
+            sendMessage(rule);
+          } else {
+            sendFailedStatusForRulesStepsByRuleId(rule.id);
+          }
+        }
+      }
+
+      const getTimeValuesAndSyncConditionsResults = (conditions: any): {
+        timeValues: number[],
+        syncConditionsResults: boolean[]
+      } => {
+        const allowedConditionOperatorsIds = ['not', 'contain', 'not contain', 'any'];
+        const timeValues: number[] = [];
+        const syncConditionsResults: boolean[] = [];
+        let logicalOperator;
+
+        conditions.forEach((condition: any) => {
+          if (condition.operator === 'moreThan' || condition.operator === 'lessThan') {
+            timeValues.push(parseInt(condition.value));
+          } else {
+            if (allowedConditionOperatorsIds.includes(condition.operator)) {
+              logicalOperator = getLogicalSign(condition.operator);
+              console.log(parentWindowOrigin, 'parentWindowOrigin');
+              syncConditionsResults.push(getScriptCondition(logicalOperator, condition.value, parentWindowOrigin));
+            }
+          }
+        });
+
+        return {
+          timeValues,
+          syncConditionsResults,
+        };
+      };
+
+      const executeAsyncConditionsOfRule = (sortedTimeValues: number[], areAllSyncConditionsTrue: boolean, rule: any) => {
+        for (let k = 0; k < sortedTimeValues.length; k++) {
+          const delay = sortedTimeValues[k];
+          const isLastTimeValue = k === sortedTimeValues.length - 1;
+
+          setTimeout(
+            () => timeConditionCallback(isLastTimeValue, areAllSyncConditionsTrue, rule),
+            delay * 1000
+          );
+        }
+      };
+
+      const executeRule = (rule: any) => {
+        const { timeValues, syncConditionsResults } = getTimeValuesAndSyncConditionsResults(rule.conditions);
+
+        const sortedTimeValues = timeValues.sort(numericSort);
+        const areAllSyncConditionsTrue = syncConditionsResults.findIndex((syncAction: any) => !syncAction) === -1;
+
+        if (sortedTimeValues.length > 0) {
+          executeAsyncConditionsOfRule(sortedTimeValues, areAllSyncConditionsTrue, rule);
+          return;
+        }
+
+        areAllSyncConditionsTrue ? sendMessage(rule) : sendFailedStatusForRulesStepsByRuleId(rule.id);
+      };
+
+      if (rules.length > 0) {
+        for (let i = 0; i < rules.length; i++) {
+          const rule = rules[i];
+
+          if (rule.isActivate) {
+            executeRule(rule);
+          }
+        }
+      }
+    };
+
+    const applyChatSettings = (chatSettings: any) => {
+      applyBusinessHoursRules(chatSettings);
+      applyRules(chatSettings);
+    };
+
+    const applyRules = (chatSettings: any) => {
+      const getRulesInProgressStatus = (rules: any) => {
+        const rulesInProgressStatus = [];
+
+        for (let i = 0; i < rules.length; i++) {
+          const rule = rules[i];
+          const foundRuleStep = savedRulesSteps.find((ruleStep: RuleStep) => ruleStep.ruleId === rule.id);
+
+          if (foundRuleStep && foundRuleStep.status === 'inProgress') {
+            rulesInProgressStatus.push(rule);
+          }
+        }
+
+        return rulesInProgressStatus;
+      };
+
+      window.parent.postMessage({
+        event: 'updateChatSettings',
+        chatSettings
+      }, '*');
+      socket.emit('transferChatSettings', {
+        room: clientId,
+        chatSettings
+      });
+
+      let rules;
+      if (savedClientChatSettings) {
+        rules = getRulesInProgressStatus(savedClientChatSettings.rules);
+      } else {
+        rules = chatSettings.rules;
+      }
+
+      runBotByRules(rules);
+    };
+
+    dispatch(fetchChatSettings({ projectId, successCallback: applyChatSettings }));
+    
+    const scrollHandler = (messagesHistoryContainer: any) => throttle(() => {
+      const infochatLink = infochatLinkRef.current;
+
+      if (infochatLink) {
+        if (messagesHistoryContainer.scrollTop + 366 < messagesHistoryContainer.scrollHeight) {
+          if (!infochatLink.className.includes(styles.hidden)) {
+            infochatLink.className += ` ${styles.hidden}`;
+          }
+        } else {
+          infochatLink.className = styles.infochatLink;
+        }
+      }
+    }, 500)
+    
+    const messagesHistoryContainer = messagesHistoryRef.current;
+
+    if (messagesHistoryContainer) {
+      messagesHistoryContainer.addEventListener('scroll', scrollHandler(messagesHistoryContainer));
+    }
+
+    return () => {
+      window.removeEventListener('message', messageHandler);
+    };
   }, []);
 
   useEffect(() => {
     socket.on('addMessageToClientChat', (message: any) => {
       dispatch(addMessage(message.message));
+      clearTimeout(countdownWithoutAnswerFromOperator);
     });
 
     return () => {
@@ -87,20 +536,16 @@ export default function Chat() {
   };
 
   const sendMessage = (inputArea: any) => {
-    const animal = new Animal({ name: '' });
-    const avatarName = animal.validateName().animal;
-    const avatarColor = animal.validateColor().color;
     const timestamp = Date.now();
 
     const message = inputArea.innerHTML;
     const newMessage = {
-      clientId,
       username: 'client',
       message,
-      avatarName,
-      avatarColor,
       timestamp
     };
+
+    messagesSentCount++;
 
     const successCallback = () => {
       dispatch(addMessage(newMessage));
@@ -112,8 +557,9 @@ export default function Chat() {
         message: newMessage,
         avatarName,
         avatarColor,
-        timestamp,
       }, (data: any) => console.log(data));
+
+      applyBusinessHoursRules(settings);
     };
 
     dispatch(addToInboxIncomingMessage({
@@ -122,7 +568,6 @@ export default function Chat() {
       message: newMessage,
       avatarName,
       avatarColor,
-      timestamp,
       successCallback,
     }));
   };
@@ -135,28 +580,100 @@ export default function Chat() {
     }, 0)
   };
 
+  const createPlaceholder = () => {
+    const span = document.createElement('span');
+    
+    span.className = styles.placeholder;
+    span.textContent = 'Напишите нам...';
+    span.contentEditable = 'false';
+
+    return span;
+  };
+
+  const placeholderElement = () => (
+    <span
+      className={styles.placeholder}
+      contentEditable={false}
+    >
+      Напишите нам...
+    </span>
+  );
+
   return (
     <div>
-      <div className={styles.chatWrapper}>
-        <div>
-          {
-            messages && messages.length > 0 &&
-            messages.map((message, idx) => (
-              <div
-                className={`${message.username === 'client' ? styles.clientMessage : styles.teammateMessage} ${styles.messageWrapper}`}
-                key={idx}
-                dangerouslySetInnerHTML={{__html: message.message}}
-              />
-            ))
-          }
+      <div
+        className={styles.chatWrapper}
+        style={getBackgroundImageSettings()}
+      >
+        <div className={styles.chatHeader}>
+          <div>{ settings.chatName }</div>
+          <div>{ settings.responseTimeText }</div>
+          <div>{ settings.greeting }</div>
         </div>
 
         <div
-          className={styles.inputArea}
-          placeholder='Введите сообщение'
-          contentEditable
-          onKeyDown={(e) => runOnKeys(e, sendMessage)}
-        />
+          ref={messagesHistoryRef}
+          className={styles.messagesHistoryWrapper}
+        >
+          <div className={styles.messagesWrapper}>
+            {
+              messages && messages.length > 0 &&
+              messages.map((message: any, idx) => {
+                return isValidElement(message.message) ?
+                cloneElement(message.message, { key: idx }) :
+                (
+                  <div
+                    className={`
+                      ${message.username === 'client' ? styles.clientMessage : styles.teammateMessage}
+                      ${styles.messageWrapper}
+                    `}
+                    key={idx}
+                    dangerouslySetInnerHTML={{__html: message.message}}
+                  />
+                )
+              })
+            }
+          </div>
+
+          {
+            Boolean(settings.infochatLinkEnabled) &&
+            <p
+              ref={infochatLinkRef}
+              className={styles.infochatLink}
+            >
+              Работает на технологии <span className={styles.link}>InfoChat</span>
+            </p>
+          }
+        </div>
+
+        <OutsideClickHandler
+          onOutsideClick={() => {
+            const spanElement = createPlaceholder();
+            const chatField = chatFieldRef.current;
+
+            if (chatField && !chatField.textContent) {
+              chatFieldRef.current?.appendChild(spanElement);
+            }
+          }}
+        >
+          <div
+            ref={chatFieldRef}
+            className={styles.inputArea}
+            contentEditable
+            suppressContentEditableWarning={true}
+            onKeyDown={(e) => runOnKeys(e, sendMessage)}
+            onClick={() => {
+              const chatField = chatFieldRef.current;
+              const placeholder = chatField?.children[0];
+
+              if (chatField && placeholder) {
+                chatField.removeChild(placeholder);
+              }
+            }}
+          >
+            {placeholderElement()}
+          </div>
+        </OutsideClickHandler>
       </div>
     </div>
   );

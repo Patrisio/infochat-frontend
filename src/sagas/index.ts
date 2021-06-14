@@ -3,6 +3,8 @@ import authSagas from './auth';
 import teammatesSagas from './teammates';
 import channelsSagas from './channels';
 import inboxSagas from './inbox';
+import templatesSagas from './templates';
+import projectsSagas from './projects';
 
 export default function* rootSaga() {
   yield all([
@@ -10,5 +12,7 @@ export default function* rootSaga() {
     ...teammatesSagas,
     ...channelsSagas,
     ...inboxSagas,
+    ...templatesSagas,
+    ...projectsSagas,
   ]);
 }

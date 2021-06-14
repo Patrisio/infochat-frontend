@@ -1,0 +1,30 @@
+.projectsContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.contentContainer {
+  width: 100%;
+}
+
+.channelsContainer {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.projectName {
+  width: 400px;
+  font-weight: 500;
+}
+
+.teammatesCount {
+  margin-left: auto;
+}
+
+.modalBodyContainer {
+  padding: 30px;
+}
+
+.field {
+  margin-bottom: 15px;
+}

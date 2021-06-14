@@ -1,0 +1,87 @@
+import { TARIFF } from '../constants/tariff';
+import cloneDeep from 'lodash/cloneDeep';
+
+import operatorsTariff from '../assets/operators-tariff.svg';
+import chatTariff from '../assets/chat-tariff.svg';
+import templatesTariff from '../assets/templates-tariff.svg';
+
+interface Plan {
+  [key: string]: {
+    name: string,
+    count: number,
+    price: number,
+    category: 'binary' | 'multiple',
+  } 
+}
+
+interface State {
+  period: number,
+  plan: Plan,
+}
+
+const initialState: any = {
+  period: 1,
+  plan: {
+    operators: {
+      imageSrc: operatorsTariff,
+      name: 'Операторы',
+      description: 'Первый оператор — бесплатно, далее 450 ₽ в месяц за оператора',
+      count: 1,
+      price: 450,
+      category: 'multiple',
+    },
+    templates: {
+      imageSrc: templatesTariff,
+      name: 'Шаблоны ответов',
+      description: 'Возможность создавать шаблоны быстрых ответов для операторов',
+      count: 0,
+      price: 270,
+      category: 'binary',
+    },
+    infochatLink: {
+      imageSrc: templatesTariff,
+      name: 'Отключение ссылки',
+      description: 'Возможность отключить ссылку на Infochat в вашем чате на сайте',
+      count: 0,
+      price: 300,
+      category: 'binary',
+    },
+    chat: {
+      imageSrc: chatTariff,
+      name: 'Чат на сайтe',
+      description: 'Получайте и отвечайте на сообщения с вашего сайта',
+      count: 0,
+      price: 0,
+      category: 'binary',
+    },
+  },
+};
+
+export const tariffReducer = (state = initialState, action: any) => {
+  switch (action.type) {
+    case TARIFF.UPDATE_PLAN:
+      const { featureId, count } = action.payload;
+
+      return {
+        ...state,
+        plan: {
+          ...state.plan,
+          [featureId]: {
+            ...state.plan[featureId],
+            count,
+          }
+        }
+      };
+    
+    case TARIFF.UPDATE_PERIOD:
+      const { period } = action.payload;
+
+      return {
+        ...state,
+        period,
+      };
+
+    default:
+      return state;
+  }
+};

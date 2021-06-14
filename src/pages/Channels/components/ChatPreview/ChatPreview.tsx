@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './chatPreview.module.scss';
@@ -8,6 +8,7 @@ import theme1 from '../../../../assets/theme1-big.png';
 import theme2 from '../../../../assets/theme2-big.png';
 import theme3 from '../../../../assets/theme3-big.png';
 
+import { updateChannelSettings } from '../../../../actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSmileBeam, faPaperclip, faTimes } from '@fortawesome/free-solid-svg-icons'
 
@@ -22,6 +23,7 @@ interface State{
     buttonText: string,
     infochatLinkEnabled: number,
     customCss: string,
+    responseTimeText: { id: string, value: string },
   },
 }
 
@@ -37,6 +39,7 @@ interface Background {
 export default function ChatPreview() {
   const settings = useSelector((state: RootState) => state.channels.settings);
   let dispatch = useDispatch();
+  const buttonTrigger = useRef<HTMLDivElement>(null);
 
   const backgrounds: Background[] = [
     {
@@ -68,12 +71,22 @@ export default function ChatPreview() {
     return {};
   };
 
+  useEffect(() => {
+    const triggerRef = buttonTrigger.current;
+
+    if (triggerRef) {
+      const buttonWidth = Math.ceil((triggerRef.getBoundingClientRect().width) / parseFloat(settings.buttonScale));
+      console.log(buttonWidth);
+      dispatch(updateChannelSettings({ buttonWidth }));
+    }
+  }, [settings.buttonText, settings.buttonScale]);
+
   return (
     <div className={styles.chatPreviewContainer}>
       <div className={styles.chatPreview}>
         <div className={styles.chatPreviewHeader}>
           <p>{ settings.chatName }</p>
-          <p>Обычно отвечают в течение дня</p>
+          <p>{ settings.responseTimeText }</p>
           {
             settings.greeting &&
             <p>{ settings.greeting }</p>
@@ -125,7 +138,10 @@ export default function ChatPreview() {
         <div>
           {
             settings.buttonText ?
-            <div className={styles.triggerContent}>
+            <div
+              ref={buttonTrigger}
+              className={styles.triggerContent}
+            >
               <span className={styles.triggerText}>{ settings.buttonText }</span>
               <img src={chatTriggerIcon} alt='chat-trigger-icon' />
             </div> :

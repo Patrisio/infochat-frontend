@@ -4,7 +4,6 @@
 
 .popup {
   position: absolute;
-  top: 38px;
   left: 0;
   background: #fff;
   border: 1px solid rgba(0,0,0,.15);
@@ -16,4 +15,12 @@
 .center {
   transform: translateX(-50%);
   left: 50%;
+}
+
+.top {
+  bottom: 100%;
+}
+
+.down {
+  top: 38px;
 }

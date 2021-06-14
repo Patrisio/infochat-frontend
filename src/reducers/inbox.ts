@@ -1,13 +1,13 @@
 import { MESSAGES, INCOMING_MESSAGES, SELECT_CLIENT,
          INCOMING_MESSAGES_FOR_SELECTED_CLIENT,
-         SELECTED_CLIENT_UPDATE
+         SELECTED_CLIENT_UPDATE, CLIENT_DATA
         } from '../constants/inbox';
 import { TEAMMATE } from '../constants/teammates';
 
 import cloneDeep from 'lodash/cloneDeep';
 
 interface IMessagesHistory {
-  message: string,
+  message: string | React.ReactNode,
   clientId: string,
   username: string
 }
@@ -20,13 +20,31 @@ interface IIncomingMessage {
   assigned_to: string | null,
 }
 
+interface Filters {
+  searchBy: {
+    value: string,
+    tag: string,
+  },
+  channel: string,
+  assigned: string,
+}
+
 interface State {
+  filters: Filters,
   messages: IMessagesHistory[],
   incomingMessages: IIncomingMessage[],
   selectedClient: IIncomingMessage,
 }
 
 const initialState: State = {
+  filters: {
+    searchBy: {
+      value: '',
+      tag: 'text',
+    },
+    channel: 'all',
+    assigned: 'all',
+  },
   messages: [],
   incomingMessages: [],
   selectedClient: {
@@ -90,7 +108,14 @@ export const inboxReducer = (state = initialState, action: any) => {
         }
       }
 
+    case INCOMING_MESSAGES.UPDATE_FILTERS:
+      return {
+        ...state,
+        filters: { ...action.filters }
+      };
+
     case INCOMING_MESSAGES_FOR_SELECTED_CLIENT.ADD:
+      console.log('__INTRO__');
       if (action.incomingMessage.clientId === state.selectedClient.clientId) {
         const messagesHistory = state.selectedClient.messagesHistory;
         return { ...state, selectedClient: cloneDeep(Object.assign(state.selectedClient, { messagesHistory: [...messagesHistory, action.incomingMessage] })) };
@@ -109,14 +134,15 @@ export const inboxReducer = (state = initialState, action: any) => {
       const clientIndex = state.incomingMessages.findIndex(incMsg => incMsg?.clientId === action.payload.clientId);
 
       // client.assigned_to = action.payload.assignedTo;
+      console.log(client);
       const updatedClient = Object.assign(client, action.payload);
-
+      console.log(updatedClient);
       state.incomingMessages.splice(clientIndex, 1, updatedClient);
 
-      return {
+      return cloneDeep({
         ...state,
         incomingMessages: state.incomingMessages
-      };
+      });
 
     case TEAMMATE.ASSIGN:
       const incomingMessageIndex = state.incomingMessages.findIndex(incomingMessage => incomingMessage.clientId === action.payload.clientId);

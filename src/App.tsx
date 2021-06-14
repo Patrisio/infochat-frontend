@@ -1,34 +1,55 @@
 import React, { useEffect, useState } from 'react';
-import { configureStore } from './store';
-import { Provider } from 'react-redux';
-import { Route, Switch, useLocation } from 'react-router-dom';
-import SignInPage from './pages/SignInPage/SignInPage';
-import SignUpPage from './pages/SignUpPage/SignUpPage';
-import Inbox from './pages/Inbox/Inbox';
-import Chat from './pages/Chat/Chat';
-import InviteForm from './pages/InviteForm/InviteForm';
-import ChatSettings from './pages/ChatSettings/ChatSettings';
-import Teammates from './pages/Teammates/Teammates';
-import Settings from './pages/Settings/Settings';
+import { useDispatch } from 'react-redux';
+import { Location } from 'history';
+
+import Router from './router/router';
 import socket from './socket';
 import { Context } from './context/Context';
-import { Location } from "history";
+import {
+  addIncomingMessage, addIncomingMessageForSelectedClient,
+  assignTeammate, getCurrentUser
+} from './actions';
 
 import 'normalize.css';
 import './App.css';
 
-const store = configureStore();
+export default function App() {
+  const dispatch = useDispatch();
 
-interface ILocationState {
-  page: Location<string>
-}
-
-function App() {
   useEffect(() => {
-    socket.on('msgToClient', (message: any) => {
-      console.log(message);
+    socket.on('updateAssignedToAnybody', (payload: any) => {
+      dispatch(assignTeammate({
+        username: payload.assigned_to,
+        clientId: payload.clientId
+      }));
     });
-  }, []);
+
+    socket.on('addIncomingMessage', (message: any) => {
+      console.log('PPPPPPPPPPPPPP');
+      console.log(message, 'MESSAGE');
+      const newClient = {
+        assignedTo: '',
+        clientId: message.clientId,
+        messagesHistory: [message.message],
+        avatarName: message.avatarName,
+        avatarColor: message.avatarColor,
+        messagesStatus: 'unread',
+      };
+
+      const incomingMessage = {
+        ...message.message,
+        clientId: message.clientId,
+      };
+
+      dispatch(addIncomingMessageForSelectedClient(incomingMessage));
+      dispatch(addIncomingMessage(newClient));
+    });
+
+    return () => {
+      socket.off('updateAssignedToAnybody');
+      socket.off('addIncomingMessage');
+    };
+  }, [socket]);
 
   const initialCurrentUser = {
     avatar: '',
@@ -36,54 +57,42 @@ function App() {
     role: '',
     status: '',
     username: '',
-    allClientIds: [],
-    unreadCount: 0,
-    unreadClientIds: [],
-    assignedCount: 0,
-    assignedClientIds: [],
-    openedCount: 0,
-    openedClientIds: [],
-    closedCount: 0,
-    closedClientIds: []
+    projectId: null,
+    timezone: null,
+    projects: [],
   };
 
   const [currentUser, setCurrentUser] = useState(initialCurrentUser);
 
-  const location = useLocation<ILocationState>();
+  const currentUserDataIsNeeded = (url: string) => {
+    const pagesWithoutCurrentUserData = ['iframe', 'signup', 'signin'];
+    return !pagesWithoutCurrentUserData.find((page: string) => url.includes(page));
+  };
 
-  let locationState = location.state;
+  useEffect(() => {
+    if (currentUserDataIsNeeded(window.location.href)) {
+      const successCallback = (currentUser: any) => {
+        console.log(currentUser, 'currentUser');
+        setCurrentUser(currentUser);
+        socket.emit('joinRoom', currentUser.projectId);
+        socket.on('msgToClient', (message: any) => {
+          console.log(message);
+        });
+      };
+      dispatch(getCurrentUser({ successCallback }));
+
+      return () => {
+        socket.off('msgToClient');
+      };
+    }
+  }, []);
+  
+
   return (
-    <Provider store={store}>
-      <Context.Provider value={{ currentUser, setCurrentUser }}>
-        <div className="App">
-          <Switch location={{ ...location, state: locationState } || location}>
-            <Route exact path="/" component={SignInPage} />
-            <Route path="/signin/" component={SignInPage} />
-            <Route path="/signup/" component={SignUpPage} />
-            <Route path="/project/:projectId/inbox/:dialogType">
-              <Inbox
-                clientIds={currentUser.openedClientIds}
-                messagesCount={currentUser.openedCount}
-              />
-            </Route>
-            <Route path="/project/:projectId/iframe/:clientId" component={Chat} />
-            <Route path="/project/:projectId/chat-settings" component={ChatSettings} />
-            { 
-              <Route path={`/project/:projectId/settings/:pageId`} exact>
-                <Settings />
-              </Route>
-            }
-            {/* <Route path="/project/:projectId/settings" exact>
-              <Settings>
-                <Teammates />
-              </Settings>
-            </Route> */}
-            <Route path="/project/:projectId/teammate/invite/:inviteId" component={InviteForm} />
-          </Switch>
-        </div>
-      </Context.Provider>
-    </Provider>
+    <Context.Provider value={{ currentUser, setCurrentUser }}>
+      <div className="App">
+        { Router() }
+      </div>
+    </Context.Provider>
   );
 }
-
-export default App;

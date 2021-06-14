@@ -16,17 +16,16 @@ export default function Switcher({ onChange, value = false }: IProps) {
       <input
         type='checkbox'
         checked={isActive}
-        onChange={() => {}}
-      />
-      <span
-        className={styles.control}
-        onClick={() => {
+        onChange={() => {
           toggle(prev => {
             console.log(!prev);
             onChange(!prev);
             return !prev;
           });
         }}
+      />
+      <span
+        className={styles.control}
       />
     </label>
   );

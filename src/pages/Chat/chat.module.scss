@@ -3,33 +3,133 @@
   height: 500px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   background:#fff;
 }
 
 .inputArea {
+  position: fixed;
+  bottom: 0;
   width: 100%;
   box-sizing: border-box;
   outline: none;
   background: #fff;
   padding: 16px 80px 16px 20px;
   box-shadow: 0 -10px 40px 0 rgb(0 0 0 / 5%);
+  border: none;
+  height: 50px;
+  overflow-y: auto;
+}
+
+.messagesHistoryWrapper {
+  margin: 84px 0 50px;
+  padding-top: 10px;
+  margin-bottom: auto;
+  overflow-y: auto;
+  height: 356px;
 }
 
 .messageWrapper {
-  width: 300px;
+  width: 220px;
   margin-bottom: 5px;
-  padding: 5px;
-  border-radius: 18px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 13px;
+}
+
+.messagesWrapper {
+  margin-bottom: 80px;
 }
 
 .clientMessage {
   background: #0a86f9;
   color: #fff;
   margin-left: auto;
+  margin-right: 10px;
+  word-break: break-word;
 }
 
 .teammateMessage {
   background: #f0f0f0;
   color: #464646;
+  margin-left: 10px;
+}
+
+.chatTrigger {
+  background: #0a86f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  font-size: 16px;
+}
+
+.roundChatTriggerStyles {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.ellipsisChatTriggerStyles {
+  border-radius: 25px;
+  padding: 10px 9px 10px 22px;
+  width: fit-content;
+}
+
+.chatTriggerIcon {
+  width: 65%;
+}
+
+.triggerContent {
+  color: #fff;
+  display: flex;
+  align-items: center;
+}
+
+.triggerText {
+  margin-right: 10px;
+}
+
+.chatHeader {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: #0a86f9;
+  color: #fff;
+  text-align: center;
+  padding: 15px 0;
+}
+
+.infochatLink {
+  position: fixed;
+  bottom: 50px;
+  right: 20px;
+  font-size: 13px;
+  color: #000;
+  visibility: visible;
+  opacity: 1;
+  transition: .2s all;
+}
+
+.infochatLink.hidden {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.link {
+  color: #0a86f9;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.placeholder {
+  position: absolute;
+  top: 50%;
+  left: 30px;
+  transform: translateY(-50%);
+  color: #c3c3c3;
+}
+
+.contactFieldContainer {
+  margin: 5px 0 5px 10px;
 }

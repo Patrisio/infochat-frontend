@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
 
 import Input from '../../../../components/Input/Input';
 import Textarea from '../../../../components/Textarea/Textarea';
@@ -156,7 +157,6 @@ export default function GeneralSettingsBlock({ setActiveTab }: Props) {
         <p>Приветствие</p>
         <Textarea
           value={settings.greeting}
-          className={styles.textarea}
           maxLength={80}
           onChange={(e) => {
             updateBlockSettings({ greeting: e.target.value });
@@ -284,7 +284,6 @@ export default function GeneralSettingsBlock({ setActiveTab }: Props) {
           
         <Textarea
           value={settings.customCss}
-          className={styles.textarea}
           disabled={!isEnabledCustomCss}
           onChange={debounce((e) => {
             updateBlockSettings({ customCss: e.target.value });

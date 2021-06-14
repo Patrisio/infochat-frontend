@@ -1,12 +1,19 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
+
+import Button from '../../../../components/Button/Button';
+import Popup from '../../../../components/Popup/Popup';
+
 import socket from '../../../../socket';
 import styles from './messageInputContainer.module.scss';
-import Button from '../../../../components/Button/Button';
-import { addIncomingMessage, assignTeammate, addIncomingMessageForSelectedClient, updateAssignedUser, addToInboxIncomingMessage } from '../../../../actions';
+import {
+  addIncomingMessage, assignTeammate,
+  addIncomingMessageForSelectedClient,
+  addToInboxIncomingMessage,
+  fetchTemplates, changeMessagesStatus
+} from '../../../../actions';
 import { Context } from '../../../../context/Context';
-import cloneDeep from 'lodash/cloneDeep';
 
 interface IMessagesHistory {
   message: string,
@@ -19,7 +26,7 @@ interface IIncomingMessage {
   projectId: string,
   clientId: string,
   messagesHistory: IMessagesHistory[],
-  assigned_to: string | null,
+  assignedTo: string | null,
   avatarName: string,
   avatarColor: string,
 }
@@ -30,23 +37,39 @@ interface IClient {
   messagesHistory: IMessagesHistory[],
 }
 
+interface Template {
+  id: string,
+  name: string,
+  message: string,
+}
+
+interface Templates {
+  templates: Template[]
+}
+
 interface RootState {
   inbox: {
     messages: IMessagesHistory[],
     incomingMessages: IIncomingMessage[],
     selectedClient: IIncomingMessage
   },
+  templates: Templates
 }
 
 export default function MessageInputContainer() {
   let { projectId, dialogType } = useParams<{ projectId: string, dialogType: string }>();
   let pressed = new Set();
 
-  const { currentUser, setCurrentUser } = useContext(Context);
+  const { currentUser } = useContext(Context);
+  const inputAreaRef = useRef<HTMLDivElement>(null);
 
   const selectedClient = useSelector((state: RootState) => state.inbox.selectedClient);
-  const isAssigned = Boolean(selectedClient.assigned_to);
+  const templates = useSelector((state: RootState) => state.templates.templates);
+  const isAssigned = Boolean(selectedClient.assignedTo);
   const dispatch = useDispatch();
+
+  const [isOpenTemplatesPopup, toggleTemplatesPopup] = useState(false);
+  const [userTemplatesInput, setUserTemplatesInput] = useState('');
 
   const clearInputArea = (inputArea: any) => {
     setTimeout(() => {
@@ -64,65 +87,10 @@ export default function MessageInputContainer() {
       username: 'operator',
       message,
       timestamp,
-      assignedTo: selectedClient.assigned_to
+      assignedTo: selectedClient.assignedTo
     };
 
     const successCallback = () => {
-      setCurrentUser((prev: any) => {
-        const openedClientIds = prev.openedClientIds;
-        const assignedClientIds = prev.assignedClientIds;
-        const foundOpenedDialog = openedClientIds.find((dialog: any) => dialog.clientId === selectedClient.clientId);
-        const foundAssignedDialog = assignedClientIds.find((dialog: any) => dialog.clientId === selectedClient.clientId);
-
-        foundOpenedDialog.messagesHistory.push(newMessage);
-        foundAssignedDialog.messagesHistory.push(newMessage);
-
-        const successCallback = () => {
-          dispatch(assignTeammate({
-            username: currentUser.username,
-            clientId: selectedClient.clientId
-          }));
-          
-          socket.emit('updateAssignedToAnybody', {
-            username: currentUser.username,
-            clientId: selectedClient.clientId
-          });
-
-          socket.emit('reduceOpenedToAnybody', {
-            openedClientIds: currentUser.openedClientIds.filter((client: IClient) => client.clientId !== selectedClient.clientId),
-            openedCount: currentUser.openedCount,
-          });
-        };
-
-        dispatch(updateAssignedUser({
-          clientId: selectedClient.clientId,
-          username: currentUser.username,
-          email: currentUser.email,
-          projectId,
-  
-          assignedClientIds,
-          assignedCount: prev.assignedCount,
-  
-          unreadClientIds: currentUser.unreadClientIds,
-          unreadCount: currentUser.unreadCount,
-  
-          openedClientIds,
-          openedCount: currentUser.openedCount,
-  
-          closedClientIds: prev.closedClientIds,
-          closedCount: currentUser.closedCount,
-
-          successCallback,
-        }));
-
-        return Object.assign(prev,
-          {
-            openedClientIds,
-            assignedClientIds
-          }
-        );
-      });
-
       dispatch(addIncomingMessage({
         clientId: selectedClient.clientId,
         projectId,
@@ -156,6 +124,7 @@ export default function MessageInputContainer() {
 
   const runOnKeys = (event: any, func: any) => {
     const inputArea = event.target;
+
     pressed.add(event.which);
 
     if (pressed.has(16)) {
@@ -174,106 +143,95 @@ export default function MessageInputContainer() {
   }
 
   const appointDialog = () => {
-    var myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'application/json');
-    setCurrentUser((prev: any) => {
-      console.log(6);
+    dispatch(changeMessagesStatus({
+      messagesStatus: 'opened',
+      assignedTo: currentUser.email,
+      projectId,
+      clientId: selectedClient.clientId,
+    }));
+  };
 
-      const client = {
-        clientId: selectedClient.clientId,
-        projectId: selectedClient.projectId,
-        messagesHistory: selectedClient.messagesHistory,
-        avatarName: selectedClient.avatarName,
-        avatarColor: selectedClient.avatarColor,
-      };
+  const checkForTemplates = (e: any) => {
+    const inputAreaValue = e.target.textContent;
+    
+    if (inputAreaValue.includes('/')) {
+      toggleTemplatesPopup(true);
+      setUserTemplatesInput(inputAreaValue.substr(1));
+    } else {
+      toggleTemplatesPopup(false);
+    }
+  };
 
-      const getOpenedClientIds = (openedClientIds: IClient[]) => {
-        if (openedClientIds.find((client: IClient) => client.clientId === selectedClient.clientId)) {
-          return {
-            openedClientIds,
-            openedCount: prev.openedCount,
-          };
-        }
+  const filteredTemplates = () => {
+    return templates.filter((template) => {
+      const templateName = template.name.toLowerCase();
+      const userTemplateInput = userTemplatesInput.toLowerCase();
 
-        return {
-          openedClientIds: openedClientIds.concat(client),
-          openedCount: prev.openedCount + 1,
-        };
-      };
-
-      const getUnreadClientIds = (unreadClientIds: IClient[]) => {
-        if (unreadClientIds.find((client: IClient) => client.clientId === selectedClient.clientId)) {
-          return {
-            unreadClientIds: unreadClientIds.filter((client: IClient) => client.clientId !== selectedClient.clientId),
-            unreadCount: prev.unreadCount - 1,
-          };
-        }
-
-        return {
-          unreadClientIds: prev.unreadClientIds,
-          unreadCount: prev.unreadCount,
-        };
-      };
-
-      const successCallback = () => {
-        dispatch(assignTeammate({
-          username: currentUser.username,
-          clientId: selectedClient.clientId
-        }));
-
-        socket.emit('reduceUnreadCountAnybody', {
-          unreadCount: prev.unreadCount,
-          unreadClientIds: prev.unreadClientIds.filter((client: IClient) => client.clientId !== selectedClient.clientId),
-          openedCount: prev.openedCount,
-          openedClientIds: prev.openedClientIds,
-          assignedClientIds: prev.assignedClientIds,
-          assignedCount: prev.assignedCount
-        });
-
-        socket.emit('updateAssignedToAnybody', {
-          assigned_to: prev.username,
-          clientId: client.clientId
-        });
-      };
-
-      dispatch(updateAssignedUser({
-        clientId: selectedClient.clientId,
-        username: prev.username,
-        email: prev.email,
-        projectId,
-
-        assignedClientIds: prev.assignedClientIds.concat(client),
-        assignedCount: prev.assignedCount + 1,
-
-        ...getUnreadClientIds(prev.unreadClientIds),
-        ...getOpenedClientIds(prev.openedClientIds),
-
-        closedClientIds: prev.closedClientIds,
-        closedCount: prev.closedCount,
-
-        successCallback,
-      }));
-         
-      return cloneDeep(Object.assign(prev, {
-        assignedClientIds: prev.assignedClientIds.concat(client),
-        assignedCount: prev.assignedCount + 1,
-
-        ...getUnreadClientIds(prev.unreadClientIds),
-        ...getOpenedClientIds(prev.openedClientIds),
-      }));
+      return templateName.includes(userTemplateInput);
     });
   };
+
+  const insertTemplate = (message: string) => {
+    const inputArea = inputAreaRef.current;
+
+    if (inputArea) {
+      inputArea.innerHTML = message;
+      inputArea.focus();
+      toggleTemplatesPopup(false);
+    }
+  };
+
+  const Templates = () => {
+    const templates = filteredTemplates();
+
+    return (
+      <div className={styles.templatesContainer}>
+        {
+          templates.length > 0 ?
+          templates.map(({ id, name, message }) => {
+            return (
+              <div
+                key={id}
+                className={styles.templateEntity}
+                onClick={() => insertTemplate(message)}
+              >
+                <div className={styles.templateName}>{ name }</div>
+                <div
+                  className={styles.templateMessage}
+                  dangerouslySetInnerHTML={{ __html: message }}
+                />
+              </div>
+            );
+          }) :
+          <p className={styles.noMatchesFound}>Совпадений не найдено</p>
+        }
+      </div>
+    )
+  }
+
+  useEffect(() => {
+    dispatch(fetchTemplates({ projectId }));
+  }, []);
 
   return (
     <>
       {
         isAssigned ?
-        <div
-          className={styles.inputArea}
-          placeholder='Введите сообщение'
-          contentEditable
-          onKeyDown={(e) => runOnKeys(e, sendMessage)}
-        /> :
+        <Popup
+          body={<Templates />}
+          width='100%'
+          isOpenPopup={isOpenTemplatesPopup}
+          position='top'
+        >
+          <div
+            ref={inputAreaRef}
+            className={styles.inputArea}
+            placeholder='Введите сообщение'
+            contentEditable
+            onKeyDown={(e) => runOnKeys(e, sendMessage)}
+            onKeyUp={(e) => checkForTemplates(e)}
+          />
+        </Popup>:
         <div className={styles.appointedContainer}>
           <div className={styles.appointedArea}>
             <Button

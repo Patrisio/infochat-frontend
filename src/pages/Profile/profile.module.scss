@@ -1,0 +1,25 @@
+.profileContainer {
+  display: flex;
+}
+
+.channelsContainer {
+  flex-basis: 720px;
+  margin: 0 auto;
+}
+
+.contentContainer {
+  width: 100%;
+}
+
+.formContainer {
+  max-width: 510px;
+  margin: 0 auto;
+}
+
+.modalFooter {
+  padding: 0 30px 15px 30px;
+}
+
+.timezones {
+  margin-bottom: 15px;
+}

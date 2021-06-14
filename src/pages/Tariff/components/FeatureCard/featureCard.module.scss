@@ -1,0 +1,40 @@
+.featureCardContainer {
+  max-width: 200px;
+  padding: 20px;
+  border-radius: 3px;
+  border: 1px solid #dcdcdc;
+}
+
+.featureCardContainer:not(:nth-child(3n)) {
+  margin-right: 25px;
+}
+
+.featureCardContainer {
+  margin-bottom: 25px;
+}
+
+.featureCardTitle {
+  text-align: left;
+  margin-top: 15px;
+}
+
+.description {
+  color: #777;
+  font-size: 14px;
+  line-height: 1.36;
+}
+
+.categoryContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price {
+  color: #0a86f9;
+  font-size: 14px;
+}
+
+.imageContainer {
+  height: 42px;
+}

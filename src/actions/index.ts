@@ -1,14 +1,23 @@
-import { MESSAGES, INCOMING_MESSAGES, SELECT_CLIENT,
-         INCOMING_MESSAGES_FOR_SELECTED_CLIENT,
-         SELECTED_CLIENT_UPDATE, ASSIGNED_USER, CLIENT_DATA,
-         SELECTED_CLIENT_GET_INFO
-       } from '../constants/inbox';
+import {
+  MESSAGES, INCOMING_MESSAGES, SELECT_CLIENT,
+  INCOMING_MESSAGES_FOR_SELECTED_CLIENT,
+  SELECTED_CLIENT_UPDATE, ASSIGNED_USER, CLIENT_DATA,
+  SELECTED_CLIENT_GET_INFO
+} from '../constants/inbox';
 import { TEAMMATE } from '../constants/teammates';
-import { CHANNELS, CHANNEL } from '../constants/channels';
+import { CHANNELS, CHANNEL, CHAT } from '../constants/channels';
+import { TEMPLATE, TEMPLATES } from '../constants/templates';
 import { AUTH } from '../constants/auth';
+import { PROJECT } from '../constants/projects';
+import { TARIFF } from '../constants/tariff';
 
 const authInvite = (payload: any) => ({
   type: AUTH.INVITE,
+  payload,
+});
+
+const getCurrentUser = (payload: any) => ({
+  type: AUTH.GET_CURRENT_USER,
   payload,
 });
 
@@ -42,9 +51,14 @@ const fetchIncomingMessages = (incomingMessage: any) => ({
   incomingMessage
 });
 
-const updateAssignedUser = (incomingMessage: any) => ({
-  type: ASSIGNED_USER.UPDATE,
-  incomingMessage
+const changeMessagesStatus = (payload: any) => ({
+  type: CLIENT_DATA.CHANGE_MESSAGES_STATUS,
+  payload
+});
+
+const updateIncomingMessagesFilters = (filters: any) => ({
+  type: INCOMING_MESSAGES.UPDATE_FILTERS,
+  filters,
 });
 
 const updateClientData = (payload: any) => ({
@@ -62,6 +76,34 @@ const selectClient = (client: any) => ({
   client
 });
 
+const fetchTemplates = (payload: { projectId: string }) => ({
+  type: TEMPLATES.FETCH,
+  payload
+});
+
+const addTemplate = (template: any, projectId: string) => ({
+  type: TEMPLATE.ADD,
+  template,
+  projectId
+});
+
+const addTemplates = (templates: any) => ({
+  type: TEMPLATES.ADD,
+  templates
+});
+
+const editTemplate = (template: any, projectId: string) => ({
+  type: TEMPLATE.EDIT,
+  template,
+  projectId,
+});
+
+const deleteTemplate = (templateId: string, projectId: string) => ({
+  type: TEMPLATE.DELETE,
+  templateId,
+  projectId,
+});
+
 const addTeammate = (teammate: any) => ({
   type: TEAMMATE.ADD,
   teammate
@@ -74,6 +116,11 @@ const deleteTeammate = (teammate: any) => ({
 
 const assignTeammate = (payload: any) => ({
   type: TEAMMATE.ASSIGN,
+  payload
+});
+
+const updateTeammate = (payload: any) => ({
+  type: TEAMMATE.UPDATE,
   payload
 });
 
@@ -112,15 +159,42 @@ const updateChannelSettings = (payload: any) => ({
   payload
 });
 
+const saveChatSettings = (payload: any, projectId: string) => ({
+  type: CHAT.SAVE_SETTINGS,
+  payload,
+  projectId
+});
+
+const fetchChatSettings = (payload: { projectId: string, successCallback?: (data: any) => void }) => ({
+  type: CHAT.FETCH_SETTINGS,
+  payload,
+});
+
 const fetchTeammates = (payload: any) => ({
   type: TEAMMATE.FETCH,
   payload
+});
+
+const addProject = (payload: any) => ({
+  type: PROJECT.ADD,
+  payload,
+});
+
+const updateTariffPlan = (payload: any) => ({
+  type: TARIFF.UPDATE_PLAN,
+  payload,
+});
+
+const updateTariffPeriod = (payload: any) => ({
+  type: TARIFF.UPDATE_PERIOD,
+  payload,
 });
 
 export {
   authInvite,
   authSignIn,
   authSignUp,
+  getCurrentUser,
 
   addMessage,
   addIncomingMessage,
@@ -129,18 +203,33 @@ export {
   updateIncomingMessage,
   updateSelectedClient,
   fetchIncomingMessages,
-  updateAssignedUser,
   updateClientData,
   addToInboxIncomingMessage,
   getClientInfo,
+  changeMessagesStatus,
+  updateIncomingMessagesFilters,
 
   fetchChannels,
+  fetchChatSettings,
   addChannel,
   addChannels,
   updateChannelSettings,
+  saveChatSettings,
 
   fetchTeammates,
   addTeammate,
   deleteTeammate,
   assignTeammate,
+  updateTeammate,
+
+  fetchTemplates,
+  addTemplate,
+  addTemplates,
+  editTemplate,
+  deleteTemplate,
+
+  addProject,
+
+  updateTariffPlan,
+  updateTariffPeriod,
 }

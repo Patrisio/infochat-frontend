@@ -1,15 +1,22 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
+
 import Accordion from '../../../../components/Accordion/Accordion';
 import Animal from '../../../../components/Animal/Animal';
 import Input from '../../../../components/Input/Input';
+import Tabs from '../../../../components/Tabs/Tabs';
+
+import {
+  updateIncomingMessage, updateSelectedClient, changeMessagesStatus,
+  updateClientData as updateClientDataAction
+} from '../../../../actions';
+import { Context } from '../../../../context/Context';
+
 import styles from './personInfo.module.scss';
 import { getClientName } from '../../../../utils/clientData';
-import { useDispatch, useSelector } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEllipsisV, faTimes } from '@fortawesome/free-solid-svg-icons'
-import { updateIncomingMessage, updateSelectedClient, updateAssignedUser, updateClientData as updateClientDataAction } from '../../../../actions';
-import { Context } from '../../../../context/Context';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import cloneDeep from 'lodash/cloneDeep';
 
 interface IMessagesHistory {
@@ -23,7 +30,7 @@ interface IIncomingMessage {
   projectId: string,
   clientId: string,
   messagesHistory: IMessagesHistory[],
-  assigned_to: string | null,
+  assignedTo: string | null,
   avatarName: string,
   avatarColor: string,
   email: string,
@@ -56,6 +63,7 @@ interface Teammate {
 }
 
 interface ITeammate {
+  id?: string,
   icon?: string,
   value: string | '' |  null,
 }
@@ -89,24 +97,25 @@ export default function PersonInfo({ selectedClient }: IProps) {
   let fieldInitialValue: string | null = '';
   const [assignedTeammates, setAssignedTeammate] = useState<ITeammate[]>([]);
   const [generalInfo, setGeneralInfo] = useState<IGeneralInfoItem[]>(defaultGeneralInfo);
-  // const selectedClient = useSelector((state: RootState) => state.inbox.selectedClient);
   const teammates = useSelector((state: RootState) => state.teammates.teammates);
+  const incomingMessages = useSelector((state: RootState) => state.inbox.incomingMessages);
   const dispatch = useDispatch();
   let { projectId } = useParams<{ projectId: string }>();
-  const { currentUser, setCurrentUser } = useContext(Context);
+  const { currentUser } = useContext(Context);
 
   const clientData = {
     avatarName: selectedClient.avatarName,
     email: selectedClient.email,
     phone: selectedClient.phone,
-    assigned_to: selectedClient.assigned_to,
+    assignedTo: selectedClient.assignedTo,
     clientId: selectedClient.clientId,
     projectId,
   };
 
   useEffect(() => {
+    console.log('aaaaaaaaaa');
     const assignedTeammate = {
-      value: selectedClient.assigned_to,
+      value: selectedClient.assignedTo,
     };
     const generalClientData = generalInfo.reduce((acc: IGeneralInfoItem[], field: IGeneralInfoItem) => {
       if (field.field === 'phone') {
@@ -122,151 +131,34 @@ export default function PersonInfo({ selectedClient }: IProps) {
 
     setAssignedTeammate([assignedTeammate].filter(item => item.value !== '' && item.value !== null));
     setGeneralInfo(generalClientData);
-  }, [selectedClient]);
+  }, [selectedClient.clientId]);
 
   const assignTeammate = (teammate: ITeammate) => {
-    if (!assignedTeammates.find((item: ITeammate) => item.value === teammate.value)) {
-      var myHeaders = new Headers();
-      myHeaders.append('Content-Type', 'application/json');
-  
-      setCurrentUser((prev: any) => {
-        const client = {
-          clientId: selectedClient.clientId,
-          projectId,
-          avatarName: selectedClient.avatarName,
-          avatarColor: selectedClient.avatarColor,
-          messagesHistory: selectedClient.messagesHistory
-        };
-  
-        const assignedClientIds = prev.assignedClientIds.concat(client);
-        const assignedCount = prev.assignedCount + 1;
-  
-        const getUnreadClientIds = (unreadClientIds: IClient[]) => {
-          if (unreadClientIds.find((client: IClient) => client.clientId === selectedClient.clientId)) {
-            return {
-              unreadClientIds: unreadClientIds.filter((client: IClient) => client.clientId !== selectedClient.clientId),
-              unreadCount: prev.unreadCount - 1,
-            };
-          }
-  
-          return {
-            unreadClientIds: prev.unreadClientIds,
-            unreadCount: prev.unreadCount,
-          };
-        };
-  
-        const getOpenedClientIds = (openedClientIds: IClient[]) => {
-          if (openedClientIds.find((client: IClient) => client.clientId === selectedClient.clientId)) {
-            return {
-              openedClientIds,
-              openedCount: prev.openedCount,
-            };
-          }
-  
-          return {
-            openedClientIds: openedClientIds.concat(client),
-            openedCount: prev.openedCount + 1,
-          };
-        };
-
-        dispatch(updateAssignedUser({
-          clientId: selectedClient.clientId,
-          username: prev.username,
-          email: prev.email,
-          projectId,
-  
-          assignedClientIds,
-          assignedCount,
-  
-          ...getUnreadClientIds(prev.unreadClientIds),
-          ...getOpenedClientIds(prev.openedClientIds),
-  
-          closedClientIds: prev.closedClientIds,
-          closedCount: prev.closedCount,
-        }));
-
-        const successCallback = () => {
-          setAssignedTeammate([{ value: teammate.value }]);
-          dispatch(updateIncomingMessage({
-            clientId: selectedClient?.clientId,
-            assigned_to: teammate.value
-          }));
-          dispatch(updateSelectedClient({
-            assigned_to: teammate.value
-          }));
-        };
-  
-        dispatch(updateClientDataAction(Object.assign(clientData, {
-          assigned_to: teammate.value,
-          successCallback,
-        })));
-  
-        return cloneDeep(Object.assign(prev,
-          {
-            ...getUnreadClientIds(prev.unreadClientIds),
-            ...getOpenedClientIds(prev.openedClientIds),
-  
-            assignedClientIds,
-            assignedCount,
-          }
-        ));
-      });
-    }
+    dispatch(changeMessagesStatus({
+      clientId: selectedClient.clientId,
+      projectId,
+      assignedTo: teammate.id,
+      messagesStatus: 'opened',
+    }));
+    setAssignedTeammate((prev) => prev.concat(teammate));
   };
 
   const removeAssignedTeammate = (teammate: ITeammate) => {
-    var myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'application/json');
+    dispatch(changeMessagesStatus({
+      clientId: selectedClient.clientId,
+      projectId,
+      assignedTo: '',
+      messagesStatus: 'opened',
+    }));
 
-    setCurrentUser((prev: any) => {
-      const assignedClientIds = prev.assignedClientIds.filter((client: any) => client.clientId !== selectedClient.clientId);
-      const assignedCount = prev.assignedCount - 1;
-
-      const successCallback = () => {
-        setAssignedTeammate(prev => prev.filter(assignedTeammate => assignedTeammate.value !== teammate.value));
-        dispatch(updateIncomingMessage({
-          clientId: selectedClient?.clientId,
-          assigned_to: ''
-        }));
-        dispatch(updateSelectedClient({
-          assigned_to: ''
-        }));
-      };
-
-      dispatch(updateAssignedUser({
-        clientId: selectedClient.clientId,
-        username: prev.username,
-        email: prev.email,
-        projectId,
-
-        assignedClientIds,
-        assignedCount,
-
-        unreadClientIds: prev.unreadClientIds,
-        unreadCount: prev.unreadCount,
-
-        openedClientIds: prev.openedClientIds,
-        openedCount: prev.openedCount,
-
-        closedClientIds: prev.closedClientIds,
-        closedCount: prev.closedCount,
-
-        successCallback,
-      }));
-
-      dispatch(updateClientDataAction(Object.assign(clientData, { assigned_to: '', })));
-
-      return cloneDeep(Object.assign(prev,
-        {
-          assignedClientIds,
-          assignedCount,
-        }
-      ));
-    });
+    setAssignedTeammate((prev) => prev.filter((assignedTeammate) => assignedTeammate.value !== teammate.value));
   };
 
   const getTeammates = () => {
-    return teammates.map((teammate) => ({ value: teammate.username }));
+    return teammates.map((teammate) => ({
+      id: teammate.email,
+      value: teammate.username
+    }));
   };
 
   const updateClientData = (e: React.SyntheticEvent) => {
@@ -294,7 +186,6 @@ export default function PersonInfo({ selectedClient }: IProps) {
     const target = e.currentTarget;
     fieldInitialValue = target.textContent;
   };
-  console.log(generalInfo);
 
   return (
     <div className={styles.personInfoContainer}>
@@ -358,26 +249,10 @@ export default function PersonInfo({ selectedClient }: IProps) {
             data={getTeammates()}
           />
 
-          <div className={styles.assignedTeammatesList}>
-            {
-              assignedTeammates.map((teammate: ITeammate, idx) => {
-                return (
-                  <div
-                    key={idx}
-                    className={styles.assignedTeammate}
-                  >
-                    <p className={styles.teammateName}>{teammate.value}</p>
-                    <div
-                      onClick={() => removeAssignedTeammate(teammate)}
-                      className={styles.removeIcon}
-                    >
-                      <FontAwesomeIcon icon={faTimes} color='#cac9c9' />
-                    </div>
-                  </div> 
-                );
-              })
-            }
-          </div>
+          <Tabs
+            data={assignedTeammates}
+            removeTab={removeAssignedTeammate}
+          />
         </div>
       </Accordion>
 

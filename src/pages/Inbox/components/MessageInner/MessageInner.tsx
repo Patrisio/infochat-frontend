@@ -60,13 +60,13 @@ export default function MessageInput({ message }: any) {
           className={`${message.username === 'client' ? styles.clientMessage : styles.teammateMessage} ${styles.messageWrapper}`}
           dangerouslySetInnerHTML={{__html: message.message}}
         />
-        {
-          message.username === 'operator' &&
+        {/* {
+          (message.username === 'operator' || message.username === 'bot') &&
           <Avatar
             name={message.assignedTo}
             stylesList={{ marginBottom: '5px' }}
           />
-        }
+        } */}
       </div>
       <div
         className={`

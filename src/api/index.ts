@@ -1,233 +1,123 @@
-export async function inviteUser(payload: any) {
-  const myHeaders = new Headers();
-  myHeaders.append('Content-Type', 'application/json');
+import { requestApi, GET, POST } from './apiCore';
 
-  const options = {
-    method: 'POST',
-    headers: myHeaders,
-    body: JSON.stringify(payload),
+const VALUE_PATTERN = /\[.:\w+\]/g;
+const PARAM_PATTERN_NAME = /:\w+/g;
+
+export async function requestApiGet(
+  routeID: string,
+  getParams = {},
+  successCallback?: (data: any) => void,
+  errorCallback?: () => void
+) {
+  return requestApi({
+    method: GET,
+    url: await getRoute(routeID),
+    getParams,
+    successCallback,
+    errorCallback,
+  });
+}
+
+export async function requestApiPost(
+  routeID: string,
+  postBody: any = null,
+  getParams: any = {},
+  successCallback?: () => void,
+  errorCallback?: () => void
+) {
+  return requestApi({
+    method: POST,
+    url: await getRoute(routeID),
+    getParams,
+    postBody,
+    successCallback,
+    errorCallback,
+  });
+}
+
+async function loadRoutes(): Promise<{[key: string]: string}> {
+  return {
+    api_auth_invite: '/auth/invite/[*:inviteId]',
+    api_get_current_user: '/auth/getCurrentUser',
+    api_auth_sign_in: '/auth/signin',
+    api_auth_sign_up: '/auth/signup',
+    api_send_email: '/auth/project/[*:projectId]/sendEmail',
+
+    api_update_messages_status_by_client_id: '/inbox/project/[*:projectId]/client/[*:clientId]/updateMessagesStatusByClientId',
+    api_update_selected_client_by_project_id: '/inbox/project/[*:projectId]/client/[*:clientId]/update',
+    api_get_messages_history: '/inbox/project/[*:projectId]/chat/[*:clientId]/getMessagesHistory',
+    api_get_messages_history_by_project_id: '/inbox/project/[*:projectId]/getMessagesHistoryByProject',
+    api_get_client_info: '/inbox/project/[*:projectId]/client/[*:clientId]/getClientInfo',
+    api_get_channels: '/inbox/project/[*:projectId]/getChannels',
+    api_add_channel: '/inbox/project/[*:projectId]/addChannel',
+    api_add_message: '/inbox/addMessage',
+
+    api_add_teammate: '/teammates/project/[*:projectId]/settings/teammates/addTeammate',
+    api_delete_teammate: '/teammates/project/[*:projectId]/settings/teammates/deleteTeammate',
+    api_get_teammates: '/teammates/project/[*:projectId]/settings/teammates',
+    api_update_teammate: '/teammates/project/[*:projectId]/settings/teammates/updateTeammate',
+    
+    api_save_chat_settings: '/channels/project/[*:projectId]/saveChatSettings',
+    api_get_chat_settings: '/channels/project/[*:projectId]/getChatSettings',
+
+    api_add_template: '/templates/project/[*:projectId]/settings/addTemplate',
+    api_delete_template: '/templates/project/[*:projectId]/settings/deleteTemplate',
+    api_update_template: '/templates/project/[*:projectId]/settings/updateTemplate',
+    api_get_templates: '/templates/project/[*:projectId]/settings/getTemplates',
+
+    api_add_project: '/projects/addProject',
   };
-
-  const response = await fetch(`/auth/invite/${payload.inviteId}`, options);
-  const data = await response.json();
-
-  return data;
 }
 
-export async function signIn(payload: any) {
-  const myHeaders = new Headers();
-  myHeaders.append('Content-Type', 'application/json');
+function getRouteDataFromPattern(pattern: any) {
+  const valueRegexpStrings = pattern.match(VALUE_PATTERN);
+  const valuesNames = pattern.match(PARAM_PATTERN_NAME);
+  let params: any = {};
 
-  const options = {
-    method: 'POST',
-    headers: myHeaders,
-    body: JSON.stringify(payload),
-  };
-
-  const response = await fetch(`/auth/signin`, options);
-  const data = await response.json();
-
-  return data;
-}
-
-export async function signUp(payload: any) {
-  const myHeaders = new Headers();
-  myHeaders.append('Content-Type', 'application/json');
-
-  const options = {
-    method: 'POST',
-    headers: myHeaders,
-    body: JSON.stringify(payload),
-  };
-
-  const response = await fetch(`/auth/signup`, options);
-  const data = await response.json();
-
-  return data;
-}
-
-export async function getTeammates(projectId: string) {
-  const response = await fetch(`/teammates/project/${projectId}/settings/teammates`);
-  const data = await response.json();
-
-  return data;
-}
-
-export async function incomingMessagesFetch(payload: {
-  projectId: string,
-  clientId: string,
-  successCallback: (data: any) => void
-}) {
-  let response;
-  const { clientId, projectId, successCallback } = payload;
-
-  if (clientId) {
-    response = await fetch(`https://infochat-production.herokuapp.com/inbox/project/${projectId}/chat/${clientId}/getMessagesHistory`);
-  } else {
-    response = await fetch(`/inbox/project/${projectId}/getMessagesHistoryByProject`);
+  if (!valueRegexpStrings || !valuesNames) {
+    return params;
   }
 
-  const data = await response?.json();
+  valuesNames.forEach((name: string, i: number) => {
+    params[name.slice(1)] = valueRegexpStrings[i];
+  });
 
-  return data;
+  return params;
 }
 
-export async function selectedClientInfoGet(payload: {
-  projectId: string,
-  clientId: string,
-  successCallback: (data: any) => void,
-}) {
-  const { projectId, clientId } = payload;
+export function generateUrlWithGetParams(pattern: any, getParams: any) {
+  const patternData = getRouteDataFromPattern(pattern);
+  let url = pattern;
 
-  const response = await fetch(`/inbox/project/${projectId}/client/${clientId}/getClientInfo`);
-  const data = await response.json();
+  Object.keys(getParams).forEach((paramName) => {
+    if (patternData[paramName]) {
+      url = url.replace(patternData[paramName], getParams[paramName]);
 
-  return data;
+      delete getParams[paramName];
+    }
+  });
+
+  const query = serializeParams(getParams);
+
+  return query ? `${url}/${query}` : url;
 }
 
-export async function messageToInboxAdd(payload: any) {
-  const myHeaders = new Headers();
-  myHeaders.append('Content-Type', 'application/json');
+function serializeParams(params: any, prefix?: string) {
+  const result: any = [];
 
-  const options = {
-    method: 'POST',
-    headers: myHeaders,
-    body: JSON.stringify(payload),
-  };
+  Object.keys(params).forEach((key) => {
+    const arg = prefix ?
+      prefix + '[' + key + ']' :
+      key;
 
-  const response = await fetch(`https://infochat-production.herokuapp.com/inbox/addMessage`, options);
-  const data = await response.json();
+    const v = params[key];
+    const isObject = v !== null && typeof v === 'object';
+    result.push(isObject ? serializeParams(v, arg) : encodeURIComponent(arg) + '=' + encodeURIComponent(v));
+  });
 
-  return data;
+  return result.join('&');
 }
 
-export async function assignedUserUpdate(payload: {
-  clientId: string,
-  username: string,
-  email: string,
-  projectId: string,
-
-  assignedClientIds: string[],
-  assignedCount: number,
-
-  unreadClientIds: string[],
-  unreadCount: number,
-
-  openedClientIds: string[],
-  openedCount: number,
-
-  closedClientIds: string[],
-  closedCount: number,
-  successCallback?: () => void,
-}) {
-  const myHeaders = new Headers();
-  myHeaders.append('Content-Type', 'application/json');
-
-  var options = {
-    method: 'POST',
-    body: JSON.stringify(payload),
-    headers: myHeaders
-  };
-
-  const response = await fetch(`/inbox/project/${payload.projectId}/updateAssignedUser`, options);
-  const data = await response.json();
-
-  return data;
-}
-
-export async function selectedClientUpdate(payload: any) {
-  const { avatarName, email, phone, assigned_to, projectId, clientId } = payload;
-
-  const myHeaders = new Headers();
-  myHeaders.append('Content-Type', 'application/json');
-
-  var options = {
-    method: 'POST',
-    body: JSON.stringify({ avatarName, email, phone, assigned_to }),
-    headers: myHeaders
-  };
-
-  const response = await fetch(`/inbox/project/${projectId}/client/${clientId}/update`, options);
-  const data = await response.json();
-
-  return data;
-}
-
-export async function teammateAdd(payload: {
-  email: string,
-  projectId?: string,
-  role: string,
-  status: string,
-  username: string,
-}) {
-  const myHeaders = new Headers();
-  myHeaders.append('Content-Type', 'application/json');
-
-  var options = {
-    method: 'POST',
-    body: JSON.stringify(payload),
-    headers: myHeaders,
-  };
-
-  await fetch(`/teammates/project/${payload.projectId}/settings/teammates/addTeammate`, options);
-}
-
-export async function removeTeammate(payload: {email: string, projectId: string}) {
-  var myHeaders = new Headers();
-  myHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
-
-  var urlencoded = new URLSearchParams();
-  urlencoded.append('email', payload.email);
-
-  var options = {
-    method: 'DELETE',
-    headers: myHeaders,
-    body: urlencoded,
-  };
-
-  const response = await fetch(`/teammates/project/${payload.projectId}/settings/teammates/deleteTeammate`, options);
-  const data = await response.json();
-
-  return data.channels;
-}
-
-export async function sendEmail(payload: {
-  email: string,
-  projectId: string,
-}) {
-  const myHeaders = new Headers();
-  myHeaders.append('Content-Type', 'application/json');
-  var options = {
-    method: 'POST',
-    body: JSON.stringify(payload),
-    headers: myHeaders
-  };
-
-  await fetch(`/auth/project/${payload.projectId}/sendEmail`, options);
-}
-
-export async function getChannels(projectId: string) {
-  const response = await fetch(`/inbox/project/${projectId}/getChannels`);
-  const data = await response.json();
-
-  return data.channels;
-}
-
-export async function channelAdd(payload: { projectId: string, name: string }) {
-  var myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-
-  var urlencoded = new URLSearchParams();
-  urlencoded.append('name', payload.name);
-
-  var options = {
-    method: 'POST',
-    headers: myHeaders,
-    body: urlencoded,
-  };
-
-  const response = await fetch(`/inbox/project/${payload.projectId}/addChannel`, options);
-  const data = await response.json();
-
-  return data;
+async function getRoute(routeID: string) {
+  return (await loadRoutes())[routeID];
 }

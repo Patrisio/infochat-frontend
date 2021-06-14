@@ -30,7 +30,7 @@ export default function Panel({ imageSrc, label, content, activeTab, index, acti
 
   const isActive = activeTab === index;
   const innerStyle = {
-    height:  `${isActive ? height : 0}px`
+    maxHeight: `${isActive ? '10000px' : 0}`,
   }
     
   return (

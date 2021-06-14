@@ -20,6 +20,7 @@ export default function SignUpPage()  {
     const email = target.email.value;
     const password = target.password.value;
     const successCallback = (data: any) => {
+      console.log(data);
       if (localStorage.getItem('token')) {
         localStorage.removeItem('token');
       }

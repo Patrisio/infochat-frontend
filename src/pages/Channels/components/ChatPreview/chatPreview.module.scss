@@ -66,14 +66,6 @@
   margin: 30px 0 0 auto;
 }
 
-.infochatLink {
-  position: absolute;
-  bottom: 10px;
-  right: 20px;
-  font-size: 13px;
-  color: #000;
-}
-
 .fakeMessageContainer {
   display: flex;
   align-items: flex-end;
@@ -98,6 +90,14 @@
   border-radius: 18px;
   margin-left: 12px;
   font-size: 14px;
+}
+
+.infochatLink {
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+  font-size: 13px;
+  color: #000;
 }
 
 .link {

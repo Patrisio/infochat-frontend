@@ -1,5 +1,5 @@
 import { call, put, takeEvery, all, StrictEffect } from 'redux-saga/effects';
-import { getTeammates, teammateAdd, sendEmail, removeTeammate } from '../api';
+import { getTeammates, teammateAdd, sendEmail, removeTeammate, teammateUpdate } from '../api/dataLayer';
 
 function* fetchTeammates(action: any): Generator<StrictEffect> {
   try {
@@ -41,6 +41,17 @@ function* deleteTeammate(action: any): Generator<StrictEffect> {
   }
 }
 
+function* updateTeammate(action: any): Generator<StrictEffect> {
+  try {
+    yield call(teammateUpdate, action.payload);
+  } catch (e) {
+    yield put({
+      type: 'UPDATE_TEAMMATE_FAILED',
+      message: e.message
+    });
+  }
+}
+
 function* watchFetchTeammates(): Generator<StrictEffect> {
   yield takeEvery('TEAMMATE_FETCH', fetchTeammates);
 }
@@ -53,8 +64,13 @@ function* watchDeleteTeammate(): Generator<StrictEffect> {
   yield takeEvery('TEAMMATE_DELETE', deleteTeammate);
 }
 
+function* watchUpdateTeammate(): Generator<StrictEffect> {
+  yield takeEvery('TEAMMATE_UPDATE', updateTeammate);
+}
+
 export default [
   watchFetchTeammates(),
   watchAddTeammate(),
   watchDeleteTeammate(),
+  watchUpdateTeammate(),
 ];

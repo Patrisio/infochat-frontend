@@ -1,8 +1,9 @@
 import { call, put, takeEvery, all, StrictEffect } from 'redux-saga/effects';
 import {
-  getTeammates, incomingMessagesFetch, assignedUserUpdate,
+  getTeammates, incomingMessagesFetch,
   selectedClientUpdate, messageToInboxAdd, selectedClientInfoGet,
-} from '../api';
+  messagesStatusUpdate,
+} from '../api/dataLayer';
 
 function* fetchIncomingMessages(action: any): Generator<StrictEffect> {
   try {
@@ -25,12 +26,21 @@ function* fetchIncomingMessages(action: any): Generator<StrictEffect> {
   }
 }
 
-function* updateAssignedUser(action: any): Generator<StrictEffect> {
+function* changeMessagesStatus(action: any): Generator<StrictEffect> {
   try {
-    const successCallback = action.incomingMessage.successCallback;
+    const { clientId, messagesStatus, assignedTo } = action.payload;
+    const successCallback = action.payload.successCallback;
 
-    yield call(assignedUserUpdate, action.incomingMessage);
-    
+    yield call(messagesStatusUpdate, action.payload);
+    yield put({
+      type: 'UPDATE_INCOMING_MESSAGE',
+      payload: {
+        clientId,
+        messagesStatus,
+        assignedTo,
+      }
+    });
+
     if (successCallback) {
       yield successCallback();
     }
@@ -78,7 +88,7 @@ function* addMessageToInbox(action: any): Generator<StrictEffect> {
 function* getSelectedClientInfo(action: any): Generator<StrictEffect> {
   try {
     const successCallback = action.payload.successCallback;
-
+    console.log(action.payload);
     const clientInfo = yield call(selectedClientInfoGet, action.payload);
 
     if (successCallback) {
@@ -96,10 +106,6 @@ function* watchFetchMessagesHistoryByProject(): Generator<StrictEffect> {
   yield takeEvery('FETCH_INCOMING_MESSAGES', fetchIncomingMessages);
 }
 
-function* watchUpdateAssignedUser(): Generator<StrictEffect> {
-  yield takeEvery('ASSIGNED_USER_UPDATE', updateAssignedUser);
-}
-
 function* watchUpdateSelectedClient(): Generator<StrictEffect> {
   yield takeEvery('CLIENT_DATA_UPDATE', updateSelectedClient);
 }
@@ -112,10 +118,14 @@ function* watchGetInfoForSelectedClient(): Generator<StrictEffect> {
   yield takeEvery('SELECTED_CLIENT_GET_INFO', getSelectedClientInfo);
 }
 
+function* watchUpdateMessagesStatus(): Generator<StrictEffect> {
+  yield takeEvery('CHANGE_MESSAGES_STATUS', changeMessagesStatus);
+}
+
 export default [
   watchFetchMessagesHistoryByProject(),,
-  watchUpdateAssignedUser(),
   watchUpdateSelectedClient(),
   watchAddMessageToInbox(),
   watchGetInfoForSelectedClient(),
+  watchUpdateMessagesStatus(),
 ];

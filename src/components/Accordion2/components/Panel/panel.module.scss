@@ -71,8 +71,8 @@
 		
 	&__inner {
     overflow: hidden;
-		will-change: height;
-		transition: height .4s cubic-bezier(.65, .05, .36, 1);
+		will-change: max-height;
+		transition: max-height .4s cubic-bezier(.65, .05, .36, 1);
   }
 		
 	&__content {

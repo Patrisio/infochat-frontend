@@ -1,10 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useParams, useHistory } from 'react-router';
+
 import Sidebar from '../../components/Sidebar/Sidebar';
 import Teammates from '../Teammates/Teammates';
 import Start from '../Start/Start';
 import Channels from '../Channels/Channels';
+import Templates from '../Templates/Templates';
+import Statistics from '../Statistics/Statistics';
+import Tariff from '../Tariff/Tariff';
+import Bills from '../Bills/Bills';
 
 import SidebarList from '../../components/Sidebar/components/SidebarList/SidebarList';
 
@@ -22,14 +27,36 @@ export default function Settings() {
   let { projectId, pageId } = useParams<{ projectId: string, pageId: string }>();
   const history = useHistory();
 
-  const settingsTitle = () => (
-    <Link
-      className={styles.title}
-      to={`/project/${projectId}/settings/start`}
-    >
-      Настройки
-    </Link>
-  );
+  const settingsTitle = () => {
+    const location = {
+      pathname: `/project/${projectId}/settings/start`,
+      state: { feature: 'settings' }
+    };
+    return (
+      <Link
+        className={styles.title}
+        to={location}
+      >
+        Настройки
+      </Link>
+    );
+  };
+
+  const billingTitle = () => {
+    const location = {
+      pathname: `/project/${projectId}/settings/start`,
+      state: { feature: 'billing' }
+    }
+
+    return (
+      <Link 
+        className={styles.title}
+        to={location}
+      >
+        Тариф и оплата
+      </Link>
+    );
+  };
 
   const formatSettings = () => {
     const channels = {
@@ -48,11 +75,59 @@ export default function Settings() {
         history.push({
           pathname: `/project/${projectId}/settings/teammates`,
           state: { page: 'teammates' }
-        })
+        });
+      },
+    };
+    const templates = {
+      name: 'Шаблоны ответов',
+      stylesList: {
+        color: '#363636',
+      },
+      onClick: () => {
+        history.push(`/project/${projectId}/settings/templates`)
+      },
+    };
+    const statistics = {
+      name: 'Статистика',
+      stylesList: {
+        color: '#363636',
+      },
+      onClick: () => {
+        history.push(`/project/${projectId}/settings/statistics`)
       },
     };
 
-    const dialogs = [channels, teammates];
+    const dialogs = [channels, teammates, templates, statistics];
+
+    return dialogs;
+  };
+
+  const formatBilling = () => {
+    const tariff = {
+      name: 'Конфигуратор тарифа',
+      stylesList: {
+        color: '#363636',
+      },
+      onClick: () => history.push(`/project/${projectId}/settings/tariff`),
+    };
+    const bills = {
+      name: 'Пополнение счета',
+      stylesList: {
+        color: '#363636',
+      },
+      onClick: () => history.push(`/project/${projectId}/settings/bills`),
+    };
+    const billingHistory = {
+      name: 'История транзакций',
+      stylesList: {
+        color: '#363636',
+      },
+      onClick: () => {
+        history.push(`/project/${projectId}/settings/billing-history`)
+      },
+    };
+
+    const dialogs = [tariff, bills, billingHistory];
 
     return dialogs;
   };
@@ -65,6 +140,14 @@ export default function Settings() {
         return <Teammates />
       case 'channels':
         return <Channels />
+      case 'templates':
+        return <Templates />
+      case 'statistics':
+        return <Statistics />
+      case 'tariff':
+        return <Tariff />
+      case 'bills':
+        return <Bills />
     }
   };
 
@@ -83,6 +166,12 @@ export default function Settings() {
           mode='light'
           title={settingsTitle()}
           listItems={formatSettings()}
+        />
+
+        <SidebarList
+          mode='light'
+          title={billingTitle()}
+          listItems={formatBilling()}
         />
       </Sidebar>
 

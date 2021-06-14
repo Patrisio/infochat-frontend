@@ -1,0 +1,29 @@
+.billsContainer {
+  flex-basis: 760px;
+  margin: 0 auto;
+}
+
+.paymentFormContainer {
+  border-radius: 3px;
+  border: 1px solid #dcdcdc;
+  padding: 40px 21px 40px 30px;
+  margin-top: 30px;
+}
+
+.paymentRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.billPayment {
+  margin: 0 auto 0 100px;
+}
+
+.paymentRowTitle {
+  margin-top: 15px;
+}
+
+.addonAfter {
+  position: absolute;
+  right: 15px;
+}

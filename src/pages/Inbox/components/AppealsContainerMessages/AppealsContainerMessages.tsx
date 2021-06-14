@@ -8,7 +8,7 @@ import Modal from '../../../../components/Modal/Modal';
 import { Context } from '../../../../context/Context';
 import socket from '../../../../socket';
 import { useParams } from 'react-router';
-import { assignTeammate, selectClient, updateAssignedUser } from '../../../../actions';
+import { assignTeammate, selectClient, changeMessagesStatus } from '../../../../actions';
 import { getClientName } from '../../../../utils/clientData';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArchive } from '@fortawesome/free-solid-svg-icons'
@@ -31,6 +31,7 @@ type IIncomingMessage = {
   clientId: string,
   messagesHistory: IMessagesHistory[],
   assigned_to: string,
+  assignedTo: string,
   avatarName: string,
   avatarColor: string,
 };
@@ -47,96 +48,21 @@ interface AppealsContainerMessagesProps {
   clientIds: string[]
 }
 
-export default function AppealsContainerMessages({
-  clientIds
-}: AppealsContainerMessagesProps) {
+export default function AppealsContainerMessages() {
   const [isDeleteAppealModalVisible, setModalState] = useState(false);
   const selectedClient = useSelector((state: RootState) => state.inbox.selectedClient);
+  const incomingMessages = useSelector((state: RootState) => state.inbox.incomingMessages);
   const dispatch = useDispatch();
-  const { currentUser, setCurrentUser } = useContext(Context);
   let { projectId } = useParams<{ projectId: string }>();
 
-  const isDisabled = () => !!currentUser.closedClientIds.find((client: IClient) => client.clientId === selectedClient.clientId);
+  const isDisabled = () => !incomingMessages.find((incMsg: IClient) => incMsg.clientId === selectedClient.clientId)?.assignedTo;
 
   const closeDialog = () => {
-    setCurrentUser((prev: any) => {
-      console.log(4);
-
-      const client = {
-        clientId: selectedClient.clientId,
-        projectId: selectedClient.projectId,
-        messagesHistory: selectedClient.messagesHistory,
-        avatarName: selectedClient.avatarName,
-        avatarColor: selectedClient.avatarColor,
-      };
-
-      const successCallback = () => {
-        dispatch(assignTeammate({
-          username: currentUser.username,
-          clientId: selectedClient.clientId
-        }));
-        
-        socket.emit('updateAssignedToAnybody', {
-          username: currentUser.username,
-          clientId: selectedClient.clientId
-        });
-
-        socket.emit('reduceOpenedToAnybody', {
-          openedClientIds: currentUser.openedClientIds.filter((client: IClient) => client.clientId !== selectedClient.clientId),
-          openedCount: currentUser.openedCount,
-        });
-      };
-
-      dispatch(updateAssignedUser({
-        clientId: selectedClient.clientId,
-        username: currentUser.username,
-        email: currentUser.email,
-        projectId,
-
-        // assignedClientIds: currentUser.assignedClientIds.filter((client: IClient) => client.clientId !== selectedClient.clientId),
-        // assignedCount: prev.assignedCount - 1,
-
-        // unreadClientIds: currentUser.unreadClientIds,
-        // unreadCount: currentUser.unreadCount,
-
-        // openedClientIds: currentUser.openedClientIds.filter((client: IClient) => client.clientId !== selectedClient.clientId),
-        // openedCount: currentUser.openedCount - 1,
-
-        // closedClientIds: currentUser.closedClientIds.concat(client),
-        // closedCount: currentUser.closedCount + 1,
-
-
-
-
-        assignedClientIds: currentUser.assignedClientIds.filter((client: IClient) => client.clientId !== selectedClient.clientId),
-        assignedCount: prev.assignedCount - 1,
-
-        unreadClientIds: currentUser.unreadClientIds,
-        unreadCount: currentUser.unreadCount,
-
-        openedClientIds: currentUser.openedClientIds.filter((client: IClient) => client.clientId !== selectedClient.clientId),
-        openedCount: currentUser.openedCount - 1,
-
-        closedClientIds: currentUser.closedClientIds.concat(client),
-        closedCount: currentUser.closedCount + 1,
-
-        successCallback,
-      }));
-
-      return Object.assign(prev, {
-        assignedClientIds: currentUser.assignedClientIds.filter((client: IClient) => client.clientId !== selectedClient.clientId),
-        assignedCount: prev.assignedCount - 1,
-
-        unreadClientIds: currentUser.unreadClientIds,
-        unreadCount: currentUser.unreadCount,
-
-        openedClientIds: currentUser.openedClientIds.filter((client: IClient) => client.clientId !== selectedClient.clientId),
-        openedCount: currentUser.openedCount - 1,
-
-        closedClientIds: currentUser.closedClientIds.concat(client),
-        closedCount: currentUser.closedCount + 1,
-      });
-    })
+    dispatch(changeMessagesStatus({
+      messagesStatus: 'closed',
+      projectId,
+      clientId: selectedClient.clientId,
+    }));
   };
 
   const buttonStyles = {
@@ -146,7 +72,6 @@ export default function AppealsContainerMessages({
   };
 
   const archiveDialog = () => {
-    console.log('ARCHIVE DIALOG');
     setModalState(true);
   };
 
@@ -178,14 +103,6 @@ export default function AppealsContainerMessages({
       </div>
     );
   };
-
-  const ModalTrigger = () => (
-    <div
-      onClick={archiveDialog}
-    >
-      <FontAwesomeIcon icon={faArchive} className={styles.iconArchive}/>
-    </div>
-  );
 
   return (
     <>
