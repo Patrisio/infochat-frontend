@@ -1,6 +1,4 @@
-import operatorsTariff from '../../assets/operators-tariff.svg';
-import chatTariff from '../../assets/chat-tariff.svg';
-import templatesTariff from '../../assets/templates-tariff.svg';
+import { ONE_MONTH, THREE_MONTHS, SIX_MONTHS, YEAR } from '../../lib/utils/date';
 
 export interface Period {
   id: number,
@@ -15,15 +13,6 @@ export interface Feature {
   category: 'binary' | 'multiple',
   price: number,
 }
-
-interface Bonus {
-  [key: number]: 0 | 10 | 15 | 25,
-}
-
-const ONE_MONTH = 1;
-const THREE_MONTHS = 3;
-const SIX_MONTHS = 6;
-export const YEAR = 12;
 
 export const periods: Period[] = [
   {
@@ -43,10 +32,3 @@ export const periods: Period[] = [
     name: 'Год',
   },
 ];
-
-export const bonus: Bonus = {
-  [ONE_MONTH]: 0,
-  [THREE_MONTHS]: 10,
-  [SIX_MONTHS]: 15,
-  [YEAR]: 25,
-};

@@ -15,8 +15,29 @@
   justify-content: space-between;
 }
 
+.paymentRow:last-child {
+  margin-top: 40px;
+}
+
+.paymentFieldContainer {
+  display: flex;
+}
+
 .billPayment {
   margin: 0 auto 0 100px;
+}
+
+.paymentField {
+  width: 120px;
+}
+
+.enoughMoneyDate {
+  margin-left: 5px;
+}
+
+.bonus {
+  color: #00c200;
+  margin: 0 5px 0 15px;
 }
 
 .paymentRowTitle {
@@ -26,4 +47,59 @@
 .addonAfter {
   position: absolute;
   right: 15px;
+}
+
+.promoTitle {
+  font-weight: 500;
+  font-size: 14px;
+  margin: 20px 0 0 0;
+}
+
+.promoDescriptionContainer {
+  margin: 5px 0 0 0;
+}
+
+.promoDescription {
+  display: flex;
+  font-size: 14px;
+}
+
+.bonusAccruals {
+  margin-left: 5px;
+  color: #00c200;
+}
+
+.paymentWaysTabs {
+  display: flex;
+  align-items: center;
+  margin: 0 auto 0 50px;
+}
+
+.paymentWayRadioButton {
+  display: none;
+  margin-left: 0;
+}
+
+.paymentWayTab {
+  padding: 13px 25px 13px 15px;
+  border: 2px solid transparent;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.paymentWayTabActive {
+  border: 2px solid #dee2e6;
+  border-bottom: 1px solid transparent;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  font-weight: 500;
+}
+
+.paymentWayContent {
+  padding: 0 50px;
+}
+
+.paymentWayContentText {
+  font-size: 14px;
+  line-height: 1.43;
+  color: #333;
 }

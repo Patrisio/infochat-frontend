@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import Title from '../../../../components/Typography/Title/Title';
 import FeatureCard from '../FeatureCard/FeatureCard';
 
 import { Feature } from '../../constants';

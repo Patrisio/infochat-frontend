@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import Input from '../../../../components/Input/Input';
 
 import { updateTariffPeriod } from '../../../../actions';
-import { periods, Period, bonus } from '../../constants';
+import { bonus } from '../../../../lib/utils/bonus';
+import { periods, Period } from '../../constants';
 import styles from './periods.module.scss';
 
 export default function Periods() {

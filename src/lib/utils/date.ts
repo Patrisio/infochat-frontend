@@ -47,15 +47,32 @@ export const FRIDAY = 4;
 export const SATURDAY = 5;
 export const SUNDAY = 6;
 
+export const ONE_MONTH = 1;
+export const THREE_MONTHS = 3;
+export const SIX_MONTHS = 6;
+export const YEAR = 12;
+
 export const DEFAULT_TIME_ZONE: string = 'Europe/Moscow';
 export const USER_TIME_ZONE: string = moment.tz.guess(true);
 
-export function getMomentDate(date?: string) {
+export function getMomentDate(date?: string | Moment) {
   return date ? moment(date) : moment();
+}
+
+export function getDateWithUserTimezone(date: string | Moment) {
+	return moment.tz(getMomentDate(date), USER_TIME_ZONE);
 }
 
 export function isDateBetween(firstDate: Moment, secondDate: Moment) {
   return getMomentDate().isBetween(firstDate, secondDate)
+}
+
+export function addMonthsToDate(date: string | Moment, monthsCount: number) {
+	return getMomentDate(date).add(monthsCount, 'month');
+}
+
+export function formatDateWithUserTimezoneToCustomDateFormat(date: string | Moment, format: string) {
+	return getDateWithUserTimezone(date).format(format);
 }
 
 export const weekdays: Weekdays[] = [

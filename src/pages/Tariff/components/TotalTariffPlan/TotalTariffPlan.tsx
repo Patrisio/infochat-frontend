@@ -7,7 +7,9 @@ import Title from '../../../../components/Typography/Title/Title';
 import Button from '../../../../components/Button/Button';
 
 import { updateTariffPlan, saveTariffPlan } from '../../../../actions';
-import { bonus, YEAR } from '../../constants';
+import { bonus } from '../../../../lib/utils/bonus';
+import { YEAR } from '../../../../lib/utils/date';
+
 import styles from './totalTariffPlan.module.scss';
 
 interface CounterProps {
@@ -50,7 +52,7 @@ export default function TotalTariffPlan() {
   };
 
   const getBonusAccruals = (period: number): number => {
-    const totalPrice = getTotalPriceForPeriod(YEAR);
+    const totalPrice = getTotalPriceForPeriod(period);
     return Math.round(totalPrice / 100 * bonus[period]);
   };
 
@@ -61,13 +63,14 @@ export default function TotalTariffPlan() {
       case 3:
         return `${word} за 3 месяца:`;
       case 6:
-          return `${word} за полгода:`;
+        return `${word} за полгода:`;
       case 12:
         return `${word} за год:`
     }
   };
 
   const totalPrice = getTotalPriceForPeriod(tariffPeriod);
+  const bonusAccruals = getBonusAccruals(tariffPeriod);
 
   const Counter = ({ featureId }: CounterProps) => {
     return (
@@ -141,8 +144,6 @@ export default function TotalTariffPlan() {
   };
 
   const BonusTotalPrice = () => {
-    const bonusAccruals = getBonusAccruals(tariffPeriod);
-
     return (
       <div className={styles.bonusTotalPriceContainer}>
         <div className={`${styles.bonusLine} ${styles.grey}`}>
@@ -165,7 +166,11 @@ export default function TotalTariffPlan() {
     const goToBillsPage = () => {
       history.push({
         pathname: `/project/${projectId}/settings/bills`,
-        state: { totalPrice },
+        state: {
+          totalPrice,
+          tariffPeriod,
+          bonusAccruals,
+        },
       });
     };
 
