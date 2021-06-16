@@ -1,4 +1,7 @@
 import React from 'react';
+
+import ProjectsSelector from './components/ProjectsSelector/ProjectsSelector';
+
 import styles from './sidebar.module.scss';
 
 interface IClient {
@@ -38,12 +41,12 @@ interface IIncomingMessage {
   assigned_to: string | null
 }
 
-interface IProps {
+interface SidebarProps {
   children: React.ReactNode,
   mode?: 'light' | 'dark',
 }
 
-export default function Sidebar({ children, mode = 'dark' }: IProps) {
+export default function Sidebar({ children, mode = 'dark' }: SidebarProps) {
   return (
     <div
       className={`
@@ -51,6 +54,9 @@ export default function Sidebar({ children, mode = 'dark' }: IProps) {
         ${mode === 'light' ? styles.lightMode : styles.darkMode}
       `}
     >
+      <ProjectsSelector
+        mode={mode}
+      />
       {children}
     </div>
   );

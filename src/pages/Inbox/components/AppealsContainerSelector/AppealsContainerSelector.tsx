@@ -291,33 +291,33 @@ export default function AppealsContainerSelector({
 
   return (
     <div className={styles.appealsContainerSeletor}>
-      <div className={styles.searchContainer}>
-        <FontAwesomeIcon
-          icon={faSearch}
-          className={styles.searchIcon}
-          color='#aaa'
-        />
-        <Popup
-          isOpenPopup={isOpenSearchPopup}
-          body={<PopupBodySearch />}
-          width='337px'
-          onClick={(bool?: boolean) => {
-            if (typeof bool === 'boolean') {
-              toggleOpenSearchPopup(bool);
-            } else {
-              toggleOpenSearchPopup(true);
-            }
-          }}
-        >
-          <Input
-            type='text'
-            classNames={styles.search}
-            placeholder='Поиск по людям или сообщениям'
-            allowClear
-            onChange={updateSearchByFilter}
+      <Popup
+        isOpenPopup={isOpenSearchPopup}
+        body={<PopupBodySearch />}
+        width='337px'
+        onClick={(bool?: boolean) => {
+          if (typeof bool === 'boolean') {
+            toggleOpenSearchPopup(bool);
+          } else {
+            toggleOpenSearchPopup(true);
+          }
+        }}
+      >
+        <div className={styles.searchContainer}>
+          <FontAwesomeIcon
+            icon={faSearch}
+            className={styles.searchIcon}
+            color='#aaa'
           />
-        </Popup>
-      </div>
+            <Input
+              type='text'
+              classNames={styles.search}
+              placeholder='Поиск по людям или сообщениям'
+              allowClear
+              onChange={updateSearchByFilter}
+            />
+        </div>
+      </Popup>
       
       {
         messages && messages.length > 0 &&

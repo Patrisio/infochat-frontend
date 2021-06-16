@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 
-interface Project {
+export interface Project {
   id: number,
   name: string,
   teammatesCount: number,

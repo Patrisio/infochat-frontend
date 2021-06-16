@@ -11,7 +11,7 @@ interface IProps {
   body: React.ReactNode,
   width?: string,
   center?: boolean,
-  position?: string,
+  position?: 'top' | 'down',
   isOpenPopup?: boolean,
   onClick?: (bool?: boolean) => void,
 }

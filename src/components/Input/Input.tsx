@@ -107,7 +107,7 @@ export default function Input({
           name={name}
           className={`
             ${styles.input}
-            ${fluid ? styles.fluid : null}
+            ${fluid && styles.fluid }
             ${type === 'radio' ? styles.radioStyles : styles.notRadioStyles}
             ${errorMessage && styles.error}
             ${classNames}

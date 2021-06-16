@@ -1,0 +1,41 @@
+.projectsSelectorContainer {
+  text-align: center;
+  padding: 18.5px;
+  color: #fff;
+  font-size: 20px;
+}
+
+.dark {
+  border-bottom: 1px solid rgba(227,230,232,.1);
+  color: #fff;
+}
+
+.light {
+  border-bottom: 1px solid #e2e6e9;
+  color: #333;
+}
+
+.projectsList {
+  list-style-type: none;
+  padding: 0;
+  width: 100%;
+  font-size: 14px;
+  padding: 5px 0;
+  transition: .3s all;
+}
+
+.projectName {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 20px;
+}
+
+.projectName:hover {
+  background: #f8f9fa;
+}
+
+.projectLink {
+  text-decoration: none;
+  color: #000;
+}
