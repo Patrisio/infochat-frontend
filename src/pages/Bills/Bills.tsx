@@ -40,6 +40,7 @@ export default function Bills() {
   const bonusAccruals = location.state?.bonusAccruals;
 
   const [userPrice, updateUserPrice] = useState<number>(totalPrice || 0);
+  const [bonusValue, updatebBonusValue] = useState<number>(bonusAccruals || 0);
   const [selectedPaymentWay, setPaymentWay] = useState<string>('creditCard');
 
   const enoughMoneyDate = getEnoughMoneyDate();
@@ -67,6 +68,11 @@ export default function Bills() {
       return period !== tariffPeriod ? totalPriceForOneMonth * period : totalPrice;
     };
 
+    const updatePaymentInfo = (totalPrice: number, bonusAccruals: number) => {
+      updateUserPrice(totalPrice);
+      updatebBonusValue(bonusAccruals);
+    };
+
     const Description = ({ totalPrice, bonusAccruals }: DescriptionProps) => {
       return (
         <div className={styles.promoDescription}>
@@ -81,7 +87,7 @@ export default function Bills() {
               borderRadius: '0',
               marginLeft: '5px',
             }}
-            onClick={() => updateUserPrice(totalPrice)}
+            onClick={() => updatePaymentInfo(totalPrice, bonusAccruals)}
           >
             {totalPrice} ₽
           </Button>, а мы зачислим на счёт дополнительно
@@ -184,7 +190,7 @@ export default function Bills() {
                 classNames={styles.paymentField}
               />
               <p className={styles.enoughMoneyDate}>
-                { bonusAccruals && <span className={styles.bonus}>{`+ ${bonusAccruals} ₽ на счет`}</span> }
+                { bonusValue > 0 && <span className={styles.bonus}>{`+ ${bonusValue} ₽ на счет`}</span> }
                 { enoughMoneyDate && `— хватит до ${enoughMoneyDate}`}
               </p>
             </div>
@@ -196,7 +202,7 @@ export default function Bills() {
         <div className={styles.paymentRow}>
           <Title level='4' weight='semibold' classNames={styles.paymentRowTitle}>Способ оплаты</Title>
 
-          <div>
+          <div className={styles.paymentWaysContainer}>
             <div className={styles.paymentWaysTabs}>
               {
                 paymentWays.map(({id, name}) => {
