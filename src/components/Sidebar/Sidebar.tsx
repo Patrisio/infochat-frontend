@@ -48,16 +48,23 @@ interface SidebarProps {
 
 export default function Sidebar({ children, mode = 'dark' }: SidebarProps) {
   return (
-    <div
-      className={`
-        ${styles.sidebarContainer}
-        ${mode === 'light' ? styles.lightMode : styles.darkMode}
-      `}
-    >
-      <ProjectsSelector
-        mode={mode}
-      />
-      {children}
-    </div>
+    <>
+      <div
+        className={`
+          ${styles.sidebarContainer}
+          ${mode === 'light' ? styles.lightMode : styles.darkMode}
+        `}
+      >
+        <ProjectsSelector
+          mode={mode}
+        />
+        {children}
+      </div>
+
+      {
+        mode === 'light' &&
+        <div className={styles.sidebarClone} />
+      }
+    </>
   );
 }

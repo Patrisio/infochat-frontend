@@ -6,3 +6,11 @@ export const generateRandomHash = () => {
 
   return `${hash1}-${hash2}-${hash3}-${hash4}`;
 };
+
+export const replaceWhiteSpaceToBr = (string: string) => {
+  return string.split('\n').join('<br />');
+};
+
+export const replaceBrToWhiteSpace = (string: string) => {
+  return string.split('<br />').join('\n');
+};

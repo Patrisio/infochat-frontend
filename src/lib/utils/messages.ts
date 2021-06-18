@@ -36,6 +36,14 @@ export function getAllInboxMessages(incomingMessages: IIncomingMessage[], curren
     }
   }).length;
 
+  const closedClientIds: any = [];
+  const closedCount = incomingMessages.filter((msg) => {
+    if (msg.messagesStatus === 'closed') {
+      closedClientIds.push(msg);
+      return true;
+    }
+  }).length;
+
   const assignedClientIds: any = [];
   const assignedCount = incomingMessages.filter((msg) => {
     if (msg.assignedTo === currentUser.email) {
@@ -52,6 +60,10 @@ export function getAllInboxMessages(incomingMessages: IIncomingMessage[], curren
     opened: {
       count: openedCount,
       clientIds: openedClientIds,
+    },
+    closed: {
+      count: closedCount,
+      clientIds: closedClientIds,
     },
     assigned: {
       count: assignedCount,

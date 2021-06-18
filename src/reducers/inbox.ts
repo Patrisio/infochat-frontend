@@ -3,21 +3,27 @@ import { MESSAGES, INCOMING_MESSAGES, SELECT_CLIENT,
          SELECTED_CLIENT_UPDATE, CLIENT_DATA
         } from '../constants/inbox';
 import { TEAMMATE } from '../constants/teammates';
+import { getLastUnreadMessagesCount } from '../utils/clientData';
 
 import cloneDeep from 'lodash/cloneDeep';
 
-interface IMessagesHistory {
+export interface IMessagesHistory {
   message: string | React.ReactNode,
-  clientId: string,
-  username: string
+  username: string,
+  timestamp: number
 }
 
-interface IIncomingMessage {
+export interface IIncomingMessage {
   id: string,
   projectId: string,
   clientId: string,
   messagesHistory: IMessagesHistory[],
-  assigned_to: string | null,
+  assignedTo: string | null,
+  phone: string,
+  email: string,
+  avatarName: string,
+  avatarColor: string,
+  messagesStatus: 'unread' | 'opened' | 'closed',
 }
 
 interface Filters {
@@ -52,7 +58,12 @@ const initialState: State = {
     projectId: '',
     clientId: '',
     messagesHistory: [],
-    assigned_to: '',
+    assignedTo: '',
+    phone: '',
+    email: '',
+    avatarName: '',
+    avatarColor: '',
+    messagesStatus: 'unread',
   },
 };
 
@@ -83,6 +94,7 @@ export const inboxReducer = (state = initialState, action: any) => {
           incomingMessages: action.incomingMessage
         });
       } else {
+        console.log(action.incomingMessage, 'action.incomingMessage');
         const client = state.incomingMessages.find(incMsg => incMsg?.clientId === action.incomingMessage.clientId) as IIncomingMessage;
         const clientIndex = state.incomingMessages.findIndex(incMsg => incMsg.clientId === action.incomingMessage.clientId);
         const isNewClient = !client;
@@ -90,16 +102,17 @@ export const inboxReducer = (state = initialState, action: any) => {
         if (isNewClient) {
           return {
             ...state,
-            incomingMessages: [
-              ...state.incomingMessages,
-              action.incomingMessage
-            ]
+            incomingMessages: [action.incomingMessage].concat(state.incomingMessages),
           };
         } else {
           const incomingMessagesCopy = cloneDeep(state.incomingMessages);
-  
           client?.messagesHistory.push(...action.incomingMessage.messagesHistory);
-          incomingMessagesCopy.splice(clientIndex, 1, client);
+          if (getLastUnreadMessagesCount(client)) {
+            incomingMessagesCopy.splice(clientIndex, 1);
+            incomingMessagesCopy.unshift(client);
+          } else {
+            incomingMessagesCopy.splice(clientIndex, 1, client);
+          }
           
           return cloneDeep({
             ...state,
@@ -144,15 +157,15 @@ export const inboxReducer = (state = initialState, action: any) => {
         incomingMessages: state.incomingMessages
       });
 
-    case TEAMMATE.ASSIGN:
-      const incomingMessageIndex = state.incomingMessages.findIndex(incomingMessage => incomingMessage.clientId === action.payload.clientId);
-      state.incomingMessages[incomingMessageIndex].assigned_to = action.payload.username;
+    // case TEAMMATE.ASSIGN:
+    //   const incomingMessageIndex = state.incomingMessages.findIndex(incomingMessage => incomingMessage.clientId === action.payload.clientId);
+    //   state.incomingMessages[incomingMessageIndex].assignedTo = action.payload.username;
 
-      return {
-        ...state,
-        incomingMessages: state.incomingMessages,
-        selectedClient: cloneDeep(Object.assign(state.selectedClient, { assigned_to: action.payload.username }))
-      };
+    //   return {
+    //     ...state,
+    //     incomingMessages: state.incomingMessages,
+    //     selectedClient: cloneDeep(Object.assign(state.selectedClient, { assigned_to: action.payload.username }))
+    //   };
     
     default:
       return state;

@@ -7,7 +7,7 @@ import socket from './socket';
 import { Context } from './context/Context';
 import {
   addIncomingMessage, addIncomingMessageForSelectedClient,
-  assignTeammate, getCurrentUser
+  getCurrentUser
 } from './actions';
 
 import 'normalize.css';
@@ -17,18 +17,21 @@ export default function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    socket.on('updateAssignedToAnybody', (payload: any) => {
-      dispatch(assignTeammate({
-        username: payload.assigned_to,
-        clientId: payload.clientId
-      }));
-    });
+    console.log('HERE');
+    // socket.on('updateAssignedToAnybody', (payload: any) => {
+    //   dispatch(assignTeammate({
+    //     username: payload.assigned_to,
+    //     clientId: payload.clientId
+    //   }));
+    // });
 
     socket.on('addIncomingMessage', (message: any) => {
       console.log('PPPPPPPPPPPPPP');
       console.log(message, 'MESSAGE');
       const newClient = {
         assignedTo: '',
+        phone: '',
+        email: '',
         clientId: message.clientId,
         messagesHistory: [message.message],
         avatarName: message.avatarName,
@@ -46,7 +49,6 @@ export default function App() {
     });
 
     return () => {
-      socket.off('updateAssignedToAnybody');
       socket.off('addIncomingMessage');
     };
   }, [socket]);
@@ -59,6 +61,7 @@ export default function App() {
     username: '',
     projectId: null,
     timezone: null,
+    balance: null,
     projects: [],
   };
 
@@ -74,7 +77,7 @@ export default function App() {
       const successCallback = (currentUser: any) => {
         console.log(currentUser, 'currentUser');
         setCurrentUser(currentUser);
-        socket.emit('joinRoom', currentUser.projectId);
+        socket.emit('joinRoom', currentUser.projects[0].id);
         socket.on('msgToClient', (message: any) => {
           console.log(message);
         });

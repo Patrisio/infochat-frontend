@@ -10,7 +10,8 @@ import Popup from '../../../../components/Popup/Popup';
 import Input from '../../../../components/Input/Input';
 import Button from '../../../../components/Button/Button';
 
-import { getClientName } from '../../../../utils/clientData';
+import { IIncomingMessage, IMessagesHistory } from '../../../../reducers/inbox';
+import { getClientName, getLastUnreadMessagesCount } from '../../../../utils/clientData';
 import { updateIncomingMessage, getClientInfo, updateIncomingMessagesFilters } from '../../../../actions';
 import { Context } from '../../../../context/Context';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -18,21 +19,6 @@ import { faUserEdit, faLayerGroup, faSignOutAlt, faSearch } from '@fortawesome/f
 import moment from 'moment';
 import 'moment/locale/ru';
 
-type IMessagesHistory = {
-  message: string,
-  clientId: string,
-  username: string,
-  timestamp: number,
-};
-
-type IIncomingMessage = {
-  projectId: string,
-  clientId: string,
-  messagesHistory: IMessagesHistory[],
-  avatarName: string,
-  avatarColor: string,
-  assigned_to: string | null,
-};
 
 interface FilterVariant {
   id: string,
@@ -88,26 +74,14 @@ export default function AppealsContainerSelector({
       }));
     }
   };
-
-  const getLastUnreadMessagesCount = (incomingMessage: IIncomingMessage) => {
-    let count = 0;
-
-    for (let i = incomingMessage.messagesHistory.length - 1; i >= 0; i--) {
-      const message = incomingMessage.messagesHistory[i];
-
-      if (message.username === 'client') {
-        count++;
-      } else {
-        break;
-      }
-    }
-
-    return count;
-  };
   
   const getLastMessage = (messagesHistory: IMessagesHistory[], clientName: string) => {
     const lastMessage = messagesHistory[messagesHistory.length - 1];
-    const pureLastMessage = lastMessage.message.replace(/<[^>]*>?/gm, '');
+    let pureLastMessage;
+    const lastMessageText: any = lastMessage.message;
+    if (lastMessageText) {
+      pureLastMessage = lastMessageText.replace(/<[^>]*>?/gm, '');
+    }
     const username = lastMessage.username;
 
     return username === 'client' ? `<span class=${styles.greeting}>${clientName}:</span> ${pureLastMessage}` : `<span class=${styles.greeting}>Вы:</span> ${pureLastMessage}`;
@@ -291,84 +265,90 @@ export default function AppealsContainerSelector({
 
   return (
     <div className={styles.appealsContainerSeletor}>
-      <Popup
-        isOpenPopup={isOpenSearchPopup}
-        body={<PopupBodySearch />}
-        width='337px'
-        onClick={(bool?: boolean) => {
-          if (typeof bool === 'boolean') {
-            toggleOpenSearchPopup(bool);
-          } else {
-            toggleOpenSearchPopup(true);
-          }
-        }}
-      >
-        <div className={styles.searchContainer}>
-          <FontAwesomeIcon
-            icon={faSearch}
-            className={styles.searchIcon}
-            color='#aaa'
-          />
-            <Input
-              type='text'
-              classNames={styles.search}
-              placeholder='Поиск по людям или сообщениям'
-              allowClear
-              onChange={updateSearchByFilter}
+      <div className={styles.searchPanelContainer}>
+        <Popup
+          isOpenPopup={isOpenSearchPopup}
+          body={<PopupBodySearch />}
+          width='339px'
+          onClick={(bool?: boolean) => {
+            if (typeof bool === 'boolean') {
+              toggleOpenSearchPopup(bool);
+            } else {
+              toggleOpenSearchPopup(true);
+            }
+          }}
+        >
+          <div className={styles.searchContainer}>
+            <FontAwesomeIcon
+              icon={faSearch}
+              className={styles.searchIcon}
+              color='#aaa'
             />
-        </div>
-      </Popup>
-      
-      {
-        messages && messages.length > 0 &&
-        messages.map((incomingMessage: IIncomingMessage, idx: number) => {
-          const clientName = getClientName(incomingMessage.avatarColor, incomingMessage.avatarName);
-          const unreadMessagesCount = getLastUnreadMessagesCount(incomingMessage);
-
-          return (
-            <div
-              key={idx}
-              className={`
-                ${styles.incomingMessage}
-                ${incomingMessage.clientId === selectedClientId ? styles.selected : styles.message }
-              `}
-              onClick={() => showClientMessages(incomingMessage.clientId)}
-            >
-              <Animal
-                name={incomingMessage.avatarName}
-                color={incomingMessage.avatarColor}
-                size='26px'
+              <Input
+                type='text'
+                classNames={styles.search}
+                placeholder='Поиск по людям или сообщениям'
+                allowClear
+                onChange={updateSearchByFilter}
               />
-
-              <div className={styles.clientAndLastMessage}>
-                <div className={styles.clientName}>{ clientName }</div>
-                <div
-                  className={`
-                    ${styles.lastMessage}
-                    ${incomingMessage.clientId === selectedClientId && styles.lastMessageSelected}`
-                  }
-                  dangerouslySetInnerHTML={{__html: getLastMessage(incomingMessage.messagesHistory, clientName)}}
+          </div>
+        </Popup>
+      </div>
+      
+      <div className={styles.appealsContainer}>
+        {
+          messages && messages.length > 0 &&
+          messages.map((incomingMessage: IIncomingMessage, idx: number) => {
+            const clientName = getClientName(incomingMessage.avatarColor, incomingMessage.avatarName);
+            const unreadMessagesCount = getLastUnreadMessagesCount(incomingMessage);
+            const isUnreadMessageBlockAndNotSelected = !(incomingMessage.clientId === selectedClientId) && unreadMessagesCount > 0;
+            console.log(incomingMessage);
+            return (
+              <div
+                key={idx}
+                className={`
+                  ${styles.incomingMessage}
+                  ${incomingMessage.clientId === selectedClientId ? styles.selected : styles.message }
+                  ${isUnreadMessageBlockAndNotSelected && incomingMessage.messagesStatus === 'opened' && styles.unreadMessageBlock}
+                `}
+                onClick={() => showClientMessages(incomingMessage.clientId)}
+              >
+                <Animal
+                  name={incomingMessage.avatarName}
+                  color={incomingMessage.avatarColor}
+                  size='26px'
                 />
-              </div>
 
-              <div className={styles.countAndCreationDate}>
-                <span
-                  className={`
-                    ${styles.time}
-                    ${incomingMessage.clientId === selectedClientId && styles.timeSelected}
-                  `}
-                >
-                  { getLastMessageCreationDate(incomingMessage.messagesHistory) }
-                </span>
-                {
-                  !(incomingMessage.clientId === selectedClientId) && unreadMessagesCount > 0 &&
-                  <div className={styles.count}>{unreadMessagesCount}</div>
-                }
+                <div className={styles.clientAndLastMessage}>
+                  <div className={styles.clientName}>{ clientName }</div>
+                  <div
+                    className={`
+                      ${styles.lastMessage}
+                      ${incomingMessage.clientId === selectedClientId && styles.lastMessageSelected}`
+                    }
+                    dangerouslySetInnerHTML={{__html: getLastMessage(incomingMessage.messagesHistory, clientName)}}
+                  />
+                </div>
+
+                <div className={styles.countAndCreationDate}>
+                  <span
+                    className={`
+                      ${styles.time}
+                      ${incomingMessage.clientId === selectedClientId && styles.timeSelected}
+                    `}
+                  >
+                    { getLastMessageCreationDate(incomingMessage.messagesHistory) }
+                  </span>
+                  {
+                    isUnreadMessageBlockAndNotSelected &&
+                    <div className={styles.count}>{unreadMessagesCount}</div>
+                  }
+                </div>
               </div>
-            </div>
-          )
-        })
-      }
+            )
+          })
+        }
+      </div>
     </div>
   )
 };

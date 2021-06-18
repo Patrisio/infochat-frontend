@@ -9,13 +9,13 @@ import Sidebar from '../../../../components/Sidebar/Sidebar';
 import SidebarList from '../../../../components/Sidebar/components/SidebarList/SidebarList';
 import Avatar from '../../../../components/Avatar/Avatar';
 
-import { faInbox, faEnvelope, faEnvelopeOpen, faAt, faComments } from '@fortawesome/free-solid-svg-icons';
+import { faInbox, faEnvelope, faEnvelopeOpen, faAt, faComments, faDoorClosed } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { generateRandomHash } from '../../../../utils/string';
 import cloneDeep from 'lodash/cloneDeep';
 import {
   addIncomingMessage, addIncomingMessageForSelectedClient,
-  assignTeammate, selectClient, fetchTeammates,
+  selectClient, fetchTeammates,
   fetchIncomingMessages, fetchChannels
 } from '../../../../actions';
 import styles from './inboxSidebar.module.scss';
@@ -212,6 +212,16 @@ export default function InboxSidebar({ inboxMessages }: InboxSidebarProps) {
       openedClientIds: inboxMessages.opened.clientIds,
       onClick: () => switchDialog('opened')
     };
+    const closed = {
+      name: 'Закрытые',
+      count: inboxMessages.closed.count,
+      icon: <FontAwesomeIcon icon={faDoorClosed} />,
+      stylesList: {
+        marginLeft: '8px',
+      },
+      closedClientIds: inboxMessages.closed.clientIds,
+      onClick: () => switchDialog('closed')
+    };
     const assigned = {
       name: 'Назначенные мне',
       count: inboxMessages.assigned.count,
@@ -223,7 +233,7 @@ export default function InboxSidebar({ inboxMessages }: InboxSidebarProps) {
       onClick: () => switchDialog('assigned')
     };
 
-    const dialogs = [all, unread, opened, assigned];
+    const dialogs = [all, unread, opened, closed, assigned];
 
     return dialogs;
   };

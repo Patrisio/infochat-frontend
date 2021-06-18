@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Accordion from '../../../../components/Accordion/Accordion';
 import Animal from '../../../../components/Animal/Animal';
 import Input from '../../../../components/Input/Input';
+import Textarea from '../../../../components/Textarea/Textarea';
 import Tabs from '../../../../components/Tabs/Tabs';
 
 import {
@@ -113,17 +114,16 @@ export default function PersonInfo({ selectedClient }: IProps) {
   };
 
   useEffect(() => {
-    console.log('aaaaaaaaaa');
     const assignedTeammate = {
       value: selectedClient.assignedTo,
     };
     const generalClientData = generalInfo.reduce((acc: IGeneralInfoItem[], field: IGeneralInfoItem) => {
       if (field.field === 'phone') {
-        field.value = selectedClient.phone;
+        field.value = selectedClient.phone || '';
       }
 
       if (field.field === 'email') {
-        field.value = selectedClient.email;
+        field.value = selectedClient.email || '';
       }
       
       return acc.concat(field);
@@ -161,10 +161,9 @@ export default function PersonInfo({ selectedClient }: IProps) {
     }));
   };
 
-  const updateClientData = (e: React.SyntheticEvent) => {
-    const target = e.currentTarget;
-    const fieldValue: string | null = target.textContent;
-    const fieldName: string | null | undefined = target.parentElement?.getAttribute('data-field');
+  const updateClientData = (e: any, fieldName: string) => {
+    const target = e.target;
+    const fieldValue: string | null = target.value;
     const isDifferentFieldValues = fieldInitialValue !== fieldValue;
 
     if (fieldName && isDifferentFieldValues) {
@@ -172,6 +171,9 @@ export default function PersonInfo({ selectedClient }: IProps) {
         dispatch(updateIncomingMessage({
           clientId: selectedClient?.clientId,
           [fieldName]: fieldValue
+        }));
+        dispatch(updateSelectedClient({
+          [fieldName]: fieldValue,
         }));
       };
 
@@ -182,9 +184,9 @@ export default function PersonInfo({ selectedClient }: IProps) {
     }
   };
 
-  const saveInitialFieldValue = (e: React.SyntheticEvent) => {
-    const target = e.currentTarget;
-    fieldInitialValue = target.textContent;
+  const saveInitialFieldValue = (e: any) => {
+    const target = e.target;
+    fieldInitialValue = target.value;
   };
 
   return (
@@ -196,11 +198,16 @@ export default function PersonInfo({ selectedClient }: IProps) {
           size='60px'
         />
 
-        <div
+        <Textarea
+          classNames={styles.clientName}
+          value={getClientName(selectedClient.avatarColor, selectedClient.avatarName)}
+          onBlur={(e) => updateClientData(e, 'avatarName')}
+        />
+        {/* <div
           className={styles.clientName}
         >
           { getClientName(selectedClient.avatarColor, selectedClient.avatarName) }
-        </div>
+        </div> */}
 
         <div className={styles.blackListIcon}>
           <FontAwesomeIcon icon={faEllipsisV} color='#444' />
@@ -217,18 +224,29 @@ export default function PersonInfo({ selectedClient }: IProps) {
                 <li
                   key={idx}
                   className={styles.generalListItem}
-                  data-field={field.field}
                 >
                   <span className={styles.nameField}>{field.name}:</span>
-                  <span
-                    className={styles.valueField}
-                    contentEditable={field.isEditable}
-                    suppressContentEditableWarning={true}
-                    onBlur={updateClientData}
-                    onFocus={saveInitialFieldValue}
-                  >
-                    {field.value}
-                  </span>
+                  <Input
+                    type='text'
+                    placeholder='Добавить'
+                    value={field.value}
+                    classNames={styles.valueField}
+                    onBlur={(e) => updateClientData(e, field.field)}
+                    onFocus={() => saveInitialFieldValue}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setGeneralInfo((prev: any) => {
+                        const copy = cloneDeep(prev);
+                        const foundItem = copy.find((item: any) => item.field === field.field);
+                        const foundItemIndex = copy.findIndex((item: any) => item.field === field.field);
+
+                        foundItem.value = value;
+                        copy.splice(foundItemIndex, 1, foundItem);
+
+                        return copy;
+                      });
+                    }}
+                  />
                 </li>
               );
             })

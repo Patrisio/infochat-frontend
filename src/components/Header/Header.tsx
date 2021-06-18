@@ -18,6 +18,7 @@ export default function Header() {
 
   const { currentUser } = useContext(Context);
   const { projectId } = useParams<{projectId: string }>();
+  const balance = currentUser.balance;
 
   const switchState = (value: boolean) => {
     toggleState(value);
@@ -86,6 +87,13 @@ export default function Header() {
             </div>
           </Popup>
         </div>
+
+        {
+          balance !== null &&
+          <div className={styles.currentUserBalance}>
+            Баланс: <span className={styles.balanceValue}>{ balance } ₽</span>
+          </div>
+        }
 
         <div className={styles.switcherBlock}>
           <span className={styles.stateLabel}>{ isOnline ? 'в сети' : 'не доступен' }</span>

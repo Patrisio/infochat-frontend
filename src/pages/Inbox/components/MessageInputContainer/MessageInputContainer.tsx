@@ -4,11 +4,14 @@ import { useParams } from 'react-router';
 
 import Button from '../../../../components/Button/Button';
 import Popup from '../../../../components/Popup/Popup';
+import Textarea from '../../../../components/Textarea/Textarea';
 
 import socket from '../../../../socket';
 import styles from './messageInputContainer.module.scss';
+import { scrollToBottomOfWrapper } from '../../../../lib/utils/scroll';
+import { replaceBrToWhiteSpace, replaceWhiteSpaceToBr } from '../../../../utils/string';
 import {
-  addIncomingMessage, assignTeammate,
+  addIncomingMessage,
   addIncomingMessageForSelectedClient,
   addToInboxIncomingMessage,
   fetchTemplates, changeMessagesStatus
@@ -56,12 +59,15 @@ interface RootState {
   templates: Templates
 }
 
-export default function MessageInputContainer() {
+interface MessageInputContainerProps {
+  messagesHistoryContainerElement: HTMLDivElement | null,
+}
+
+export default function MessageInputContainer({ messagesHistoryContainerElement }: MessageInputContainerProps) {
   let { projectId, dialogType } = useParams<{ projectId: string, dialogType: string }>();
-  let pressed = new Set();
 
   const { currentUser } = useContext(Context);
-  const inputAreaRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const selectedClient = useSelector((state: RootState) => state.inbox.selectedClient);
   const templates = useSelector((state: RootState) => state.templates.templates);
@@ -70,17 +76,10 @@ export default function MessageInputContainer() {
 
   const [isOpenTemplatesPopup, toggleTemplatesPopup] = useState(false);
   const [userTemplatesInput, setUserTemplatesInput] = useState('');
-
-  const clearInputArea = (inputArea: any) => {
-    setTimeout(() => {
-      for (let i = 0; i < inputArea.children.length; i++) {
-        inputArea.children[i].remove();
-      }
-    }, 0)
-  };
+  const [inputAreaValue, setInputAreaValue] = useState('');
 
   const sendMessage = (inputArea: any) => {
-    const message = inputArea.innerHTML;
+    const message = inputArea;
     const timestamp = Date.now();
     const newMessage = {
       clientId: selectedClient.clientId,
@@ -99,8 +98,8 @@ export default function MessageInputContainer() {
 
       dispatch(addIncomingMessageForSelectedClient(newMessage));
 
-      inputArea.innerHTML = '';
-      clearInputArea(inputArea);
+      setInputAreaValue('');
+      scrollToBottomOfWrapper(messagesHistoryContainerElement);
       socket.emit('operatorMessageFromInfochat', {
         room: selectedClient.clientId,
         message: {
@@ -122,26 +121,6 @@ export default function MessageInputContainer() {
     }));
   };
 
-  const runOnKeys = (event: any, func: any) => {
-    const inputArea = event.target;
-
-    pressed.add(event.which);
-
-    if (pressed.has(16)) {
-      return;
-    }
-
-    if (pressed.has(13) && pressed.size === 1 && inputArea.textContent !== '') {
-      func(inputArea);
-    }
-    
-    pressed.clear();
-
-    document.addEventListener('keyup', function(event) {
-      pressed.delete(event.which);
-    });
-  }
-
   const appointDialog = () => {
     dispatch(changeMessagesStatus({
       messagesStatus: 'opened',
@@ -152,7 +131,7 @@ export default function MessageInputContainer() {
   };
 
   const checkForTemplates = (e: any) => {
-    const inputAreaValue = e.target.textContent;
+    const inputAreaValue = e.target.value;
     
     if (inputAreaValue.includes('/')) {
       toggleTemplatesPopup(true);
@@ -172,12 +151,25 @@ export default function MessageInputContainer() {
   };
 
   const insertTemplate = (message: string) => {
-    const inputArea = inputAreaRef.current;
+    const formattedMessage = replaceBrToWhiteSpace(message);
+    setInputAreaValue(formattedMessage);
+    if (textareaRef.current) {
+      textareaRef.current.focus();
+    }
+    toggleTemplatesPopup(false);
+  };
 
-    if (inputArea) {
-      inputArea.innerHTML = message;
-      inputArea.focus();
-      toggleTemplatesPopup(false);
+  const handleKeyPress = (e: any) => {
+    const message = e.target.value;
+    if (e.shiftKey) return;
+    if (message.indexOf('\n') === 0) {
+      setInputAreaValue('');
+      return;
+    }
+
+    const formattedMessage = replaceWhiteSpaceToBr(message);
+    if (formattedMessage && e.which === 13) {
+      sendMessage(formattedMessage)
     }
   };
 
@@ -217,21 +209,24 @@ export default function MessageInputContainer() {
     <>
       {
         isAssigned ?
-        <Popup
-          body={<Templates />}
-          width='100%'
-          isOpenPopup={isOpenTemplatesPopup}
-          position='top'
-        >
-          <div
-            ref={inputAreaRef}
-            className={styles.inputArea}
-            placeholder='Введите сообщение'
-            contentEditable
-            onKeyDown={(e) => runOnKeys(e, sendMessage)}
-            onKeyUp={(e) => checkForTemplates(e)}
-          />
-        </Popup>:
+        <div className={styles.messagesInputArea}>
+          <Popup
+            body={<Templates />}
+            width='100%'
+            isOpenPopup={isOpenTemplatesPopup}
+            position='top'
+          >
+            <Textarea
+              ref={textareaRef}
+              classNames={styles.inputArea}
+              value={inputAreaValue}
+              placeholder='Введите сообщение'
+              onKeyUp={(e) => checkForTemplates(e)}
+              onChange={(e) => setInputAreaValue(e.target.value)}
+              onKeyPress={handleKeyPress}
+            />
+          </Popup>
+        </div> :
         <div className={styles.appointedContainer}>
           <div className={styles.appointedArea}>
             <Button

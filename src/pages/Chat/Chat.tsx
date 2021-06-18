@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef, isValidElement, cloneElement } from
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 
-import OutsideClickHandler from 'react-outside-click-handler';
 import ContactField from '../../components/ContactField/ContactField';
 import Button from '../../components/Button/Button';
+import Textarea from '../../components/Textarea/Textarea';
 
 import socket from '../../socket';
 import styles from './chat.module.scss';
@@ -17,8 +17,10 @@ import { throttle } from 'lodash';
 import { getLogicalSign, getScriptCondition } from './helpers';
 import { numericSort } from '../../lib/utils/sort';
 import { getEntityIdByValue } from '../../lib/utils/entity';
+import { scrollToBottomOfWrapper } from '../../lib/utils/scroll';
 import moment from 'moment-timezone';
 import { getTimezones, getTimezoneByCode, businessHours, weekdays, isDateBetween } from '../../lib/utils/date';
+import { replaceBrToWhiteSpace, replaceWhiteSpaceToBr } from '../../utils/string';
 
 import theme1 from '../../assets/theme1-big.png';
 import theme2 from '../../assets/theme2-big.png';
@@ -60,9 +62,10 @@ export default function Chat() {
   const settings = useSelector((state: any) => state.channels.settings);
   const dispatch = useDispatch();
 
+  const [textareaValue, setTextareaValue] = useState('');
+
   let messagesHistoryRef = useRef<HTMLDivElement>(null);
   let infochatLinkRef = useRef<HTMLParagraphElement>(null);
-  let chatFieldRef = useRef<HTMLDivElement>(null);
   let variantsMessageRef = useRef<HTMLDivElement>(null);
 
   interface ParamTypes {
@@ -106,35 +109,6 @@ export default function Chat() {
       path: '',
     },
   ];
-
-  let pressed = new Set();
-
-  const scrollToBottomOfChatWindow = () => {
-    if (messagesHistoryRef.current) {
-      const mesagesHistoryContainerHeight = messagesHistoryRef.current.scrollHeight;
-      messagesHistoryRef.current && messagesHistoryRef.current.scrollBy(0, mesagesHistoryContainerHeight);
-    }
-  };
-
-  const runOnKeys = (event: any, func: any) => {
-    const inputArea = event.target;
-    pressed.add(event.which);
-
-    if (pressed.has(16)) {
-      return;
-    }
-
-    if (pressed.has(13) && pressed.size === 1 && inputArea.textContent !== '') {
-      func(inputArea);
-      scrollToBottomOfChatWindow();
-    }
-    
-    pressed.clear();
-
-    document.addEventListener('keyup', function(event) {
-      pressed.delete(event.which);
-    });
-  }
 
   const getBackgroundImageSettings = () => {
     const imagePath = backgrounds.find((bg: Background) => bg.id === settings.backgroundImage)?.path;
@@ -538,7 +512,7 @@ export default function Chat() {
   const sendMessage = (inputArea: any) => {
     const timestamp = Date.now();
 
-    const message = inputArea.innerHTML;
+    const message = inputArea;
     const newMessage = {
       username: 'client',
       message,
@@ -549,8 +523,7 @@ export default function Chat() {
 
     const successCallback = () => {
       dispatch(addMessage(newMessage));
-      inputArea.innerHTML = '';
-      clearInputArea(inputArea);
+      setTextareaValue('');
       socket.emit('chatMessage', {
         clientId,
         projectId,
@@ -572,32 +545,20 @@ export default function Chat() {
     }));
   };
 
-  const clearInputArea = (inputArea: any) => {
-    setTimeout(() => {
-      for (let i = 0; i < inputArea.children.length; i++) {
-        inputArea.children[i].remove();
-      }
-    }, 0)
+  const handleKeyPress = (e: any) => {
+    const message = e.target.value;
+    if (e.shiftKey) return;
+    if (message.indexOf('\n') === 0) {
+      setTextareaValue('');
+      return;
+    }
+
+    const formattedMessage = replaceWhiteSpaceToBr(message);
+    if (formattedMessage && e.which === 13) {
+      sendMessage(formattedMessage)
+      scrollToBottomOfWrapper(messagesHistoryRef.current);
+    }
   };
-
-  const createPlaceholder = () => {
-    const span = document.createElement('span');
-    
-    span.className = styles.placeholder;
-    span.textContent = 'Напишите нам...';
-    span.contentEditable = 'false';
-
-    return span;
-  };
-
-  const placeholderElement = () => (
-    <span
-      className={styles.placeholder}
-      contentEditable={false}
-    >
-      Напишите нам...
-    </span>
-  );
 
   return (
     <div>
@@ -646,34 +607,13 @@ export default function Chat() {
           }
         </div>
 
-        <OutsideClickHandler
-          onOutsideClick={() => {
-            const spanElement = createPlaceholder();
-            const chatField = chatFieldRef.current;
-
-            if (chatField && !chatField.textContent) {
-              chatFieldRef.current?.appendChild(spanElement);
-            }
-          }}
-        >
-          <div
-            ref={chatFieldRef}
-            className={styles.inputArea}
-            contentEditable
-            suppressContentEditableWarning={true}
-            onKeyDown={(e) => runOnKeys(e, sendMessage)}
-            onClick={() => {
-              const chatField = chatFieldRef.current;
-              const placeholder = chatField?.children[0];
-
-              if (chatField && placeholder) {
-                chatField.removeChild(placeholder);
-              }
-            }}
-          >
-            {placeholderElement()}
-          </div>
-        </OutsideClickHandler>
+        <Textarea
+          value={textareaValue}
+          classNames={styles.inputMessageArea}
+          placeholder='Напишите нам...'
+          onKeyPress={handleKeyPress}
+          onChange={(e) => setTextareaValue(e.target.value)}
+        />
       </div>
     </div>
   );

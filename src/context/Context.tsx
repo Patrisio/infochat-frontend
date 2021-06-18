@@ -14,6 +14,7 @@ interface IUser {
   username: string,
   projectId: number | null,
   timezone: string | null,
+  balance: number | null,
   projects: Project[],
 }
 
@@ -31,6 +32,7 @@ export const Context = createContext<ContextProps>({
     username: '',
     projectId: null,
     timezone: null,
+    balance: null,
     projects: [],
   },
   setCurrentUser: () => {},

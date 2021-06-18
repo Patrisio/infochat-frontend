@@ -1,7 +1,6 @@
 .sidebarContainer {
-  position: relative;
-  min-width: 270px;
-  max-width: 270px;
+  position: fixed;
+  width: 270px;
   height: 100vh;
 }
 
@@ -12,4 +11,8 @@
 .lightMode {
   background: #fafafa;
   border-right: 1px solid #e2e6e9;
+}
+
+.sidebarClone {
+  width: 270px;
 }

@@ -114,10 +114,10 @@ const deleteTeammate = (teammate: any) => ({
   teammate
 });
 
-const assignTeammate = (payload: any) => ({
-  type: TEAMMATE.ASSIGN,
-  payload
-});
+// const assignTeammate = (payload: any) => ({
+//   type: TEAMMATE.ASSIGN,
+//   payload
+// });
 
 const updateTeammate = (payload: any) => ({
   type: TEAMMATE.UPDATE,
@@ -229,7 +229,7 @@ export {
   fetchTeammates,
   addTeammate,
   deleteTeammate,
-  assignTeammate,
+  // assignTeammate,
   updateTeammate,
 
   fetchTemplates,

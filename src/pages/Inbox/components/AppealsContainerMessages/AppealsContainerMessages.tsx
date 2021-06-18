@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './appealsContainerMessages.module.scss';
 import MessageInputContainer from '../MessageInputContainer/MessageInputContainer';
@@ -8,7 +8,7 @@ import Modal from '../../../../components/Modal/Modal';
 import { Context } from '../../../../context/Context';
 import socket from '../../../../socket';
 import { useParams } from 'react-router';
-import { assignTeammate, selectClient, changeMessagesStatus } from '../../../../actions';
+import { selectClient, changeMessagesStatus } from '../../../../actions';
 import { getClientName } from '../../../../utils/clientData';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArchive } from '@fortawesome/free-solid-svg-icons'
@@ -54,6 +54,7 @@ export default function AppealsContainerMessages() {
   const incomingMessages = useSelector((state: RootState) => state.inbox.incomingMessages);
   const dispatch = useDispatch();
   let { projectId } = useParams<{ projectId: string }>();
+  const messagesHistoryContainerRef = useRef<HTMLDivElement>(null);
 
   const isDisabled = () => !incomingMessages.find((incMsg: IClient) => incMsg.clientId === selectedClient.clientId)?.assignedTo;
 
@@ -137,7 +138,10 @@ export default function AppealsContainerMessages() {
           </div>
         </div>
 
-        <div className={styles.messagesHistoryContainer}>
+        <div
+          className={styles.messagesHistoryContainer}
+          ref={messagesHistoryContainerRef}
+        >
           {
             selectedClient.messagesHistory.map((message, idx) => {
               return (
@@ -149,7 +153,9 @@ export default function AppealsContainerMessages() {
             })
           }
         </div>
-        <MessageInputContainer />
+        <MessageInputContainer
+          messagesHistoryContainerElement={messagesHistoryContainerRef.current}
+        />
       </div>
 
       <Modal
