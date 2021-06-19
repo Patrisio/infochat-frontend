@@ -145,6 +145,7 @@ export default function Chat() {
         };
 
         dispatch(updateClientData({
+          updatedBy: 'client',
           projectId,
           clientId,
           [field]: fieldValue,

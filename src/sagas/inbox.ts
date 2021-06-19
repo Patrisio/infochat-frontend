@@ -1,8 +1,9 @@
 import { call, put, takeEvery, all, StrictEffect } from 'redux-saga/effects';
+import { getClientInfo } from '../actions';
 import {
   getTeammates, incomingMessagesFetch,
   selectedClientUpdate, messageToInboxAdd, selectedClientInfoGet,
-  messagesStatusUpdate,
+  messagesStatusUpdate, noteAdd, noteDelete
 } from '../api/dataLayer';
 
 function* fetchIncomingMessages(action: any): Generator<StrictEffect> {
@@ -88,7 +89,6 @@ function* addMessageToInbox(action: any): Generator<StrictEffect> {
 function* getSelectedClientInfo(action: any): Generator<StrictEffect> {
   try {
     const successCallback = action.payload.successCallback;
-    console.log(action.payload);
     const clientInfo = yield call(selectedClientInfoGet, action.payload);
 
     if (successCallback) {
@@ -97,6 +97,30 @@ function* getSelectedClientInfo(action: any): Generator<StrictEffect> {
   } catch (e) {
     yield put({
       type: 'GET_SELECTED_CLIENT_INFO_FAILED',
+      message: e.message,
+    });
+  }
+}
+
+function* addNote(action: any): Generator<StrictEffect> {
+  try {
+    console.log(action.payload);
+    yield call(noteAdd, action.payload);
+  } catch (e) {
+    yield put({
+      type: 'ADD_NOTE_FAILED',
+      message: e.message,
+    });
+  }
+}
+
+function* deleteNote(action: any): Generator<StrictEffect> {
+  try {
+    console.log(action.payload);
+    yield call(noteDelete, action.payload);
+  } catch (e) {
+    yield put({
+      type: 'DELETE_NOTE_FAILED',
       message: e.message,
     });
   }
@@ -122,10 +146,20 @@ function* watchUpdateMessagesStatus(): Generator<StrictEffect> {
   yield takeEvery('CHANGE_MESSAGES_STATUS', changeMessagesStatus);
 }
 
+function* watchAddNote(): Generator<StrictEffect> {
+  yield takeEvery('ADD_NOTE', addNote);
+}
+
+function* watchDeleteNote(): Generator<StrictEffect> {
+  yield takeEvery('DELETE_NOTE', deleteNote);
+}
+
 export default [
   watchFetchMessagesHistoryByProject(),,
   watchUpdateSelectedClient(),
   watchAddMessageToInbox(),
   watchGetInfoForSelectedClient(),
   watchUpdateMessagesStatus(),
+  watchAddNote(),
+  watchDeleteNote(),
 ];

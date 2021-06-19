@@ -49,6 +49,8 @@ async function loadRoutes(): Promise<{[key: string]: string}> {
     api_get_messages_history_by_project_id: '/inbox/project/[*:projectId]/getMessagesHistoryByProject',
     api_get_client_info: '/inbox/project/[*:projectId]/client/[*:clientId]/getClientInfo',
     api_get_channels: '/inbox/project/[*:projectId]/getChannels',
+    api_add_note: '/inbox/client/[*:clientId]/addNote',
+    api_delete_note: '/inbox/client/[*:clientId]/deleteNote',
     api_add_channel: '/inbox/project/[*:projectId]/addChannel',
     api_add_message: '/inbox/addMessage',
 

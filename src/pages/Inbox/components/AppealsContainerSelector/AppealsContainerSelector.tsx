@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import styles from './appealsContainerSelector.module.scss';
-import { selectClient } from '../../../../actions';
 import cloneDeep from 'lodash/cloneDeep';
 
 import Animal from '../../../../components/Animal/Animal';
@@ -12,7 +11,10 @@ import Button from '../../../../components/Button/Button';
 
 import { IIncomingMessage, IMessagesHistory } from '../../../../reducers/inbox';
 import { getClientName, getLastUnreadMessagesCount } from '../../../../utils/clientData';
-import { updateIncomingMessage, getClientInfo, updateIncomingMessagesFilters } from '../../../../actions';
+import {
+  updateIncomingMessage, getClientInfo, updateIncomingMessagesFilters,
+  updateSelectedClient, selectClient
+} from '../../../../actions';
 import { Context } from '../../../../context/Context';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserEdit, faLayerGroup, faSignOutAlt, faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -65,6 +67,10 @@ export default function AppealsContainerSelector({
         dispatch(updateIncomingMessage({ clientId }));
         const selectedClient: IIncomingMessage | undefined = incomingMessages.find(message => message.clientId === clientId);
         dispatch(selectClient(cloneDeep(selectedClient)));
+        dispatch(updateSelectedClient({
+          changesHistory: clientInfo.changesHistory,
+          notes: clientInfo.notes,
+        }));
       };
 
       dispatch(getClientInfo({

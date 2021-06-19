@@ -55,7 +55,7 @@ export const YEAR = 12;
 export const DEFAULT_TIME_ZONE: string = 'Europe/Moscow';
 export const USER_TIME_ZONE: string = moment.tz.guess(true);
 
-export function getMomentDate(date?: string | Moment) {
+export function getMomentDate(date?: string | number | Moment) {
   return date ? moment(date) : moment();
 }
 
@@ -73,6 +73,10 @@ export function addMonthsToDate(date: string | Moment, monthsCount: number) {
 
 export function formatDateWithUserTimezoneToCustomDateFormat(date: string | Moment, format: string) {
 	return getDateWithUserTimezone(date).format(format);
+}
+
+export function formatDateToCustomDate(date: string | number | Moment, format: string) {
+	return getMomentDate(date).format(format);
 }
 
 export const weekdays: Weekdays[] = [

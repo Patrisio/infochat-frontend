@@ -17,6 +17,7 @@ import AppealsContainerMessages from './components/AppealsContainerMessages/Appe
 import PersonInfo from './components/PersonInfo/PersonInfo';
 import InboxSidebar from './components/InboxSidebar/InboxSidebar';
 
+import { State } from '../../reducers/inbox';
 import styles from './inbox.module.scss';
 import man from '../../assets/man.png';
 import { getAllInboxMessages } from '../../lib/utils/messages';
@@ -29,18 +30,18 @@ interface IMessagesHistory {
 
 type MessagesStatus = 'unread' | 'assigned' | 'opened' | 'closed';
 
-interface IIncomingMessage {
-  id: string,
-  projectId: string,
-  clientId: string,
-  messagesHistory: IMessagesHistory[],
-  assigned_to: string | null,
-  avatarName: string,
-  avatarColor: string,
-  email: string,
-  phone: string,
-  messagesStatus: MessagesStatus,
-}
+// interface IIncomingMessage {
+//   id: string,
+//   projectId: string,
+//   clientId: string,
+//   messagesHistory: IMessagesHistory[],
+//   assigned_to: string | null,
+//   avatarName: string,
+//   avatarColor: string,
+//   email: string,
+//   phone: string,
+//   messagesStatus: MessagesStatus,
+// }
 
 interface InboxProps {
   messagesCount?: number,
@@ -76,14 +77,14 @@ interface IMessagesHistory {
   username: string
 }
 
-interface IIncomingMessage {
-  id: string,
-  projectId: string,
-  clientId: string,
-  messagesHistory: IMessagesHistory[],
-  assigned_to: string | null,
-  assignedTo: string | null
-}
+// interface IIncomingMessage {
+//   id: string,
+//   projectId: string,
+//   clientId: string,
+//   messagesHistory: IMessagesHistory[],
+//   assigned_to: string | null,
+//   assignedTo: string | null
+// }
 
 interface Filters {
   searchBy: {
@@ -95,12 +96,7 @@ interface Filters {
 }
 
 interface RootState {
-  inbox: {
-    filters: Filters,
-    messages: IMessagesHistory[],
-    incomingMessages: IIncomingMessage[],
-    selectedClient: IIncomingMessage,
-  },
+  inbox: State
   teammates: {
     teammates: Teammate[],
   },
@@ -116,7 +112,7 @@ interface Channel {
 
 interface Dialog {
   count: number,
-  clientIds: IIncomingMessage[]
+  clientIds: State['incomingMessages']
 }
 
 export default function Inbox() {

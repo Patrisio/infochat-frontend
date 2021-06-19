@@ -2,7 +2,7 @@ import {
   MESSAGES, INCOMING_MESSAGES, SELECT_CLIENT,
   INCOMING_MESSAGES_FOR_SELECTED_CLIENT,
   SELECTED_CLIENT_UPDATE, ASSIGNED_USER, CLIENT_DATA,
-  SELECTED_CLIENT_GET_INFO
+  SELECTED_CLIENT_GET_INFO, NOTE
 } from '../constants/inbox';
 import { TEAMMATE } from '../constants/teammates';
 import { CHANNELS, CHANNEL, CHAT } from '../constants/channels';
@@ -154,6 +154,16 @@ const addChannel = (payload: any) => ({
   payload
 });
 
+const addNote = (payload: any) => ({
+  type: NOTE.ADD,
+  payload,
+});
+
+const deleteNote = (payload: any) => ({
+  type: NOTE.DELETE,
+  payload,
+});
+
 const updateChannelSettings = (payload: any) => ({
   type: CHANNELS.UPDATE_SETTINGS,
   payload
@@ -218,6 +228,8 @@ export {
   getClientInfo,
   changeMessagesStatus,
   updateIncomingMessagesFilters,
+  addNote,
+  deleteNote,
 
   fetchChannels,
   fetchChatSettings,

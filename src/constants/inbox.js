@@ -32,3 +32,8 @@ export const CLIENT_DATA = {
 export const SELECTED_CLIENT_UPDATE = 'SELECTED_CLIENT_UPDATE';
 
 export const SELECTED_CLIENT_GET_INFO = 'SELECTED_CLIENT_GET_INFO';
+
+export const NOTE = {
+  ADD: 'ADD_NOTE',
+  DELETE: 'DELETE_NOTE',
+};

@@ -25,3 +25,16 @@ export const getLastUnreadMessagesCount = (incomingMessage: IIncomingMessage) =>
 
   return count;
 };
+
+export function getChangeInFieldValue(fieldName: string) {
+  switch (fieldName) {
+    case 'avatarName':
+      return 'имя';
+    case 'phone':
+      return 'телефон';
+    case 'email':
+      return 'email';
+    default:
+      return 'неизвестное значение';
+  }
+}

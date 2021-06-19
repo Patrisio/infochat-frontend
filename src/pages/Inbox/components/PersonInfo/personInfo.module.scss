@@ -2,10 +2,10 @@
   padding: 0 10px;
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
   background: #f8f8f8;
   overflow-y: auto;
   height: calc(100vh - 62px);
+  width: 310px;
 }
 
 .personGeneralInfo {
@@ -78,4 +78,10 @@
   &:hover {
     background: #f0f0f0;
   }
+}
+
+.butonsGroup {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
 }

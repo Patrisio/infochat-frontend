@@ -1,0 +1,29 @@
+.modificationContainer {
+  font-size: 13px;
+}
+
+.modificationContainer:not(:last-child) {
+  margin-bottom: 40px;
+}
+
+.changeInFieldValue {
+  color: #6e6e6e;
+  margin-bottom: 10px;
+}
+
+.changeField:not(:last-child) {
+  margin-bottom: 5px;
+} 
+
+.label {
+  font-weight: 600;
+}
+
+.labelAfter {
+  margin-left: 5px;
+}
+
+.date {
+  display: inline-block;
+  margin-top: 10px;
+}

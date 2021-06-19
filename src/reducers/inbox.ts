@@ -13,6 +13,20 @@ export interface IMessagesHistory {
   timestamp: number
 }
 
+export interface ModificationInterface {
+  before: string | null,
+  after: string,
+  changeInFieldValue: string,
+  timestamp: number,
+}
+
+export interface Note {
+  id: number,
+  madeBy: string,
+  text: string,
+  timestamp: number,
+}
+
 export interface IIncomingMessage {
   id: string,
   projectId: string,
@@ -26,6 +40,11 @@ export interface IIncomingMessage {
   messagesStatus: 'unread' | 'opened' | 'closed',
 }
 
+export interface SelectedClient extends IIncomingMessage {
+  notes: Note[],
+  changesHistory: ModificationInterface[],
+}
+
 interface Filters {
   searchBy: {
     value: string,
@@ -35,11 +54,11 @@ interface Filters {
   assigned: string,
 }
 
-interface State {
+export interface State {
   filters: Filters,
   messages: IMessagesHistory[],
   incomingMessages: IIncomingMessage[],
-  selectedClient: IIncomingMessage,
+  selectedClient: SelectedClient,
 }
 
 const initialState: State = {
@@ -64,6 +83,8 @@ const initialState: State = {
     avatarName: '',
     avatarColor: '',
     messagesStatus: 'unread',
+    notes: [],
+    changesHistory: [],
   },
 };
 

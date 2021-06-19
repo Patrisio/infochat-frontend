@@ -187,3 +187,13 @@ export async function tariffPlanUpdate(payload: any) {
   const { projectId, ...tariffPlan } = payload;
   return await requestApiPost('api_update_tariff_plan', tariffPlan, { projectId });
 }
+
+export async function noteAdd(payload: any) {
+  const { successCallback, clientId, ...noteData } = payload;
+  return await requestApiPost('api_add_note', noteData, { clientId }, successCallback);
+}
+
+export async function noteDelete(payload: any) {
+  const { successCallback, ...noteData } = payload;
+  return await requestApiPost('api_delete_note', noteData, {}, successCallback);
+}

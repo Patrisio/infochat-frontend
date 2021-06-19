@@ -1,0 +1,35 @@
+.noteContainer {
+  font-size: 14px;
+  margin-top: 20px;
+
+  &:hover .date {
+    display: none
+  }
+
+  &:hover .deleteIcon {
+    display: block
+  }
+}
+
+.noteHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.avatarNameContainer {
+  display: flex;
+}
+
+.teammateName {
+  font-weight: 500;
+}
+
+.date {
+  color: #b5b5b5;
+}
+
+.deleteIcon {
+  display: none;
+  cursor: pointer;
+}

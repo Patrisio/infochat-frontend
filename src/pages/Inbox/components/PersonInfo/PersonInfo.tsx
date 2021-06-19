@@ -1,24 +1,28 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
+import cloneDeep from 'lodash/cloneDeep';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 
 import Accordion from '../../../../components/Accordion/Accordion';
 import Animal from '../../../../components/Animal/Animal';
 import Input from '../../../../components/Input/Input';
 import Textarea from '../../../../components/Textarea/Textarea';
 import Tabs from '../../../../components/Tabs/Tabs';
+import Button from '../../../../components/Button/Button';
+import Note from '../Note/Note';
+import Modification from '../Modification/Modification';
 
 import {
   updateIncomingMessage, updateSelectedClient, changeMessagesStatus,
-  updateClientData as updateClientDataAction
+  updateClientData as updateClientDataAction, addNote, deleteNote
 } from '../../../../actions';
 import { Context } from '../../../../context/Context';
-
+import { SelectedClient } from '../../../../reducers/inbox';
 import styles from './personInfo.module.scss';
-import { getClientName } from '../../../../utils/clientData';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
-import cloneDeep from 'lodash/cloneDeep';
+import { getClientName, getChangeInFieldValue } from '../../../../utils/clientData';
+import { notStrictEqual } from 'assert';
 
 interface IMessagesHistory {
   message: string,
@@ -70,7 +74,7 @@ interface ITeammate {
 }
 
 interface IProps {
-  selectedClient: IIncomingMessage
+  selectedClient: SelectedClient,
 }
 
 interface IGeneralInfoItem {
@@ -98,6 +102,7 @@ export default function PersonInfo({ selectedClient }: IProps) {
   let fieldInitialValue: string | null = '';
   const [assignedTeammates, setAssignedTeammate] = useState<ITeammate[]>([]);
   const [generalInfo, setGeneralInfo] = useState<IGeneralInfoItem[]>(defaultGeneralInfo);
+  const [noteText, setNoteText] = useState<string>('');
   const teammates = useSelector((state: RootState) => state.teammates.teammates);
   const incomingMessages = useSelector((state: RootState) => state.inbox.incomingMessages);
   const dispatch = useDispatch();
@@ -178,7 +183,9 @@ export default function PersonInfo({ selectedClient }: IProps) {
       };
 
       dispatch(updateClientDataAction(Object.assign(clientData, {
+        updatedBy: 'operator',
         [fieldName]: fieldValue,
+        changeInFieldValue: getChangeInFieldValue(fieldName),
         successCallback,
       })));
     }
@@ -187,6 +194,40 @@ export default function PersonInfo({ selectedClient }: IProps) {
   const saveInitialFieldValue = (e: any) => {
     const target = e.target;
     fieldInitialValue = target.value;
+  };
+
+  const makeNote = () => {
+    if (noteText) {
+      const noteData = {
+        text: noteText,
+        madeBy: currentUser.username,
+      };
+      const addNewNote = ({ id, timestamp }: { id: number, timestamp: number }) => {
+        dispatch(updateSelectedClient({
+          notes: selectedClient.notes.concat({
+            id,
+            ...noteData,
+            timestamp,
+          })
+        }));
+        setNoteText('');
+      };
+
+      dispatch(addNote({
+        ...noteData,
+        clientId: selectedClient.clientId,
+        successCallback: addNewNote
+      }));
+    }
+  };
+
+  const removeNote = (id: number) => {
+    dispatch(deleteNote({
+      id,
+      successCallback: () => dispatch(updateSelectedClient({
+        notes: selectedClient.notes.filter((note) => note.id !== id),
+      }))
+    }));
   };
 
   return (
@@ -275,9 +316,78 @@ export default function PersonInfo({ selectedClient }: IProps) {
       </Accordion>
 
       <Accordion
+        title='Заметки'
+      >
+        <Textarea
+          placeholder='Сделайте запись'
+          value={noteText}
+          onChange={(e) => setNoteText(e.target.value)}
+        />
+
+        <div className={styles.butonsGroup}>
+          <Button
+            type='button'
+            stylesList={{
+              padding: '7px 25px',
+              fontSize: '13px',
+              flexBasis: '50%',
+              marginRight: '15px',
+            }}
+            onClick={makeNote}
+          >
+            Создать
+          </Button>
+          <Button
+            type='button'
+            background='edit'
+            stylesList={{
+              padding: '7px 25px',
+              fontSize: '13px',
+              flexBasis: '50%',
+            }}
+          >
+            Отмена
+          </Button>
+        </div>
+
+        <>
+          {
+            selectedClient.notes &&
+            selectedClient.notes.map(({ id, madeBy, text, timestamp }) => {
+              return (
+                <Note
+                  key={id}
+                  id={id}
+                  madeBy={madeBy}
+                  text={text}
+                  timestamp={timestamp}
+                  removeNote={removeNote}
+                />
+              );
+            })
+          }
+        </>
+      </Accordion>
+
+      <Accordion
         title='История изменений'
       >
-
+        <>
+          {
+            selectedClient.changesHistory &&
+            selectedClient.changesHistory.map(({ before, after, changeInFieldValue, timestamp }, idx) => {
+              return (
+                <Modification
+                  key={idx}
+                  before={before}
+                  after={after}
+                  changeInFieldValue={changeInFieldValue}
+                  timestamp={timestamp}
+                />
+              )
+            })
+          }
+        </>
       </Accordion>
     </div>
   );
