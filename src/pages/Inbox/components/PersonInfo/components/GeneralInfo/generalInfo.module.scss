@@ -1,0 +1,35 @@
+.generalList {
+  padding: 0;
+  list-style-type: none;
+  margin: 0;
+}
+
+.generalListItem {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 10px;
+}
+
+.nameField {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.valueField {
+  margin-left: 5px;
+  transition: .2s;
+  outline: none;
+  flex-grow: 1;
+  padding: 10px 0;
+  border: none;
+  height: 16px;
+  font-size: 14px;
+
+  &:hover {
+    background: #f0f0f0;
+  }
+
+  &:focus {
+    border: none;
+  }
+}

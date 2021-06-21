@@ -54,6 +54,11 @@ interface RootState {
   teammates: any
 }
 
+interface AccordionHeader {
+  imageSrc: string,
+  label: string,
+}
+
 export default function Channels() {
   const [isModalAddChannelShow, setStateModal] = useState(false);
   // const [connectedChannels, setConnectedChannels] = useState<Channel[]>([]);

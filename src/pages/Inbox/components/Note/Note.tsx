@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import Avatar from '../../../../components/Avatar/Avatar';
+import { ModalProps } from '../../../../components/Modal/Modal';
 
 import { formatDateToCustomDate } from '../../../../lib/utils/date';
 import styles from './note.module.scss';
@@ -13,10 +14,16 @@ interface NoteProps {
   madeBy: string,
   text: string,
   timestamp: number,
-  removeNote: (id: number) => void,
+  confirmRemoveNote: (id: number, text: string) => void,
 }
 
-export default function Note({ id, madeBy, text, timestamp, removeNote }: NoteProps) {
+export default function Note({
+  id,
+  madeBy,
+  text,
+  timestamp,
+  confirmRemoveNote
+}: NoteProps) {
   return (
     <div className={styles.noteContainer}>
       <div className={styles.noteHeader}>
@@ -33,7 +40,7 @@ export default function Note({ id, madeBy, text, timestamp, removeNote }: NotePr
         </div>
         <div
           className={styles.deleteIcon}
-          onClick={() => removeNote(id)}
+          onClick={() => confirmRemoveNote(id, text)}
         >
           <FontAwesomeIcon
             icon={faTimes}

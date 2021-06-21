@@ -4,7 +4,7 @@ import styles from './modal.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
-interface Props {
+export interface ModalProps {
   show: boolean,
   onClose: () => void,
   title?: string,
@@ -15,7 +15,7 @@ interface Props {
   position?: 'center' | 'top',
 }
 
-export default function Modal({ show, onClose, title, body, footer, width, height, position = 'center' }: Props) {
+export default function Modal({ show, onClose, title, body, footer, width, height, position = 'center' }: ModalProps) {
   const closeModal = () => {
     onClose();
   };

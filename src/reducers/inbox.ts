@@ -28,7 +28,8 @@ export interface Note {
 }
 
 export interface IIncomingMessage {
-  id: string,
+  [key: string]: string | IMessagesHistory[] | null | Note[] | ModificationInterface[],
+  
   projectId: string,
   clientId: string,
   messagesHistory: IMessagesHistory[],

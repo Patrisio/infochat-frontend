@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router';
@@ -11,6 +11,7 @@ import {
 import Header from '../../components/Header/Header';
 import Spin from '../../components/Spin/Spin';
 import Button from '../../components/Button/Button';
+import Modal, { ModalProps } from '../../components//Modal/Modal';
 
 import AppealsContainerSelector from './components/AppealsContainerSelector/AppealsContainerSelector';
 import AppealsContainerMessages from './components/AppealsContainerMessages/AppealsContainerMessages';
@@ -26,26 +27,6 @@ interface IMessagesHistory {
   message: string,
   clientId: string,
   username: string
-}
-
-type MessagesStatus = 'unread' | 'assigned' | 'opened' | 'closed';
-
-// interface IIncomingMessage {
-//   id: string,
-//   projectId: string,
-//   clientId: string,
-//   messagesHistory: IMessagesHistory[],
-//   assigned_to: string | null,
-//   avatarName: string,
-//   avatarColor: string,
-//   email: string,
-//   phone: string,
-//   messagesStatus: MessagesStatus,
-// }
-
-interface InboxProps {
-  messagesCount?: number,
-  clientIds: string[]
 }
 
 interface IClient {
@@ -77,24 +58,6 @@ interface IMessagesHistory {
   username: string
 }
 
-// interface IIncomingMessage {
-//   id: string,
-//   projectId: string,
-//   clientId: string,
-//   messagesHistory: IMessagesHistory[],
-//   assigned_to: string | null,
-//   assignedTo: string | null
-// }
-
-interface Filters {
-  searchBy: {
-    value: string,
-    tag: string,
-  },
-  channel: string,
-  assigned: string,
-}
-
 interface RootState {
   inbox: State
   teammates: {
@@ -110,11 +73,6 @@ interface Channel {
   name: string,
 }
 
-interface Dialog {
-  count: number,
-  clientIds: State['incomingMessages']
-}
-
 export default function Inbox() {
   let { projectId, dialogType } = useParams<{ projectId: string, dialogType: string }>();
   const { currentUser } = useContext<any>(Context);
@@ -124,6 +82,16 @@ export default function Inbox() {
   const filters = useSelector((state: RootState) => state.inbox.filters);
   const teammates = useSelector((state: RootState) => state.teammates.teammates);
   const { channels, fetching } = useSelector((state: RootState) => state.channels);
+
+  const [currentModal, setModalProps] = useState<ModalProps>({
+    show: false,
+    title: '',
+    body: null,
+    footer: null,
+    onClose: () => setModalProps(Object.assign(currentModal, { show: false })),
+    width: '',
+    height: '',
+  });
 
   const dispatch = useDispatch();
   let history = useHistory();
@@ -217,14 +185,25 @@ export default function Inbox() {
                   <p className={styles.notSelectedClientIdNotice}>Пожалуйста, выберите диалог, чтобы начать общение</p>
                 </div> :
                 <>
-                  <AppealsContainerMessages />
-                  <PersonInfo selectedClient={selectedClient} />
+                  <AppealsContainerMessages
+                    closeModal={currentModal.onClose}
+                    setModalProps={setModalProps}
+                  />
+                  <PersonInfo
+                    selectedClient={selectedClient}
+                    closeModal={currentModal.onClose}
+                    setModalProps={setModalProps}
+                  />
                 </>
               }
             </div>
           }
         </div>
       </div>
+
+      <Modal
+        {...currentModal}
+      />
     </div>
   );
 }

@@ -2,6 +2,24 @@
   background:  #fff;
   box-shadow: 0 2px 3px 0 rgb(0 0 0 / 6%);
   border-radius: 8px;
+
+  .panelLabelBlock {
+    display: flex;
+    align-items: center;
+  }
+  
+  .icon {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+  }
+  
+  .panel__label {
+    & .arrow {
+      display: flex;
+      align-items: center;
+    }
+  }
 	
 	&__label {
     position: relative;
@@ -26,11 +44,6 @@
 		
 		&:focus {
       outline: none;
-    }
-
-    & .arrow {
-      display: flex;
-      align-items: center;
     }
 		
 		// &:after,
@@ -86,15 +99,4 @@
 	&:not(:last-child) {
     margin-bottom: 10px;
   }
-}
-
-.panelLabelBlock {
-  display: flex;
-  align-items: center;
-}
-
-.icon {
-  display: flex;
-  align-items: center;
-  margin-right: 15px;
 }

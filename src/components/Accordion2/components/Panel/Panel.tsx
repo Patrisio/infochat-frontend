@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import styles from './panel.module.scss';
 
 import arrowRight from '../../../../assets/arrow-right.svg';
+import styles from './panel.module.scss';
 
 interface Props {
   imageSrc: string,
@@ -12,7 +12,7 @@ interface Props {
   activateTab: () => void,
 }
 
-export default function Panel({ imageSrc, label, content, activeTab, index, activateTab }: Props) {
+export default function Panel({ label, imageSrc, content, activeTab, index, activateTab }: Props) {
   const [height, setHeight] = useState(0);
   const panelContentRef = useRef<HTMLDivElement>(null);
 

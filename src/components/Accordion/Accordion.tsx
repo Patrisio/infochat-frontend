@@ -1,30 +1,29 @@
-import React, { useState } from 'react';
-import styles from './accordion.module.scss';
+import React from 'react';
 
-interface IProps {
+import Panel from './components/Panel/Panel';
+
+interface Panel {
   title: string,
-  children: React.ReactNode
+  count: number | undefined | null,
+  content: React.ReactElement,
 }
 
-export default function Accordion({ title, children }: IProps) {
-  const [isOpened, toggleOpen] = useState(true);
+interface AccordionProps {
+  panels: Panel[],
+}
 
+export default function Accordion({ panels }: AccordionProps) {
   return (
-    <div className={styles.accordion}>
-      <div
-        onClick={() => toggleOpen(prev => !prev)}
-        className={styles.accordionHeader}
-      >
-        <p className={styles.accordionTitle}>
-          { title }
-        </p>
-      </div>
-
+    <div>
       {
-        isOpened &&
-        <div className={styles.accordionBody}>
-          { children }
-        </div>
+        panels.map(({ title, content, count }, idx) => (
+          <Panel
+            key={idx}
+            title={title}
+            content={content}
+            count={count}
+          />
+        ))
       }
     </div>
   );

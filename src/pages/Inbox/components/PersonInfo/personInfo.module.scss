@@ -13,13 +13,7 @@
   align-items: flex-start;
   justify-content: space-between;
   color: #444;
-  padding: 20px;
-  max-width: 269px;
-}
-
-.checkTeammateInput {
-  height: 35px;
-  margin-bottom: 0;
+  padding: 20px 10px;
 }
 
 .clientName {
@@ -40,7 +34,7 @@
 .blackListIcon {
   margin-top: 3px;
   cursor: pointer;
-  width: 30px;
+  min-width: 30px;
   height: 30px;
   display: flex;
   align-items: center;
@@ -51,37 +45,4 @@
   &:hover {
     background: #f0f0f0;
   }
-}
-
-.generalList {
-  padding: 0;
-  list-style-type: none;
-}
-
-.generalListItem {
-  display: flex;
-  align-items: baseline;
-  margin-bottom: 10px;
-}
-
-.nameField {
-  font-weight: 500;
-}
-
-.valueField {
-  margin-left: 5px;
-  padding: 3px 0;
-  transition: .2s;
-  outline: none;
-  flex-grow: 1;
-
-  &:hover {
-    background: #f0f0f0;
-  }
-}
-
-.butonsGroup {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 15px;
 }

@@ -1,7 +1,7 @@
 import { TEAMMATES, TEAMMATE } from '../constants/teammates';
 import cloneDeep from 'lodash/cloneDeep';
 
-interface Teammate {
+export interface Teammate {
   avatar: string,
   email: string,
   role: string,
@@ -9,11 +9,11 @@ interface Teammate {
   username: string,
 }
 
-interface State {
+export interface TeammatesState {
   teammates: Teammate[],
 }
 
-const initialState: State = {
+const initialState: TeammatesState = {
   teammates: [],
 };
 

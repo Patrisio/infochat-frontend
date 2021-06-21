@@ -1,17 +1,17 @@
-import React, { useState, useContext, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import styles from './appealsContainerMessages.module.scss';
-import MessageInputContainer from '../MessageInputContainer/MessageInputContainer';
-import Button from '../../../../components/Button/Button';
-import MessageInner from '../MessageInner/MessageInner';
-import Modal from '../../../../components/Modal/Modal';
-import { Context } from '../../../../context/Context';
-import socket from '../../../../socket';
 import { useParams } from 'react-router';
-import { selectClient, changeMessagesStatus } from '../../../../actions';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArchive } from '@fortawesome/free-solid-svg-icons';
+
+import Button from '../../../../components/Button/Button';
+import { ModalProps } from '../../../../components/Modal/Modal';
+import MessageInner from '../MessageInner/MessageInner';
+import MessageInputContainer from '../MessageInputContainer/MessageInputContainer';
+
+import styles from './appealsContainerMessages.module.scss';
+import { changeMessagesStatus } from '../../../../actions';
 import { getClientName } from '../../../../utils/clientData';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArchive } from '@fortawesome/free-solid-svg-icons'
 
 type IMessagesHistory = {
   message: string,
@@ -45,11 +45,11 @@ interface RootState {
 }
 
 interface AppealsContainerMessagesProps {
-  clientIds: string[]
+  closeModal: ModalProps['onClose'],
+  setModalProps: (data: ModalProps) => void,
 }
 
-export default function AppealsContainerMessages() {
-  const [isDeleteAppealModalVisible, setModalState] = useState(false);
+export default function AppealsContainerMessages({ closeModal, setModalProps }: AppealsContainerMessagesProps) {
   const selectedClient = useSelector((state: RootState) => state.inbox.selectedClient);
   const incomingMessages = useSelector((state: RootState) => state.inbox.incomingMessages);
   const dispatch = useDispatch();
@@ -73,11 +73,15 @@ export default function AppealsContainerMessages() {
   };
 
   const archiveDialog = () => {
-    setModalState(true);
-  };
-
-  const closeModal = () => {
-    setModalState(false);
+    setModalProps({
+      show: true,
+      title: 'Удалить обращение?',
+      body: <ModalBody />,
+      footer: <ModalFooter />,
+      width: '500px',
+      position: 'top',
+      onClose: closeModal,
+    });
   };
 
   const ModalBody = () => <p className={styles.modalBody}>Вы действительно хотите удалить обращение?</p>;
@@ -89,7 +93,7 @@ export default function AppealsContainerMessages() {
           type='button'
           stylesList={{ marginRight: '10px', ...buttonStyles }}
           background='edit'
-          onClick={closeModal}
+          onClick={() => closeModal()}
         >
           Отмена
         </Button>
@@ -106,67 +110,55 @@ export default function AppealsContainerMessages() {
   };
 
   return (
-    <>
-      <div className={styles.converasationChatContainer}>
-        <div className={styles.dialogHeader}>
-          <div>
-            <p className={styles.clientName}>{ getClientName(selectedClient.avatarColor, selectedClient.avatarName) }</p>
-          </div>
-
-          <div
-            onClick={archiveDialog}
-            className={styles.archiveIconContainer}
-          >
-            <FontAwesomeIcon icon={faArchive} className={styles.iconArchive}/>
-          </div>
-
-          <div className={styles.buttonContainer}>
-            <Button
-              type='button'
-              fluid
-              background='edit'
-              stylesList={{
-                color: '#0a86f9',
-                fontSize: '13px',
-                padding: '6px 0'
-              }}
-              onClick={closeDialog}
-              disabled={isDisabled()}
-            >
-              Закрыть диалог
-            </Button>
-          </div>
+    <div className={styles.converasationChatContainer}>
+      <div className={styles.dialogHeader}>
+        <div>
+          <p className={styles.clientName}>{ getClientName(selectedClient.avatarColor, selectedClient.avatarName) }</p>
         </div>
 
         <div
-          className={styles.messagesHistoryContainer}
-          ref={messagesHistoryContainerRef}
+          onClick={archiveDialog}
+          className={styles.archiveIconContainer}
         >
-          {
-            selectedClient.messagesHistory.map((message, idx) => {
-              return (
-                <MessageInner
-                  key={idx}
-                  message={message}
-                />
-              );
-            })
-          }
+          <FontAwesomeIcon icon={faArchive} className={styles.iconArchive}/>
         </div>
-        <MessageInputContainer
-          messagesHistoryContainerElement={messagesHistoryContainerRef.current}
-        />
+
+        <div className={styles.buttonContainer}>
+          <Button
+            type='button'
+            fluid
+            background='edit'
+            stylesList={{
+              color: '#0a86f9',
+              fontSize: '13px',
+              padding: '6px 0'
+            }}
+            onClick={closeDialog}
+            disabled={isDisabled()}
+          >
+            Закрыть диалог
+          </Button>
+        </div>
       </div>
 
-      <Modal
-        show={isDeleteAppealModalVisible}
-        onClose={() => setModalState(false)}
-        title='Удалить обращение?'
-        body={<ModalBody />}
-        footer={<ModalFooter />}
-        width='500px'
-        position='top'
+      <div
+        className={styles.messagesHistoryContainer}
+        ref={messagesHistoryContainerRef}
+      >
+        {
+          selectedClient.messagesHistory.map((message, idx) => {
+            return (
+              <MessageInner
+                key={idx}
+                message={message}
+              />
+            );
+          })
+        }
+      </div>
+      <MessageInputContainer
+        messagesHistoryContainerElement={messagesHistoryContainerRef.current}
       />
-    </>
+    </div>
   );
 }

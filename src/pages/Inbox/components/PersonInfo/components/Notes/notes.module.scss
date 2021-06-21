@@ -1,0 +1,21 @@
+.butonsGroup {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.modalBody {
+  padding: 20px;
+  font-size: 14px;
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 15px 20px;
+}
+
+.noteText {
+  font-weight: 500;
+  line-height: 1.36;
+}
