@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import Button from '../../../../components/Button/Button';
 import Popup from '../../../../components/Popup/Popup';
@@ -14,7 +15,7 @@ import {
   addIncomingMessage,
   addIncomingMessageForSelectedClient,
   addToInboxIncomingMessage,
-  fetchTemplates, changeMessagesStatus
+  fetchTemplates, changeMessagesStatus, updateSelectedClient
 } from '../../../../actions';
 import { Context } from '../../../../context/Context';
 
@@ -205,6 +206,14 @@ export default function MessageInputContainer({ messagesHistoryContainerElement 
     dispatch(fetchTemplates({ projectId }));
   }, []);
 
+  useEffect(() => {
+    const textAreaElement = textareaRef.current;
+
+    if (textAreaElement) {
+      textAreaElement.focus();
+    }
+  }, [selectedClient]);
+
   return (
     <>
       {
@@ -220,7 +229,7 @@ export default function MessageInputContainer({ messagesHistoryContainerElement 
               ref={textareaRef}
               classNames={styles.inputArea}
               value={inputAreaValue}
-              placeholder='Введите сообщение'
+              placeholder='Введите символ /, чтобы использовать быстрые ответы'
               onKeyUp={(e) => checkForTemplates(e)}
               onChange={(e) => setInputAreaValue(e.target.value)}
               onKeyPress={handleKeyPress}
@@ -229,17 +238,13 @@ export default function MessageInputContainer({ messagesHistoryContainerElement 
         </div> :
         <div className={styles.appointedContainer}>
           <div className={styles.appointedArea}>
-            <Button
-              type='button'
-              fluid
-              background='success'
+            <Link
+              to={`/project/${projectId}/inbox/opened`}
               onClick={appointDialog}
-              stylesList={{
-                padding: '7px 5px',
-              }}
+              className={styles.appointDialogLink}
             >
               Взять в работу
-            </Button>
+            </Link>
 
             <p className={styles.appointedNotice}>Диалог будет закреплен за вами</p>
           </div>

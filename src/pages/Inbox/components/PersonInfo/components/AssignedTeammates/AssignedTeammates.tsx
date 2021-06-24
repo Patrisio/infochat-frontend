@@ -11,7 +11,7 @@ import { State } from '../../../../../../reducers/inbox';
 import { changeMessagesStatus } from '../../../../../../actions';
 
 interface ITeammate {
-  id?: string,
+  id?: string | '' |  null,
   icon?: string,
   value: string | '' |  null,
 }
@@ -42,7 +42,14 @@ export default function AssignedTeammates({ selectedClient }: AssignedTeammatesP
       assignedTo: teammate.id,
       messagesStatus: 'opened',
     }));
-    setAssignedTeammate((prev) => prev.concat(teammate));
+
+    console.log(teammate.id);
+    const teammateName = teammates.find((user: Teammate) => user.email === teammate.id).username;
+    console.log(teammateName, 'teammateName');
+    setAssignedTeammate((prev) => prev.concat({
+      id: teammate.id,
+      value: teammateName,
+    }));
   };
 
   const removeAssignedTeammate = (teammate: ITeammate) => {
@@ -57,11 +64,13 @@ export default function AssignedTeammates({ selectedClient }: AssignedTeammatesP
   };
 
   useEffect(() => {
+    const teammateName = teammates.find((user: Teammate) => user.email === selectedClient.assignedTo)?.username;
     const assignedTeammate = {
-      value: selectedClient.assignedTo,
+      id: selectedClient.assignedTo,
+      value: teammateName,
     };
 
-    setAssignedTeammate([assignedTeammate].filter(item => item.value !== '' && item.value !== null));
+    setAssignedTeammate([assignedTeammate].filter(item => item.id));
   }, [selectedClient.clientId]);
 
   return (

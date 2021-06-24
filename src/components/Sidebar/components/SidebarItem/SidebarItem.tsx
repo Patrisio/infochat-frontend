@@ -17,7 +17,7 @@ interface Item {
   onClick?: () => void
 }
 
-export default function SidebarList({ name, count, icon, onClick, stylesList, mode = 'dark' }: IProps ) {
+export default function SidebarItem({ name, count, icon, onClick, stylesList, mode = 'dark' }: IProps ) {
   const setActiveSidebarItem = (e: any) => {
     const target = e.currentTarget;
     const sidebarItems = document.getElementsByClassName(styles.listItem);

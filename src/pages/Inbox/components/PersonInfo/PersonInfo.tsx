@@ -2,16 +2,18 @@ import React from 'react';
 import { useParams } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisV, faUserLock } from '@fortawesome/free-solid-svg-icons';
 
 import Accordion from '../../../../components/Accordion/Accordion';
 import Animal from '../../../../components/Animal/Animal';
 import Textarea from '../../../../components/Textarea/Textarea';
+import Popup from '../../../../components/Popup/Popup';
 
 import ChangesHistory from './components/ChangesHistory/ChangesHistory';
 import Notes from './components/Notes/Notes';
 import GeneralInfo from './components/GeneralInfo/GeneralInfo';
 import AssignedTeammates from './components/AssignedTeammates/AssignedTeammates';
+import ClientPreview from './components/ClientPreview/ClientPreview';
 import { ModalProps } from '../../../../components/Modal/Modal';
 
 import {
@@ -81,6 +83,7 @@ export default function PersonInfo({ selectedClient, closeModal, setModalProps }
     {
       title: 'Основное',
       count: null,
+      isVisible: true,
       content: (
         <GeneralInfo
           selectedClient={selectedClient}
@@ -91,11 +94,13 @@ export default function PersonInfo({ selectedClient, closeModal, setModalProps }
     {
       title: 'Назначить на',
       count: null,
+      isVisible: true,
       content: <AssignedTeammates selectedClient={selectedClient} />,
     },
     {
       title: 'Заметки',
       count: selectedClient.notes && selectedClient.notes.length,
+      isVisible: true,
       content: (
         <Notes
           selectedClient={selectedClient}
@@ -107,31 +112,17 @@ export default function PersonInfo({ selectedClient, closeModal, setModalProps }
     {
       title: 'История изменений',
       count: selectedClient.changesHistory && selectedClient.changesHistory.length,
+      isVisible: selectedClient.changesHistory && selectedClient.changesHistory.length > 0,
       content: <ChangesHistory selectedClient={selectedClient} />,
     },
   ];
 
   return (
     <div className={styles.personInfoContainer}>
-      <div className={styles.personGeneralInfo}>
-        <div>
-          <Animal
-            name={selectedClient.avatarName}
-            color={selectedClient.avatarColor}
-            size='60px'
-          />
-        </div>
-
-        <Textarea
-          classNames={styles.clientName}
-          value={getClientName(selectedClient.avatarColor, selectedClient.avatarName)}
-          onBlur={(e) => updateClientData(e, 'avatarName')}
-        />
-
-        <div className={styles.blackListIcon}>
-          <FontAwesomeIcon icon={faEllipsisV} color='#444' />
-        </div>
-      </div>
+      <ClientPreview
+        selectedClient={selectedClient}
+        updateClientData={updateClientData}
+      />
 
       <Accordion
         panels={panels}

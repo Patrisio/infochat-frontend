@@ -41,6 +41,10 @@ function* changeMessagesStatus(action: any): Generator<StrictEffect> {
         assignedTo,
       }
     });
+    yield put({
+      type: 'SELECTED_CLIENT_UPDATE',
+      payload: { assignedTo },
+    });
 
     if (successCallback) {
       yield successCallback();

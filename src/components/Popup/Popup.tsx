@@ -11,7 +11,7 @@ interface IProps {
   body: React.ReactNode,
   width?: string,
   center?: boolean,
-  position?: 'top' | 'down',
+  position?: 'top' | 'down' | 'downRight',
   isOpenPopup?: boolean,
   onClick?: (bool?: boolean) => void,
 }
@@ -26,6 +26,17 @@ export default function Popup({
   onClick
 }: IProps) {
   const [isOpen, toggle] = useState(Boolean(isOpenPopup));
+
+  const getPositionStyles = () => {
+    switch (position) {
+      case 'top':
+        return styles.top;
+      case 'downRight':
+        return styles.downRight;
+      default: 
+        return styles.down;
+    }
+  };
 
   useEffect(() => {
     toggle(Boolean(isOpenPopup));
@@ -58,7 +69,7 @@ export default function Popup({
             className={`
               ${styles.popup}
               ${center && styles.center}
-              ${position === 'top' ? styles.top : styles.down}
+              ${getPositionStyles()}
             `}
             style={{
               width

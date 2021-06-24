@@ -88,7 +88,7 @@ export default function GeneralInfo({ selectedClient, updateClientData }: Genera
                 classNames={styles.valueField}
                 onBlur={(e) => updateClientData(e, field.field)}
                 onFocus={() => saveInitialFieldValue}
-                onChange={(e) => changeField(e.targe.value, field)}
+                onChange={(e) => changeField(e.target.value, field)}
               />
             </li>
           );

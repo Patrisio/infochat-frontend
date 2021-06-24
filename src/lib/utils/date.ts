@@ -55,6 +55,29 @@ export const YEAR = 12;
 export const DEFAULT_TIME_ZONE: string = 'Europe/Moscow';
 export const USER_TIME_ZONE: string = moment.tz.guess(true);
 
+export const datePresets = [
+	{
+		id: 'today',
+		name: 'Сегодня',
+	},
+	{
+		id: 'yesterday',
+		name: 'Вчера',
+	},
+	{
+		id: 'week',
+		name: '7 дней',
+	},
+	{
+		id: 'month',
+		name: '30 дней',
+	},
+	{
+		id: 'all',
+		name: 'Все время',
+	},
+];
+
 export function getMomentDate(date?: string | number | Moment) {
   return date ? moment(date) : moment();
 }
@@ -77,6 +100,18 @@ export function formatDateWithUserTimezoneToCustomDateFormat(date: string | Mome
 
 export function formatDateToCustomDate(date: string | number | Moment, format: string) {
 	return getMomentDate(date).format(format);
+}
+
+export function getYesterday() {
+	return getMomentDate().subtract(1, 'days');
+};
+
+export function getWeekPeriod() {
+	return getMomentDate().subtract(7, 'days');
+}
+
+export function getMonthPeriod() {
+	return getMomentDate().subtract(30, 'days');
 }
 
 export const weekdays: Weekdays[] = [
