@@ -5,6 +5,8 @@ import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { Location } from 'history';
 
+import useForm from '../../hooks/useForm';
+
 import Title from '../../components/Typography/Title/Title';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
@@ -16,6 +18,8 @@ import EditableUserForm from '../../modules/EditableUserForm/EditableUserForm';
 import styles from './teammates.module.scss';
 import { generateRandomHash } from '../../utils/string';
 import { addTeammate, deleteTeammate, fetchTeammates } from '../../actions';
+import validateForm from './validateForm';
+import { values } from 'lodash';
 
 interface Teammate {
   id: string,
@@ -49,23 +53,23 @@ export default function Teammates() {
   
   const dispatch = useDispatch();
 
-  const inviteTeammate = (e: React.SyntheticEvent) => {
-    e.preventDefault();
-
-    const target = e.target as typeof e.target & {
-      email: { value: string },
-    };
-    const email = target.email.value;
-
+  const inviteTeammate = (values: any) => {
     dispatch(addTeammate({
       id: generateRandomHash(),
-      email,
+      email: values.email,
       projectId,
       role: 'operator',
       status: 'pending',
-      username: email.charAt(0).toUpperCase()
+      username: values.email.charAt(0).toUpperCase()
     }));
+    setFormValues({});
   };
+
+  const { handleChange, handleSubmit, setFormValues, values, errors } = useForm(
+    { email: '' },
+    validateForm,
+    inviteTeammate,
+  );
 
   const getRole = (role: string) => {
     return role === 'owner' ? 'Владелец' : 'Оператор';
@@ -189,10 +193,9 @@ export default function Teammates() {
   return (
     <div className={styles.teammateContainer}>
       <Title level='1' weight='bold'>Сотрудники</Title>
-
       <form
         method='POST'
-        onSubmit={inviteTeammate}
+        onSubmit={handleSubmit}
         className={styles.inviteTeammateContainer}
       >
         <Input
@@ -200,6 +203,9 @@ export default function Teammates() {
           placeholder='Чтобы пригласить нового сотрудника, введите его email'
           width={'550px'}
           name='email'
+          value={values.email}
+          errorMessage={errors.email}
+          onChange={handleChange}
         />
         <Button
           type='submit'

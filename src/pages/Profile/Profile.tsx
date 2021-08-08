@@ -27,17 +27,18 @@ export default function Profile() {
     password: 'fakePassword123',
     name: '',
     surname: '',
-    timezone: currentUser.timezonee || USER_TIME_ZONE,
+    timezone: currentUser.timezone || USER_TIME_ZONE,
   });
 
   const inboxMessages = getAllInboxMessages(incomingMessages, currentUser);
 
-  const saveData = () => {
-    const { name, surname, ...restFormData } = formData;
+  const saveData = (data: any) => {
+    const { name, surname, ...restFormData } = data;
     const username = `${name} ${surname}`;
 
     dispatch(updateTeammate({
       ...restFormData,
+      timezone: formData.timezone,
       username,
       oldEmail: currentUser.email,
       projectId,
@@ -45,7 +46,8 @@ export default function Profile() {
         return {
           ...prev,
           username,
-          ...restFormData
+          timezone: formData.timezone,
+          ...restFormData,
         };
       }),
     }));
@@ -79,7 +81,6 @@ export default function Profile() {
 
   useEffect(() => {
     const [name, surname] = currentUser.username.split(' ');
-
     setFormData({
       email: currentUser.email,
       password: 'fakePassword123',

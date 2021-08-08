@@ -1,26 +1,21 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { authSignIn } from '../../actions';
+
+import useForm from '../../hooks/useForm';
+
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
+
+import { authSignIn } from '../../actions';
 import styles from './SignInPage.module.scss';
+import validateForm from './validateForm';
 
 export default function SignUpPage()  {
   const dispatch = useDispatch();
 
-  const signInUser = (e: React.SyntheticEvent) => {
-    e.preventDefault();
-
-    const target = e.target as typeof e.target & {
-      email: { value: string },
-      password: { value: string };
-    };
-
-    const email = target.email.value;
-    const password = target.password.value;
+  const signInUser = (values: any) => {
     const successCallback = (data: any) => {
-      console.log(data);
       if (localStorage.getItem('token')) {
         localStorage.removeItem('token');
       }
@@ -30,18 +25,26 @@ export default function SignUpPage()  {
     };
 
     dispatch(authSignIn({
-      email,
-      password,
+      ...values,
       successCallback,
     }));
   };
+
+  const { handleChange, handleSubmit, errors } = useForm(
+    {
+      email: '',
+      password: '',
+    },
+    validateForm,
+    signInUser
+  );
 
   return (
     <div className={styles.formWrapper}>
       <form
         className={styles.form}
         method='POST'
-        onSubmit={signInUser}
+        onSubmit={handleSubmit}
       >
         <h1 className={styles.h1}>Войдите в свой аккаунт</h1>
         <Input
@@ -49,12 +52,16 @@ export default function SignUpPage()  {
           type='email'
           name='email'
           fluid
+          onChange={handleChange}
+          errorMessage={errors.email}
         />
         <Input
           placeholder='Пароль'
           type='password'
           name='password'
           fluid
+          onChange={handleChange}
+          errorMessage={errors.password}
         />
         <Button
           type='submit'

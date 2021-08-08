@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, cloneElement } from 'react';
 import styles from './modal.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,14 +8,18 @@ export interface ModalProps {
   show: boolean,
   onClose: () => void,
   title?: string,
-  body: React.ReactNode | null,
-  footer?: React.ReactNode | null,
+  body: React.ReactElement | null,
+  footer?: React.ReactElement | null,
   width?: string,
   height?: string,
+  errors?: any,
   position?: 'center' | 'top',
 }
 
-export default function Modal({ show, onClose, title, body, footer, width, height, position = 'center' }: ModalProps) {
+export default function Modal({
+  show, onClose, title, body, footer,
+  width, height, errors, position = 'center'
+}: ModalProps) {
   const closeModal = () => {
     onClose();
   };
@@ -45,7 +49,7 @@ export default function Modal({ show, onClose, title, body, footer, width, heigh
           </div>
 
           <div className={styles.modalBody}>
-            { body }
+            { body && cloneElement(body, { errors }) }
           </div>
 
           {

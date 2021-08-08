@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Location } from 'history';
 
 import Router from './router/router';
 import socket from './socket';
@@ -17,17 +16,7 @@ export default function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log('HERE');
-    // socket.on('updateAssignedToAnybody', (payload: any) => {
-    //   dispatch(assignTeammate({
-    //     username: payload.assigned_to,
-    //     clientId: payload.clientId
-    //   }));
-    // });
-
     socket.on('addIncomingMessage', (message: any) => {
-      console.log('PPPPPPPPPPPPPP');
-      console.log(message, 'MESSAGE');
       const newClient = {
         assignedTo: '',
         phone: '',

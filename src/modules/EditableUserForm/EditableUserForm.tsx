@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import CSS from 'csstype';
 
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 
+import useForm from '../../hooks/useForm';
+
+import { Context } from '../../context/Context';
 import styles from './editableUserForm.module.scss';
-import { skipPartiallyEmittedExpressions } from 'typescript';
+import validateForm from './validateForm';
 
 interface EditableUserFormProps {
   setFormData?: (cb: any) => void,
-  saveData?: () => void,
+  saveData?: (formData: any) => void,
   body?: React.ReactNode,
   footer?: React.ReactNode,
   email: string,
@@ -34,14 +37,26 @@ export default function EditableUserForm({
 }: EditableUserFormProps) {
   const [isEditableEmail, toggleEditableEmail] = useState(false);
   const [isEditablePassword, toggleEditablePassword] = useState(false);
-  const [errors, setErrors] = useState({
-    email: '',
-    confirmEmail: '',
-    password: '',
-    confirmPassword: '',
-    name: '',
-    surname: '',
-  });
+
+  const { currentUser } = useContext<any>(Context);
+  const [userName, userSurname] = currentUser.username.split(' ');
+
+  const { handleChange, handleSubmit, values, errors, setFormValues } = useForm(
+    {
+      email,
+      confirmEmail: '',
+      password,
+      confirmPassword: '',
+      name: name ? name : userName,
+      surname: surname ? surname : userSurname,
+    },
+    validateForm,
+    saveData,
+    {
+      isEditableEmail,
+      isEditablePassword,
+    },
+  );
 
   const addonAfterStyle: CSS.Properties = {
     position: 'absolute',
@@ -58,88 +73,23 @@ export default function EditableUserForm({
     toggleEditablePassword(true);
   };
 
-  const executeConditionByFieldName = (fieldName: string, confirmFieldValue: string) => {
-    const setErrorForEmailOrPassword = (fieldValue: string) => {
-      const areFieldsValuesEqual = fieldValue === confirmFieldValue;
-      const errorMessage = areFieldsValuesEqual ? 
-        '' : `Не совпадает с введённым новым ${fieldName === 'confirmEmail' ? 'email' : 'паролем'}`;
-
-      setErrors((prev) => {
-        return {
-          ...prev,
-          [fieldName]: errorMessage,
-        };
-      });
-    };
-
-    const setErrorForUsername = (fieldValue: string) => {
-      if (fieldValue.length === 0) {
-        const errorMessage = fieldName === 'name' ? 'Заполните поле для имени' : 'Заполните поле для фамилии';
-
-        setErrors((prev) => {
-          return {
-            ...prev,
-            [fieldName]: errorMessage,
-          }
-        });
-        return;
-      }
-
-      setErrors((prev) => {
-        return {
-          ...prev,
-          [fieldName]: '',
-        }
-      });
-    };
-
-    switch (fieldName) {
-      case 'confirmEmail':
-        setErrorForEmailOrPassword(email);
-        break;
-      case 'confirmPassword':
-        setErrorForEmailOrPassword(password);
-        break;
-      case 'name':
-        setErrorForUsername(name);
-        break;
-      case 'surname':
-        setErrorForUsername(surname);
-        break;
-    }
-  };
-
-  const validateFieldsByValue = (e: any, fieldName: string) => {
-    const fieldValue = e.target.value;
-    executeConditionByFieldName(fieldName, fieldValue);
-  };
-
-  const changeFieldValue = (e: any, fieldName: string) => {
-    setFormData &&
-    setFormData((prev: any) => {
-      return {
-        ...prev,
-        [fieldName]: e.target.value,
-      };
+  useEffect(() => {
+    setFormValues({
+      email,
+      confirmEmail: '',
+      password,
+      confirmPassword: '',
+      name: name ? name : userName,
+      surname: surname ? surname : userSurname,
     });
-  };
-
-  const validatePasswordLength = (e: any) => {
-    const password = e.target.value;
-
-    setErrors((prev) => {
-      return {
-        ...prev,
-        password: password.length < 6 ? 'Пароль должен содержать не менее 6 символов' : '',
-      }
-    });
-  };
+  }, [email]);
 
   return (
-    <div>
+    <form onSubmit={handleSubmit} noValidate>
       <div className={styles.modalBody}>
         <Input
           type='email'
+          name='email'
           value={email}
           placeholder='Новый email'
           disabled={!isEditableEmail}
@@ -155,17 +105,19 @@ export default function EditableUserForm({
               Изменить email
             </Button>
           }
-          onChange={(e: any) => changeFieldValue(e, 'email')}
+          onChange={handleChange}
           classNames={styles.field}
+          errorMessage={errors.email}
         />
         {
           isEditableEmail &&
           <Input
             type='email'
+            name='confirmEmail'
             placeholder='Подтвердите email'
             fluid
             errorMessage={errors.confirmEmail}
-            onBlur={(e: any) => validateFieldsByValue(e, 'confirmEmail')}
+            onChange={handleChange}
             classNames={styles.field}
           />
         }
@@ -173,11 +125,11 @@ export default function EditableUserForm({
         <Input
           type='password'
           value={password}
+          name='password'
           placeholder='Новый пароль'
           disabled={!isEditablePassword}
           fluid
-          onBlur={validatePasswordLength}
-          onChange={(e: any) => changeFieldValue(e, 'password')}
+          onChange={handleChange}
           errorMessage={errors.password}
           addonAfter={
             !isEditablePassword &&
@@ -196,10 +148,11 @@ export default function EditableUserForm({
           isEditablePassword &&
           <Input
             type='password'
+            name='confirmPassword'
             placeholder='Подтвердите пароль'
             fluid
             errorMessage={errors.confirmPassword}
-            onBlur={(e: any) => validateFieldsByValue(e, 'confirmPassword')}
+            onChange={handleChange}
             classNames={styles.field}
           />
         }
@@ -207,9 +160,9 @@ export default function EditableUserForm({
         <Input
           type='text'
           value={name}
+          name='name'
           placeholder='Имя'
-          onChange={(e: any) => changeFieldValue(e, 'name')}
-          onBlur={(e: any) => validateFieldsByValue(e, 'name')}
+          onChange={handleChange}
           errorMessage={errors.name}
           fluid
           classNames={styles.field}
@@ -218,9 +171,9 @@ export default function EditableUserForm({
         <Input
           type='text'
           value={surname}
+          name='surname'
           placeholder='Фамилия'
-          onChange={(e: any) => changeFieldValue(e, 'surname')}
-          onBlur={(e: any) => validateFieldsByValue(e, 'surname')}
+          onChange={handleChange}
           errorMessage={errors.surname}
           fluid
           classNames={`${styles.field}`}
@@ -231,8 +184,7 @@ export default function EditableUserForm({
 
       <div className={styles.modalFooter}>
         <Button
-          type='button'
-          onClick={saveData}
+          type='submit'
           stylesList={{ marginBottom: '15px' }}
           fluid
         >
@@ -241,6 +193,6 @@ export default function EditableUserForm({
 
         { footer }
       </div>
-    </div>
+    </form>
   );
 }

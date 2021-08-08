@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 
+import useForm from '../../hooks/useForm';
+
 import Table from '../../components/Table/Table';
 import Title from '../../components/Typography/Title/Title';
 import Button from '../../components/Button/Button';
@@ -13,15 +15,17 @@ import { addTemplate, editTemplate, deleteTemplate, fetchTemplates } from '../..
 import styles from './templates.module.scss';
 import cloneDeep from 'lodash/cloneDeep';
 import { generateRandomHash } from '../../utils/string';
+import validateForm from './validateForm';
 
 interface ModalProps {
   show: boolean,
   title: string,
-  body: React.ReactNode | null,
-  footer: React.ReactNode | null,
+  body: React.ReactElement | null,
+  footer: React.ReactElement | null,
   onClose: () => void,
   width: string,
   height?: string,
+  errors?: any,
 }
 
 interface Template {
@@ -40,6 +44,7 @@ interface ModalBodyProps {
   id?: string,
   name?: string,
   message?: string,
+  errors?: { name: string, message: string }
   children?: React.ReactNode,
 }
 
@@ -63,6 +68,15 @@ export default function Templates() {
   let { projectId } = useParams<{ projectId: string }>();
   const dispatch = useDispatch();
 
+  const makeTemplate = (template: any) => {
+    dispatch(addTemplate({
+      id: generateRandomHash(),
+      ...template
+    }, projectId));
+    
+    currentModal.onClose();
+  };
+
   const columns = [
     {
       key: 'name',
@@ -85,8 +99,7 @@ export default function Templates() {
                 <ModalBody>
                   <div className={styles.modalField}>
                     <Button
-                      type='button'
-                      onClick={makeTemplate}
+                      type='submit'
                       fluid
                     >
                       Создать
@@ -140,8 +153,7 @@ export default function Templates() {
                 <ModalBody>
                   <div className={styles.modalField}>
                     <Button
-                      type='button'
-                      onClick={makeTemplate}
+                      type='submit'
                       fluid
                     >
                       Создать
@@ -183,8 +195,7 @@ export default function Templates() {
                 >
                   <div className={styles.modalField}>
                     <Button
-                      type='button'
-                      onClick={() => changeTemplate(data.id)}
+                      type='submit'
                       fluid
                     >
                       Изменить
@@ -216,21 +227,8 @@ export default function Templates() {
     },
   ];
 
-  const makeTemplate = () => {
-    dispatch(addTemplate({
-      id: generateRandomHash(),
-      ...template
-    }, projectId));
-    
-    currentModal.onClose();
-  };
-
-  const changeTemplate = (id: string) => {
-    setTemplate(prev => {
-      dispatch(editTemplate({ id, ...prev }, projectId));
-      return prev;
-    });
-    
+  const changeTemplate = (id: string, values: any) => {
+    dispatch(editTemplate({ id, ...values }, projectId));
     currentModal.onClose();
   };
 
@@ -240,36 +238,52 @@ export default function Templates() {
   };
 
   const ModalBody = ({ id, name, message, children }: ModalBodyProps) => {
+    const { handleChange, handleSubmit, values, errors } = useForm(
+      {
+        name: '',
+        message: '',
+      },
+      validateForm,
+      id ? (values: any) => changeTemplate(id, values) : makeTemplate,
+    );
+    
     const formattedMessage = message?.split('<br />').join('\n')
     
     return (
-      <div
+      <form
+        method='POST'
         className={styles.modalBody}
+        onSubmit={handleSubmit}
       >
         <div className={styles.modalField}>
           <Input
             type='text'
             placeholder='Название шаблона'
             fluid
+            name='name'
             value={name}
-            onChange={(e) => setTemplate(prev => Object.assign(prev, { name: e.target.value }))}
+            errorMessage={errors?.name}
+            onChange={handleChange}//(e) => setTemplate(prev => Object.assign(prev, { name: e.target.value }))}
           />
         </div>
 
         <div className={styles.modalField}>
           <Textarea
             placeholder='Текст сообщения'
+            name='message'
             classNames={styles.textarea}
             value={formattedMessage}
-            onChange={(e) => {
-              const message = e.target.value.split('\n').join('<br />');
-              setTemplate(prev => Object.assign(prev, { message }));
-            }}
+            errorMessage={errors?.message}
+            onChange={(e) => handleChange(e, 'textarea')}
+            // (e) => {
+            //   const message = e.target.value.split('\n').join('<br />');
+            //   setTemplate(prev => Object.assign(prev, { message }));
+            // }}
           />
         </div>
 
         { children }
-      </div>
+      </form>
     );
   };
 
@@ -288,6 +302,7 @@ export default function Templates() {
 
       <Modal
         {...currentModal}
+        // errors={errors}
       />
     </div>
   );

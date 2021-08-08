@@ -1,31 +1,20 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { authSignIn, authSignUp } from '../../actions';
+
+import useForm from '../../hooks/useForm';
+
+import { authSignUp } from '../../actions';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
+
 import styles from './SignUpPage.module.scss';
-import { Context } from '../../context/Context';
+import validateForm from './validateForm';
 
 export default function SignUpPage()  {
-  const { currentUser } = useContext(Context);
   const dispatch = useDispatch();
-  currentUser.email = 'hellO@mail.ru';
 
-  const signUpUser = async (e: React.SyntheticEvent) => {
-    e.preventDefault();
-
-    const target = e.target as typeof e.target & {
-      username: { value: string },
-      email: { value: string },
-      phone: { value: string },
-      password: { value: string },
-    };
-
-    const username = target.username.value;
-    const email = target.email.value;
-    const phone = target.phone.value;
-    const password = target.password.value;
+  const signUpUser = async (values: any) => {
     const successCallback = (data: {
       accessToken: string,
       projectId: string,
@@ -39,21 +28,29 @@ export default function SignUpPage()  {
     };
 
     dispatch(authSignUp({
-      username,
-      email,
-      phone,
-      password,
+      ...values,
       role: 'owner',
       status: 'active',
       successCallback,
     }));
   };
 
+  const { handleChange, handleSubmit, errors } = useForm(
+    {
+      username: '',
+      phone: '',
+      email: '',
+      password: '',
+    },
+    validateForm,
+    signUpUser
+  );
+
   return (
     <div className={styles.formWrapper}>
       <form
         method='POST'
-        onSubmit={signUpUser}
+        onSubmit={handleSubmit}
         className={styles.form}
       >
         <h1 className={styles.h1}>Регистрация в InfoChat</h1>
@@ -62,24 +59,32 @@ export default function SignUpPage()  {
           type='text'
           name='username'
           fluid
+          onChange={handleChange}
+          errorMessage={errors.username}
         />
         <Input
           placeholder='Телефон'
           type='phone'
           name='phone'
           fluid
+          onChange={handleChange}
+          errorMessage={errors.phone}
         />
         <Input
           placeholder='E-mail'
           type='email'
           name='email'
           fluid
+          onChange={handleChange}
+          errorMessage={errors.email}
         />
         <Input
           placeholder='Пароль'
           type='password'
           name='password'
           fluid
+          onChange={handleChange}
+          errorMessage={errors.password}
         />
         <Button
           type='submit'

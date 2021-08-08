@@ -19,8 +19,8 @@ import styles from './projects.module.scss';
 interface ModalProps {
   show: boolean,
   title: string,
-  body: React.ReactNode | null,
-  footer: React.ReactNode | null,
+  body: React.ReactElement | null,
+  footer: React.ReactElement | null,
   onClose: () => void,
   width: string,
   height?: string,

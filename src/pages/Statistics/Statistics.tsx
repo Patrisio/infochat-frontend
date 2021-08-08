@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Title from '../../components/Typography/Title/Title';
 import Input from '../../components/Input/Input';
 import DatePresets from '../../components/DatePresets/DatePresets';
+import SimpleBarChart from '../../components/SimpleBarChart/SimpleBarChart';
 
 import styles from './statistics.module.scss';
 
@@ -70,6 +71,8 @@ export default function Statistics() {
           onChange={updateDatePeriod}
         />
       </div>
+
+      <SimpleBarChart />
     </div>
   );
 }

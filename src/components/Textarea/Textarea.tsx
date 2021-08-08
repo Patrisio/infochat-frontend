@@ -15,6 +15,7 @@ interface Props {
   placeholder?: string,
   name?: string,
   spellCheck?: boolean,
+  errorMessage?: string,
 }
 
 const Textarea = forwardRef(({
@@ -30,6 +31,7 @@ const Textarea = forwardRef(({
   placeholder,
   name,
   spellCheck = false,
+  errorMessage,
 }: Props, ref: any) => {
   const [textareaValue, setTextareaValue] = useState(value);
   
@@ -38,31 +40,35 @@ const Textarea = forwardRef(({
   }, [value]);
 
   return (
-    <textarea
-      className={`
-        ${styles.textarea}
-        ${classNames && classNames}
-      `}
-      ref={ref}
-      placeholder={placeholder}
-      value={textareaValue}
-      onChange={(e) => {
-        onChange && onChange(e);
-        setTextareaValue(e.target.value);
-      }}
-      onBlur={(e) => {
-        onBlur && onBlur(e);
-      }}
-      onKeyDown={(e) => {
-        onKeyDown && onKeyDown(e)
-      }}
-      onKeyPress={onKeyPress}
-      onKeyUp={onKeyUp}
-      maxLength={maxLength}
-      disabled={disabled}
-      name={name}
-      spellCheck={spellCheck}
-    />
+    <div>
+      <textarea
+        className={`
+          ${styles.textarea}
+          ${classNames && classNames}
+        `}
+        ref={ref}
+        placeholder={placeholder}
+        value={textareaValue}
+        onChange={(e) => {
+          onChange && onChange(e);
+          setTextareaValue(e.target.value);
+        }}
+        onBlur={(e) => {
+          onBlur && onBlur(e);
+        }}
+        onKeyDown={(e) => {
+          onKeyDown && onKeyDown(e)
+        }}
+        onKeyPress={onKeyPress}
+        onKeyUp={onKeyUp}
+        maxLength={maxLength}
+        disabled={disabled}
+        name={name}
+        spellCheck={spellCheck}
+      />
+
+      <div>{ errorMessage }</div>
+    </div>
   );
 });
 

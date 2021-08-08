@@ -212,7 +212,7 @@ export default function Bills() {
                     <div
                       key={id}
                       className={`
-                        ${styles.paymentWayTab}
+                        ${styles.paymentWa0yTab}
                         ${isCheckedPaymentWay && styles.paymentWayTabActive}
                       `}
                     >

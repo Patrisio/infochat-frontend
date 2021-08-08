@@ -33,7 +33,6 @@ function* addTemplate(action: any): Generator<StrictEffect> {
 function* editTemplate(action: any): Generator<StrictEffect> {
   try {
     const { id, name, message } = action.template;
-
     yield call(templateEdit, { id, name, message, projectId: action.projectId });
   } catch (e) {
     yield put({
