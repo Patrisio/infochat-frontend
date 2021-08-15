@@ -240,8 +240,8 @@ export default function Templates() {
   const ModalBody = ({ id, name, message, children }: ModalBodyProps) => {
     const { handleChange, handleSubmit, values, errors } = useForm(
       {
-        name: '',
-        message: '',
+        name,
+        message,
       },
       validateForm,
       id ? (values: any) => changeTemplate(id, values) : makeTemplate,
@@ -302,7 +302,6 @@ export default function Templates() {
 
       <Modal
         {...currentModal}
-        // errors={errors}
       />
     </div>
   );

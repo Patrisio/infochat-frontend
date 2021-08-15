@@ -61,3 +61,14 @@
 .modalFooter {
   padding: 0 30px 15px 30px;
 }
+
+.confirmModalBody {
+  padding: 20px;
+  font-size: 14px;
+}
+
+.confirmModalFooter {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 15px 20px;
+}

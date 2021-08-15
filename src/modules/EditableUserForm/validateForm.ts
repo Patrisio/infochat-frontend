@@ -53,6 +53,6 @@ export default function validateForm(values: any, meta: any) {
 
   return {
     errors,
-    formattedValues: Object.keys(errors).length === 0 ? getFormattedValues(values) : {},
+    formattedValues: Object.keys(errors).length === 0 ? getFormattedValues(values) : values,
   };
 }
