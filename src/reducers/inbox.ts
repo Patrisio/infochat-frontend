@@ -1,6 +1,7 @@
 import { MESSAGES, INCOMING_MESSAGES, SELECT_CLIENT,
          INCOMING_MESSAGES_FOR_SELECTED_CLIENT,
-         SELECTED_CLIENT_UPDATE, CLIENT_DATA
+         SELECTED_CLIENT_UPDATE, CLIENT_DATA,
+         FETCHING_SELECTED_CLIENT_INFO,
         } from '../constants/inbox';
 import { TEAMMATE } from '../constants/teammates';
 import { getLastUnreadMessagesCount } from '../utils/clientData';
@@ -59,6 +60,8 @@ export interface State {
   filters: Filters,
   messages: IMessagesHistory[],
   incomingMessages: IIncomingMessage[],
+  isFetchingIncomingMessages: boolean,
+  isFetchingSelectedClienInfo: boolean,
   selectedClient: SelectedClient,
 }
 
@@ -73,6 +76,8 @@ const initialState: State = {
   },
   messages: [],
   incomingMessages: [],
+  isFetchingIncomingMessages: false,
+  isFetchingSelectedClienInfo: false,
   selectedClient: {
     id: '',
     projectId: '',
@@ -178,6 +183,18 @@ export const inboxReducer = (state = initialState, action: any) => {
         ...state,
         incomingMessages: state.incomingMessages
       });
+
+    case INCOMING_MESSAGES.FETCHING:
+      return {
+        ...state,
+        isFetchingIncomingMessages: !state.isFetchingIncomingMessages,
+      };
+
+    case FETCHING_SELECTED_CLIENT_INFO:
+      return {
+        ...state,
+        isFetchingSelectedClienInfo: !state.isFetchingSelectedClienInfo,
+      };
 
     // case TEAMMATE.ASSIGN:
     //   const incomingMessageIndex = state.incomingMessages.findIndex(incomingMessage => incomingMessage.clientId === action.payload.clientId);

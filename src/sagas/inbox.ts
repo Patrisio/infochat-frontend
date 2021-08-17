@@ -9,7 +9,9 @@ import {
 function* fetchIncomingMessages(action: any): Generator<StrictEffect> {
   try {
     const successCallback = action.incomingMessage.successCallback;
+    yield put({ type: 'FETCHING_INCOMING_MESSAGES' });
     const incomingMessage = yield call(incomingMessagesFetch, action.incomingMessage);
+    yield put({ type: 'FETCHING_INCOMING_MESSAGES' });
 
     if (successCallback) {
       successCallback(incomingMessage);
@@ -93,7 +95,9 @@ function* addMessageToInbox(action: any): Generator<StrictEffect> {
 function* getSelectedClientInfo(action: any): Generator<StrictEffect> {
   try {
     const successCallback = action.payload.successCallback;
+    yield put({ type: 'FETCHING_SELECTED_CLIENT_INFO' });
     const clientInfo = yield call(selectedClientInfoGet, action.payload);
+    yield put({ type: 'FETCHING_SELECTED_CLIENT_INFO' });
 
     if (successCallback) {
       yield successCallback(clientInfo);

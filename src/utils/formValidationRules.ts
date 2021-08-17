@@ -6,6 +6,12 @@ export function checkEmail(email: string) {
   }
 }
 
+export function checkProjectName(projectName: string) {
+  if (!projectName.trim()) {
+    return 'Введите название проекта';
+  }
+}
+
 export function checkName(name: string) {
   if (!name.trim()) {
     return 'Введите ваше имя';

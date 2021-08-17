@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
 
 import InboxSidebar from '../Inbox/components/InboxSidebar/InboxSidebar';
 import Title from '../../components/Typography/Title/Title';
@@ -9,12 +10,15 @@ import Table from '../../components/Table/Table';
 import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 
+import useForm from '../../hooks/useForm';
+
 import { Context } from '../../context/Context';
 import { getAllInboxMessages } from '../../lib/utils/messages';
 import cloneDeep from 'lodash/cloneDeep';
 import { addProject } from '../../actions';
 import { getTimezones, getTimezoneByCode, DEFAULT_TIME_ZONE } from '../../lib/utils/date';
 import styles from './projects.module.scss';
+import validateForm from './validateForm';
 
 interface ModalProps {
   show: boolean,
@@ -41,6 +45,7 @@ export default function Projects() {
 
   const dispatch = useDispatch();
   const { currentUser, setCurrentUser } = useContext<any>(Context);
+  const history = useHistory();
 
   const inboxMessages = getAllInboxMessages(incomingMessages, currentUser);
   const timezones = getTimezones();
@@ -126,7 +131,7 @@ export default function Projects() {
             padding: '10px 14px',
           }}
           onClick={() => {
-            
+            history.push(`/project/${data.id}/settings/channels`)
           }}
         >
           Изменить
@@ -136,27 +141,14 @@ export default function Projects() {
   ];
 
   const ModalBody = () => {
-    const [projectData, setProjectData] = useState<{ name: string, timezone: string, email: string }>({
-      name: '',
-      timezone: DEFAULT_TIME_ZONE,
-      email: currentUser.email,
-    });
+    const [timezone, setTimezone] = useState<string>(DEFAULT_TIME_ZONE);
 
-    const updateTimezone = (timezone: string | number) => {
-      setProjectData((prev: any) => {
-        return {
-          ...prev,
-          timezone,
-        };
-      });
-    };
-
-    const createNewProject = () => {
+    const createNewProject = (values: any) => {
       const updateCurrentUser = (data: any) => {
         setCurrentUser((prev: any) => {
           const newProject = {
             id: data.id,
-            name: projectData.name,
+            name: values.projectName,
             teammatesCount: 1,
           };
 
@@ -168,27 +160,40 @@ export default function Projects() {
         setModalProps(Object.assign(currentModal, { show: false }));
       };
 
-      dispatch(addProject({ ...projectData, successCallback: updateCurrentUser }));
+      dispatch(addProject({
+        name: values.name,
+        email: currentUser.email,
+        timezone,
+        successCallback: updateCurrentUser,
+      }));
     };
 
-    const updateProjectName = (e: any) => {
-      const name = e.target.value;
-      setProjectData((prev: any) => {
-        return {
-          ...prev,
-          name,
-        };
-      });
+    const { handleChange, handleSubmit, values, errors } = useForm(
+      {
+        projectName: '',
+      },
+      validateForm,
+      createNewProject,
+    );
+
+    const updateTimezone = (timezone: any) => {
+      setTimezone(timezone);
     };
 
     return (
-      <div className={styles.modalBodyContainer}>
+      <form
+        method='POST'
+        onSubmit={handleSubmit}
+        className={styles.modalBodyContainer}
+      >
         <div className={styles.field}>
           <Input
             type='text'
+            name='projectName'
             placeholder='Название проекта'
             fluid
-            onChange={updateProjectName}
+            onChange={handleChange}
+            errorMessage={errors.projectName}
           />
         </div>
 
@@ -199,7 +204,7 @@ export default function Projects() {
             fixedSelect
             data={timezones}
             fluid
-            value={getTimezoneByCode(projectData.timezone)}
+            value={getTimezoneByCode(timezone)}
             readOnly
             onSelect={updateTimezone}
           />
@@ -208,11 +213,10 @@ export default function Projects() {
         <Button
           type='submit'
           fluid
-          onClick={createNewProject}
         >
           Создать новый проект
         </Button>
-      </div>
+      </form>
     );
   };
 

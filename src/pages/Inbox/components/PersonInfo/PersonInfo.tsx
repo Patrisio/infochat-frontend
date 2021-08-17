@@ -1,13 +1,9 @@
 import React from 'react';
 import { useParams } from 'react-router';
-import { useDispatch } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisV, faUserLock } from '@fortawesome/free-solid-svg-icons';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Accordion from '../../../../components/Accordion/Accordion';
-import Animal from '../../../../components/Animal/Animal';
-import Textarea from '../../../../components/Textarea/Textarea';
-import Popup from '../../../../components/Popup/Popup';
+import ClientInfoSkeleton from '../../../../components/Skeleton/ClientInfoSkeleton/ClientInfoSkeleton';
 
 import ChangesHistory from './components/ChangesHistory/ChangesHistory';
 import Notes from './components/Notes/Notes';
@@ -31,6 +27,8 @@ interface PersonInfoProps {
 }
 
 export default function PersonInfo({ selectedClient, closeModal, setModalProps }: PersonInfoProps) {
+  const isFetchingSelectedClienInfo = useSelector((state: any) => state.inbox.isFetchingSelectedClienInfo);
+
   let fieldInitialValue: string | null = '';
   
   const dispatch = useDispatch();
@@ -119,14 +117,20 @@ export default function PersonInfo({ selectedClient, closeModal, setModalProps }
 
   return (
     <div className={styles.personInfoContainer}>
-      <ClientPreview
-        selectedClient={selectedClient}
-        updateClientData={updateClientData}
-      />
+      {
+        isFetchingSelectedClienInfo ?
+        <ClientInfoSkeleton />:
+        <>
+          <ClientPreview
+            selectedClient={selectedClient}
+            updateClientData={updateClientData}
+          />
 
-      <Accordion
-        panels={panels}
-      />
+          <Accordion
+            panels={panels}
+          />
+        </>
+      }
     </div>
   );
 }

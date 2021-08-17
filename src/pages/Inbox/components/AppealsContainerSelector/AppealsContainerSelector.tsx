@@ -8,6 +8,7 @@ import Animal from '../../../../components/Animal/Animal';
 import Popup from '../../../../components/Popup/Popup';
 import Input from '../../../../components/Input/Input';
 import Button from '../../../../components/Button/Button';
+import AppealsSkeleton from '../../../../components/Skeleton/AppealsSkeleton/AppealsSkeleton';
 
 import { IIncomingMessage, IMessagesHistory } from '../../../../reducers/inbox';
 import { getClientName, getLastUnreadMessagesCount } from '../../../../utils/clientData';
@@ -17,7 +18,7 @@ import {
 } from '../../../../actions';
 import { Context } from '../../../../context/Context';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserEdit, faLayerGroup, faSignOutAlt, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import 'moment/locale/ru';
 
@@ -31,7 +32,8 @@ interface RootState {
   inbox: {
     messages: IMessagesHistory[]
     incomingMessages: IIncomingMessage[],
-    selectedClient: IIncomingMessage
+    isFetchingIncomingMessages: boolean,
+    selectedClient: IIncomingMessage,
   },
 }
 
@@ -46,6 +48,7 @@ export default function AppealsContainerSelector({
   const teammates = useSelector((state: any) => state.teammates.teammates);
   const incomingMessages = useSelector((state: RootState) => state.inbox.incomingMessages);
   const selectedClientId = useSelector((state: RootState) => state.inbox.selectedClient.clientId);
+  const isFetchingIncomingMessages = useSelector((state: RootState) => state.inbox.isFetchingIncomingMessages);
 
   const [isOpenSearchPopup, toggleOpenSearchPopup] = useState(false);
   const [filters, updateFilters] = useState({
@@ -303,6 +306,8 @@ export default function AppealsContainerSelector({
       
       <div className={styles.appealsContainer}>
         {
+          isFetchingIncomingMessages ?
+          <AppealsSkeleton /> :
           messages && messages.length > 0 &&
           messages.map((incomingMessage: IIncomingMessage, idx: number) => {
             const clientName = getClientName(incomingMessage.avatarColor, incomingMessage.avatarName);
