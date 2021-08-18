@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+
 import styles from './panel.module.scss';
 
 interface PanelProps {
@@ -19,7 +22,17 @@ export default function Panel({ title, count, content }: PanelProps) {
       >
         <p className={styles.accordionTitle}>
           <div className={styles.notesHeaderTitle}>
-            <div>
+            <div className={styles.accordionHeaderContent}>
+              <div className={`
+                ${styles.arrowIconRight}
+                ${isOpened && styles.arrowIconDown}
+              `}>
+                <FontAwesomeIcon
+                  icon={faChevronRight}
+                  color='#000'
+                  size='sm'
+                />
+              </div>
               <span className={styles.notesHeaderTitleName}>
                 {title}
               </span>

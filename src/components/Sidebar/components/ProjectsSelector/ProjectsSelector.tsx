@@ -58,33 +58,36 @@ export default function ProjectsSelector({ mode }: ProjectsSelectorProps) {
     );
   };
 
+  const projectPreviewClassName = mode === 'light' ? styles.light : styles.dark;
 
   const ProjectPreview = () => {
     return (
-      <div className={`
-        ${styles.projectsSelectorContainer}
-        ${mode === 'light' ? styles.light : styles.dark}
-      `}>
+      <div className={styles.projectsSelectorContainer}>
         { currentProject?.name }
       </div>
     );
   };
 
   return currentUserProjectsWithoutCurrentProject.length > 0 ?
-  <Popup
-    isOpenPopup={isOpenProjectsPopup}
-    body={<PopupBodyProjects />}
-    center
-    width='190px'
-    onClick={(bool?: boolean) => {
-      if (typeof bool === 'boolean') {
-        toggleOpenProjectsPopup(bool);
-      } else {
-        toggleOpenProjectsPopup(true);
-      }
-    }}
-  >
-    <ProjectPreview />
-  </Popup> :
-  <ProjectPreview />
+    <div className={projectPreviewClassName}>
+      <Popup
+        isOpenPopup={isOpenProjectsPopup}
+        body={<PopupBodyProjects />}
+        center
+        arrow
+        width='190px'
+        onClick={(bool?: boolean) => {
+          if (typeof bool === 'boolean') {
+            toggleOpenProjectsPopup(bool);
+          } else {
+            toggleOpenProjectsPopup(true);
+          }
+        }}
+      >
+        <ProjectPreview />
+      </Popup>
+    </div> :
+    <div className={projectPreviewClassName}>
+      <ProjectPreview />
+    </div>
 }

@@ -35,7 +35,20 @@
   justify-content: space-between;
 }
 
+.accordionHeaderContent {
+  display: flex;
+}
+
 .notesCount {
   color: #999;
   margin-left: 5px;
+}
+
+.arrowIconRight {
+  margin-right: 10px;
+}
+
+.arrowIconDown {
+  transform: rotate(90deg);
+  margin-right: 10px;
 }

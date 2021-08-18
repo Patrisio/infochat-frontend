@@ -92,3 +92,14 @@
   border-bottom-left-radius: 0;
   margin-bottom: 45px !important;
 }
+
+.arrowIconDown {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.arrowIconUp {
+  transform: translateY(-50%) rotate(180deg);
+}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-
 import OutsideClickHandler from 'react-outside-click-handler';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './popup.module.scss';
 import { isUndefined } from 'lodash';
@@ -13,6 +14,7 @@ interface IProps {
   center?: boolean,
   position?: 'top' | 'down' | 'downRight',
   isOpenPopup?: boolean,
+  arrow?: boolean,
   onClick?: (bool?: boolean) => void,
 }
 
@@ -23,6 +25,7 @@ export default function Popup({
   center,
   position = 'down',
   isOpenPopup,
+  arrow = false,
   onClick
 }: IProps) {
   const [isOpen, toggle] = useState(Boolean(isOpenPopup));
@@ -53,14 +56,30 @@ export default function Popup({
       }}
     >
       <div className={styles.popupContainer}>
-        <div onClick={() => {
-          if (isUndefined(isOpenPopup)) {
-            toggle(prev => !prev);
-          }
-          
-          onClick && onClick!();
-        }}>
+        <div
+          className={styles.popupTriggerContainer}
+          onClick={() => {
+            if (isUndefined(isOpenPopup)) {
+              toggle(prev => !prev);
+            }
+            
+            onClick && onClick!();
+          }}
+        >
           {children}
+          {
+            arrow &&
+            <div className={`
+              ${styles.arrowIconDown}
+              ${isOpen && styles.arrowIconUp}
+            `}>
+              <FontAwesomeIcon
+                icon={faChevronDown}
+                color='#aaa'
+                size='xs'
+              />
+            </div>
+          }
         </div>
 
         {

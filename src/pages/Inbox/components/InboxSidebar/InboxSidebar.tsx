@@ -4,20 +4,14 @@ import { Link, useHistory } from 'react-router-dom';
 import { useParams } from 'react-router';
 import { Context } from '../../../../context/Context';
 
-
 import Sidebar from '../../../../components/Sidebar/Sidebar';
 import SidebarList from '../../../../components/Sidebar/components/SidebarList/SidebarList';
 import Avatar from '../../../../components/Avatar/Avatar';
 
 import { faInbox, faEnvelope, faEnvelopeOpen, faAt, faComments, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { generateRandomHash } from '../../../../utils/string';
 import cloneDeep from 'lodash/cloneDeep';
-import {
-  addIncomingMessage, addIncomingMessageForSelectedClient,
-  selectClient, fetchTeammates,
-  fetchIncomingMessages, fetchChannels
-} from '../../../../actions';
+import { selectClient } from '../../../../actions';
 import styles from './inboxSidebar.module.scss';
 
 interface IMessagesHistory {

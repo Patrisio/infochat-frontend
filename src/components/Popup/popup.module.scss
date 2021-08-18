@@ -26,3 +26,22 @@
   right: 0;
   left: auto;
 }
+
+.popupTriggerContainer {
+  position: relative;
+  display: flex;
+  width: fit-content;
+}
+
+.arrowIconDown {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 5px;
+  right: -20px;
+}
+
+.arrowIconUp {
+  margin-left: 5px;
+  transform: translateY(-50%) rotate(180deg);
+}

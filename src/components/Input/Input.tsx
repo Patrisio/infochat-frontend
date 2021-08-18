@@ -1,8 +1,8 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import styles from './input.module.scss';
 import OutsideClickHandler from 'react-outside-click-handler';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimesCircle, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 interface IData {
   id?: string | number,
@@ -69,6 +69,8 @@ export default function Input({
   const [fieldValue, setFieldValue] = useState<string | number | null>('');
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const hasData = data.length > 0;
+
   useEffect(() => {
     setFieldValue(value);
   }, [value]);
@@ -82,7 +84,7 @@ export default function Input({
       }
     };
 
-    if (data.length > 0) {
+    if (hasData) {
       document.addEventListener('click', clickHandler);
     }
 
@@ -162,10 +164,24 @@ export default function Input({
             />
           </div>
         }
+
+        {
+          hasData &&
+          <div className={`
+            ${styles.arrowIconDown}
+            ${isOpen && styles.arrowIconUp}
+          `}>
+            <FontAwesomeIcon
+              icon={faChevronDown}
+              color='#aaa'
+              size='sm'
+            />
+          </div>
+        }
       </label>
 
       {
-        isOpen && data.length > 0 &&
+        isOpen && hasData &&
         <OutsideClickHandler
           onOutsideClick={(e: any) => {
             const target = e.target;

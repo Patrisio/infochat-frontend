@@ -81,6 +81,7 @@ export default function Header() {
             body={<PopupBodyUser />}
             width='215px'
             center
+            arrow
           >
             <div className={styles.currentUserInfo}>
               <CurrentUserInfo />
