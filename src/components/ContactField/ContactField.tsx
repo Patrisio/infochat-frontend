@@ -38,19 +38,7 @@ export default function ContactField({ field, onClick }: ContactField) {
             <Button
               type='button'
               disabled={isDisabledField()}
-              stylesList={{
-                position: 'absolute',
-                top: '50%',
-                right: '5px',
-                transform: 'translateY(-50%)',
-                background: '#4cd233',
-                border: 'none',
-                padding: '5px',
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
+              classNames={styles.contactSuccessBtn}
             >
               <FontAwesomeIcon
                 icon={faCheck}
@@ -64,17 +52,7 @@ export default function ContactField({ field, onClick }: ContactField) {
                 toggleButtonState(true);
                 onClick(fieldValue);
               }}
-              stylesList={{
-                position: 'absolute',
-                top: '50%',
-                right: '5px',
-                transform: 'translateY(-50%)',
-                padding: '5px',
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
+              classNames={styles.sendContactBtn}
             >
               <FontAwesomeIcon
                 icon={faPaperPlane}

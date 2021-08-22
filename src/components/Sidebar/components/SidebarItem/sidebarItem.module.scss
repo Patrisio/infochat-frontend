@@ -1,6 +1,8 @@
+@import '../../../../scss/variables.scss';
+
 .listItem {
   font-size: 14px;
-  color: hsla(0,0%,69%,.8);
+  color: $opacity-3;
   font-weight: 400;
   padding: 5px 0;
   padding-left: 30px;
@@ -11,17 +13,17 @@
 
 .dark {
   &:hover {
-    background: #444;
+    background: $brown-5;
   }
 
   &.active {
-    background: #444;
+    background: $brown-5;
   }
 }
 
 .light {
   &:hover {
-    color: #0a86f9 !important;
+    color: $blue-4 !important;
   }
 }
 

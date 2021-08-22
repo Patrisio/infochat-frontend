@@ -8,6 +8,7 @@ import Rule from './components/Rule/Rule';
 import { generateRandomHash } from '../../../../utils/string';
 import { cloneDeep } from 'lodash';
 import { updateChannelSettings } from '../../../../actions';
+import styles from './automationBlock.module.scss';
 
 
 interface Props {
@@ -190,7 +191,7 @@ export default function AutomationBlock({ setActiveTab }: Props) {
         type='button'
         onClick={addRule}
         background='transparent'
-        stylesList={{ color: '#0084ff' }}
+        classNames={styles.addNewActionBtn}
       >
         + Добавить новое действие
       </Button>

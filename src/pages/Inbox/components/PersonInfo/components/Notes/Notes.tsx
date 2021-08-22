@@ -45,17 +45,11 @@ export default function Notes({ selectedClient, setModalProps, closeModal }: Not
   };
 
   const ModalFooter = ({ noteId }: { noteId: number}) => {
-    const buttonStyles = {
-      padding: '9px 30px 10px',
-      fontSize: '13px',
-      fontWeight: 400,
-    };
-
     return (
       <div className={styles.modalFooter}>
         <Button
           type='button'
-          stylesList={{ marginRight: '10px', ...buttonStyles }}
+          classNames={`${styles.button} ${styles.marginRight}`}
           background='edit'
           onClick={() => closeModal()}
         >
@@ -64,7 +58,7 @@ export default function Notes({ selectedClient, setModalProps, closeModal }: Not
 
         <Button
           type='button'
-          stylesList={{ ...buttonStyles }}
+          classNames={styles.button}
           onClick={() => removeNote(noteId)}
         >
           Удалить
@@ -121,14 +115,7 @@ export default function Notes({ selectedClient, setModalProps, closeModal }: Not
       <Button
         type='button'
         background='transparent'
-        stylesList={{
-          color: '#0a86f9',
-          fontSize: '14px',
-          padding: '0',
-          position: 'absolute',
-          top: '10px',
-          right: '15px',
-        }}
+        classNames={styles.addNoteBtn}
         onClick={displayNotesTextarea}
       >
         Добавить
@@ -146,12 +133,7 @@ export default function Notes({ selectedClient, setModalProps, closeModal }: Not
           <div className={styles.butonsGroup}>
             <Button
               type='button'
-              stylesList={{
-                padding: '7px 25px',
-                fontSize: '13px',
-                flexBasis: '50%',
-                marginRight: '15px',
-              }}
+              classNames={styles.makeNoteBtn}
               onClick={makeNote}
             >
               Создать
@@ -159,11 +141,7 @@ export default function Notes({ selectedClient, setModalProps, closeModal }: Not
             <Button
               type='button'
               background='edit'
-              stylesList={{
-                padding: '7px 25px',
-                fontSize: '13px',
-                flexBasis: '50%',
-              }}
+              classNames={styles.cancelBtn}
               onClick={() => toggleNotesTextarea(prev => !prev)}
             >
               Отмена

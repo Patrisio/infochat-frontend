@@ -13,7 +13,6 @@ export const animals: IAnimal[] = [
     animal: "alligator",
     translate: 'Аллигатор'
   },
-
   {
     animal: "anteater",
     translate: 'Муравьед'
@@ -34,7 +33,6 @@ export const animals: IAnimal[] = [
     animal: "badger",
     translate: 'Барсук'
   },
-
   {
     animal: "bat",
     translate: 'Летучая мышь'
@@ -76,7 +74,6 @@ export const animals: IAnimal[] = [
     animal: "chupacabra",
     translate: 'чупакабра'
   },
-
   {
     animal: "cormorant",
     translate: 'баклан'
@@ -159,31 +156,31 @@ export const animals: IAnimal[] = [
 
 export const colors: IColor[] = [
   {
-    color: "#FF0044",
+    color: '#FF0044',
     translate: 'Красный'
   },
   {
-    color: "#FFCC41",
+    color: '#FFCC41',
     translate: 'Желтый'
   },
   {
-    color: "#B476FB",
+    color: '#B476FB',
     translate: 'Фиолетовый'
   },
   {
-    color: "#FE9D24",
+    color: '#FE9D24',
     translate: 'Оранжевый'
   },
   {
-    color: "#29B278",
+    color: '#29B278',
     translate: 'Зеленый'
   },
   {
-    color: "#00D7BF",
+    color: '#00D7BF',
     translate: 'Бирюзовый'
   },
   {
-    color: "#006CFE",
+    color: '#006CFE',
     translate: 'Синий'
   },
 ];

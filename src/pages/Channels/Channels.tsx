@@ -168,12 +168,7 @@ export default function Channels() {
         <Button
           type='button'
           background='transparent'
-          stylesList={{
-            fontSize: '14px',
-            fontWeight: 500,
-            color: '#0a86f9',
-            padding: '0',
-          }}
+          classNames={styles.addNewChannelBtn}
           onClick={() => {
             setModalProps({
               show: true,
@@ -214,13 +209,7 @@ export default function Channels() {
         <Button
           type='button'
           background='edit'
-          stylesList={{
-            background: '#fff',
-            color: '#0a86f9',
-            fontWeight: 400,
-            padding: '10px',
-            fontSize: '13px',
-          }}
+          classNames={styles.addChannelBtn}
           onClick={() => {
             setModalProps({
               show: true,
@@ -239,11 +228,7 @@ export default function Channels() {
         <Button
           type='button'
           background='edit'
-          stylesList={{
-            fontWeight: 500,
-            fontSize: '13px',
-            padding: '10px 14px',
-          }}
+          classNames={styles.changeChannelSettingsBtn}
           onClick={() => {
             dispatch(fetchChatSettings({ projectId }));
 
@@ -275,42 +260,42 @@ export default function Channels() {
     {
       imageSrc: chat,
       alt: 'chat',
-      backgroundColor: '#0084ff',
+      backgroundColor: '$blue-1',
       title: 'Чат на сайте',
       id: 'chat',
     },
     {
       imageSrc: chat,
       alt: 'chat',
-      backgroundColor: '#0084ff',
+      backgroundColor: '$blue-1',
       title: 'Чат на сайте',
       id: 'chat',
     },
     {
       imageSrc: chat,
       alt: 'chat',
-      backgroundColor: '#0084ff',
+      backgroundColor: '$blue-1',
       title: 'Чат на сайте',
       id: 'chat',
     },
     {
       imageSrc: chat,
       alt: 'chat',
-      backgroundColor: '#0084ff',
+      backgroundColor: '$blue-1',
       title: 'Чат на сайте',
       id: 'chat',
     },
     {
       imageSrc: chat,
       alt: 'chat',
-      backgroundColor: '#0084ff',
+      backgroundColor: '$blue-1',
       title: 'Чат на сайте',
       id: 'chat',
     },
     {
       imageSrc: chat,
       alt: 'chat',
-      backgroundColor: '#0084ff',
+      backgroundColor: '$blue-1',
       title: 'Чат на сайте',
       id: 'chat',
     },

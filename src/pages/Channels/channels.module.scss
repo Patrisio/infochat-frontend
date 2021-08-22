@@ -1,3 +1,5 @@
+@import '../../scss/variables.scss';
+
 .channelsContainer {
   flex-basis: 720px;
   margin: 0 auto;
@@ -12,7 +14,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  background: #fafafa;
+  background: $white-4;
 }
 
 .title {
@@ -32,7 +34,7 @@
   width: 140px;
   text-align: center;
   font-size: 14px;
-  color: #0a86f9;
+  color: $blue-4;
   text-decoration: none;
   border-radius: 0 0 3px 3px;
   border: 1px solid #e0e0e0;
@@ -82,9 +84,30 @@
 }
 
 .pending {
-  color: #b1b1b1;
+  color: $grey-10;
 }
 
 .disabled {
-  color: #d6d6d6;
+  color: $grey-14;
+}
+
+.addNewChannelBtn {
+  font-size: 14px;
+  font-weight: 500;
+  color: $blue-4;
+  padding: 0;
+}
+
+.addChannelBtn {
+  background: $white-1;
+  color: $blue-4;
+  font-weight: 400;
+  padding: 10px;
+  font-size: 13px;
+}
+
+.changeChannelSettingsBtn {
+  font-weight: 500;
+  font-size: 13px;
+  padding: 10px 14px;
 }

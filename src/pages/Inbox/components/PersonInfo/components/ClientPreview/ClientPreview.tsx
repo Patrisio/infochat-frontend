@@ -58,7 +58,7 @@ export default function ClientPreview({ selectedClient, updateClientData }: Clie
         position='downRight'
       >
         <div className={styles.blackListIcon}>
-          <FontAwesomeIcon icon={faEllipsisV} color='#444' />
+          <FontAwesomeIcon icon={faEllipsisV} color='$brown-5' />
         </div>
       </Popup>
     </div>

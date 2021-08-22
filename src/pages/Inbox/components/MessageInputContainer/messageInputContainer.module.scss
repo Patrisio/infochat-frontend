@@ -1,11 +1,13 @@
+@import '../../../../scss/variables.scss';
+
 .appointedContainer {
   position: sticky;
   bottom: 0;
   left: 0;
   width: 100%;
   height: 90px;
-  border-top: 1px solid #e9e9e9;
-  background: #fff;
+  border-top: 1px solid $grey-13;
+  background: $white-1;
   display: flex;
   align-items: center;
 }
@@ -16,19 +18,19 @@
   height: 88px;
   box-sizing: border-box;
   border: none;
-  border-top: 1px solid #e9e9e9;
+  border-top: 1px solid $grey-13;
   border-radius: 0;
   outline: none;
-  background: #fff;
+  background: $white-1;
 }
 
 .inputArea:focus {
-  border-color: #e9e9e9;
+  border-color: $grey-13;
 }
 
 .noMatchesFound {
   font-size: 13px;
-  color: #777;
+  color: $grey-6;
   padding: 0 15px ;
 }
 
@@ -41,28 +43,28 @@
   padding: 10px 20px;
 
   &:hover {
-    background: #f4f4f4;
+    background: $white-6;
   }
 }
 
 .templateName {
   font-size: 14px;
-  color: #333;
+  color: $brown-6;
   font-weight: 500;
   margin-bottom: 5px;
 }
 
 .templateMessage {
   font-size: 13px;
-  color: #777;
+  color: $grey-6;
 }
 
 .appointDialogLink {
   padding: 7px 5px;
   text-decoration: none;
-  color: #fff;
+  color: $white-1;
   font-weight: 500;
-  background: #00c200;
+  background: $green-1;
   border-radius: 3px;
   width: 100%;
   display: inline-block;
@@ -79,7 +81,7 @@
 .appointedNotice {
   font-size: 13px;
   margin-top: 14px;
-  color: #909090;
+  color: $grey-7;
 }
 
 .messagesInputArea {

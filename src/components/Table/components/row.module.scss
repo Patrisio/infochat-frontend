@@ -1,3 +1,5 @@
+@import '../../../scss/variables.scss';
+
 .gridRow {
   display: flex;
   justify-content: space-between;
@@ -5,7 +7,7 @@
   padding: 15px;
 
   &:not(:last-child) {
-    border-bottom: 1px solid #d6d6d6;
+    border-bottom: 1px solid $grey-14;
   }
 }
 

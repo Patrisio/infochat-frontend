@@ -1,3 +1,5 @@
+@import '../../../../../../scss/variables.scss';
+
 .generalList {
   padding: 0;
   list-style-type: none;
@@ -26,7 +28,7 @@
   font-size: 14px;
 
   &:hover {
-    background: #f0f0f0;
+    background: $white-2;
   }
 
   &:focus {

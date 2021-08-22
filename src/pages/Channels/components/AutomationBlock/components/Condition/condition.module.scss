@@ -1,3 +1,5 @@
+@import '../../../../../../scss/variables.scss';
+
 .conditionContainer {
 
 }
@@ -9,7 +11,7 @@
 .conditionLine {
   display: flex;
   align-items: baseline;
-  color: #000;
+  color: $black-1;
 }
 
 .conditionVariant {
@@ -17,7 +19,7 @@
   height: fit-content;
   border: none;
   background: transparent;
-  color: #0084ff;
+  color: $blue-1;
   font-size: 14px;
   margin-left: 4px;
   width: 207px;

@@ -1,5 +1,7 @@
+@import '../../../../scss/variables.scss';
+
 .panel {
-  background:  #fff;
+  background:  $white-1;
   box-shadow: 0 2px 3px 0 rgb(0 0 0 / 6%);
   border-radius: 8px;
 
@@ -45,22 +47,6 @@
 		&:focus {
       outline: none;
     }
-		
-		// &:after,
-		// &:before {
-    //   content: '';
-		// 	position: absolute;
-		// 	right: 25px;
-		// 	top: 50%;
-		// 	width: 22px;
-		// 	height: 2px;
-		// 	background-color: #372717;
-    // }
-			
-		// &:before {
-    //   transform: rotate(-90deg);
-		// 	transition: transform .35s cubic-bezier(.65, .05, .36, 1);
-    // }
   }
 			
 	&[aria-expanded='true'] {
@@ -70,7 +56,7 @@
 
     & .panel__label {
       font-weight: 500;
-      color: #0084ff;
+      color: $blue-1;
 
       &:before {
         transform: rotate(0deg);
@@ -91,7 +77,7 @@
 	&__content {
     margin: 5px 15px 15px;
 		font-size: 14px;
-		color: #756658;
+		color: $brown-1;
 		opacity: 0;
 		transition: opacity .3s linear .18s;
   }

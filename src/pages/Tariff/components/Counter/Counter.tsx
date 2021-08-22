@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import Button from '../../../../components/Button/Button';
 
 import { updateTariffPlan } from '../../../../actions';
-
 import styles from './counter.module.scss';
 
 interface CounterProps {
@@ -27,13 +26,7 @@ export default function Counter({ featureId }: CounterProps) {
       <Button
         type='button'
         onClick={() => updateCounter('dec')}
-        stylesList={{
-          width: '30px',
-          height: '30px',
-          padding: '0',
-          borderBottomRightRadius: '0',
-          borderTopRightRadius: '0',
-        }}
+        classNames={styles.decrementBtn}
       >
         -
       </Button>
@@ -43,13 +36,7 @@ export default function Counter({ featureId }: CounterProps) {
       <Button
         type='button'
         onClick={() => updateCounter('inc')}
-        stylesList={{
-          width: '30px',
-          height: '30px',
-          padding: '0',
-          borderBottomLeftRadius: '0',
-          borderTopLeftRadius: '0',
-        }}
+        classNames={styles.incrementBtn}
       >
         +
       </Button>

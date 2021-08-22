@@ -1,3 +1,5 @@
+@import '../../scss/variables.scss';
+
 .formWrapper {
   display: flex;
   align-items: center;
@@ -20,7 +22,11 @@
 }
 
 .link {
-  color: #0a86f9;
+  color: $blue-4;
   text-decoration: none;
   margin-left: 5px;
+}
+
+.inputField {
+  margin-bottom: 15px;
 }

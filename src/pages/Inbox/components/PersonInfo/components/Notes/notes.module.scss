@@ -1,3 +1,5 @@
+@import '../../../../../../scss/variables.scss';
+
 .butonsGroup {
   display: flex;
   justify-content: space-between;
@@ -18,4 +20,36 @@
 .noteText {
   font-weight: 500;
   line-height: 1.36;
+}
+
+.marginRight {
+  margin-right: 10px;
+}
+
+.button {
+  padding: 9px 30px 10px;
+  font-size: 13px;
+  font-weight: 400,
+}
+
+.addNoteBtn {
+  color: $blue-4;
+  font-size: 14px;
+  padding: 0;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+}
+
+.makeNoteBtn {
+  padding: 7px 25px;
+  font-size: 13px;
+  flex-basis: 50%;
+  margin-right: 15px;
+}
+
+.cancelBtn {
+  padding: 7px 25px;
+  font-size: 13px;
+  flex-basis: 50%;
 }

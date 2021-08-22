@@ -58,13 +58,6 @@ export default function EditableUserForm({
     },
   );
 
-  const addonAfterStyle: CSS.Properties = {
-    position: 'absolute',
-    right: '10px',
-    top: 0,
-    color: '#0a86f9',
-  };
-
   const editEmail = () => {
     toggleEditableEmail(true);
   };
@@ -99,7 +92,7 @@ export default function EditableUserForm({
             <Button
               type='button'
               background='transparent'
-              stylesList={addonAfterStyle}
+              classNames={styles.changeDataBtn}
               onClick={editEmail}
             >
               Изменить email
@@ -136,7 +129,7 @@ export default function EditableUserForm({
             <Button
               type='button'
               background='transparent'
-              stylesList={addonAfterStyle}
+              classNames={styles.changeDataBtn}
               onClick={editPassword}
             >
               Изменить пароль
@@ -185,7 +178,7 @@ export default function EditableUserForm({
       <div className={styles.modalFooter}>
         <Button
           type='submit'
-          stylesList={{ marginBottom: '15px' }}
+          classNames={styles.saveBtn}
           fluid
         >
           Сохранить изменения

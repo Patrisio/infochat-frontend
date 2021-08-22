@@ -61,10 +61,7 @@ export default function Sidebar({ children, mode = 'dark' }: SidebarProps) {
         {children}
       </div>
 
-      {
-        mode === 'light' &&
-        <div className={styles.sidebarClone} />
-      }
+      <div className={styles.sidebarClone} />
     </>
   );
 }

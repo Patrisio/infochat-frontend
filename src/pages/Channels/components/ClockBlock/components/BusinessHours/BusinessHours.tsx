@@ -80,15 +80,17 @@ export default function BusinessHours({
 
   return (
     <div className={styles.businessHoursContainer}>
-      <Input
-        type='text'
-        classNames={styles.weekdays}
-        onSelect={(id) => selectOption(id, 'weekday', weekdays)}
-        value={weekday}
-        fixedSelect
-        readOnly
-        data={weekdays}
-      />
+      <div className={styles.weekdaysFieldContainer}>
+        <Input
+          type='text'
+          classNames={styles.weekdays}
+          onSelect={(id) => selectOption(id, 'weekday', weekdays)}
+          value={weekday}
+          fixedSelect
+          readOnly
+          data={weekdays}
+        />
+      </div>
 
       <Input
         type='text'
@@ -114,7 +116,7 @@ export default function BusinessHours({
         className={styles.deleteBusinessHours}
         onClick={() => deleteBusinessHoursModule(businessDayId)}
       >
-        <FontAwesomeIcon icon={faTimes} color='#ee6953' />
+        <FontAwesomeIcon icon={faTimes} color='$orange-1' />
       </div>
     </div>
   );

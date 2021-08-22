@@ -1,10 +1,12 @@
+@import '../../scss/variables.scss';
+
 .button {
   outline: none;
   padding: 18px 9px;
   border-radius: 5px;
   transition: .3s;
   cursor: pointer;
-  color: #fff;
+  color: $white-1;
   font-weight: 500;
   display: flex;
   align-items: center;
@@ -41,47 +43,47 @@
 
 .edit {
   border-radius: 3px;
-  border: 1px solid #e1e1e1;
-  background: #fafafa;
+  border: 1px solid $grey-2;
+  background: $white-4;
   font-weight: 500;
-  color: #464646;
+  color: $brown-2;
 
   &:hover {
-    background-color: #f6f6f6;
-    border-color: #e1e1e1;
+    background-color: $white-3;
+    border-color: $grey-2;
   }
 }
 
 .delete {
-  background: #ee6953;
-  color: #fff;
-  border: 1px solid #ee6953;
+  background: $orange-1;
+  color: $white-1;
+  border: 1px solid $orange-1;
 }
 
 .success {
-  background: #00c200;
-  color: #fff;
-  border: 1px solid #00c200;
+  background: $green-1;
+  color: $white-1;
+  border: 1px solid $green-1;
 }
 
 .default {
-  background: #0a86f9;
-  border: 1px solid #0a86f9;
+  background: $blue-4;
+  border: 1px solid $blue-4;
 
   &:hover {
-    background: #0573db;
-    border: 1px solid #0573db;
+    background: $blue-6;
+    border: 1px solid $blue-6;
   }
 
   &:active {
-    background: #0062cc;
-    border-color: #005cbf;
+    background: $blue-7;
+    border-color: $blue-2;
   }
 }
 
 .transparent {
   background: transparent;
   font-weight: 400;
-  color: #ee6953;
+  color: $orange-1;
   border: none;
 }

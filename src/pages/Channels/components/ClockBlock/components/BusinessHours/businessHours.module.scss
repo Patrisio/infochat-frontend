@@ -1,6 +1,7 @@
 .businessHoursContainer {
   display: flex;
   align-items: center;
+  margin-top: 10px;
 }
 
 .businessHoursContainer:not(:last-child) {
@@ -12,8 +13,11 @@
   height: fit-content;
   width: 130px;
   font-size: 14px;
-  margin-right: 10px;
   margin-bottom: 0;
+}
+
+.weekdaysFieldContainer {
+  margin-right: 10px;
 }
 
 .businessHours {

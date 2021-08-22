@@ -146,7 +146,7 @@ export default function Teammates() {
       <div className={styles.confirmModalFooter}>
         <Button
           type='button'
-          stylesList={{ marginRight: '10px', ...buttonStyles }}
+          classNames={`${styles.marginRight} ${styles.button}`}
           background='edit'
           onClick={() => currentModal.onClose()}
         >
@@ -155,7 +155,7 @@ export default function Teammates() {
 
         <Button
           type='button'
-          stylesList={{ ...buttonStyles }}
+          classNames={styles.button}
           onClick={() => {
             currentModal.onClose();
             removeTeammate(email);
@@ -315,6 +315,7 @@ export default function Teammates() {
           value={values.email}
           errorMessage={errors.email}
           onChange={handleChange}
+          classNames={styles.teammateEmailField}
         />
         <Button
           type='submit'

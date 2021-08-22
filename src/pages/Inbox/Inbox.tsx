@@ -88,7 +88,9 @@ export default function Inbox() {
     title: '',
     body: null,
     footer: null,
-    onClose: () => setModalProps(Object.assign(currentModal, { show: false })),
+    onClose: () => {
+      setModalProps(prev => ({ ...prev, show: false }));
+    },
     width: '',
     height: '',
   });
@@ -145,6 +147,10 @@ export default function Inbox() {
   const getIncomingMessagesByDialogTypeAndFilters = () => {
     return inboxMessages[dialogType].clientIds.filter(filterByFilters);
   };
+
+  useEffect(() => {
+    console.log(currentModal, 'currentModalcurrentModalcurrentModalcurrentModalcurrentModal');
+  }, [currentModal]);
 
   return (
     <div>

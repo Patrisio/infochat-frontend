@@ -85,12 +85,7 @@ export default function Templates() {
         <Button
           type='button'
           background='transparent'
-          stylesList={{
-            fontSize: '14px',
-            fontWeight: 500,
-            color: '#0a86f9',
-            padding: '0',
-          }}
+          classNames={styles.addNewTemplateBtn}
           onClick={() => {
             setModalProps({
               show: true,
@@ -138,13 +133,7 @@ export default function Templates() {
         <Button
           type='button'
           background='edit'
-          stylesList={{
-            background: '#fff',
-            color: '#0a86f9',
-            fontWeight: 400,
-            padding: '10px',
-            fontSize: '13px',
-          }}
+          classNames={styles.addTemplateBtn}
           onClick={() => {
             setModalProps({
               show: true,
@@ -174,11 +163,7 @@ export default function Templates() {
         <Button
           type='button'
           background='edit'
-          stylesList={{
-            fontWeight: 500,
-            fontSize: '13px',
-            padding: '10px 14px',
-          }}
+          classNames={styles.changeTemplateBtn}
           onClick={() => {
             setTemplate({
               name: data.name,
@@ -208,7 +193,7 @@ export default function Templates() {
                       onClick={() => removeTemplate(data.id)}
                       fluid
                       background='transparent'
-                      stylesList={{ paddingBottom: 0 }}
+                      classNames={styles.deleteTemplateBtn}
                     >
                       Удалить шаблон
                     </Button>

@@ -97,7 +97,10 @@ export default function Input({
 
   return (
     <div
-      className={styles.inputContainer}
+      className={`
+        ${styles.inputContainer}
+        ${errorMessage && styles.errorInputContainer}
+      `}
     >
       <label className={styles.label}>
         <input
@@ -159,7 +162,7 @@ export default function Input({
           >
             <FontAwesomeIcon
               icon={faTimesCircle}
-              color='#aaa'
+              color='$grey-4'
               size='lg'
             />
           </div>
@@ -173,7 +176,7 @@ export default function Input({
           `}>
             <FontAwesomeIcon
               icon={faChevronDown}
-              color='#aaa'
+              color='$grey-4'
               size='sm'
             />
           </div>

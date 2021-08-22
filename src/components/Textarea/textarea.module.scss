@@ -1,3 +1,5 @@
+@import '../../scss/variables.scss';
+
 .textarea {
   resize: none;
   white-space: pre-wrap;
@@ -5,13 +7,13 @@
   font-size: 14px;
   width: 100%;
   border-radius: 3px;
-  border: 1px solid #dadada;
+  border: 1px solid $grey-15;
   box-sizing: border-box;
   outline: none;
   height: 75px;
   transition: .3s all;
 
   &:focus {
-    border-color: #0a86f9;
+    border-color: $blue-4;
   }
 }

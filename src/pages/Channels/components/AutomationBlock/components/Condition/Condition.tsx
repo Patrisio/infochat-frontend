@@ -91,7 +91,7 @@ export default function Condition({
           className={styles.deleteConditionIcon}
           onClick={() => deleteCondition(ruleId, id)}
         >
-          <FontAwesomeIcon  icon={faTimes} color='#ee6953' />
+          <FontAwesomeIcon  icon={faTimes} color='$orange-1' />
         </div>
       </div>
 

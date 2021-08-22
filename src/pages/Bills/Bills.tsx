@@ -80,13 +80,7 @@ export default function Bills() {
           <Button
             type='button'
             background='transparent'
-            stylesList={{
-              padding: '0',
-              color: '#0886f8',
-              borderBottom: '1px dotted #0886f8',
-              borderRadius: '0',
-              marginLeft: '5px',
-            }}
+            classNames={styles.payBtn}
             onClick={() => updatePaymentInfo(totalPrice, bonusAccruals)}
           >
             {totalPrice} ₽
@@ -143,9 +137,7 @@ export default function Bills() {
         <Button
           type='button'
           background='success'
-          stylesList={{
-            padding: '20px 70px',
-          }}
+          classNames={styles.toPayBtn}
         >
           Перейти к оплате
         </Button>
@@ -212,7 +204,7 @@ export default function Bills() {
                     <div
                       key={id}
                       className={`
-                        ${styles.paymentWa0yTab}
+                        ${styles.paymentWayTab}
                         ${isCheckedPaymentWay && styles.paymentWayTabActive}
                       `}
                     >

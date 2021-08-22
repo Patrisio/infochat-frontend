@@ -1,3 +1,5 @@
+@import '../../scss/variables.scss';
+
 .assignedTeammatesList {
   display: flex;
   flex-wrap: wrap;
@@ -8,8 +10,8 @@
 .assignedTeammate {
   display: flex;
   align-items: center;
-  background-color: #fafafa;
-  border: 1px solid #e1e1e1;
+  background-color: $white-4;
+  border: 1px solid $grey-2;
   padding: 5px 14px;
   width: fit-content;
 }

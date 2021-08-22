@@ -1,6 +1,8 @@
+@import '../../../../../../scss/variables.scss';
+
 .ruleContainer {
-  background: #fafafa;
-  border: 1px solid #e1e1e1;
+  background: $white-4;
+  border: 1px solid $grey-2;
 }
 
 .ruleContainer:not(:last-child) {
@@ -16,7 +18,7 @@
 
 .ruleName {
   font-weight: 500;
-  color: #000;
+  color: $black-1;
 }
 
 .ruleNameEditMode {
@@ -39,7 +41,22 @@
 .conditionResultTitle {
   display: flex;
   font-weight: 500;
-  color: #000;
+  color: $black-1;
   margin-bottom: 10px;
   font-size: 15px;
+}
+
+.changeRuleBtn {
+  color: $blue-1;
+  padding: 0;
+  margin-right: 10px;
+}
+
+.addConditionBtn {
+  color: $blue-1;
+  padding-left: 0;
+}
+
+.deleteActionBtn {
+  color: $orange-1;
 }

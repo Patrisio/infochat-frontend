@@ -1,7 +1,11 @@
+@import '../../../../scss/variables.scss';
+
 .messageInnerContainer {
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
+  position: relative;
+  opacity: 0;
 }
 
 .messageInnerContainerLeft {
@@ -27,8 +31,8 @@
 
 .clientMessage {
   position: relative;
-  background: #0a86f9;
-  color: #fff;
+  background: $blue-4;
+  color: $white-1;
   margin-left: 8px;
 
   &::before {
@@ -39,7 +43,7 @@
 
     z-index: -2;
     left: -7px;
-    border-left: 20px solid #0a86f9;
+    border-left: 20px solid $blue-4;
     border-bottom-right-radius: 16px 14px;
     transform: translateY(-2px);
   }
@@ -53,7 +57,7 @@
     z-index: -1;
     left: 4px;
     width: 26px;
-    background: #fff;
+    background: $white-1;
     border-bottom-right-radius: 10px;
     transform: translate(-30px,-2px);
   }
@@ -61,10 +65,10 @@
 
 .teammateMessage {
   position: relative;
-  background: #f0f0f0;
+  background: $white-2;
   margin-left: auto;
   margin-right: 8px;
-  color: #464646;
+  color: $brown-2;
 
   &::before {
     content: '';
@@ -74,7 +78,7 @@
 
     z-index: -2;
     right: -7px;
-    border-right: 20px solid #f0f0f0;
+    border-right: 20px solid $white-2;
     border-bottom-left-radius: 16px 14px;
     transform: translateY(-2px);
   }
@@ -88,7 +92,7 @@
     z-index: -1;
     right: 4px;
     width: 26px;
-    background: #fff;
+    background: $white-1;
     border-bottom-left-radius: 10px;
     transform: translate(30px,-2px);
   }
@@ -96,7 +100,7 @@
 
 .creationTime {
   font-size: 12px;
-  color: #3e3e3e;
+  color: $grey-5;
   opacity: .35;
 }
 

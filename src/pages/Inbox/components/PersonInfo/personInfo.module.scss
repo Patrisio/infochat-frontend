@@ -1,8 +1,10 @@
+@import '../../../../scss/variables.scss';
+
 .personInfoContainer {
   padding: 0 10px;
   display: flex;
   flex-direction: column;
-  background: #f8f8f8;
+  background: $white-7;
   overflow-y: auto;
   height: calc(100vh - 62px);
   width: 310px;

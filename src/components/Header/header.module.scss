@@ -1,7 +1,8 @@
+@import '../../scss/variables.scss';
+
 .headerContainer {
   display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid #e9e9e9;
+  border-bottom: 1px solid $grey-13;
   justify-content: flex-end;
   padding: 17px 10px 17px 0;
 }
@@ -38,8 +39,8 @@
 .list {
   list-style-type: none;
   padding: 10px 0;
-  border-top: 1px solid #e9e9e9;
-  border-bottom: 1px solid #e9e9e9;
+  border-top: 1px solid $grey-13;
+  border-bottom: 1px solid $grey-13;
   margin: 0;
 }
 
@@ -51,13 +52,13 @@
 .link {
   display: flex;
   align-items: center;
-  color: #212529;
+  color: $blue-3;
   text-decoration: none;
   padding: 5px 24px;
   transition: .2s all;
 
   &:hover {
-    background: #f8f9fa;
+    background: $grey-21;
   }
 }
 
@@ -94,8 +95,8 @@
 }
 
 .title {
-  background: #f6f6f6;
-  color: #4d4d4d;
+  background: $white-3;
+  color: $brown-4;
   font-weight: 500;
   margin: 0;
   padding: 13px 20px;
@@ -132,7 +133,7 @@
 
 .label {
   font-weight: 500;
-  color: #959595;
+  color: $brown-3;
 }
 
 .searchButton {

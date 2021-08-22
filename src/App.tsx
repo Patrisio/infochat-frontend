@@ -10,7 +10,7 @@ import {
 } from './actions';
 
 import 'normalize.css';
-import './App.css';
+import './scss/App.scss';
 
 export default function App() {
   const dispatch = useDispatch();

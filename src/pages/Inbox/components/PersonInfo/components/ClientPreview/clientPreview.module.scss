@@ -1,8 +1,10 @@
+@import '../../../../../../scss/variables.scss';
+
 .personGeneralInfo {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  color: #444;
+  color: $brown-5;
   padding: 20px 10px;
 }
 
@@ -12,12 +14,12 @@
   outline: none;
   border-radius: 3px;
   border: none;
-  background: #f8f8f8;;
+  background: $white-7;;
   font-size: 16px;
   font-weight: 500;
 
   &:focus {
-    background: #f0f0f0;
+    background: $white-2;
   }
 }
 
@@ -33,7 +35,7 @@
   border-radius: 5px;
 
   &:hover {
-    background: #f0f0f0;
+    background: $white-2;
   }
 }
 
@@ -47,7 +49,7 @@
     transition: .2s all;
 
     &:hover {
-      background: #f8f9fa;
+      background: $grey-21;
     }
   }
 

@@ -1,3 +1,5 @@
+@import '../../scss/variables.scss';
+
 .settingsContainer {
   display: flex;
 }
@@ -8,18 +10,18 @@
   cursor: pointer;
   padding-left: 30px;
   text-decoration: none;
-  color: #363636;
+  color: $brown-10;
   display: block;
   margin-bottom: 5px;
   transition: .2s all;
 
   &:hover {
-    color: #0872d5;
+    color: $blue-5;
   }
 }
 
 .link {
-  color: #363636;
+  color: $brown-10;
   font-size: 16px;
   font-weight: 500;
   text-decoration: none;

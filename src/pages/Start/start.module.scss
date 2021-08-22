@@ -1,3 +1,5 @@
+@import '../../scss/variables.scss';
+
 .startContainer {
   text-align: center;
   flex-basis: 1050px;
@@ -15,7 +17,7 @@
   text-align: left;
   font-size: 14px;
   border-radius: 3px;
-  border: 1px solid #d6d6d6;
+  border: 1px solid $grey-14;
   margin: 10px;
   text-decoration: none;
   transition: all .2s ease-in-out;
@@ -40,19 +42,19 @@
   font-weight: 500;
   font-size: 16px;
   margin: 0;
-  color: #454648
+  color: $brown-11;
 }
 
 .description {
-  color: #666;
+  color: $brown-12;
 }
 
 .link {
-  color: #0a86f9;
+  color: $blue-4;
   text-decoration: none;
   transition: .2s all;
 
   &:hover {
-    color: #0872d5;
+    color: $blue-5;
   }
 }

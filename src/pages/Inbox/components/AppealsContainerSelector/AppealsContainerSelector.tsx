@@ -260,7 +260,7 @@ export default function AppealsContainerSelector({
           <div className={styles.searchButton}>
             <Button
               type='button'
-              stylesList={{ padding: '8px' }}
+              classNames={styles.searchBtn}
               fluid
               onClick={findIncomingMessagesByFilters}
             >
@@ -291,7 +291,7 @@ export default function AppealsContainerSelector({
             <FontAwesomeIcon
               icon={faSearch}
               className={styles.searchIcon}
-              color='#aaa'
+              color='$grey-4'
             />
               <Input
                 type='text'

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 
@@ -17,7 +17,6 @@ interface ParamTypes {
 export default function ChatTrigger() {
   const settings = useSelector((state: any) => state.channels.settings);
   const [isOpen, toggleOpen] = useState(false);
-  let chatTrigger = useRef<HTMLDivElement>(null);
 
   let { clientId } = useParams<ParamTypes>();
   const dispatch = useDispatch();
@@ -46,7 +45,6 @@ export default function ChatTrigger() {
 
   return (
     <div
-      ref={chatTrigger}
       className={`
         ${styles.chatTrigger}
         ${settings.buttonText ? styles.ellipsisChatTriggerStyles : styles.roundChatTriggerStyles}
@@ -59,13 +57,22 @@ export default function ChatTrigger() {
           <span className={styles.triggerText}>{ settings.buttonText }</span>
           <img src={chatTriggerIcon} alt='chat-trigger-icon' />
         </div> :
-        isOpen ?
-        <FontAwesomeIcon icon={faTimes} color='#fff' /> :
-        <img
-          src={chatTriggerIcon}
-          alt='chat-trigger-icon'
-          className={styles.chatTriggerIcon}
-        />
+        <>
+          <div className={`
+            ${styles.closeTriggerIcon}
+            ${isOpen ? styles.closeTriggerIconVisible : styles.closeTriggerIconHidden}
+          `}>
+            <FontAwesomeIcon icon={faTimes} color='$white-1' />
+          </div>
+          <img
+            src={chatTriggerIcon}
+            alt='chat-trigger-icon'
+            className={`
+              ${styles.chatTriggerIcon}
+              ${isOpen ? styles.chatTriggerIconHidden : styles.chatTriggerIconVisible}
+            `}
+          />
+        </>
       }
     </div>
   );

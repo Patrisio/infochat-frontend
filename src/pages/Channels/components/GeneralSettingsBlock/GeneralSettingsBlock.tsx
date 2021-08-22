@@ -248,6 +248,7 @@ export default function GeneralSettingsBlock({ setActiveTab }: Props) {
             updateBlockSettings({ buttonText: e.target.value });
             toggleChanges(true);
           }}
+          classNames={styles.buttonNoticeField}
         />
       </div>
 

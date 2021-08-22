@@ -26,6 +26,7 @@ import theme1 from '../../assets/theme1-big.png';
 import theme2 from '../../assets/theme2-big.png';
 import theme3 from '../../assets/theme3-big.png';
 import { request } from '../Channels/components/ClockBlock/constants';
+import { style } from 'd3';
 
 interface IMessagesHistory {
   message: string,
@@ -188,14 +189,7 @@ export default function Chat() {
           <Button
             type='button'
             onClick={() => sendBotMessageWithContacField('email')}
-            stylesList={{
-              background: 'transparent',
-              color: '#0a86f9',
-              borderRadius: '100px',
-              padding: '9px',
-              fontSize: '14px',
-              margin: '0 10px 5px auto',
-            }}
+            classNames={styles.sendEmailBtn}
           >
             Отправить ответ на мой e-mail.
           </Button>
@@ -203,14 +197,7 @@ export default function Chat() {
           <Button
             type='button'
             onClick={() => sendBotMessageWithContacField('phone')}
-            stylesList={{
-              background: 'transparent',
-              color: '#0a86f9',
-              borderRadius: '100px',
-              padding: '9px',
-              fontSize: '14px',
-              margin: '0 10px 5px auto',
-            }}
+            classNames={styles.callbackBtn}
           >
             Перезвоните мне
           </Button>
@@ -568,8 +555,8 @@ export default function Chat() {
         style={getBackgroundImageSettings()}
       >
         <div className={styles.chatHeader}>
-          <div>{ settings.chatName }</div>
-          <div>{ settings.responseTimeText }</div>
+          <div className={styles.chatName}>{ settings.chatName }</div>
+          <div className={styles.responseTimeText}>{ settings.responseTimeText }</div>
           <div>{ settings.greeting }</div>
         </div>
 

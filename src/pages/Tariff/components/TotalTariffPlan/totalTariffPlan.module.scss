@@ -1,3 +1,5 @@
+@import '../../../../scss/variables.scss';
+
 .totalTariffPlanContainer {
   width: 290px;
   font-size: 14px;
@@ -6,7 +8,7 @@
 .tariffContainer {
   padding: 20px;
   box-shadow: 0 4px 10px 0 hsl(0deg 0% 82% / 50%);
-  border: 1px solid #f1f1f1;
+  border: 1px solid $grey-22;
   border-radius: 5px;
 }
 
@@ -26,8 +28,8 @@
 
 .link {
   border-radius: 3px;
-  background-color: #00c200;
-  color: #fff;
+  background-color: $green-1;
+  color: $white-1;
   font-size: 15px;
   font-weight: 500;
   text-align: center;
@@ -39,7 +41,7 @@
   transition: .3s all;
 
   &:hover {
-    background: #44b044;
+    background: $green-2;
   }
 }
 
@@ -54,8 +56,8 @@
 .feature {
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid #f0f0f0;
-  color: #000;
+  border-bottom: 1px solid $white-2;
+  color: $black-1;
   padding: 5px;
 }
 
@@ -78,7 +80,7 @@
 }
 
 .freePrice {
-  color: #00c200;
+  color: $green-1;
   font-weight: 600; 
 }
 
@@ -91,7 +93,7 @@
 }
 
 .bonusTotalPriceContainer {
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid $white-2;
   padding: 20px 0;
 }
 
@@ -106,22 +108,22 @@
 }
 
 .grey {
-  color: #6c757d;
+  color: $grey-9;
 }
 
 .green {
-  color: #00c200;
+  color: $green-1;
 }
 
 .promptContainer {
   margin-top: 20px;
-  background: #fff5d1;
+  background: $yellow-2;
   padding: 15px 10px 20px;
   text-align: center;
 }
 
 .proptBonus {
-  color: #00c200;
+  color: $green-1;
   font-weight: 600;
   margin-left: 5px;
 }
@@ -129,4 +131,22 @@
 .promptText {
   display: inline-block;
   margin-top: 10px;
+}
+
+.incrementDecrementBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  height: 15px;
+  width: 15px;
+  border: 1px solid $grey-23;
+  border-radius: 50%;
+  background: transparent;
+  color: $grey-23;
+}
+
+.button {
+  padding: 15px 10px;
+  margin-bottom: 10px;
 }

@@ -53,9 +53,7 @@ export default function ButtonsGroup({ hasChanges, toggleChanges, setActiveTab, 
           <Button
             type='button'
             fluid
-            stylesList={{
-              padding: '10px',
-            }}
+            classNames={styles.saveBtn}
             onClick={() => {
               dispatch(saveChatSettings(settings, projectId));
               saveChangesCallback && saveChangesCallback();
@@ -68,10 +66,7 @@ export default function ButtonsGroup({ hasChanges, toggleChanges, setActiveTab, 
             type='button'
             background='edit'
             fluid
-            stylesList={{
-              marginLeft: '10px',
-              padding: '10px',
-            }}
+            classNames={styles.cancelBtn}
             onClick={() => {
               toggleChanges(false);
               setActiveTab && setActiveTab(-1);
@@ -84,9 +79,7 @@ export default function ButtonsGroup({ hasChanges, toggleChanges, setActiveTab, 
         <Button
           type='button'
           background='edit'
-          stylesList={{
-            padding: '10px 46px',
-          }}
+          classNames={styles.closeBtn}
           onClick={() => setActiveTab && setActiveTab(-1)}
         >
           Закрыть

@@ -85,11 +85,11 @@ export default function ChatPreview() {
     <div className={styles.chatPreviewContainer}>
       <div className={styles.chatPreview}>
         <div className={styles.chatPreviewHeader}>
-          <p>{ settings.chatName }</p>
-          <p>{ settings.responseTimeText }</p>
+          <div className={styles.chatName}>{ settings.chatName }</div>
+          <div className={styles.responseTimeText}>{ settings.responseTimeText }</div>
           {
             settings.greeting &&
-            <p>{ settings.greeting }</p>
+            <div>{ settings.greeting }</div>
           }
         </div>
 
@@ -147,7 +147,7 @@ export default function ChatPreview() {
             </div> :
             <FontAwesomeIcon
               icon={faTimes}
-              color='#fff'
+              color='$white-1'
               size='lg'
             />
           }

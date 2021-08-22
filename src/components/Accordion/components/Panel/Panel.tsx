@@ -20,7 +20,7 @@ export default function Panel({ title, count, content }: PanelProps) {
         onClick={() => toggleOpen(prev => !prev)}
         className={styles.accordionHeader}
       >
-        <p className={styles.accordionTitle}>
+        <div className={styles.accordionTitle}>
           <div className={styles.notesHeaderTitle}>
             <div className={styles.accordionHeaderContent}>
               <div className={`
@@ -29,7 +29,7 @@ export default function Panel({ title, count, content }: PanelProps) {
               `}>
                 <FontAwesomeIcon
                   icon={faChevronRight}
-                  color='#000'
+                  color='$black-1'
                   size='sm'
                 />
               </div>
@@ -44,7 +44,7 @@ export default function Panel({ title, count, content }: PanelProps) {
               }
             </div>
           </div>
-        </p>
+        </div>
       </div>
 
       {

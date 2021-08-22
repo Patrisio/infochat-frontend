@@ -47,7 +47,7 @@ export default function ProjectsSelector({ mode }: ProjectsSelectorProps) {
                 >
                   <FontAwesomeIcon
                     icon={faExternalLinkAlt}
-                    color='#ccc'
+                    color='$grey-23'
                   />
                 </a>
               </li>
@@ -59,35 +59,37 @@ export default function ProjectsSelector({ mode }: ProjectsSelectorProps) {
   };
 
   const projectPreviewClassName = mode === 'light' ? styles.light : styles.dark;
+  const hasData = currentUserProjectsWithoutCurrentProject.length > 0;
 
   const ProjectPreview = () => {
     return (
-      <div className={styles.projectsSelectorContainer}>
+      <div
+        className={`
+          ${styles.projectsSelectorContainer}
+          ${projectPreviewClassName}
+          ${hasData && styles.projectsSelectorContainerHovered}
+        `}
+      >
         { currentProject?.name }
       </div>
     );
   };
 
-  return currentUserProjectsWithoutCurrentProject.length > 0 ?
-    <div className={projectPreviewClassName}>
-      <Popup
-        isOpenPopup={isOpenProjectsPopup}
-        body={<PopupBodyProjects />}
-        center
-        arrow
-        width='190px'
-        onClick={(bool?: boolean) => {
-          if (typeof bool === 'boolean') {
-            toggleOpenProjectsPopup(bool);
-          } else {
-            toggleOpenProjectsPopup(true);
-          }
-        }}
-      >
-        <ProjectPreview />
-      </Popup>
-    </div> :
-    <div className={projectPreviewClassName}>
+  return hasData ?
+    <Popup
+      isOpenPopup={isOpenProjectsPopup}
+      body={<PopupBodyProjects />}
+      position='center'
+      width='190px'
+      onClick={(bool?: boolean) => {
+        if (typeof bool === 'boolean') {
+          toggleOpenProjectsPopup(bool);
+        } else {
+          toggleOpenProjectsPopup(true);
+        }
+      }}
+    >
       <ProjectPreview />
-    </div>
+    </Popup> :
+    <ProjectPreview />
 }

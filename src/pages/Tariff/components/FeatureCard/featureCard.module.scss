@@ -1,8 +1,10 @@
+@import '../../../../scss/variables.scss';
+
 .featureCardContainer {
   max-width: 200px;
   padding: 20px;
   border-radius: 3px;
-  border: 1px solid #dcdcdc;
+  border: 1px solid $grey-16;
 }
 
 .featureCardContainer:not(:nth-child(3n)) {
@@ -19,7 +21,7 @@
 }
 
 .description {
-  color: #777;
+  color: $grey-6;
   font-size: 14px;
   line-height: 1.36;
 }
@@ -31,10 +33,28 @@
 }
 
 .price {
-  color: #0a86f9;
+  color: $blue-4;
   font-size: 14px;
 }
 
 .imageContainer {
   height: 42px;
+}
+
+.featureCountBtn {
+  transition: none;
+  font-size: 14px;
+  font-weight: 400,
+}
+
+.featureCountDeleteBtn {
+  padding: 6px 20.5px;
+  background: $blue-4;
+  color: $white-1;
+}
+
+.featureCountAddBtn {
+  padding: 6px 15px;
+  background: transparent;
+  color: $blue-4;
 }

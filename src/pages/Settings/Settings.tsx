@@ -62,14 +62,14 @@ export default function Settings() {
     const channels = {
       name: 'Каналы',
       stylesList: {
-        color: '#363636',
+        color: '$brown-10',
       },
       onClick: () => history.push(`/project/${projectId}/settings/channels`),
     };
     const teammates = {
       name: 'Сотрудники',
       stylesList: {
-        color: '#363636',
+        color: '$brown-10',
       },
       onClick: () => {
         history.push({
@@ -81,7 +81,7 @@ export default function Settings() {
     const templates = {
       name: 'Шаблоны ответов',
       stylesList: {
-        color: '#363636',
+        color: '$brown-10',
       },
       onClick: () => {
         history.push(`/project/${projectId}/settings/templates`)
@@ -90,7 +90,7 @@ export default function Settings() {
     const statistics = {
       name: 'Статистика',
       stylesList: {
-        color: '#363636',
+        color: '$brown-10',
       },
       onClick: () => {
         history.push(`/project/${projectId}/settings/statistics`)
@@ -106,21 +106,21 @@ export default function Settings() {
     const tariff = {
       name: 'Конфигуратор тарифа',
       stylesList: {
-        color: '#363636',
+        color: '$brown-10',
       },
       onClick: () => history.push(`/project/${projectId}/settings/tariff`),
     };
     const bills = {
       name: 'Пополнение счета',
       stylesList: {
-        color: '#363636',
+        color: '$brown-10',
       },
       onClick: () => history.push(`/project/${projectId}/settings/bills`),
     };
     const billingHistory = {
       name: 'История транзакций',
       stylesList: {
-        color: '#363636',
+        color: '$brown-10',
       },
       onClick: () => {
         history.push(`/project/${projectId}/settings/billing-history`)

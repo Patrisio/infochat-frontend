@@ -77,18 +77,7 @@ export default function TotalTariffPlan() {
       <div className={styles.counterContainer}>
         <Button
           type='button'
-          stylesList={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '0',
-            height: '15px',
-            width: '15px',
-            border: '1px solid #ccc',
-            borderRadius: '50%',
-            background: 'transparent',
-            color: '#ccc',
-          }}
+          classNames={styles.incrementDecrementBtn}
           onClick={() => updateCounter('dec', featureId)}
         >
           -
@@ -96,18 +85,7 @@ export default function TotalTariffPlan() {
         <div className={styles.counterValue}>{tariffPlan[featureId].count}</div>
         <Button
           type='button'
-          stylesList={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '0',
-            height: '15px',
-            width: '15px',
-            border: '1px solid #ccc',
-            borderRadius: '50%',
-            background: 'transparent',
-            color: '#ccc',
-          }}
+          classNames={styles.incrementDecrementBtn}
           onClick={() => updateCounter('inc', featureId)}
         >
           +
@@ -195,10 +173,7 @@ export default function TotalTariffPlan() {
         <Button
           type='button'
           fluid
-          stylesList={{
-            padding: '15px 10px',
-            marginBottom: '10px',
-          }}
+          classNames={styles.button}
           onClick={updateTariffPlan}
         >
           Сохранить изменения
@@ -206,10 +181,7 @@ export default function TotalTariffPlan() {
         <Button
           type='button'
           fluid
-          stylesList={{
-            padding: '15px 10px',
-            marginBottom: '10px',
-          }}
+          classNames={styles.button}
           onClick={goToBillsPage}
         >
           {`Оплатить ${totalPrice} ₽`}

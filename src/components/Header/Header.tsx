@@ -80,7 +80,7 @@ export default function Header() {
           <Popup
             body={<PopupBodyUser />}
             width='215px'
-            center
+            position='center'
             arrow
           >
             <div className={styles.currentUserInfo}>

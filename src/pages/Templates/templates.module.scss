@@ -1,3 +1,5 @@
+@import '../../scss/variables.scss';
+
 .channelsContainer {
   flex-basis: 720px;
   margin: 0 auto;
@@ -27,4 +29,29 @@
 .textarea {
   font-size: 16px;
   height: 140px;
+}
+
+.addNewTemplateBtn {
+  font-size: 14px;
+  font-weight: 500;
+  color: $blue-4;
+  padding: 0;
+}
+
+.addTemplateBtn {
+  background: $white-1;
+  color: $blue-4;
+  font-weight: 400;
+  padding: 10px;
+  font-size: 13px;
+}
+
+.changeTemplateBtn {
+  font-weight: 500;
+  font-size: 13px;
+  padding: 10px 14px;
+}
+
+.deleteTemplateBtn {
+  padding-bottom: 0;
 }

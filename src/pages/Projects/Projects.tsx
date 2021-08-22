@@ -58,12 +58,7 @@ export default function Projects() {
         <Button
           type='button'
           background='transparent'
-          stylesList={{
-            fontSize: '14px',
-            fontWeight: 500,
-            color: '#0a86f9',
-            padding: '0',
-          }}
+          classNames={styles.addNewProjectBtn}
           onClick={() => {
             setModalProps({
               show: true,
@@ -100,13 +95,7 @@ export default function Projects() {
         <Button
           type='button'
           background='edit'
-          stylesList={{
-            background: '#fff',
-            color: '#0a86f9',
-            fontWeight: 400,
-            padding: '10px',
-            fontSize: '13px',
-          }}
+          classNames={styles.newProjectBtn}
           onClick={() => {
             setModalProps({
               show: true,
@@ -125,11 +114,7 @@ export default function Projects() {
         <Button
           type='button'
           background='edit'
-          stylesList={{
-            fontWeight: 500,
-            fontSize: '13px',
-            padding: '10px 14px',
-          }}
+          classNames={styles.changeProjectBtn}
           onClick={() => {
             history.push(`/project/${data.id}/settings/channels`)
           }}

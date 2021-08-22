@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -66,12 +66,6 @@ export default function AppealsContainerMessages({ closeModal, setModalProps }: 
     }));
   };
 
-  const buttonStyles = {
-    padding: '9px 30px 10px',
-    fontSize: '13px',
-    fontWeight: 400,
-  };
-
   const archiveDialog = () => {
     setModalProps({
       show: true,
@@ -91,7 +85,7 @@ export default function AppealsContainerMessages({ closeModal, setModalProps }: 
       <div className={styles.modalFooter}>
         <Button
           type='button'
-          stylesList={{ marginRight: '10px', ...buttonStyles }}
+          classNames={`${styles.button} ${styles.marginRight}`}
           background='edit'
           onClick={() => closeModal()}
         >
@@ -100,7 +94,7 @@ export default function AppealsContainerMessages({ closeModal, setModalProps }: 
 
         <Button
           type='button'
-          stylesList={{ ...buttonStyles }}
+          classNames={styles.button}
           onClick={closeModal}
         >
           Удалить
@@ -108,6 +102,39 @@ export default function AppealsContainerMessages({ closeModal, setModalProps }: 
       </div>
     );
   };
+  
+  const setAnimationClass = (childrenNodesLength: number, childrenNodes: HTMLCollection) => {
+    for (let i = childrenNodesLength; i > 0; i--) {
+      const node = childrenNodes[i - 1];
+      
+      setTimeout(() => {
+        if (node.classList.contains(styles.animationClass)) return;
+        node.className = node.className.concat(` ${styles.animationClass}`);
+      }, (childrenNodesLength - i) * 50);
+    }
+  };
+
+  const removeAnimationClass = (childrenNodesLength: number, childrenNodes: HTMLCollection) => {
+    for (let i = childrenNodesLength; i > 0; i--) {
+      const node = childrenNodes[i - 1];
+      node?.classList.remove(styles.animationClass);
+    }
+  };
+
+  useEffect(() => {
+    const messagesHistoryContainerElement = messagesHistoryContainerRef.current;
+
+    if (messagesHistoryContainerElement) {
+      const childrenNodes = messagesHistoryContainerElement.children;
+      const childrenNodesLength = childrenNodes.length;
+
+      setAnimationClass(childrenNodesLength, childrenNodes);
+
+      return () => {
+        removeAnimationClass(childrenNodesLength, childrenNodes);
+      };
+    }
+  }, [incomingMessages]);
 
   return (
     <div className={styles.converasationChatContainer}>
@@ -128,11 +155,7 @@ export default function AppealsContainerMessages({ closeModal, setModalProps }: 
             type='button'
             fluid
             background='edit'
-            stylesList={{
-              color: '#0a86f9',
-              fontSize: '13px',
-              padding: '6px 0'
-            }}
+            classNames={styles.closeDialogBtn}
             onClick={closeDialog}
             disabled={isDisabled()}
           >

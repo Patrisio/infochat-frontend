@@ -54,6 +54,7 @@ export default function SignUpPage()  {
           fluid
           onChange={handleChange}
           errorMessage={errors.email}
+          classNames={styles.inputField}
         />
         <Input
           placeholder='Пароль'
@@ -62,6 +63,7 @@ export default function SignUpPage()  {
           fluid
           onChange={handleChange}
           errorMessage={errors.password}
+          classNames={styles.inputField}
         />
         <Button
           type='submit'

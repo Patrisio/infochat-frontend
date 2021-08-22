@@ -1,7 +1,9 @@
+@import '../../../../scss/variables.scss';
+
 .title {
   font-size: 15px;
   font-weight: 600;
-  color: #000;
+  color: $black-1;
   margin: 0;
 }
 
@@ -41,4 +43,8 @@
   right: 5px;
   top: 30%;
   transform: translateY(-50%);
+}
+
+.addOptionsBtn {
+  color: $blue-1;
 }

@@ -24,43 +24,55 @@ export default function Modal({
     onClose();
   };
 
+  const getPositionStyles = () => {
+    switch (position) {
+      case 'top':
+        return show ? styles.modalContentTopVisible : styles.modalContentTopHidden;
+      case 'center':
+        return styles.center;
+      default:
+        return '';
+    }
+  };
+
   return (
-    show ?
-    <div>
-      <div className={styles.overlay}>
-        <div
-          className={`
-            ${styles.modalContent}
-            ${position === 'center' ? styles.center : styles.top}
-          `}
-          style={{ width, height }}
-        >
-          <div className={styles.header}>
-            <h3 className={styles.title}>{ title }</h3>
-            <div
-              className={styles.closeIcon}
-              onClick={closeModal}
-            >
-              <FontAwesomeIcon
-                icon={faTimes}
-                color='#ccc'
-              />
-            </div>
+    <div
+      className={`
+        ${styles.overlay}
+        ${show ? styles.overlayVisible : styles.overlayHidden}
+      `}>
+      <div
+        className={`
+          ${styles.modalContent}
+          ${show ? styles.modalContentVisible : styles.modalContentHidden}
+          ${getPositionStyles()}
+        `}
+        style={{ width, height }}
+      >
+        <div className={styles.header}>
+          <h3 className={styles.title}>{ title }</h3>
+          <div
+            className={styles.closeIcon}
+            onClick={closeModal}
+          >
+            <FontAwesomeIcon
+              icon={faTimes}
+              color='$grey-23'
+            />
           </div>
-
-          <div className={styles.modalBody}>
-            { body && cloneElement(body, { errors }) }
-          </div>
-
-          {
-            footer && 
-            <div>
-              { footer }
-            </div>
-          }
         </div>
+
+        <div className={styles.modalBody}>
+          { body && cloneElement(body, { errors }) }
+        </div>
+
+        {
+          footer && 
+          <div>
+            { footer }
+          </div>
+        }
       </div>
-    </div> :
-    null
+    </div>
   );
 }

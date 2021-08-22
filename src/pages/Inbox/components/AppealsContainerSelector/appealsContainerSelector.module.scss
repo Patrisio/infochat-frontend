@@ -1,13 +1,15 @@
+@import '../../../../scss/variables.scss';
+
 .appealsContainerSeletor {
   width: 586px;
   height: 100vh;
-  border-right: 1px solid  #e9e9e9;
-  margin-left: 270px;
+  border-right: 1px solid  $grey-13;
+  margin-left: 115px;
 }
 
 .incomingMessage {
-  border-bottom: 1px solid #e9e9e9;
-  color: #444;
+  border-bottom: 1px solid $grey-13;
+  color: $brown-5;
   cursor: pointer;
   padding: 13px 14px 13px;
   transition: .2s all;
@@ -16,17 +18,17 @@
 
 .message {
   &:hover {
-    background: #fafafa;
+    background: $white-4;
   }
 }
 
 .selected {
-  background: #0a86f9;
-  color: #fff;
+  background: $blue-4;
+  color: $white-1;
 }
 
 .time {
-  color: rgba(62,62,62,.35);
+  color: $opacity-1;
   font-size: 12px;
   margin-bottom: 4px;
 }
@@ -53,11 +55,11 @@
   white-space: nowrap;
   font-size: 13px;
   padding-bottom: 2px;
-  color: #6a7277;
+  color: $brown-7;
 }
 
 .lastMessageSelected {
-  color: #fff;
+  color: $white-1;
 }
 
 .clientName {
@@ -74,22 +76,22 @@
   min-width: 22px;
   width: fit-content;
   height: 18px;
-  background: #a3cff4;
+  background: $blue-9;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 2px;
   font-size: 12px;
   font-weight: 600;
-  color: #fff;
+  color: $white-1;
 }
 
 .timeSelected {
-  color: hsla(0,0%,100%,.35);
+  color: $opacity-2;
 }
 
 .greeting {
-  color: #b4b8bb;
+  color: $brown-8;
 }
 
 .popup {
@@ -100,13 +102,13 @@
 .link {
   display: flex;
   align-items: center;
-  color: #212529;
+  color: $blue-3;
   text-decoration: none;
   padding: 5px 24px;
   transition: .2s all;
 
   &:hover {
-    background: #f8f9fa;
+    background: $grey-21;
   }
 }
 
@@ -126,8 +128,8 @@
   align-items: center;
   padding: 21px 10px 21px 0;
   font-size: 14px;
-  border-bottom: 1px solid #e9e9e9;
-  background: #fff;
+  border-bottom: 1px solid $grey-13;
+  background: $white-1;
   z-index: 99;
 }
 
@@ -147,8 +149,8 @@
 }
 
 .title {
-  background: #f6f6f6;
-  color: #4d4d4d;
+  background: $white-3;
+  color: $brown-4;
   font-weight: 500;
   margin: 0;
   padding: 13px 20px;
@@ -185,7 +187,7 @@
 
 .label {
   font-weight: 500;
-  color: #959595;
+  color: $brown-3;
 }
 
 .searchButton {
@@ -206,6 +208,10 @@
 }
 
 .unreadMessageBlock {
-  background: #f4f9fd;
-  border-left: 2px solid #a3cff4;
+  background: $grey-20;
+  border-left: 2px solid $blue-9;
+}
+
+.searchBtn {
+  padding: 8px;
 }

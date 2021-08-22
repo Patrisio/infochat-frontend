@@ -1,3 +1,5 @@
+@import '../../scss/variables.scss';
+
 .channelsContainer {
   flex-basis: 720px;
   margin: 0 auto;
@@ -15,7 +17,7 @@
   bottom: .4px;
   width: 100%;
   height: 1px;
-  background: #e2e6e9;
+  background: $grey-12;
   z-index: -1;
 }
 
@@ -32,7 +34,7 @@
 }
 
 .chartTabActive {
-  border-bottom: 2px solid #0a86f9;
-  color:  #0a86f9;
+  border-bottom: 2px solid $blue-4;
+  color:  $blue-4;
   font-weight: 600;
 }

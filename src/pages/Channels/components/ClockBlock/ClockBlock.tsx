@@ -162,7 +162,7 @@ export default function ClockBlock({ setActiveTab }: Props) {
           type='button'
           onClick={addBusinessHoursModule}
           background='transparent'
-          stylesList={{ color: '#0084ff' }}
+          classNames={styles.addOptionsBtn}
         >
           + Добавить рабочие часы
         </Button>
@@ -178,7 +178,7 @@ export default function ClockBlock({ setActiveTab }: Props) {
           type='button'
           onClick={addWeekend}
           background='transparent'
-          stylesList={{ color: '#0084ff' }}
+          classNames={styles.addOptionsBtn}
         >
           + Добавить выходной
         </Button>

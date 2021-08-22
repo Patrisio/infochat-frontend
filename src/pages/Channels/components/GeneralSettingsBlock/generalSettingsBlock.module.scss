@@ -1,3 +1,5 @@
+@import '../../../../scss/variables.scss';
+
 .textarea {
   resize: none;
   white-space: pre-wrap;
@@ -5,7 +7,7 @@
   font-size: 14px;
   width: 100%;
   border-radius: 3px;
-  border: 1px solid #dadada;
+  border: 1px solid $grey-15;
   box-sizing: border-box;
   outline: none;
   height: 75px;
@@ -13,7 +15,7 @@
 
 .themeCard {
   border-radius: 3px;
-  border: 1px solid #dfdfdf;
+  border: 1px solid $grey-18;
   width: 70px;
   height: 45px;
   cursor: pointer;
@@ -33,7 +35,7 @@
 }
 
 .active {
-  border-color: #0a86f9;
+  border-color: $blue-4;
 }
 
 .buttonsSettingsContaoner {
@@ -50,7 +52,7 @@
 .lettersLimit {
   opacity: .3;
   font-size: 12px;
-  color: #000;
+  color: $black-1;
 }
 
 .switcherContainer {
@@ -62,17 +64,17 @@
 .swictherLabel {
   font-size: 15px;
   font-weight: 500;
-  color: #333;
+  color: $brown-6;
   margin-left: 5px;
 }
 
 .adviceNote {
   padding: 10px 15px 14px;
   border-radius: 5px;
-  background-color: #f8f4e4;
+  background-color: $grey-19;
   margin-bottom: 26px;
   line-height: 1.29;
-  color: #333;
+  color: $brown-6;
 }
 
 .description {
@@ -90,4 +92,8 @@
 
 .input {
   margin-bottom: 0;
+}
+
+.buttonNoticeField {
+  margin-bottom: 16px;
 }

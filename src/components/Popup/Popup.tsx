@@ -12,7 +12,7 @@ interface IProps {
   body: React.ReactNode,
   width?: string,
   center?: boolean,
-  position?: 'top' | 'down' | 'downRight',
+  position?: 'top' | 'down' | 'downRight' | 'center',
   isOpenPopup?: boolean,
   arrow?: boolean,
   onClick?: (bool?: boolean) => void,
@@ -32,6 +32,8 @@ export default function Popup({
 
   const getPositionStyles = () => {
     switch (position) {
+      case 'center':
+        return isOpen ? styles.popupCenterVisible : styles.popupCenterHidden;
       case 'top':
         return styles.top;
       case 'downRight':
@@ -75,28 +77,23 @@ export default function Popup({
             `}>
               <FontAwesomeIcon
                 icon={faChevronDown}
-                color='#aaa'
+                color='$grey-4'
                 size='xs'
               />
             </div>
           }
         </div>
 
-        {
-          isOpen &&
-          <div
-            className={`
-              ${styles.popup}
-              ${center && styles.center}
-              ${getPositionStyles()}
-            `}
-            style={{
-              width
-            }}
-          >
-            { body }
-          </div>
-        }
+        <div
+          className={`
+            ${styles.popup}
+            ${isOpen ? styles.popupVisible : styles.popupHidden}
+            ${getPositionStyles()}
+          `}
+          style={{ width }}
+        >
+          { body }
+        </div>
       </div>
     </OutsideClickHandler>
   );

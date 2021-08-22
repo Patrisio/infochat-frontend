@@ -11,6 +11,7 @@ interface IButtonProps {
   onClick?: (e?: any) => void,
   stylesList?: CSS.Properties | undefined,
   disabled?: boolean,
+  classNames?: string,
 }
 
 export default function Button({
@@ -21,7 +22,8 @@ export default function Button({
   background,
   onClick,
   stylesList,
-  disabled
+  disabled,
+  classNames,
 }: IButtonProps) {
 
   return (
@@ -31,15 +33,16 @@ export default function Button({
         ${background === 'edit' ? styles.edit :
           background === 'delete' ? styles.delete :
           background === 'success' ? styles.success : 
-          background === 'transparent' ? styles.transparent :styles.default
+          background === 'transparent' ? styles.transparent : styles.default
         }
         ${fluid ? styles.fluid : null}
         ${size === 'large' ? styles.large :
           size === 'medium' ? styles.medium :
           size === 'small' ? styles.small : null
         }
+        ${classNames}
       `}
-      style={stylesList}
+      // style={stylesList}
       type={type}
       onClick={onClick}
       disabled={disabled}

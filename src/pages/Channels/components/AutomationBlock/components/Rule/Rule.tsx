@@ -74,7 +74,7 @@ export default function Rule({
               type='button'
               onClick={editRule}
               background='transparent'
-              stylesList={{ color: '#0084ff', padding: 0, marginRight: '10px' }}
+              classNames={styles.changeRuleBtn}
             >
               Изменить
             </Button>
@@ -119,7 +119,7 @@ export default function Rule({
               toggleChanges(true);
             }}
             background='transparent'
-            stylesList={{ color: '#0084ff', paddingLeft: 0 }}
+            classNames={styles.addConditionBtn}
           >
             + Добавить условие
           </Button>
@@ -149,7 +149,7 @@ export default function Rule({
             type='button'
             onClick={() => deleteRule(ruleId)}
             background='transparent'
-            stylesList={{ color: '#ee6953' }}
+            classNames={styles.deleteActionBtn}
           >
             Удалить это действие
           </Button>

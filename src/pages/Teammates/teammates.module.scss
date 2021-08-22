@@ -1,3 +1,5 @@
+@import '../../scss/variables.scss';
+
 .teammateContainer {
   flex-basis: 720px;
   margin: 0 auto;
@@ -7,13 +9,6 @@
   display: flex;
   justify-content: space-between;
 }
-
-// .gridContainer {
-//   border: 1px solid #d6d6d6;
-//   border-radius: 5px;
-// }
-
-
 
 .operatorNameEmail {
   width: 320px;
@@ -43,15 +38,15 @@
 }
 
 .active {
-  color: #00c200;
+  color: $green-1;
 }
 
 .pending {
-  color: #b1b1b1;
+  color: $grey-10;
 }
 
 .notPaid {
-  color: #ee6953;
+  color: $orange-1;
 }
 
 .modalBody {
@@ -71,4 +66,18 @@
   display: flex;
   justify-content: flex-end;
   padding: 0 15px 20px;
+}
+
+.teammateEmailField {
+  margin-bottom: 15px;
+}
+
+.marginRight {
+  margin-right: 10px;
+}
+
+.button {
+  padding: 9px 30px 10px;
+  font-size: 13px;
+  font-weight: 400;
 }

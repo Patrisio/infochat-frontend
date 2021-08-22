@@ -1,3 +1,5 @@
+@import '../../../../scss/variables.scss';
+
 .chatPreviewContainer {
   margin-left: 40px;
 }
@@ -6,17 +8,27 @@
   width: 350px;
 }
 
+.chatName {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.responseTimeText {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
 .chatPreviewHeader {
   border-radius: 15px 15px 0 0;
-  background: #0084ff;
+  background: $blue-1;
   text-align: center;
   padding: 15px 0;
-  color: #fff;
+  color: $white-1;
 }
 
 .chatPreviewBody {
   position: relative;
-  background: #fff;
+  background: $white-1;
   height: 467px;
 }
 
@@ -27,11 +39,11 @@
   justify-content: space-between;
   padding: 0 20px;
   height: 55px;
-  background: #fff;
+  background: $white-1;
   border-radius: 0 0 8px 8px;
   font-size: 15px;
   text-align: left;
-  color: #c3c3c3;
+  color: $grey-3;
   box-shadow: 0 -10px 40px 0 rgb(0 0 0 / 5%);
 
   & .emojiIcon {
@@ -44,7 +56,7 @@
   align-items: center;
   justify-content: center;;
   box-shadow: rgb(0 132 255 / 25%) 0px 10px 15px;
-  background: rgb(0, 132, 255);
+  background: $blue-1;
   border-radius: 60px;
 }
 
@@ -86,7 +98,7 @@
 
 .fakeMessage {
   padding: 11px 20px 11px 16px;
-  background: #ececed;
+  background: $white-5;
   border-radius: 18px;
   margin-left: 12px;
   font-size: 14px;
@@ -97,17 +109,17 @@
   bottom: 10px;
   right: 20px;
   font-size: 13px;
-  color: #000;
+  color: $black-1;
 }
 
 .link {
-  color: #0a86f9;
+  color: $blue-4;
   text-decoration: underline;
   cursor: pointer;
 }
 
 .triggerContent {
-  color: #fff;
+  color: $white-1;
   display: flex;
   align-items: center;
 }

@@ -1,3 +1,5 @@
+@import '../../../../scss/variables.scss';
+
 .counterContainer {
   display: flex;
 }
@@ -8,6 +10,22 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #0a86f9;
-  color: #fff;
+  background: $blue-4;
+  color: $white-1;
+}
+
+.decrementBtn {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.incrementBtn {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
 }

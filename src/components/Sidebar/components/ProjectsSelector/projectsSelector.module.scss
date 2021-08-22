@@ -1,20 +1,30 @@
+@import '../../../../scss/variables.scss';
+
 .projectsSelectorContainer {
   flex-grow: 1;
   text-align: center;
-  padding: 18.5px 5px 18.5px 35.5px;
-  color: #fff;
+  padding: 18.5px 0;
   font-size: 20px;
   font-weight: 500;
+  transition: .2s all;
+
+  &Hovered {
+    cursor: pointer;
+
+    &:hover {
+      opacity: .5;
+    }
+  }
 }
 
 .dark {
   border-bottom: 1px solid rgba(227,230,232,.1);
-  color: #fff;
+  color: $white-1;
 }
 
 .light {
-  border-bottom: 1px solid #e2e6e9;
-  color: #333;
+  border-bottom: 1px solid $grey-12;
+  color: $brown-6;
 }
 
 .projectsList {
@@ -34,10 +44,12 @@
 }
 
 .projectName:hover {
-  background: #f8f9fa;
+  background: $grey-21;
 }
 
 .projectLink {
+  display: block;
+  width: 100%;
   text-decoration: none;
-  color: #000;
+  color: $black-1;
 }

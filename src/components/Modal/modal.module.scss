@@ -1,3 +1,5 @@
+@import '../../scss/variables.scss';
+
 .overlay {
   position: fixed;
   display: flex;
@@ -8,15 +10,49 @@
   top: 0;
   background: rgba(0, 0, 0, .5);
   overflow-y: auto;
+  transition: .3s all;
+
+  &Hidden {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  &Visible {
+    visibility: visible;
+    opacity: 1;
+  }
 }
 
 .modalContent {
   position: relative;
   z-index: 99;
-  background: #fff;
+  background: $white-1;
   border-radius: 5px;
   overflow: hidden;
   height: fit-content;
+  transition: .2s all ease;
+
+  &Hidden {
+    visibility: hidden;
+  }
+
+  &Visible {
+    visibility: visible;
+  }
+
+  &TopHidden {
+    visibility: hidden;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &TopVisible {
+    visibility: visible;
+    transform: translateX(-50%);
+    top: 30px;
+    left: 50%;
+  }
 }
 
 .modalBody {
@@ -24,21 +60,17 @@
   height: calc(100% - 50px);
 }
 
-.top {
-  top: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
 .center {
-  margin: auto;
+  transform: translateX(-50%);
+  top: 0;
+  left: 50%;
   align-self: center;
 }
 
 .header {
-  background: #f6f6f6;
+  background: $white-3;
   padding: 16px;
-  border-bottom: 1px solid #dee2e6;
+  border-bottom: 1px solid $grey-17;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -46,7 +78,7 @@
 
 .title {
   font-weight: 500;
-  color: #444;
+  color: $brown-5;
   font-size: 16px;
   margin: 0;
 }

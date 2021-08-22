@@ -212,6 +212,8 @@ export default function MessageInputContainer({ messagesHistoryContainerElement 
     if (textAreaElement) {
       textAreaElement.focus();
     }
+
+    scrollToBottomOfWrapper(messagesHistoryContainerElement);
   }, [selectedClient]);
 
   return (

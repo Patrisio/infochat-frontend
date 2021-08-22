@@ -1,7 +1,9 @@
+@import '../../scss/variables.scss';
+
 .datePresetsContainer {
   display: flex;
   width: fit-content;
-  border: 1px solid #e0e3ea;
+  border: 1px solid $grey-11;
   border-radius: 5px;
   margin-top: 25px;
   user-select: none;
@@ -13,7 +15,7 @@
 }
 
 .dateTabActive {
-  background: #ffefb2;
+  background: $yellow-1;
 }
 
 .dateTab {
@@ -21,5 +23,5 @@
 }
 
 .dateTab:not(:last-child) {
-  border-right: 1px solid #e0e3ea;
+  border-right: 1px solid $grey-11;
 }

@@ -43,10 +43,13 @@ export default function MessageInput({ message }: any) {
   };
 
   return (
-    <div className={`
-      ${styles.messageInnerContainer}
-      ${message.username === 'client' ? styles.messageInnerContainerLeft : styles.messageInnerContainerRight}
-    `}>
+    <div
+      className={`
+        ${styles.messageInnerContainer}
+        ${message.username === 'client' ? styles.messageInnerContainerLeft : styles.messageInnerContainerRight}
+      `}
+      // ref={messageContainerRef}
+    >
       <div className={styles.messageBody}>
         {
           message.username === 'client' &&

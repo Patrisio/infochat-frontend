@@ -1,10 +1,12 @@
+@import '../../../../scss/variables.scss';
+
 .title {
   font-size: 12px;
   font-weight: 400;
   text-transform: uppercase;
   margin: 0;
   margin-bottom: 8px;
-  color: #aaa;
+  color: $grey-4;
   padding-left: 30px;
 }
 
@@ -13,5 +15,5 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  background: #2b2b2d;
+  background: $black-2;
 }

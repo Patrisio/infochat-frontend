@@ -44,7 +44,7 @@ export default function Note({
         >
           <FontAwesomeIcon
             icon={faTimes}
-            color='#ee6953'
+            color='$orange-1'
           />
         </div>
       </div>

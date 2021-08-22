@@ -1,3 +1,5 @@
+@import '../../scss/variables.scss';
+
 .billsContainer {
   flex-basis: 760px;
   margin: 0 auto;
@@ -5,7 +7,7 @@
 
 .paymentFormContainer {
   border-radius: 3px;
-  border: 1px solid #dcdcdc;
+  border: 1px solid $grey-16;
   padding: 40px 21px 40px 30px;
   margin-top: 30px;
 }
@@ -36,7 +38,7 @@
 }
 
 .bonus {
-  color: #00c200;
+  color: $green-1;
   margin: 0 5px 0 15px;
 }
 
@@ -66,7 +68,7 @@
 
 .bonusAccruals {
   margin-left: 5px;
-  color: #00c200;
+  color: $green-1;
 }
 
 .paymentWaysTabs {
@@ -83,11 +85,11 @@
 .paymentWayTab {
   padding: 13px 25px 13px 15px;
   border: 2px solid transparent;
-  border-bottom: 1px solid #dee2e6;
+  border-bottom: 1px solid $grey-17;
 }
 
 .paymentWayTabActive {
-  border: 2px solid #dee2e6;
+  border: 2px solid $grey-17;
   border-bottom: 1px solid transparent;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
@@ -101,9 +103,21 @@
 .paymentWayContentText {
   font-size: 14px;
   line-height: 1.43;
-  color: #333;
+  color: $brown-6;
 }
 
 .paymentWaysContainer {
   max-width: 580px;
+}
+
+.payBtn {
+  padding: 0;
+  color: $blue-8;
+  border-bottom: 1px dotted $blue-8;
+  border-radius: 0;
+  margin-left: 5px;
+}
+
+.toPayBtn {
+  padding: 20px 70px,
 }

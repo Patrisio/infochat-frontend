@@ -1,3 +1,5 @@
+@import '../../../../scss/variables.scss';
+
 .periodsContainer {
   display: flex;
   align-items: center;
@@ -12,7 +14,7 @@
 .periodContainer {
   padding: 8px 18px 8px 8px;
   user-select: none;
-  color: #0a86f9;
+  color: $blue-4;
 }
 
 .periodRadioButton {
@@ -33,6 +35,6 @@
 
 .periodRadioButtonActive {
   border-radius: 16px;
-  background: #ffefb2;
-  color: #000;
+  background: $yellow-1;
+  color: $black-1;
 }

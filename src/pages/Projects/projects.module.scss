@@ -1,3 +1,5 @@
+@import '../../scss/variables.scss';
+
 .projectsContainer {
   display: flex;
   justify-content: space-between;
@@ -27,4 +29,25 @@
 
 .field {
   margin-bottom: 15px;
+}
+
+.addNewProjectBtn {
+  font-size: 14px;
+  font-weight: 500;
+  color: $blue-4;
+  padding: 0;
+}
+
+.newProjectBtn {
+  background: $white-1;
+  color: $blue-4;
+  font-weight: 400;
+  padding: 10px;
+  font-size: 13px;
+}
+
+.changeProjectBtn {
+  font-weight: 500;
+  font-size: 13px;
+  padding: 10px 14px;
 }

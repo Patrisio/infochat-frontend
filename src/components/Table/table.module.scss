@@ -1,5 +1,7 @@
+@import '../../scss/variables.scss';
+
 .gridContainer {
-  border: 1px solid #d6d6d6;
+  border: 1px solid $grey-14;
   border-radius: 5px;
   margin: 0 auto;
 }
@@ -10,5 +12,5 @@
   justify-content: space-between;
   padding: 0 15px;
   height: 64px;
-  border-bottom: 1px solid #d6d6d6;
+  border-bottom: 1px solid $grey-14;
 }

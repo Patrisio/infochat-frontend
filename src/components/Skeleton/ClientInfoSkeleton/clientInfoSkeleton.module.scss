@@ -1,8 +1,10 @@
+@import '../../../scss/variables.scss';
+
 .clientInfoSkeletonHeader {
   display: flex;
   align-items: center;
   padding: 13px 14px;
-  border-bottom: 1px solid #e9e9e9;
+  border-bottom: 1px solid $grey-13;
 }
 
 .clientInfoSkeletonDescription {
@@ -15,7 +17,7 @@
   display: flex;
   flex-wrap: wrap;
   padding: 13px 14px;
-  border-bottom: 1px solid #e9e9e9;
+  border-bottom: 1px solid $grey-13;
 }
 
 .clientInfoSkeletonEntityItem {
@@ -25,7 +27,7 @@
 
 .clientInfoSkeletonNote {
   padding: 13px 14px;
-  border-bottom: 1px solid #e9e9e9;
+  border-bottom: 1px solid $grey-13;
 }
 
 .clientInfoSkeletonNoteDescription {

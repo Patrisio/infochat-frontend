@@ -50,14 +50,10 @@ export default function FeatureCard({ imageSrc, id, name, description, category,
           /> :
           <Button
             type='button'
-            stylesList={{
-              padding: featureCount ? '6px 20.5px' : '6px 15px',
-              transition: 'none',
-              fontSize: '14px',
-              fontWeight: 400,
-              background: featureCount ? '#0a86f9' : 'transparent',
-              color: featureCount ? '#fff' : '#0a86f9',
-            }}
+            classNames={`
+              ${styles.featureCountBtn}
+              ${featureCount ? styles.featureCountDeleteBtn : styles.featureCountAddBtn}
+            `}
             onClick={updateCount}
           >
             { featureCount ? 'Удалить' : 'Добавить' }

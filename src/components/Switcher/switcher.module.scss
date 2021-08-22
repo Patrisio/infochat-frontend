@@ -1,6 +1,8 @@
-$toggle-background-color-on: #00c200;
+@import '../../scss/variables.scss';
+
+$toggle-background-color-on: $green-1;
 $toggle-background-color-off: darkgray;
-$toggle-control-color: white;
+$toggle-control-color: $white-1;
 $toggle-width: 36px;
 $toggle-height: 18px;
 $toggle-gutter: 2px;
