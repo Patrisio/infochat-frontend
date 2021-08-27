@@ -15,7 +15,7 @@ import useForm from '../../hooks/useForm';
 import { Context } from '../../context/Context';
 import { getAllInboxMessages } from '../../lib/utils/messages';
 import cloneDeep from 'lodash/cloneDeep';
-import { addProject } from '../../actions';
+import { useActions } from '../../hooks/useActions';
 import { getTimezones, getTimezoneByCode, DEFAULT_TIME_ZONE } from '../../lib/utils/date';
 import styles from './projects.module.scss';
 import validateForm from './validateForm';
@@ -43,7 +43,7 @@ export default function Projects() {
     height: '',
   });
 
-  const dispatch = useDispatch();
+  const { addProject } = useActions();
   const { currentUser, setCurrentUser } = useContext<any>(Context);
   const history = useHistory();
 
@@ -145,12 +145,12 @@ export default function Projects() {
         setModalProps(Object.assign(currentModal, { show: false }));
       };
 
-      dispatch(addProject({
+      addProject({
         name: values.name,
         email: currentUser.email,
         timezone,
         successCallback: updateCurrentUser,
-      }));
+      });
     };
 
     const { handleChange, handleSubmit, values, errors } = useForm(

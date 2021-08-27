@@ -6,9 +6,9 @@ import Input from '../../../../../../components/Input/Input';
 import Tabs from '../../../../../../components/Tabs/Tabs';
 
 import styles from './assignedTeammates.module.scss';
-import { Teammate } from '../../../../../../reducers/teammates';
-import { State } from '../../../../../../reducers/inbox';
-import { changeMessagesStatus } from '../../../../../../actions';
+import { Teammate } from '../../../../../../types/teammates';
+import { InboxState } from '../../../../../../types/inbox';
+import { useActions } from '../../../../../../hooks/useActions';
 
 interface ITeammate {
   id?: string | '' |  null,
@@ -17,11 +17,11 @@ interface ITeammate {
 }
 
 interface AssignedTeammatesProps {
-  selectedClient: State['selectedClient'],
+  selectedClient: InboxState['selectedClient'],
 }
 
 export default function AssignedTeammates({ selectedClient }: AssignedTeammatesProps) {
-  const dispatch = useDispatch();
+  const { changeMessagesStatus } = useActions();
   let { projectId } = useParams<{ projectId: string }>();
 
   const teammates = useSelector((state: any) => state.teammates.teammates);
@@ -36,12 +36,12 @@ export default function AssignedTeammates({ selectedClient }: AssignedTeammatesP
   };
 
   const assignTeammate = (teammate: ITeammate) => {
-    dispatch(changeMessagesStatus({
+    changeMessagesStatus({
       clientId: selectedClient.clientId,
       projectId,
       assignedTo: teammate.id,
       messagesStatus: 'opened',
-    }));
+    });
 
     console.log(teammate.id);
     const teammateName = teammates.find((user: Teammate) => user.email === teammate.id).username;
@@ -53,12 +53,12 @@ export default function AssignedTeammates({ selectedClient }: AssignedTeammatesP
   };
 
   const removeAssignedTeammate = (teammate: ITeammate) => {
-    dispatch(changeMessagesStatus({
+    changeMessagesStatus({
       clientId: selectedClient.clientId,
       projectId,
       assignedTo: '',
       messagesStatus: 'opened',
-    }));
+    });
 
     setAssignedTeammate((prev) => prev.filter((assignedTeammate) => assignedTeammate.value !== teammate.value));
   };

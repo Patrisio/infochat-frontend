@@ -4,9 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router';
 
 import { Context } from '../../context/Context';
-import {
-  fetchTeammates, fetchIncomingMessages, fetchChannels
-} from '../../actions';
+import { useActions } from '../../hooks/useActions';
 
 import Header from '../../components/Header/Header';
 import Spin from '../../components/Spin/Spin';
@@ -18,7 +16,7 @@ import AppealsContainerMessages from './components/AppealsContainerMessages/Appe
 import PersonInfo from './components/PersonInfo/PersonInfo';
 import InboxSidebar from './components/InboxSidebar/InboxSidebar';
 
-import { State } from '../../reducers/inbox';
+import { InboxState } from '../../types/inbox';
 import styles from './inbox.module.scss';
 import man from '../../assets/man.png';
 import { getAllInboxMessages } from '../../lib/utils/messages';
@@ -59,7 +57,7 @@ interface IMessagesHistory {
 }
 
 interface RootState {
-  inbox: State
+  inbox: InboxState
   teammates: {
     teammates: Teammate[],
   },
@@ -95,15 +93,15 @@ export default function Inbox() {
     height: '',
   });
 
-  const dispatch = useDispatch();
+  const { fetchTeammates, fetchIncomingMessages, fetchChannels } = useActions();
   let history = useHistory();
 
   const inboxMessages = getAllInboxMessages(incomingMessages, currentUser);
 
   useEffect(() => {
-    dispatch(fetchIncomingMessages({ projectId }));
-    dispatch(fetchTeammates({ projectId }));
-    dispatch(fetchChannels({ projectId }));
+    fetchIncomingMessages({ projectId });
+    fetchTeammates({ projectId });
+    fetchChannels({ projectId });
   }, []);
 
   const filterByFilters = (incMsg: any) => {

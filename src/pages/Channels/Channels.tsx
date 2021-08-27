@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import Table from '../../components/Table/Table';
 import Button from '../../components/Button/Button';
@@ -18,8 +18,7 @@ import ChatPreview from './components/ChatPreview/ChatPreview';
 
 import styles from './channels.module.scss';
 import cloneDeep from 'lodash/cloneDeep';
-import { addChannel as addChannelAction, fetchChannels, fetchChatSettings } from '../../actions';
-
+import { useActions } from '../../hooks/useActions';
 import chat from '../../assets/chat.svg';
 import chatChannels from '../../assets/chat-channels.svg';
 import invite from '../../assets/invite.svg';
@@ -74,8 +73,8 @@ export default function Channels() {
   const connectedChannels = useSelector((state: RootState) => state.channels.channels);
   const teammates = useSelector((state: RootState) => state.teammates.teammates);
 
-  let dispatch = useDispatch();
   let { projectId } = useParams<{ projectId: string }>();
+  const { addChannel, fetchChannels, fetchChatSettings } = useActions();
 
   const getChannelPreview = (data: string) => {
     switch(data) {
@@ -230,7 +229,7 @@ export default function Channels() {
           background='edit'
           classNames={styles.changeChannelSettingsBtn}
           onClick={() => {
-            dispatch(fetchChatSettings({ projectId }));
+            fetchChatSettings({ projectId });
 
             setModalProps({
               show: true,
@@ -307,11 +306,11 @@ export default function Channels() {
   }, []);
 
   const getChannels = () => {
-    dispatch(fetchChannels({ projectId }));
+    fetchChannels({ projectId });
   };
 
-  const addChannel = (id: string) => {
-    dispatch(addChannelAction({ projectId, name: id }));
+  const addNewChannel = (id: string) => {
+    addChannel({ projectId, name: id });
   };
 
   const ModalBody = () => {
@@ -331,7 +330,7 @@ export default function Channels() {
                 onClick={() => {
                   if (isAlreadyConnectedChannel) return;
 
-                  addChannel(id);
+                  addNewChannel(id);
                   setModalProps(Object.assign(currentModal, { show: false }));
                 }}
               >

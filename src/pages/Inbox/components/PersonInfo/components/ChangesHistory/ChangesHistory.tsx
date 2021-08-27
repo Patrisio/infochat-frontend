@@ -2,10 +2,10 @@ import React from 'react';
 
 import Modification from '../../../Modification/Modification';
 
-import { State } from '../../../../../../reducers/inbox';
+import { InboxState } from '../../../../../../types/inbox';
 
 interface ChangesHistoryProps {
-  selectedClient: State['selectedClient']
+  selectedClient: InboxState['selectedClient']
 }
 
 export default function ChangesHistory({ selectedClient }: ChangesHistoryProps) {

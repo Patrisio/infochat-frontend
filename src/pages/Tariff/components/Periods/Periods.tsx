@@ -3,17 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Input from '../../../../components/Input/Input';
 
-import { updateTariffPeriod } from '../../../../actions';
+import { useActions } from '../../../../hooks/useActions';
 import { bonus } from '../../../../lib/utils/bonus';
 import { periods, Period } from '../../constants';
 import styles from './periods.module.scss';
 
 export default function Periods() {
   const tariffPeriod = useSelector((state: any) => state.tariff.period);
-  const dispatch = useDispatch();
-
+  const { updateTariffPeriod } = useActions();
   const changePeriod = (e: any) => {
-    dispatch(updateTariffPeriod({ period: Number(e.target.value) }));
+    updateTariffPeriod({ period: Number(e.target.value) });
   };
 
   return (

@@ -12,7 +12,7 @@ import EditableUserForm from '../../modules/EditableUserForm/EditableUserForm';
 import { Context } from '../../context/Context';
 import { getAllInboxMessages } from '../../lib/utils/messages';
 import { getTimezones, getTimezoneByCode, USER_TIME_ZONE } from '../../lib/utils/date';
-import { updateTeammate } from '../../actions';
+import { useActions } from '../../hooks/useActions';
 import styles from './profile.module.scss';
 
 export default function Profile() {
@@ -20,7 +20,7 @@ export default function Profile() {
   let { projectId } = useParams<{ projectId: string }>()
 
   const incomingMessages = useSelector((state: any) => state.inbox.incomingMessages);
-  let dispatch = useDispatch();
+  const { updateTeammate } = useActions();
 
   const [formData, setFormData] = useState({
     email: currentUser.email,
@@ -36,7 +36,7 @@ export default function Profile() {
     const { name, surname, ...restFormData } = data;
     const username = `${name} ${surname}`;
 
-    dispatch(updateTeammate({
+    updateTeammate({
       ...restFormData,
       timezone: formData.timezone,
       username,
@@ -50,7 +50,7 @@ export default function Profile() {
           ...restFormData,
         };
       }),
-    }));
+    });
   };
 
   const updateTimezone = (timezone: string | number) => {

@@ -1,36 +1,26 @@
-import { TEMPLATES, TEMPLATE } from '../constants/templates';
+import { TemplatesState, TemplatesAction, TemplatesActionTypes } from '../../types/templates';
+
 import cloneDeep from 'lodash/cloneDeep';
-import { generateRandomHash } from '../utils/string';
 
-interface Template {
-  id: string,
-  name: string,
-  message: string,
-}
-
-interface State {
-  templates: Template[],
-}
-
-const initialState: State = {
+const initialState: TemplatesState = {
   templates: [],
 };
 
-export const templatesReducer = (state = initialState, action: any) => {
+export const templatesReducer = (state = initialState, action: TemplatesAction) => {
   switch (action.type) {
-    case TEMPLATES.ADD:
+    case TemplatesActionTypes.TEMPLATES_ADD:
       return {
         ...state,
         templates: action.templates
       };
 
-    case TEMPLATE.ADD:
+    case TemplatesActionTypes.TEMPLATE_ADD:
       return {
         ...state,
         templates: [...state.templates, action.template]
       };
 
-    case TEMPLATE.EDIT:
+    case TemplatesActionTypes.TEMPLATE_EDIT:
       const copy = cloneDeep(state.templates);
       const foundTemplateIndex = copy.findIndex((template) => (template.id === action.template.id));
 
@@ -41,7 +31,7 @@ export const templatesReducer = (state = initialState, action: any) => {
         templates: copy
       };
 
-    case TEMPLATE.DELETE:
+    case TemplatesActionTypes.TEMPLATE_DELETE:
       return { templates: state.templates.filter((template) => template.id !== action.templateId) };
     
     default:

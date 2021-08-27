@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Button from '../../../../components/Button/Button';
 
-import { updateTariffPlan } from '../../../../actions';
+import { useActions } from '../../../../hooks/useActions';
 import styles from './counter.module.scss';
 
 interface CounterProps {
@@ -12,13 +12,12 @@ interface CounterProps {
 
 export default function Counter({ featureId }: CounterProps) {
   const featureCount = useSelector((state: any) => state.tariff.plan[featureId].count);
-  const dispatch = useDispatch();
-
+  const { updateTariffPlan } = useActions();
   const updateCounter = (type: 'inc' | 'dec') => {
-    dispatch(updateTariffPlan({
+    updateTariffPlan({
       featureId,
       count: type === 'inc' ? featureCount + 1 : featureCount - 1,
-    }));
+    });
   };
 
   return (

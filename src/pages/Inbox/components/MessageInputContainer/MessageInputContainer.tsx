@@ -11,12 +11,7 @@ import socket from '../../../../socket';
 import styles from './messageInputContainer.module.scss';
 import { scrollToBottomOfWrapper } from '../../../../lib/utils/scroll';
 import { replaceBrToWhiteSpace, replaceWhiteSpaceToBr } from '../../../../utils/string';
-import {
-  addIncomingMessage,
-  addIncomingMessageForSelectedClient,
-  addToInboxIncomingMessage,
-  fetchTemplates, changeMessagesStatus, updateSelectedClient
-} from '../../../../actions';
+import { useActions } from '../../../../hooks/useActions';
 import { Context } from '../../../../context/Context';
 
 interface IMessagesHistory {
@@ -73,7 +68,10 @@ export default function MessageInputContainer({ messagesHistoryContainerElement 
   const selectedClient = useSelector((state: RootState) => state.inbox.selectedClient);
   const templates = useSelector((state: RootState) => state.templates.templates);
   const isAssigned = Boolean(selectedClient.assignedTo);
-  const dispatch = useDispatch();
+  const {
+    addIncomingMessage, addIncomingMessageForSelectedClient,
+    addToInboxIncomingMessage, fetchTemplates, changeMessagesStatus,
+  } = useActions();
 
   const [isOpenTemplatesPopup, toggleTemplatesPopup] = useState(false);
   const [userTemplatesInput, setUserTemplatesInput] = useState('');
@@ -91,13 +89,13 @@ export default function MessageInputContainer({ messagesHistoryContainerElement 
     };
 
     const successCallback = () => {
-      dispatch(addIncomingMessage({
+      addIncomingMessage({
         clientId: selectedClient.clientId,
         projectId,
         messagesHistory: [newMessage]
-      }));
+      });
 
-      dispatch(addIncomingMessageForSelectedClient(newMessage));
+      addIncomingMessageForSelectedClient(newMessage);
 
       setInputAreaValue('');
       scrollToBottomOfWrapper(messagesHistoryContainerElement);
@@ -113,22 +111,22 @@ export default function MessageInputContainer({ messagesHistoryContainerElement 
       (data: any) => console.log(data));
     };
 
-    dispatch(addToInboxIncomingMessage({
+    addToInboxIncomingMessage({
       clientId: selectedClient.clientId,
       projectId,
       message: newMessage,
       timestamp,
       successCallback,
-    }));
+    });
   };
 
   const appointDialog = () => {
-    dispatch(changeMessagesStatus({
+    changeMessagesStatus({
       messagesStatus: 'opened',
       assignedTo: currentUser.email,
       projectId,
       clientId: selectedClient.clientId,
-    }));
+    });
   };
 
   const checkForTemplates = (e: any) => {
@@ -203,7 +201,7 @@ export default function MessageInputContainer({ messagesHistoryContainerElement 
   }
 
   useEffect(() => {
-    dispatch(fetchTemplates({ projectId }));
+    fetchTemplates({ projectId });
   }, []);
 
   useEffect(() => {

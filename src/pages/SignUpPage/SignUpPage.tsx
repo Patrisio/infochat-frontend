@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import useForm from '../../hooks/useForm';
 
-import { authSignUp } from '../../actions';
+import { useActions } from '../../hooks/useActions';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 
@@ -12,7 +12,7 @@ import styles from './SignUpPage.module.scss';
 import validateForm from './validateForm';
 
 export default function SignUpPage()  {
-  const dispatch = useDispatch();
+  const { authSignUp } = useActions();
 
   const signUpUser = async (values: any) => {
     const successCallback = (data: {
@@ -27,12 +27,12 @@ export default function SignUpPage()  {
       window.location.href = `/project/${data.projectId}/inbox/opened`;
     };
 
-    dispatch(authSignUp({
+    authSignUp({
       ...values,
       role: 'owner',
       status: 'active',
       successCallback,
-    }));
+    });
   };
 
   const { handleChange, handleSubmit, errors } = useForm(

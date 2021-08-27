@@ -6,7 +6,7 @@ import Tabs from '../../../../components/Tabs/Tabs';
 import ButtonsGroup from '../ButtonsGroup/ButtonsGroup';
 
 import styles from './operatorsBlock.module.scss';
-import { updateChannelSettings } from '../../../../actions';
+import { useActions } from '../../../../hooks/useActions';
 
 interface Operator {
   icon?: string,
@@ -46,7 +46,7 @@ export default function OperatorsBlock({ setActiveTab }: Props) {
   const assignedOperators = useSelector((state: RootState) => state.channels.settings.operators);
   const existingTeammates = useSelector((state: RootState) => state.teammates.teammates);
   const [hasChanges, toggleChanges] = useState(false);
-  let dispatch = useDispatch();
+  const { updateChannelSettings } = useActions();
 
   const getTeammates = () => {
     return existingTeammates.map((operator: any) => ({
@@ -56,7 +56,9 @@ export default function OperatorsBlock({ setActiveTab }: Props) {
   };
 
   const removeAssignedTeammate = (teammate: Operator) => {
-    dispatch(updateChannelSettings({ operators: assignedOperators.filter((operator: any) => operator.id !== teammate.id) }));
+    updateChannelSettings({
+      operators: assignedOperators.filter((operator: any) => operator.id !== teammate.id),
+    });
     toggleChanges(true);
   };
 
@@ -66,7 +68,9 @@ export default function OperatorsBlock({ setActiveTab }: Props) {
     const isOperatorAlreadyAssigned = assignedOperators.find((assignedOperator) => assignedOperator.id === operator.id);
 
     if (!isOperatorAlreadyAssigned) {
-      dispatch(updateChannelSettings({ operators: [...assignedOperators, operator] }));
+      updateChannelSettings({
+        operators: [...assignedOperators, operator],
+      });
     }
   };
 
@@ -99,7 +103,7 @@ export default function OperatorsBlock({ setActiveTab }: Props) {
         toggleChanges={toggleChanges}
         setActiveTab={setActiveTab}
         resetBlockSettings={() => {
-          dispatch(updateChannelSettings({ operators: defaultOperators }));
+          updateChannelSettings({ operators: defaultOperators });
         }}
         saveChangesCallback={saveChangesCallback}
       />

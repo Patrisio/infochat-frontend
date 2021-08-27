@@ -7,14 +7,12 @@ import Button from '../../../../../../components/Button/Button';
 import { ModalProps } from '../../../../../../components/Modal/Modal';
 
 import { Context } from '../../../../../../context/Context';
-import {
-  updateSelectedClient, addNote, deleteNote
-} from '../../../../../../actions';
-import { State } from '../../../../../../reducers/inbox';
+import { useActions } from '../../../../../../hooks/useActions';
+import { InboxState } from '../../../../../../types/inbox';
 import styles from './notes.module.scss';
 
 interface NotesProps {
-  selectedClient: State['selectedClient'],
+  selectedClient: InboxState['selectedClient'],
   setModalProps: (data: ModalProps) => void,
   closeModal: ModalProps['onClose'],
 }
@@ -24,15 +22,15 @@ export default function Notes({ selectedClient, setModalProps, closeModal }: Not
   const [noteText, setNoteText] = useState<string>('');
 
   const { currentUser } = useContext(Context);
-  const dispatch = useDispatch();
+  const { updateSelectedClient, addNote, deleteNote } = useActions();
 
   const removeNote = (id: number) => {
-    dispatch(deleteNote({
+    deleteNote({
       id,
-      successCallback: () => dispatch(updateSelectedClient({
+      successCallback: () => updateSelectedClient({
         notes: selectedClient.notes.filter((note) => note.id !== id),
-      }))
-    }));
+      })
+    });
     closeModal();
   };
 
@@ -74,22 +72,22 @@ export default function Notes({ selectedClient, setModalProps, closeModal }: Not
         madeBy: currentUser.username,
       };
       const addNewNote = ({ id, timestamp }: { id: number, timestamp: number }) => {
-        dispatch(updateSelectedClient({
+        updateSelectedClient({
           notes: selectedClient.notes.concat({
             id,
             ...noteData,
             timestamp,
           })
-        }));
+        });
         setNoteText('');
         toggleNotesTextarea(prev => !prev);
       };
 
-      dispatch(addNote({
+      addNote({
         ...noteData,
         clientId: selectedClient.clientId,
         successCallback: addNewNote
-      }));
+      });
     }
   };
 

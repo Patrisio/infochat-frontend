@@ -8,7 +8,7 @@ import { weekdays, businessHours } from '../../../../../../lib/utils/date';
 import { getEntityValueById } from '../../../../../../lib/utils/entity';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { updateChannelSettings } from '../../../../../../actions';
+import { useActions } from '../../../../../../hooks/useActions';
 
 interface BusinessHours {
   [key: string]: string,
@@ -60,7 +60,7 @@ export default function BusinessHours({
   deleteBusinessHoursModule
 }: Props) {
   const businessDays = useSelector((state: RootState) => state.channels.settings.businessDays);
-  let dispatch = useDispatch();
+  const { updateChannelSettings } = useActions();
 
   const selectOption = (id: string | number, key: string, entity: { id: string | number, value: string }[]) => {
     const foundBusinessDaysItem: BusinessDay | undefined = businessDays.find((item: BusinessDay ) => item.businessDayId === businessDayId);
@@ -71,7 +71,7 @@ export default function BusinessHours({
       businessDays.splice(foundBusinessHoursItemIndex, 1, foundBusinessDaysItem);
     }
 
-    dispatch(updateChannelSettings({ businessDays }));
+    updateChannelSettings({ businessDays });
   };
 
   const getEntityIdByValue = (entity: { id: string, value: string }[], value: string) => {

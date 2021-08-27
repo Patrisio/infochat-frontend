@@ -1,4 +1,4 @@
-import { State } from "../../reducers/inbox";
+import { InboxState } from "../../types/inbox";
 
 interface IMessagesHistory {
   message: string,
@@ -21,7 +21,7 @@ interface IIncomingMessage {
   messagesStatus: MessagesStatus,
 }
 
-export function getAllInboxMessages(incomingMessages: State['incomingMessages'], currentUser: any): any {
+export function getAllInboxMessages(incomingMessages: InboxState['incomingMessages'], currentUser: any): any {
   const unreadClientIds: any = [];
   const unreadCount = incomingMessages.filter((msg) => {
     if (msg.messagesStatus === 'unread') {

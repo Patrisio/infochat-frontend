@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 
 import styles from './chat.module.scss';
-import { updateChannelSettings } from '../../actions'; 
+import { useActions } from '../../hooks/useActions'; 
 import socket from '../../socket';
 import chatTriggerIcon from '../../assets/chat-trigger-icon.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -19,7 +19,7 @@ export default function ChatTrigger() {
   const [isOpen, toggleOpen] = useState(false);
 
   let { clientId } = useParams<ParamTypes>();
-  const dispatch = useDispatch();
+  const { updateChannelSettings } = useActions();
 
   const sendPostMessage = () => {
     toggleOpen(prev => !prev);
@@ -35,7 +35,7 @@ export default function ChatTrigger() {
 
   useEffect(() => {
     socket.on('transferChatSettingsToChatTrigger', (chatSettings: any) => {
-      dispatch(updateChannelSettings(chatSettings));
+      updateChannelSettings(chatSettings);
     });
 
     return () => {

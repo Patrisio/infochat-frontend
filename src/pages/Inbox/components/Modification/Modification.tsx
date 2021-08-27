@@ -2,7 +2,7 @@ import React from 'react';
 
 import styles from './modification.module.scss';
 import { formatDateToCustomDate } from '../../../../lib/utils/date';
-import { ModificationInterface } from '../../../../reducers/inbox';
+import { ModificationInterface } from '../../../../types/inbox';
 
 export default function Modification({ before, after, changeInFieldValue, timestamp }: ModificationInterface) {
   return (

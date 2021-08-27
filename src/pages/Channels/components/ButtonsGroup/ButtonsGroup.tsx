@@ -5,7 +5,7 @@ import { useParams } from 'react-router';
 import Button from '../../../../components/Button/Button';
 
 import styles from './buttonsGroup.module.scss';
-import { saveChatSettings } from '../../../../actions';
+import { useActions } from '../../../../hooks/useActions';
 
 interface Props {
   hasChanges: Boolean,
@@ -38,7 +38,7 @@ interface RootState {
 export default function ButtonsGroup({ hasChanges, toggleChanges, setActiveTab, resetBlockSettings, saveChangesCallback }: Props) {
   const [isOpenButtonsGroup, toggleState] = useState(hasChanges);
   const settings = useSelector((state: RootState) => state.channels.settings);
-  let dispatch = useDispatch();
+  const { saveChatSettings } = useActions();
   let { projectId } = useParams<{ projectId: string }>();
 
   useEffect(() => {
@@ -55,7 +55,7 @@ export default function ButtonsGroup({ hasChanges, toggleChanges, setActiveTab, 
             fluid
             classNames={styles.saveBtn}
             onClick={() => {
-              dispatch(saveChatSettings(settings, projectId));
+              saveChatSettings(settings, projectId);
               saveChangesCallback && saveChangesCallback();
               toggleChanges(false);
             }}

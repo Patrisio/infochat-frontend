@@ -8,7 +8,7 @@ import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 
 import styles from './inviteForm.module.scss';
-import { authInvite } from '../../actions';
+import { useActions } from '../../hooks/useActions';
 import validateForm from './validateForm';
 
 interface ParamTypes {
@@ -18,7 +18,7 @@ interface ParamTypes {
 
 export default function InviteForm() {
   let { inviteId, projectId } = useParams<ParamTypes>();
-  const dispatch = useDispatch();
+  const { authInvite } = useActions();
   
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -37,13 +37,13 @@ export default function InviteForm() {
       }
     };
 
-    dispatch(authInvite({
+    authInvite({
       username: `${values.name} ${values.surname}`,
       password: values.password,
       projectId,
       inviteId,
       successCallback,
-    }));
+    });
   };
 
   const { handleChange, handleSubmit, errors } = useForm(

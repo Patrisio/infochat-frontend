@@ -1,71 +1,10 @@
-import { MESSAGES, INCOMING_MESSAGES, SELECT_CLIENT,
-         INCOMING_MESSAGES_FOR_SELECTED_CLIENT,
-         SELECTED_CLIENT_UPDATE, CLIENT_DATA,
-         FETCHING_SELECTED_CLIENT_INFO,
-        } from '../constants/inbox';
-import { TEAMMATE } from '../constants/teammates';
-import { getLastUnreadMessagesCount } from '../utils/clientData';
+import { InboxState, IIncomingMessage, InboxAction, InboxActionTypes } from '../../types/inbox';
+
+import { getLastUnreadMessagesCount } from '../../utils/clientData';
 
 import cloneDeep from 'lodash/cloneDeep';
 
-export interface IMessagesHistory {
-  message: string | React.ReactNode,
-  username: string,
-  timestamp: number
-}
-
-export interface ModificationInterface {
-  before: string | null,
-  after: string,
-  changeInFieldValue: string,
-  timestamp: number,
-}
-
-export interface Note {
-  id: number,
-  madeBy: string,
-  text: string,
-  timestamp: number,
-}
-
-export interface IIncomingMessage {
-  [key: string]: string | IMessagesHistory[] | null | Note[] | ModificationInterface[],
-  
-  projectId: string,
-  clientId: string,
-  messagesHistory: IMessagesHistory[],
-  assignedTo: string | null,
-  phone: string,
-  email: string,
-  avatarName: string,
-  avatarColor: string,
-  messagesStatus: 'unread' | 'opened' | 'closed',
-}
-
-export interface SelectedClient extends IIncomingMessage {
-  notes: Note[],
-  changesHistory: ModificationInterface[],
-}
-
-interface Filters {
-  searchBy: {
-    value: string,
-    tag: string,
-  },
-  channel: string,
-  assigned: string,
-}
-
-export interface State {
-  filters: Filters,
-  messages: IMessagesHistory[],
-  incomingMessages: IIncomingMessage[],
-  isFetchingIncomingMessages: boolean,
-  isFetchingSelectedClienInfo: boolean,
-  selectedClient: SelectedClient,
-}
-
-const initialState: State = {
+const initialState: InboxState = {
   filters: {
     searchBy: {
       value: '',
@@ -94,9 +33,9 @@ const initialState: State = {
   },
 };
 
-export const inboxReducer = (state = initialState, action: any) => {
+export const inboxReducer = (state = initialState, action: InboxAction) => {
   switch (action.type) {
-    case MESSAGES.ADD:
+    case InboxActionTypes.MESSAGES_ADD:
       const message: any = action.message;
       let newMessages: any;
 
@@ -114,14 +53,13 @@ export const inboxReducer = (state = initialState, action: any) => {
         ]
       };
     
-    case INCOMING_MESSAGES.ADD:
+    case InboxActionTypes.INCOMING_MESSAGES_ADD:
       if (Array.isArray(action.incomingMessage)) {
         return cloneDeep({
           ...state,
           incomingMessages: action.incomingMessage
         });
       } else {
-        console.log(action.incomingMessage, 'action.incomingMessage');
         const client = state.incomingMessages.find(incMsg => incMsg?.clientId === action.incomingMessage.clientId) as IIncomingMessage;
         const clientIndex = state.incomingMessages.findIndex(incMsg => incMsg.clientId === action.incomingMessage.clientId);
         const isNewClient = !client;
@@ -148,14 +86,13 @@ export const inboxReducer = (state = initialState, action: any) => {
         }
       }
 
-    case INCOMING_MESSAGES.UPDATE_FILTERS:
+    case InboxActionTypes.INCOMING_MESSAGES_UPDATE_FILTERS:
       return {
         ...state,
         filters: { ...action.filters }
       };
 
-    case INCOMING_MESSAGES_FOR_SELECTED_CLIENT.ADD:
-      console.log('__INTRO__');
+    case InboxActionTypes.INCOMING_MESSAGES_FOR_SELECTED_CLIENT_ADD:
       if (action.incomingMessage.clientId === state.selectedClient.clientId) {
         const messagesHistory = state.selectedClient.messagesHistory;
         return { ...state, selectedClient: cloneDeep(Object.assign(state.selectedClient, { messagesHistory: [...messagesHistory, action.incomingMessage] })) };
@@ -163,20 +100,17 @@ export const inboxReducer = (state = initialState, action: any) => {
 
       return state;
 
-    case SELECT_CLIENT:
+    case InboxActionTypes.SELECT_CLIENT:
       return { ...state, selectedClient: action.client };
 
-    case SELECTED_CLIENT_UPDATE:
+    case InboxActionTypes.SELECTED_CLIENT_UPDATE:
       return cloneDeep({ ...state, selectedClient: Object.assign(state.selectedClient, action.payload) });
 
-    case INCOMING_MESSAGES.UPDATE:
+    case InboxActionTypes.INCOMING_MESSAGES_UPDATE:
       const client = state.incomingMessages.find(incMsg => incMsg?.clientId === action.payload.clientId) as IIncomingMessage;
       const clientIndex = state.incomingMessages.findIndex(incMsg => incMsg?.clientId === action.payload.clientId);
 
-      // client.assigned_to = action.payload.assignedTo;
-      console.log(client);
       const updatedClient = Object.assign(client, action.payload);
-      console.log(updatedClient);
       state.incomingMessages.splice(clientIndex, 1, updatedClient);
 
       return cloneDeep({
@@ -184,27 +118,17 @@ export const inboxReducer = (state = initialState, action: any) => {
         incomingMessages: state.incomingMessages
       });
 
-    case INCOMING_MESSAGES.FETCHING:
+    case InboxActionTypes.INCOMING_MESSAGES_FETCHING:
       return {
         ...state,
         isFetchingIncomingMessages: !state.isFetchingIncomingMessages,
       };
 
-    case FETCHING_SELECTED_CLIENT_INFO:
+    case InboxActionTypes.FETCHING_SELECTED_CLIENT_INFO:
       return {
         ...state,
         isFetchingSelectedClienInfo: !state.isFetchingSelectedClienInfo,
       };
-
-    // case TEAMMATE.ASSIGN:
-    //   const incomingMessageIndex = state.incomingMessages.findIndex(incomingMessage => incomingMessage.clientId === action.payload.clientId);
-    //   state.incomingMessages[incomingMessageIndex].assignedTo = action.payload.username;
-
-    //   return {
-    //     ...state,
-    //     incomingMessages: state.incomingMessages,
-    //     selectedClient: cloneDeep(Object.assign(state.selectedClient, { assigned_to: action.payload.username }))
-    //   };
     
     default:
       return state;

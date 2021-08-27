@@ -7,15 +7,15 @@ import Periods from './components/Periods/Periods';
 import Features from './components/Features/Features';
 import TotalTariffPlan from './components/TotalTariffPlan/TotalTariffPlan';
 
-import { fetchTariffPlan } from '../../actions';
+import { useActions } from '../../hooks/useActions';
 import styles from './tariff.module.scss';
 
 export default function Tariff() {
   const { projectId } = useParams<{ projectId: string }>();
-  const dispatch = useDispatch();
+  const { fetchTariffPlan } = useActions();
 
   useEffect(() => {
-    dispatch(fetchTariffPlan({ projectId }));
+    fetchTariffPlan({ projectId });
   }, []);
 
   return (

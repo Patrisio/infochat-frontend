@@ -1,5 +1,5 @@
 import { colors, animals } from './constants';
-import { IIncomingMessage } from '../reducers/inbox';
+import { IIncomingMessage } from '../types/inbox';
 
 export const getClientName = (color: string, name: string) => {
   const colorTranslate = colors.find(animalColor => animalColor.color === color)?.translate;

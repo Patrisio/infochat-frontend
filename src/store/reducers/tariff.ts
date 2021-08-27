@@ -1,23 +1,8 @@
-import { TARIFF } from '../constants/tariff';
-import cloneDeep from 'lodash/cloneDeep';
+import { TariffState, TariffActionTypes } from '../../types/tariff';
 
-import operatorsTariff from '../assets/operators-tariff.svg';
-import chatTariff from '../assets/chat-tariff.svg';
-import templatesTariff from '../assets/templates-tariff.svg';
-
-interface Plan {
-  [key: string]: {
-    name: string,
-    count: number,
-    price: number,
-    category: 'binary' | 'multiple',
-  } 
-}
-
-interface State {
-  period: number,
-  plan: Plan,
-}
+import operatorsTariff from '../../assets/operators-tariff.svg';
+import chatTariff from '../../assets/chat-tariff.svg';
+import templatesTariff from '../../assets/templates-tariff.svg';
 
 const initialState: any = {
   period: 1,
@@ -59,7 +44,7 @@ const initialState: any = {
 
 export const tariffReducer = (state = initialState, action: any) => {
   switch (action.type) {
-    case TARIFF.UPDATE_PLAN:
+    case TariffActionTypes.TARIFF_UPDATE:
       if (Array.isArray(action.payload)) {
         const tariffPlan = action.payload;
         let formattedTariffPlan: any = {};
@@ -98,7 +83,7 @@ export const tariffReducer = (state = initialState, action: any) => {
         };
       }
     
-    case TARIFF.UPDATE_PERIOD:
+    case TariffActionTypes.TARIFF_PERIOD_UPDATE:
       const { period } = action.payload;
 
       return {

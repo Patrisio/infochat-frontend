@@ -8,10 +8,10 @@ import Popup from '../../../../../../components/Popup/Popup';
 
 import { getClientName } from '../../../../../../utils/clientData';
 import styles from './clientPreview.module.scss';
-import { State } from '../../../../../../reducers/inbox';
+import { InboxState } from '../../../../../../types/inbox';
 
 interface ClientPreviewProps {
-  selectedClient: State['selectedClient'],
+  selectedClient: InboxState['selectedClient'],
   updateClientData: (e: any, fieldName: string) => void,
 }
 

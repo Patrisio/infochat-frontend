@@ -10,7 +10,7 @@ import ButtonsGroup from '../ButtonsGroup/ButtonsGroup';
 import styles from './clockBlock.module.scss';
 import { generateRandomHash } from '../../../../utils/string';
 import { responseTime, request } from './constants';
-import { updateChannelSettings } from '../../../../actions';
+import { useActions } from '../../../../hooks/useActions';
 import moment from 'moment-timezone';
 import { getTimezones, getTimezoneByCode } from '../../../../lib/utils/date';
 import { getEntityIdByValue } from '../../../../lib/utils/entity';
@@ -79,19 +79,28 @@ export default function ClockBlock({ setActiveTab }: Props) {
   const requestText = useSelector((state: RootState) => state.channels.settings.requestText);
   const chatSettingsTimezone = useSelector((state: RootState) => state.channels.settings.timezone);
   const chatSettings = useSelector((state: RootState) => state.channels.settings);
-  let dispatch = useDispatch();
+  const { updateChannelSettings } = useActions();
 
   const [hasChanges, toggleChanges] = useState(false);
 
   const timezones = getTimezones();
   
   const deleteBusinessHoursModule = (id: string) => {
-    dispatch(updateChannelSettings({ businessDays: businessDays.filter((item: BusinessHours) => item.businessDayId !== id).slice() }));
+    updateChannelSettings({
+      businessDays: businessDays.filter((item: BusinessHours) => item.businessDayId !== id).slice(),
+    });
   };
 
   const addBusinessHoursModule = () => {
     toggleChanges(true);
-    dispatch(updateChannelSettings({ businessDays: [...businessDays, { ...defaultBusinessDays, businessDayId: generateRandomHash(), }] }));
+    updateChannelSettings({
+      businessDays: [
+        ...businessDays,
+        {
+          ...defaultBusinessDays,
+          businessDayId: generateRandomHash(),
+        }],
+    });
   };
 
   const addWeekend = () => {
@@ -103,27 +112,27 @@ export default function ClockBlock({ setActiveTab }: Props) {
   };
 
   const changeInputRadioButtonHandler = (e: any, stateName: string) => {
-    dispatch(updateChannelSettings({ [stateName]: e.target.value }));
+    updateChannelSettings({ [stateName]: e.target.value });
     toggleChanges(true);
   };
 
   const updateTimezone = (timezone: string | number) => {
-    dispatch(updateChannelSettings({ timezone }));
+    updateChannelSettings({ timezone });
   };
 
   const changeNotAnswerOperatorValue = (e: any) => {
     const value = e.target.value;
 
     if (value < 0) {
-      dispatch(updateChannelSettings({ timeWithoutAnswer: 0 }));
+      updateChannelSettings({ timeWithoutAnswer: 0 });
       return;
     }
 
-    dispatch(updateChannelSettings({ timeWithoutAnswer: parseInt(value) }));
+    updateChannelSettings({ timeWithoutAnswer: parseInt(value) });
   };
 
   useEffect(() => {
-    dispatch(updateChannelSettings({ businessDays: [defaultBusinessDays] }));
+    updateChannelSettings({ businessDays: [defaultBusinessDays] });
   }, []);
 
   return (

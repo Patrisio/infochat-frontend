@@ -11,7 +11,7 @@ import Avatar from '../../../../components/Avatar/Avatar';
 import { faInbox, faEnvelope, faEnvelopeOpen, faAt, faComments, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cloneDeep from 'lodash/cloneDeep';
-import { selectClient } from '../../../../actions';
+import { useActions } from '../../../../hooks/useActions';
 import styles from './inboxSidebar.module.scss';
 
 interface IMessagesHistory {
@@ -129,18 +129,18 @@ export default function InboxSidebar({ inboxMessages }: InboxSidebarProps) {
   const { currentUser, setCurrentUser } = useContext<any>(Context);
   let { projectId, dialogType } = useParams<{ projectId: string, dialogType: string }>();
 
-  const dispatch = useDispatch();
+  const { selectClient } = useActions();
   let history = useHistory();
 
   const hideOpenedMessagesArea = () => {
     if (selectedClient.clientId !== '') {
-      dispatch(selectClient(cloneDeep({
+      selectClient(cloneDeep({
         id: '',
         projectId: '',
         clientId: '',
         messagesHistory: [],
         assigned_to: ''
-      })));
+      }));
     }
   };
 

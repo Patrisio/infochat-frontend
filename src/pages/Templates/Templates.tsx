@@ -11,7 +11,7 @@ import Modal from '../../components/Modal/Modal';
 import Input from '../../components/Input/Input';
 import Textarea from '../../components/Textarea/Textarea';
 
-import { addTemplate, editTemplate, deleteTemplate, fetchTemplates } from '../../actions';
+import { useActions } from '../../hooks/useActions';
 import styles from './templates.module.scss';
 import cloneDeep from 'lodash/cloneDeep';
 import { generateRandomHash } from '../../utils/string';
@@ -66,13 +66,13 @@ export default function Templates() {
   });
 
   let { projectId } = useParams<{ projectId: string }>();
-  const dispatch = useDispatch();
+  const { addTemplate, editTemplate, deleteTemplate, fetchTemplates } = useActions();
 
   const makeTemplate = (template: any) => {
-    dispatch(addTemplate({
+    addTemplate({
       id: generateRandomHash(),
       ...template
-    }, projectId));
+    }, projectId);
     
     currentModal.onClose();
   };
@@ -213,12 +213,12 @@ export default function Templates() {
   ];
 
   const changeTemplate = (id: string, values: any) => {
-    dispatch(editTemplate({ id, ...values }, projectId));
+    editTemplate({ id, ...values }, projectId);
     currentModal.onClose();
   };
 
   const removeTemplate = (id: string) => {
-    dispatch(deleteTemplate(id, projectId));
+    deleteTemplate(id, projectId);
     currentModal.onClose();
   };
 
@@ -273,7 +273,7 @@ export default function Templates() {
   };
 
   useEffect(() => {
-    dispatch(fetchTemplates({ projectId }));
+    fetchTemplates({ projectId });
   }, []);
 
   return (

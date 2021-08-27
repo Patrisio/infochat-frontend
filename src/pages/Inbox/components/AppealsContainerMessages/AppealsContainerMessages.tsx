@@ -10,7 +10,7 @@ import MessageInner from '../MessageInner/MessageInner';
 import MessageInputContainer from '../MessageInputContainer/MessageInputContainer';
 
 import styles from './appealsContainerMessages.module.scss';
-import { changeMessagesStatus } from '../../../../actions';
+import { useActions } from '../../../../hooks/useActions';
 import { getClientName } from '../../../../utils/clientData';
 
 type IMessagesHistory = {
@@ -52,18 +52,18 @@ interface AppealsContainerMessagesProps {
 export default function AppealsContainerMessages({ closeModal, setModalProps }: AppealsContainerMessagesProps) {
   const selectedClient = useSelector((state: RootState) => state.inbox.selectedClient);
   const incomingMessages = useSelector((state: RootState) => state.inbox.incomingMessages);
-  const dispatch = useDispatch();
+  const { changeMessagesStatus } = useActions();
   let { projectId } = useParams<{ projectId: string }>();
   const messagesHistoryContainerRef = useRef<HTMLDivElement>(null);
 
   const isDisabled = () => !incomingMessages.find((incMsg: IClient) => incMsg.clientId === selectedClient.clientId)?.assignedTo;
 
   const closeDialog = () => {
-    dispatch(changeMessagesStatus({
+    changeMessagesStatus({
       messagesStatus: 'closed',
       projectId,
       clientId: selectedClient.clientId,
-    }));
+    });
   };
 
   const archiveDialog = () => {

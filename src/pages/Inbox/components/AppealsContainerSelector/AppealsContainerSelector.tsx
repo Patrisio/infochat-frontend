@@ -10,12 +10,9 @@ import Input from '../../../../components/Input/Input';
 import Button from '../../../../components/Button/Button';
 import AppealsSkeleton from '../../../../components/Skeleton/AppealsSkeleton/AppealsSkeleton';
 
-import { IIncomingMessage, IMessagesHistory } from '../../../../reducers/inbox';
+import { IIncomingMessage, IMessagesHistory } from '../../../../types/inbox';
 import { getClientName, getLastUnreadMessagesCount } from '../../../../utils/clientData';
-import {
-  updateIncomingMessage, getClientInfo, updateIncomingMessagesFilters,
-  updateSelectedClient, selectClient
-} from '../../../../actions';
+import { useActions } from '../../../../hooks/useActions';
 import { Context } from '../../../../context/Context';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -60,27 +57,30 @@ export default function AppealsContainerSelector({
     assigned: 'all',
   });
 
-  const dispatch = useDispatch();
+  const {
+    updateIncomingMessage, getClientInfo, updateIncomingMessagesFilters,
+    updateSelectedClient, selectClient
+  } = useActions();
   const { currentUser } = useContext(Context);
   let { projectId } = useParams<{projectId: string}>();
 
   const showClientMessages = (clientId: string) => {
     if (clientId !== selectedClientId) {
       const successCallback = (clientInfo: any) => {
-        dispatch(updateIncomingMessage({ clientId }));
+        updateIncomingMessage({ clientId });
         const selectedClient: IIncomingMessage | undefined = incomingMessages.find(message => message.clientId === clientId);
-        dispatch(selectClient(cloneDeep(selectedClient)));
-        dispatch(updateSelectedClient({
+        selectClient(cloneDeep(selectedClient));
+        updateSelectedClient({
           changesHistory: clientInfo.changesHistory,
           notes: clientInfo.notes,
-        }));
+        });
       };
 
-      dispatch(getClientInfo({
+      getClientInfo({
         projectId,
         clientId,
         successCallback,
-      }));
+      });
     }
   };
   
@@ -183,7 +183,7 @@ export default function AppealsContainerSelector({
   };
 
   const findIncomingMessagesByFilters = () => {
-    dispatch(updateIncomingMessagesFilters(filters));
+    updateIncomingMessagesFilters(filters);
     toggleOpenSearchPopup(prev => !prev);
   };
 

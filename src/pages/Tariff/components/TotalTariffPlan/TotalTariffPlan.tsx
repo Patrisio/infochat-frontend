@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Title from '../../../../components/Typography/Title/Title';
 import Button from '../../../../components/Button/Button';
 
-import { updateTariffPlan, saveTariffPlan } from '../../../../actions';
+import { useActions } from '../../../../hooks/useActions';
 import { bonus } from '../../../../lib/utils/bonus';
 import { YEAR } from '../../../../lib/utils/date';
 
@@ -19,7 +19,7 @@ interface CounterProps {
 export default function TotalTariffPlan() {
   const tariffPeriod = useSelector((state: any) => state.tariff.period);
   const tariffPlan = useSelector((state: any) => state.tariff.plan);
-  const dispatch = useDispatch();
+  const { updateTariffPlan, saveTariffPlan } = useActions();
 
   const { projectId } = useParams<{ projectId: string }>();
   const history = useHistory();
@@ -33,10 +33,10 @@ export default function TotalTariffPlan() {
 
   const updateCounter = (type: 'inc' | 'dec', featureId: string) => {
     const featureCount = tariffPlan[featureId].count;
-    dispatch(updateTariffPlan({
+    updateTariffPlan({
       featureId,
       count: type === 'inc' ? featureCount + 1 : featureCount - 1,
-    }));
+    });
   };
 
   const getTotalPriceForPeriod = (period: number): number => {
@@ -154,13 +154,13 @@ export default function TotalTariffPlan() {
 
     const updateTariffPlan = () => {
       const { operators, infochatLink, chat, templates } = tariffPlan;
-      dispatch(saveTariffPlan({
+      saveTariffPlan({
         projectId,
         operatorsCount: operators.count,
         infochatLinkCount: infochatLink.count,
         chatCount: chat.count,
         templatesCount: templates.count,
-      }));
+      });
     };
 
     return (

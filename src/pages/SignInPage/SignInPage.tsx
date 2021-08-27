@@ -7,12 +7,12 @@ import useForm from '../../hooks/useForm';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 
-import { authSignIn } from '../../actions';
+import { useActions } from '../../hooks/useActions';
 import styles from './SignInPage.module.scss';
 import validateForm from './validateForm';
 
 export default function SignUpPage()  {
-  const dispatch = useDispatch();
+  const { authSignIn } = useActions();
 
   const signInUser = (values: any) => {
     const successCallback = (data: any) => {
@@ -24,10 +24,10 @@ export default function SignUpPage()  {
       window.location.href = `/project/${data.projectId}/inbox/opened`;
     };
 
-    dispatch(authSignIn({
+    authSignIn({
       ...values,
       successCallback,
-    }));
+    });
   };
 
   const { handleChange, handleSubmit, errors } = useForm(

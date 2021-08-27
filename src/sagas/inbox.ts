@@ -1,5 +1,5 @@
 import { call, put, takeEvery, all, StrictEffect } from 'redux-saga/effects';
-import { getClientInfo } from '../actions';
+import { getClientInfo } from '../store/actions-creators/inbox';
 import {
   getTeammates, incomingMessagesFetch,
   selectedClientUpdate, messageToInboxAdd, selectedClientInfoGet,

@@ -4,16 +4,13 @@ import { useDispatch } from 'react-redux';
 import Router from './router/router';
 import socket from './socket';
 import { Context } from './context/Context';
-import {
-  addIncomingMessage, addIncomingMessageForSelectedClient,
-  getCurrentUser
-} from './actions';
+import { useActions } from './hooks/useActions';
 
 import 'normalize.css';
 import './scss/App.scss';
 
 export default function App() {
-  const dispatch = useDispatch();
+  const { addIncomingMessage, addIncomingMessageForSelectedClient, getCurrentUser } = useActions();
 
   useEffect(() => {
     socket.on('addIncomingMessage', (message: any) => {
@@ -33,8 +30,8 @@ export default function App() {
         clientId: message.clientId,
       };
 
-      dispatch(addIncomingMessageForSelectedClient(incomingMessage));
-      dispatch(addIncomingMessage(newClient));
+      addIncomingMessageForSelectedClient(incomingMessage);
+      addIncomingMessage(newClient);
     });
 
     return () => {
@@ -71,7 +68,7 @@ export default function App() {
           console.log(message);
         });
       };
-      dispatch(getCurrentUser({ successCallback }));
+      getCurrentUser({ successCallback });
 
       return () => {
         socket.off('msgToClient');

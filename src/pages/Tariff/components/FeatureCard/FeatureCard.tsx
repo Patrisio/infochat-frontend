@@ -5,27 +5,28 @@ import Title from '../../../../components/Typography/Title/Title';
 import Button from '../../../../components/Button/Button';
 import Counter from '../../components/Counter/Counter';
 
-import { updateTariffPlan } from '../../../../actions';
+import { useActions } from '../../../../hooks/useActions';
 import { Feature } from '../../constants';
 import styles from './featureCard.module.scss';
 
 export default function FeatureCard({ imageSrc, id, name, description, category, price }: Feature) {
   const featureCount = useSelector((state: any) => state.tariff.plan[id].count);
   const dispatch = useDispatch();
+  const { updateTariffPlan } = useActions();
 
   const updateCount = () => {
     if (featureCount) {
-      dispatch(updateTariffPlan({
+      updateTariffPlan({
         featureId: id,
         count: 0,
-      }));
+      });
       return;
     }
 
-    dispatch(updateTariffPlan({
+    updateTariffPlan({
       featureId: id,
       count: 1,
-    }));
+    });
   };
 
   return (

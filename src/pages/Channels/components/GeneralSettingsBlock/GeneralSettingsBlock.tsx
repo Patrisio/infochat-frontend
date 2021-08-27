@@ -7,7 +7,7 @@ import Textarea from '../../../../components/Textarea/Textarea';
 import Switcher from '../../../../components/Switcher/Switcher';
 import ButtonsGroup from '../ButtonsGroup/ButtonsGroup';
 
-import { updateChannelSettings } from '../../../../actions';
+import { useActions } from '../../../../hooks/useActions';
 import styles from './generalSettingsBlock.module.scss';
 
 import theme1 from '../../../../assets/theme1.png';
@@ -53,7 +53,7 @@ let defaultSettings: Settings | undefined;
 
 export default function GeneralSettingsBlock({ setActiveTab }: Props) {
   const settings = useSelector((state: RootState) => state.channels.settings);
-  let dispatch = useDispatch();
+  const { updateChannelSettings } = useActions();
   
   if (!defaultSettings) defaultSettings = cloneDeep(settings);
 
@@ -111,7 +111,7 @@ export default function GeneralSettingsBlock({ setActiveTab }: Props) {
     },
   ];
 
-  const updateBlockSettings = (settings: any) => dispatch(updateChannelSettings(settings));
+  const updateBlockSettings = (settings: any) => updateChannelSettings(settings);
 
   const setActiveThemeCard = (e: any, elementIndex?: number) => {
     const themesCards = document.getElementsByClassName(styles.themeCard);

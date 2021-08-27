@@ -7,7 +7,7 @@ function* fetchTariffPlan(action: any): Generator<StrictEffect> {
   try {
     const tariffPlan: any = yield call(tariffPlanFetch, projectId);
     yield put({
-      type: 'TARIFF_UPDATE',
+      type: 'TARIFF_PLAN_UPDATE',
       payload: tariffPlan.tariffPlan,
     });
   } catch (e) {

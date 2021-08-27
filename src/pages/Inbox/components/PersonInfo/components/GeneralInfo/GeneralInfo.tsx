@@ -4,7 +4,7 @@ import Input from '../../../../../../components/Input/Input';
 
 import styles from './generalInfo.module.scss';
 import cloneDeep from 'lodash/cloneDeep';
-import { State } from '../../../../../../reducers/inbox';
+import { InboxState } from '../../../../../../types/inbox';
 
 interface GeneralInfoItem {
   name: string,
@@ -14,7 +14,7 @@ interface GeneralInfoItem {
 }
 
 interface GeneralInfoProps {
-  selectedClient: State['selectedClient'],
+  selectedClient: InboxState['selectedClient'],
   updateClientData: (e: any, fieldName: string) => void,
 }
 

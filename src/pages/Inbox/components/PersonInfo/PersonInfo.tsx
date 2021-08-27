@@ -12,11 +12,8 @@ import AssignedTeammates from './components/AssignedTeammates/AssignedTeammates'
 import ClientPreview from './components/ClientPreview/ClientPreview';
 import { ModalProps } from '../../../../components/Modal/Modal';
 
-import {
-  updateIncomingMessage, updateSelectedClient,
-  updateClientData as updateClientDataAction
-} from '../../../../actions';
-import { SelectedClient } from '../../../../reducers/inbox';
+import { useActions } from '../../../../hooks/useActions';
+import { SelectedClient } from '../../../../types/inbox';
 import styles from './personInfo.module.scss';
 import { getClientName, getChangeInFieldValue } from '../../../../utils/clientData';
 
@@ -32,6 +29,7 @@ export default function PersonInfo({ selectedClient, closeModal, setModalProps }
   let fieldInitialValue: string | null = '';
   
   const dispatch = useDispatch();
+  const { updateIncomingMessage, updateSelectedClient, updateClientData } = useActions();
   let { projectId } = useParams<{ projectId: string }>();
 
   const clientData = {
@@ -43,7 +41,7 @@ export default function PersonInfo({ selectedClient, closeModal, setModalProps }
     projectId,
   };
 
-  const updateClientData = (e: any, fieldName: string) => {
+  const updateClient = (e: any, fieldName: string) => {
     const target = e.target;
     const fieldValue: string | null = target.value;
     const isDifferentFieldValues = fieldInitialValue !== fieldValue;
@@ -68,7 +66,7 @@ export default function PersonInfo({ selectedClient, closeModal, setModalProps }
         }));
       };
 
-      dispatch(updateClientDataAction(Object.assign(clientData, {
+      dispatch(updateClientData(Object.assign(clientData, {
         updatedBy: 'operator',
         [fieldName]: fieldValue,
         changeInFieldValue: getChangeInFieldValue(fieldName),
@@ -85,7 +83,7 @@ export default function PersonInfo({ selectedClient, closeModal, setModalProps }
       content: (
         <GeneralInfo
           selectedClient={selectedClient}
-          updateClientData={updateClientData}
+          updateClientData={updateClient}
         />
       ),
     },
@@ -123,7 +121,7 @@ export default function PersonInfo({ selectedClient, closeModal, setModalProps }
         <>
           <ClientPreview
             selectedClient={selectedClient}
-            updateClientData={updateClientData}
+            updateClientData={updateClient}
           />
 
           <Accordion

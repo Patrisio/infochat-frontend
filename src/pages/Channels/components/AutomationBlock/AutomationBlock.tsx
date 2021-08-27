@@ -7,7 +7,7 @@ import Rule from './components/Rule/Rule';
 
 import { generateRandomHash } from '../../../../utils/string';
 import { cloneDeep } from 'lodash';
-import { updateChannelSettings } from '../../../../actions';
+import { useActions } from '../../../../hooks/useActions';
 import styles from './automationBlock.module.scss';
 
 
@@ -94,17 +94,17 @@ export default function AutomationBlock({ setActiveTab }: Props) {
   };
 
   const rules = useSelector((state: RootState) => state.channels.settings.rules);
-  let dispatch = useDispatch();
+  const { updateChannelSettings } = useActions();
 
   const addRule = () => {
     rules.push(defaultRule);
-    dispatch(updateChannelSettings({ rules }));
+    updateChannelSettings({ rules });
     toggleChanges(true);
   };
 
   const deleteRule = (ruleId: string) => {
     console.log(ruleId);
-    dispatch(updateChannelSettings({ rules: rules.filter((rule) => rule.id !== ruleId) }));
+    updateChannelSettings({ rules: rules.filter((rule) => rule.id !== ruleId) });
     toggleChanges(true);
   };
 
@@ -119,7 +119,7 @@ export default function AutomationBlock({ setActiveTab }: Props) {
       copy.splice(foundRuleIndex, 1, foundRule);
     }
 
-    dispatch(updateChannelSettings({ rules: copy }));
+    updateChannelSettings({ rules: copy });
   };
 
   const addCondition = (ruleId: string) => {
@@ -130,7 +130,7 @@ export default function AutomationBlock({ setActiveTab }: Props) {
       foundRule.conditions.push(defaultCondition);
     }
 
-    dispatch(updateChannelSettings({ rules: copy }));
+    updateChannelSettings({ rules: copy });
   };
 
   const deleteCondition = (ruleId: string, conditionId: string) => {
@@ -142,7 +142,7 @@ export default function AutomationBlock({ setActiveTab }: Props) {
       foundRule.conditions = filteredConditions;
     }
 
-    dispatch(updateChannelSettings({ rules: copy }));
+    updateChannelSettings({ rules: copy });
   };
 
   const updateCondition = (ruleId: string, conditionId: string, property: UpdatedProp) => {
@@ -159,7 +159,7 @@ export default function AutomationBlock({ setActiveTab }: Props) {
       }
     }
 
-    dispatch(updateChannelSettings({ rules: copy }));
+    updateChannelSettings({ rules: copy });
   };
 
   return (

@@ -1,25 +1,12 @@
-import { TEAMMATES, TEAMMATE } from '../constants/teammates';
-import cloneDeep from 'lodash/cloneDeep';
-
-export interface Teammate {
-  avatar: string,
-  email: string,
-  role: string,
-  status: string,
-  username: string,
-}
-
-export interface TeammatesState {
-  teammates: Teammate[],
-}
+import { TeammatesState, TeammatesAction, TeammatesActionTypes } from '../../types/teammates';
 
 const initialState: TeammatesState = {
   teammates: [],
 };
 
-export const teammatesReducer = (state = initialState, action: any) => {
+export const teammatesReducer = (state = initialState, action: TeammatesAction) => {
   switch (action.type) {
-    case TEAMMATE.ADD:
+    case TeammatesActionTypes.TEAMMATE_ADD:
       return {
         ...state,
         teammates: [
@@ -28,13 +15,13 @@ export const teammatesReducer = (state = initialState, action: any) => {
         ]
       };
 
-    case TEAMMATES.ADD:
+    case TeammatesActionTypes.TEAMMATES_ADD:
       return {
         ...state,
         teammates: action.teammate
       };
 
-    case TEAMMATE.DELETE:
+    case TeammatesActionTypes.TEAMMATE_DELETE:
       return {
         ...state,
         teammates: [...state.teammates].filter(teammate => teammate.email !== action.teammate.email)

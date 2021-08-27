@@ -8,7 +8,7 @@ import theme1 from '../../../../assets/theme1-big.png';
 import theme2 from '../../../../assets/theme2-big.png';
 import theme3 from '../../../../assets/theme3-big.png';
 
-import { updateChannelSettings } from '../../../../actions';
+import { useActions } from '../../../../hooks/useActions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSmileBeam, faPaperclip, faTimes } from '@fortawesome/free-solid-svg-icons'
 
@@ -38,7 +38,7 @@ interface Background {
 
 export default function ChatPreview() {
   const settings = useSelector((state: RootState) => state.channels.settings);
-  let dispatch = useDispatch();
+  const { updateChannelSettings } = useActions();
   const buttonTrigger = useRef<HTMLDivElement>(null);
 
   const backgrounds: Background[] = [
@@ -77,7 +77,7 @@ export default function ChatPreview() {
     if (triggerRef) {
       const buttonWidth = Math.ceil((triggerRef.getBoundingClientRect().width) / parseFloat(settings.buttonScale));
       console.log(buttonWidth);
-      dispatch(updateChannelSettings({ buttonWidth }));
+      updateChannelSettings({ buttonWidth });
     }
   }, [settings.buttonText, settings.buttonScale]);
 

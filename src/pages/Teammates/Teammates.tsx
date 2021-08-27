@@ -17,7 +17,7 @@ import EditableUserForm from '../../modules/EditableUserForm/EditableUserForm';
 
 import styles from './teammates.module.scss';
 import { generateRandomHash } from '../../utils/string';
-import { addTeammate, deleteTeammate, fetchTeammates, updateTeammate } from '../../actions';
+import { useActions } from '../../hooks/useActions';
 import validateForm from './validateForm';
 import cloneDeep from 'lodash/cloneDeep';
 
@@ -75,24 +75,18 @@ export default function Teammates() {
 
   let { projectId } = useParams<IParams>();
   const teammates = useSelector((state: RootState) => state.teammates.teammates);
-
-  const buttonStyles = {
-    padding: '9px 30px 10px',
-    fontSize: '13px',
-    fontWeight: 400,
-  };
   
-  const dispatch = useDispatch();
+  const { addTeammate, deleteTeammate, fetchTeammates, updateTeammate } = useActions();
 
   const inviteTeammate = (values: any) => {
-    dispatch(addTeammate({
+    addTeammate({
       id: generateRandomHash(),
       email: values.email,
       projectId,
       role: 'operator',
       status: 'pending',
       username: values.email.charAt(0).toUpperCase()
-    }));
+    });
     setFormValues({});
   };
 
@@ -118,7 +112,7 @@ export default function Teammates() {
   };
 
   const removeTeammate = (email: string) => {
-    dispatch(deleteTeammate({ email, projectId }));
+    deleteTeammate({ email, projectId });
   };
 
   const save = () => {
@@ -168,7 +162,7 @@ export default function Teammates() {
   };
 
   useEffect(() => {
-    dispatch(fetchTeammates({ projectId }));
+    fetchTeammates({ projectId });
   }, []);
 
   const columns = [
@@ -289,14 +283,14 @@ export default function Teammates() {
     const { name, surname, ...restFormData } = values;
     const username = `${name} ${surname}`;
 
-    dispatch(updateTeammate({
+    updateTeammate({
       ...restFormData,
       username,
       projectId,
       successCallback: () => {
         currentModal.onClose();
       },
-    }));
+    });
   };
 
   return (
