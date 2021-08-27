@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 
 import Input from '../../../../../../components/Input/Input';
 import Tabs from '../../../../../../components/Tabs/Tabs';
+
+import { useTypedSelector } from '../../../../../../hooks/useTypedSelector';
 
 import styles from './assignedTeammates.module.scss';
 import { Teammate } from '../../../../../../types/teammates';
@@ -24,7 +25,7 @@ export default function AssignedTeammates({ selectedClient }: AssignedTeammatesP
   const { changeMessagesStatus } = useActions();
   let { projectId } = useParams<{ projectId: string }>();
 
-  const teammates = useSelector((state: any) => state.teammates.teammates);
+  const { teammates } = useTypedSelector((state: any) => state.teammates);
 
   const [assignedTeammates, setAssignedTeammate] = useState<ITeammate[]>([]);
 

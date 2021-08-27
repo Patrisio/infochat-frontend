@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
 
 import Input from '../../../../components/Input/Input';
 import Textarea from '../../../../components/Textarea/Textarea';
@@ -8,32 +6,14 @@ import Switcher from '../../../../components/Switcher/Switcher';
 import ButtonsGroup from '../ButtonsGroup/ButtonsGroup';
 
 import { useActions } from '../../../../hooks/useActions';
+import { useTypedSelector } from '../../../../hooks/useTypedSelector';
+import { Settings } from '../../../../types/channels';
 import styles from './generalSettingsBlock.module.scss';
 
 import theme1 from '../../../../assets/theme1.png';
 import theme2 from '../../../../assets/theme2.png';
 import theme3 from '../../../../assets/theme3.png';
 import { cloneDeep, debounce } from 'lodash';
-
-interface Settings {
-  chatName: '',
-  greeting: '',
-  backgroundImage: 1,
-  buttonLocation: '',
-  buttonScale: '',
-  buttonText: '',
-  infochatLinkEnabled: 1,
-  customCss: '',
-}
-
-interface State {
-  channels: [],
-  settings: Settings,
-}
-
-interface RootState {
-  channels: State,
-}
 
 interface Location {
   id: string,
@@ -52,7 +32,7 @@ interface Props {
 let defaultSettings: Settings | undefined;
 
 export default function GeneralSettingsBlock({ setActiveTab }: Props) {
-  const settings = useSelector((state: RootState) => state.channels.settings);
+  const { settings } = useTypedSelector(state => state.channels);
   const { updateChannelSettings } = useActions();
   
   if (!defaultSettings) defaultSettings = cloneDeep(settings);

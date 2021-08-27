@@ -1,5 +1,4 @@
-import React, { useState, useContext } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useParams } from 'react-router';
 import { Context } from '../../../../context/Context';
@@ -12,108 +11,12 @@ import { faInbox, faEnvelope, faEnvelopeOpen, faAt, faComments, faCheckSquare } 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cloneDeep from 'lodash/cloneDeep';
 import { useActions } from '../../../../hooks/useActions';
+import { useTypedSelector } from '../../../../hooks/useTypedSelector';
 import styles from './inboxSidebar.module.scss';
-
-interface IMessagesHistory {
-  message: string,
-  clientId: string,
-  username: string
-}
-
-type MessagesStatus = 'unread' | 'assigned' | 'opened' | 'closed';
-
-interface IIncomingMessage {
-  id: string,
-  projectId: string,
-  clientId: string,
-  messagesHistory: IMessagesHistory[],
-  assigned_to: string | null,
-  avatarName: string,
-  avatarColor: string,
-  email: string,
-  phone: string,
-  messagesStatus: MessagesStatus,
-}
-
-interface InboxProps {
-  messagesCount?: number,
-  clientIds: string[]
-}
-
-interface IClient {
-  projectId: string,
-  clientId: string,
-  message: IMessagesHistory,
-  avatarName: string,
-  avatarColor: string,
-}
-
-interface Teammate {
-  avatar: string,
-  email: string,
-  role: string,
-  status: string,
-  username: string,
-  allClientIds: IClient[],
-  unreadCount: number,
-  unreadClientIds: IClient[],
-  assignedCount: number,
-  assignedClientIds: IClient[],
-  openedCount: number,
-  openedClientIds: IClient[],
-}
-
-interface IMessagesHistory {
-  message: string,
-  clientId: string,
-  username: string
-}
-
-interface IIncomingMessage {
-  id: string,
-  projectId: string,
-  clientId: string,
-  messagesHistory: IMessagesHistory[],
-  assigned_to: string | null,
-  assignedTo: string | null
-}
-
-interface Filters {
-  searchBy: {
-    value: string,
-    tag: string,
-  },
-  channel: string,
-  assigned: string,
-}
-
-interface RootState {
-  inbox: {
-    filters: Filters,
-    messages: IMessagesHistory[],
-    incomingMessages: IIncomingMessage[],
-    selectedClient: IIncomingMessage,
-  },
-  teammates: {
-    teammates: Teammate[],
-  },
-  channels: {
-    channels: Channel[],
-    fetching: boolean,
-  },
-}
+import { Teammate } from '../../../../types/teammates';
 
 interface Channel {
   name: string,
-}
-
-interface Dialog {
-  count: number,
-  clientIds: IIncomingMessage[]
-}
-
-interface InitialDialogs {
-  [key: string]: Dialog,
 }
 
 interface InboxSidebarProps {
@@ -121,12 +24,12 @@ interface InboxSidebarProps {
 }
 
 export default function InboxSidebar({ inboxMessages }: InboxSidebarProps) {
-  const incomingMessages = useSelector((state: RootState) => state.inbox.incomingMessages);
-  const selectedClient = useSelector((state: RootState) => state.inbox.selectedClient);
-  const { channels, fetching } = useSelector((state: RootState) => state.channels);
-  const teammates = useSelector((state: RootState) => state.teammates.teammates);
+  const { incomingMessages } = useTypedSelector(state => state.inbox);
+  const { selectedClient } = useTypedSelector(state => state.inbox);
+  const { channels } = useTypedSelector(state => state.channels);
+  const { teammates } = useTypedSelector(state => state.teammates);
 
-  const { currentUser, setCurrentUser } = useContext<any>(Context);
+  const { currentUser } = useContext<any>(Context);
   let { projectId, dialogType } = useParams<{ projectId: string, dialogType: string }>();
 
   const { selectClient } = useActions();

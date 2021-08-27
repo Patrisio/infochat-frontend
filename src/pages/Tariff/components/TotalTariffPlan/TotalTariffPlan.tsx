@@ -1,12 +1,13 @@
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useParams } from 'react-router';
-import { useDispatch, useSelector } from 'react-redux';
 
 import Title from '../../../../components/Typography/Title/Title';
 import Button from '../../../../components/Button/Button';
 
 import { useActions } from '../../../../hooks/useActions';
+import { useTypedSelector } from '../../../../hooks/useTypedSelector';
+
 import { bonus } from '../../../../lib/utils/bonus';
 import { YEAR } from '../../../../lib/utils/date';
 
@@ -17,8 +18,10 @@ interface CounterProps {
 }
 
 export default function TotalTariffPlan() {
-  const tariffPeriod = useSelector((state: any) => state.tariff.period);
-  const tariffPlan = useSelector((state: any) => state.tariff.plan);
+  const {
+    period: tariffPeriod,
+    plan: tariffPlan,
+  } = useTypedSelector(state => state.tariff);
   const { updateTariffPlan, saveTariffPlan } = useActions();
 
   const { projectId } = useParams<{ projectId: string }>();

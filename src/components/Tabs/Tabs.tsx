@@ -11,15 +11,15 @@ interface Tab {
 }
 
 interface Props {
-  data: Tab[],
-  removeTab: (tab: Tab) => void,
+  data: any,
+  removeTab: (tab: any) => void,
 }
 
 export default function Tabs({ data, removeTab }: Props) {
   return (
     <div className={styles.assignedTeammatesList}>
       {
-        data.map((tab: Tab, idx) => {
+        data.map((tab: Tab, idx: number) => {
           return (
             <div
               key={idx}

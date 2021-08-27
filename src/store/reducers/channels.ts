@@ -44,7 +44,7 @@ const initialState: ChannelsState = {
   fetching: false,
 };
 
-export const channelsReducer = (state = initialState, action: ChannelsAction) => {
+export const channelsReducer = (state = initialState, action: ChannelsAction): ChannelsState => {
   switch (action.type) {
     case ChannelsActionTypes.ADD_CHANNELS:
       return {

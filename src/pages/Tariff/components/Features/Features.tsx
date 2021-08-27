@@ -1,13 +1,14 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 
 import FeatureCard from '../FeatureCard/FeatureCard';
+
+import { useTypedSelector } from '../../../../hooks/useTypedSelector';
 
 import { Feature } from '../../constants';
 import styles from './features.module.scss';
 
 export default function Features() {
-  const tariffPlan = useSelector((state: any) => state.tariff.plan);
+  const { plan: tariffPlan } = useTypedSelector(state => state.tariff);
 
   const features = Object.entries(tariffPlan).map((feature: any) => {
     return {

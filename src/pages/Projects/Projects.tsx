@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 
 import InboxSidebar from '../Inbox/components/InboxSidebar/InboxSidebar';
@@ -16,6 +15,7 @@ import { Context } from '../../context/Context';
 import { getAllInboxMessages } from '../../lib/utils/messages';
 import cloneDeep from 'lodash/cloneDeep';
 import { useActions } from '../../hooks/useActions';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { getTimezones, getTimezoneByCode, DEFAULT_TIME_ZONE } from '../../lib/utils/date';
 import styles from './projects.module.scss';
 import validateForm from './validateForm';
@@ -31,7 +31,7 @@ interface ModalProps {
 }
 
 export default function Projects() {
-  const incomingMessages = useSelector((state: any) => state.inbox.incomingMessages);
+  const { incomingMessages } = useTypedSelector(state => state.inbox);
 
   const [currentModal, setModalProps] = useState<ModalProps>({
     show: false,

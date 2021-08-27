@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 
 import useForm from '../../hooks/useForm';
@@ -12,6 +11,8 @@ import Input from '../../components/Input/Input';
 import Textarea from '../../components/Textarea/Textarea';
 
 import { useActions } from '../../hooks/useActions';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
+
 import styles from './templates.module.scss';
 import cloneDeep from 'lodash/cloneDeep';
 import { generateRandomHash } from '../../utils/string';
@@ -49,7 +50,7 @@ interface ModalBodyProps {
 }
 
 export default function Templates() {
-  const templates = useSelector((state: RootState) => state.templates.templates);
+  const { templates } = useTypedSelector(state => state.templates);
   const [currentModal, setModalProps] = useState<ModalProps>({
     show: false,
     title: '',

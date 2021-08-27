@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 import Button from '../../../../components/Button/Button';
 
 import { useActions } from '../../../../hooks/useActions';
+import { useTypedSelector } from '../../../../hooks/useTypedSelector';
+
 import styles from './counter.module.scss';
 
 interface CounterProps {
@@ -11,7 +12,7 @@ interface CounterProps {
 }
 
 export default function Counter({ featureId }: CounterProps) {
-  const featureCount = useSelector((state: any) => state.tariff.plan[featureId].count);
+  const { count: featureCount } = useTypedSelector(state => state.tariff.plan[featureId]);
   const { updateTariffPlan } = useActions();
   const updateCounter = (type: 'inc' | 'dec') => {
     updateTariffPlan({

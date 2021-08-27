@@ -1,6 +1,8 @@
 interface Plan {
   [key: string]: {
+    imageSrc: string,
     name: string,
+    description: string,
     count: number,
     price: number,
     category: 'binary' | 'multiple',

@@ -33,7 +33,7 @@ const initialState: InboxState = {
   },
 };
 
-export const inboxReducer = (state = initialState, action: InboxAction) => {
+export const inboxReducer = (state = initialState, action: InboxAction): InboxState => {
   switch (action.type) {
     case InboxActionTypes.MESSAGES_ADD:
       const message: any = action.message;

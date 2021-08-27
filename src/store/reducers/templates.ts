@@ -6,7 +6,7 @@ const initialState: TemplatesState = {
   templates: [],
 };
 
-export const templatesReducer = (state = initialState, action: TemplatesAction) => {
+export const templatesReducer = (state = initialState, action: TemplatesAction): TemplatesState => {
   switch (action.type) {
     case TemplatesActionTypes.TEMPLATES_ADD:
       return {

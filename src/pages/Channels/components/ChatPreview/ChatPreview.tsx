@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './chatPreview.module.scss';
 import fakeAvatar from '../../../../assets/fake-avatar.jpg';
@@ -9,27 +8,9 @@ import theme2 from '../../../../assets/theme2-big.png';
 import theme3 from '../../../../assets/theme3-big.png';
 
 import { useActions } from '../../../../hooks/useActions';
+import { useTypedSelector } from '../../../../hooks/useTypedSelector';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSmileBeam, faPaperclip, faTimes } from '@fortawesome/free-solid-svg-icons'
-
-interface State{
-  channels: [],
-  settings: {
-    chatName: string,
-    greeting: string,
-    backgroundImage: number,
-    buttonLocation: string,
-    buttonScale: string,
-    buttonText: string,
-    infochatLinkEnabled: number,
-    customCss: string,
-    responseTimeText: { id: string, value: string },
-  },
-}
-
-interface RootState {
-  channels: State,
-}
 
 interface Background {
   id: number,
@@ -37,7 +18,7 @@ interface Background {
 }
 
 export default function ChatPreview() {
-  const settings = useSelector((state: RootState) => state.channels.settings);
+  const { settings } = useTypedSelector(state => state.channels);
   const { updateChannelSettings } = useActions();
   const buttonTrigger = useRef<HTMLDivElement>(null);
 

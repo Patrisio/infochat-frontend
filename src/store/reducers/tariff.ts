@@ -4,7 +4,7 @@ import operatorsTariff from '../../assets/operators-tariff.svg';
 import chatTariff from '../../assets/chat-tariff.svg';
 import templatesTariff from '../../assets/templates-tariff.svg';
 
-const initialState: any = {
+const initialState: TariffState = {
   period: 1,
   plan: {
     operators: {
@@ -42,7 +42,7 @@ const initialState: any = {
   },
 };
 
-export const tariffReducer = (state = initialState, action: any) => {
+export const tariffReducer = (state = initialState, action: any): TariffState => {
   switch (action.type) {
     case TariffActionTypes.TARIFF_UPDATE:
       if (Array.isArray(action.payload)) {

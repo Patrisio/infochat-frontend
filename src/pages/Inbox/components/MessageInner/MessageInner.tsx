@@ -1,8 +1,7 @@
 import React from 'react';
 import Animal from '../../../../components/Animal/Animal';
-import Avatar from '../../../../components/Avatar/Avatar';
 import styles from './messageInner.module.scss';
-import { useSelector } from 'react-redux';
+import { useTypedSelector } from '../../../../hooks/useTypedSelector';
 import moment from 'moment';
 import 'moment/locale/ru';
 
@@ -29,7 +28,7 @@ interface RootState {
 }
 
 export default function MessageInput({ message }: any) {
-  const selectedClient = useSelector((state: RootState) => state.inbox.selectedClient);
+  const { selectedClient } = useTypedSelector(state => state.inbox);
 
   const getMessageCreationTime = (timestamp: number) => {
     if (timestamp) {

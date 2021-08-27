@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 
 import styles from './chat.module.scss';
-import { useActions } from '../../hooks/useActions'; 
+import { useActions } from '../../hooks/useActions';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 import socket from '../../socket';
 import chatTriggerIcon from '../../assets/chat-trigger-icon.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,7 +15,7 @@ interface ParamTypes {
 }
 
 export default function ChatTrigger() {
-  const settings = useSelector((state: any) => state.channels.settings);
+  const { settings } = useTypedSelector(state => state.channels);
   const [isOpen, toggleOpen] = useState(false);
 
   let { clientId } = useParams<ParamTypes>();

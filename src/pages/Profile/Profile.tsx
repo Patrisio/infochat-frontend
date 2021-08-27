@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 
 import InboxSidebar from '../Inbox/components/InboxSidebar/InboxSidebar';
 import Title from '../../components/Typography/Title/Title';
 import Header from '../../components/Header/Header';
-import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import EditableUserForm from '../../modules/EditableUserForm/EditableUserForm';
 
@@ -13,13 +11,14 @@ import { Context } from '../../context/Context';
 import { getAllInboxMessages } from '../../lib/utils/messages';
 import { getTimezones, getTimezoneByCode, USER_TIME_ZONE } from '../../lib/utils/date';
 import { useActions } from '../../hooks/useActions';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 import styles from './profile.module.scss';
 
 export default function Profile() {
   const { currentUser, setCurrentUser } = useContext<any>(Context);
   let { projectId } = useParams<{ projectId: string }>()
 
-  const incomingMessages = useSelector((state: any) => state.inbox.incomingMessages);
+  const { incomingMessages } = useTypedSelector(state => state.inbox);
   const { updateTeammate } = useActions();
 
   const [formData, setFormData] = useState({

@@ -1,9 +1,7 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 
-import Button from '../../../../components/Button/Button';
 import Popup from '../../../../components/Popup/Popup';
 import Textarea from '../../../../components/Textarea/Textarea';
 
@@ -12,61 +10,21 @@ import styles from './messageInputContainer.module.scss';
 import { scrollToBottomOfWrapper } from '../../../../lib/utils/scroll';
 import { replaceBrToWhiteSpace, replaceWhiteSpaceToBr } from '../../../../utils/string';
 import { useActions } from '../../../../hooks/useActions';
+import { useTypedSelector } from '../../../../hooks/useTypedSelector';
 import { Context } from '../../../../context/Context';
-
-interface IMessagesHistory {
-  message: string,
-  clientId: string,
-  username: string
-}
-
-interface IIncomingMessage {
-  id: string,
-  projectId: string,
-  clientId: string,
-  messagesHistory: IMessagesHistory[],
-  assignedTo: string | null,
-  avatarName: string,
-  avatarColor: string,
-}
-
-interface IClient {
-  projectId: string,
-  clientId: string,
-  messagesHistory: IMessagesHistory[],
-}
-
-interface Template {
-  id: string,
-  name: string,
-  message: string,
-}
-
-interface Templates {
-  templates: Template[]
-}
-
-interface RootState {
-  inbox: {
-    messages: IMessagesHistory[],
-    incomingMessages: IIncomingMessage[],
-    selectedClient: IIncomingMessage
-  },
-  templates: Templates
-}
 
 interface MessageInputContainerProps {
   messagesHistoryContainerElement: HTMLDivElement | null,
 }
 
 export default function MessageInputContainer({ messagesHistoryContainerElement }: MessageInputContainerProps) {
-  let { projectId, dialogType } = useParams<{ projectId: string, dialogType: string }>();
+  let { projectId } = useParams<{ projectId: string }>();
 
   const { currentUser } = useContext(Context);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const selectedClient = useSelector((state: RootState) => state.inbox.selectedClient);
-  const templates = useSelector((state: RootState) => state.templates.templates);
+  const { selectedClient } = useTypedSelector(state => state.inbox);
+  const { templates } = useTypedSelector(state => state.templates);
   const isAssigned = Boolean(selectedClient.assignedTo);
   const {
     addIncomingMessage, addIncomingMessageForSelectedClient,

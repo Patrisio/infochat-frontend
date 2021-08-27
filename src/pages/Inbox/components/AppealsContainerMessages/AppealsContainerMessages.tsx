@@ -1,5 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useRef, useEffect } from 'react';
 import { useParams } from 'react-router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArchive } from '@fortawesome/free-solid-svg-icons';
@@ -11,38 +10,8 @@ import MessageInputContainer from '../MessageInputContainer/MessageInputContaine
 
 import styles from './appealsContainerMessages.module.scss';
 import { useActions } from '../../../../hooks/useActions';
+import { useTypedSelector } from '../../../../hooks/useTypedSelector';
 import { getClientName } from '../../../../utils/clientData';
-
-type IMessagesHistory = {
-  message: string,
-  clientId: string,
-  username: string
-};
-
-interface IClient {
-  projectId: string,
-  clientId: string,
-  messagesHistory: IMessagesHistory[],
-}
-
-type IIncomingMessage = {
-  id: string,
-  projectId: string,
-  clientId: string,
-  messagesHistory: IMessagesHistory[],
-  assigned_to: string,
-  assignedTo: string,
-  avatarName: string,
-  avatarColor: string,
-};
-
-interface RootState {
-  inbox: {
-    messages: IMessagesHistory[]
-    incomingMessages: IIncomingMessage[],
-    selectedClient: IIncomingMessage,
-  },
-}
 
 interface AppealsContainerMessagesProps {
   closeModal: ModalProps['onClose'],
@@ -50,13 +19,13 @@ interface AppealsContainerMessagesProps {
 }
 
 export default function AppealsContainerMessages({ closeModal, setModalProps }: AppealsContainerMessagesProps) {
-  const selectedClient = useSelector((state: RootState) => state.inbox.selectedClient);
-  const incomingMessages = useSelector((state: RootState) => state.inbox.incomingMessages);
+  const { selectedClient } = useTypedSelector(state => state.inbox);
+  const { incomingMessages } = useTypedSelector(state => state.inbox);
   const { changeMessagesStatus } = useActions();
   let { projectId } = useParams<{ projectId: string }>();
   const messagesHistoryContainerRef = useRef<HTMLDivElement>(null);
 
-  const isDisabled = () => !incomingMessages.find((incMsg: IClient) => incMsg.clientId === selectedClient.clientId)?.assignedTo;
+  const isDisabled = () => !incomingMessages.find(incMsg => incMsg.clientId === selectedClient.clientId)?.assignedTo;
 
   const closeDialog = () => {
     changeMessagesStatus({

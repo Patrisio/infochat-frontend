@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import styles from './appealsContainerSelector.module.scss';
 import cloneDeep from 'lodash/cloneDeep';
@@ -13,6 +12,7 @@ import AppealsSkeleton from '../../../../components/Skeleton/AppealsSkeleton/App
 import { IIncomingMessage, IMessagesHistory } from '../../../../types/inbox';
 import { getClientName, getLastUnreadMessagesCount } from '../../../../utils/clientData';
 import { useActions } from '../../../../hooks/useActions';
+import { useTypedSelector } from '../../../../hooks/useTypedSelector';
 import { Context } from '../../../../context/Context';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -41,11 +41,11 @@ interface AppealsContainerSelectorProps {
 export default function AppealsContainerSelector({
   messages
 }: AppealsContainerSelectorProps) {
-  const channels = useSelector((state: any) => state.channels.channels);
-  const teammates = useSelector((state: any) => state.teammates.teammates);
-  const incomingMessages = useSelector((state: RootState) => state.inbox.incomingMessages);
-  const selectedClientId = useSelector((state: RootState) => state.inbox.selectedClient.clientId);
-  const isFetchingIncomingMessages = useSelector((state: RootState) => state.inbox.isFetchingIncomingMessages);
+  const { channels } = useTypedSelector(state => state.channels);
+  const { teammates } = useTypedSelector(state => state.teammates);
+  const { incomingMessages } = useTypedSelector(state => state.inbox);
+  const { clientId: selectedClientId } = useTypedSelector(state => state.inbox.selectedClient);
+  const { isFetchingIncomingMessages } = useTypedSelector(state => state.inbox);
 
   const [isOpenSearchPopup, toggleOpenSearchPopup] = useState(false);
   const [filters, updateFilters] = useState({

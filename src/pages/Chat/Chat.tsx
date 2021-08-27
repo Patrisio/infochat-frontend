@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, isValidElement, cloneElement } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 
 import ContactField from '../../components/ContactField/ContactField';
@@ -9,6 +8,7 @@ import Textarea from '../../components/Textarea/Textarea';
 import socket from '../../socket';
 import styles from './chat.module.scss';
 import { useActions } from '../../hooks/useActions';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 import Animal from '../../components/Animal/Animal';
 import { throttle } from 'lodash';
 import { getLogicalSign, getScriptCondition } from './helpers';
@@ -16,34 +16,13 @@ import { numericSort } from '../../lib/utils/sort';
 import { getEntityIdByValue } from '../../lib/utils/entity';
 import { scrollToBottomOfWrapper } from '../../lib/utils/scroll';
 import moment from 'moment-timezone';
-import { getTimezones, getTimezoneByCode, businessHours, weekdays, isDateBetween } from '../../lib/utils/date';
-import { replaceBrToWhiteSpace, replaceWhiteSpaceToBr } from '../../utils/string';
+import { businessHours, weekdays, isDateBetween } from '../../lib/utils/date';
+import { replaceWhiteSpaceToBr } from '../../utils/string';
 
 import theme1 from '../../assets/theme1-big.png';
 import theme2 from '../../assets/theme2-big.png';
 import theme3 from '../../assets/theme3-big.png';
 import { request } from '../Channels/components/ClockBlock/constants';
-import { style } from 'd3';
-
-interface IMessagesHistory {
-  message: string,
-  clientId: string,
-  username: string
-}
-
-interface IIncomingMessage {
-  id: string,
-  projectId: string,
-  clientId: string,
-  messagesHistory: IMessagesHistory[]
-}
-
-interface RootState {
-  inbox: {
-    messages: IMessagesHistory[],
-    selectedClient: IIncomingMessage
-  }
-}
 
 let parentWindowOrigin = '';
 let savedClientChatSettings: any = null;
@@ -56,8 +35,8 @@ const avatarName = animal.validateName().animal;
 const avatarColor = animal.validateColor().color;
 
 export default function Chat() {
-  const messages = useSelector((state: RootState) => state.inbox.messages);
-  const settings = useSelector((state: any) => state.channels.settings);
+  const { messages } = useTypedSelector(state => state.inbox);
+  const { settings } = useTypedSelector(state => state.channels);
   const {
     addMessage, fetchIncomingMessages, addToInboxIncomingMessage,
     fetchChatSettings, updateClientData

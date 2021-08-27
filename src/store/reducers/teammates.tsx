@@ -4,7 +4,7 @@ const initialState: TeammatesState = {
   teammates: [],
 };
 
-export const teammatesReducer = (state = initialState, action: TeammatesAction) => {
+export const teammatesReducer = (state = initialState, action: TeammatesAction): TeammatesState => {
   switch (action.type) {
     case TeammatesActionTypes.TEAMMATE_ADD:
       return {

@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 import Title from '../../../../components/Typography/Title/Title';
 import Button from '../../../../components/Button/Button';
 import Counter from '../../components/Counter/Counter';
 
 import { useActions } from '../../../../hooks/useActions';
+import { useTypedSelector } from '../../../../hooks/useTypedSelector';
+
 import { Feature } from '../../constants';
 import styles from './featureCard.module.scss';
 
 export default function FeatureCard({ imageSrc, id, name, description, category, price }: Feature) {
-  const featureCount = useSelector((state: any) => state.tariff.plan[id].count);
-  const dispatch = useDispatch();
+  const { count: featureCount } = useTypedSelector(state => state.tariff.plan[id]);
   const { updateTariffPlan } = useActions();
 
   const updateCount = () => {

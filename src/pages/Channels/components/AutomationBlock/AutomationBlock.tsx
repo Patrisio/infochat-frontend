@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 
 import ButtonsGroup from '../ButtonsGroup/ButtonsGroup';
 import Button from '../../../../components/Button/Button';
@@ -8,8 +7,8 @@ import Rule from './components/Rule/Rule';
 import { generateRandomHash } from '../../../../utils/string';
 import { cloneDeep } from 'lodash';
 import { useActions } from '../../../../hooks/useActions';
+import { useTypedSelector } from '../../../../hooks/useTypedSelector';
 import styles from './automationBlock.module.scss';
-
 
 interface Props {
   setActiveTab?: () => void,
@@ -93,7 +92,7 @@ export default function AutomationBlock({ setActiveTab }: Props) {
     result: 'Есть проблемы с вашей картой? Наша служба поддержки здесь. Спрашивай! Мы рады помочь!',
   };
 
-  const rules = useSelector((state: RootState) => state.channels.settings.rules);
+  const { rules } = useTypedSelector(state => state.channels.settings);
   const { updateChannelSettings } = useActions();
 
   const addRule = () => {

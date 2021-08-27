@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router';
 
 import { Context } from '../../context/Context';
 import { useActions } from '../../hooks/useActions';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 
 import Header from '../../components/Header/Header';
 import Spin from '../../components/Spin/Spin';
@@ -16,70 +16,18 @@ import AppealsContainerMessages from './components/AppealsContainerMessages/Appe
 import PersonInfo from './components/PersonInfo/PersonInfo';
 import InboxSidebar from './components/InboxSidebar/InboxSidebar';
 
-import { InboxState } from '../../types/inbox';
 import styles from './inbox.module.scss';
 import man from '../../assets/man.png';
 import { getAllInboxMessages } from '../../lib/utils/messages';
-
-interface IMessagesHistory {
-  message: string,
-  clientId: string,
-  username: string
-}
-
-interface IClient {
-  projectId: string,
-  clientId: string,
-  message: IMessagesHistory,
-  avatarName: string,
-  avatarColor: string,
-}
-
-interface Teammate {
-  avatar: string,
-  email: string,
-  role: string,
-  status: string,
-  username: string,
-  allClientIds: IClient[],
-  unreadCount: number,
-  unreadClientIds: IClient[],
-  assignedCount: number,
-  assignedClientIds: IClient[],
-  openedCount: number,
-  openedClientIds: IClient[],
-}
-
-interface IMessagesHistory {
-  message: string,
-  clientId: string,
-  username: string
-}
-
-interface RootState {
-  inbox: InboxState
-  teammates: {
-    teammates: Teammate[],
-  },
-  channels: {
-    channels: Channel[],
-    fetching: boolean,
-  },
-}
-
-interface Channel {
-  name: string,
-}
 
 export default function Inbox() {
   let { projectId, dialogType } = useParams<{ projectId: string, dialogType: string }>();
   const { currentUser } = useContext<any>(Context);
 
-  const selectedClient = useSelector((state: RootState) => state.inbox.selectedClient);
-  const incomingMessages = useSelector((state: RootState) => state.inbox.incomingMessages);
-  const filters = useSelector((state: RootState) => state.inbox.filters);
-  const teammates = useSelector((state: RootState) => state.teammates.teammates);
-  const { channels, fetching } = useSelector((state: RootState) => state.channels);
+  const { selectedClient } = useTypedSelector(state => state.inbox);
+  const { incomingMessages } = useTypedSelector(state => state.inbox);
+  const { filters } = useTypedSelector(state => state.inbox);
+  const { channels, fetching } = useTypedSelector(state => state.channels);
 
   const [currentModal, setModalProps] = useState<ModalProps>({
     show: false,

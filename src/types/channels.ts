@@ -1,8 +1,9 @@
-interface Channel {
+export interface Channel {
   name: string
+  status: any,
 }
 
-interface Operator {
+export interface Operator {
   name: string,
   id: string,
 }

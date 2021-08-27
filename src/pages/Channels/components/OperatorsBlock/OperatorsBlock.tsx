@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 
 import Input from '../../../../components/Input/Input';
 import Tabs from '../../../../components/Tabs/Tabs';
@@ -7,44 +6,18 @@ import ButtonsGroup from '../ButtonsGroup/ButtonsGroup';
 
 import styles from './operatorsBlock.module.scss';
 import { useActions } from '../../../../hooks/useActions';
-
-interface Operator {
-  icon?: string,
-  value: string | '' |  null,
-  id?: string,
-}
+import { useTypedSelector } from '../../../../hooks/useTypedSelector';
+import { Operator } from '../../../../types/channels';
 
 interface Props {
   setActiveTab?: () => void,
 }
 
-interface Settings {
-  chatName: '',
-  greeting: '',
-  backgroundImage: 1,
-  buttonLocation: '',
-  buttonScale: '',
-  buttonText: '',
-  infochatLinkEnabled: 1,
-  customCss: '',
-  operators: Operator[],
-}
-
-interface State {
-  channels: [],
-  settings: Settings,
-}
-
-interface RootState {
-  channels: State,
-  teammates: any,
-}
-
 let defaultOperators: Operator[];
 
 export default function OperatorsBlock({ setActiveTab }: Props) {
-  const assignedOperators = useSelector((state: RootState) => state.channels.settings.operators);
-  const existingTeammates = useSelector((state: RootState) => state.teammates.teammates);
+  const { operators: assignedOperators } = useTypedSelector(state => state.channels.settings);
+  const { teammates: existingTeammates } = useTypedSelector(state => state.teammates);
   const [hasChanges, toggleChanges] = useState(false);
   const { updateChannelSettings } = useActions();
 
@@ -62,10 +35,10 @@ export default function OperatorsBlock({ setActiveTab }: Props) {
     toggleChanges(true);
   };
 
-  const assignOperator = (operator: Operator) => {
+  const assignOperator = (operator: any) => {
     toggleChanges(true);
     
-    const isOperatorAlreadyAssigned = assignedOperators.find((assignedOperator) => assignedOperator.id === operator.id);
+    const isOperatorAlreadyAssigned = assignedOperators.find(assignedOperator => assignedOperator.id === operator.id);
 
     if (!isOperatorAlreadyAssigned) {
       updateChannelSettings({

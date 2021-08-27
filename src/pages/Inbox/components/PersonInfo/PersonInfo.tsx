@@ -1,6 +1,5 @@
 import React from 'react';
 import { useParams } from 'react-router';
-import { useDispatch, useSelector } from 'react-redux';
 
 import Accordion from '../../../../components/Accordion/Accordion';
 import ClientInfoSkeleton from '../../../../components/Skeleton/ClientInfoSkeleton/ClientInfoSkeleton';
@@ -13,9 +12,10 @@ import ClientPreview from './components/ClientPreview/ClientPreview';
 import { ModalProps } from '../../../../components/Modal/Modal';
 
 import { useActions } from '../../../../hooks/useActions';
+import { useTypedSelector } from '../../../../hooks/useTypedSelector';
 import { SelectedClient } from '../../../../types/inbox';
 import styles from './personInfo.module.scss';
-import { getClientName, getChangeInFieldValue } from '../../../../utils/clientData';
+import { getChangeInFieldValue } from '../../../../utils/clientData';
 
 interface PersonInfoProps {
   selectedClient: SelectedClient,
@@ -24,11 +24,10 @@ interface PersonInfoProps {
 }
 
 export default function PersonInfo({ selectedClient, closeModal, setModalProps }: PersonInfoProps) {
-  const isFetchingSelectedClienInfo = useSelector((state: any) => state.inbox.isFetchingSelectedClienInfo);
+  const { isFetchingSelectedClienInfo } = useTypedSelector((state: any) => state.inbox);
 
   let fieldInitialValue: string | null = '';
   
-  const dispatch = useDispatch();
   const { updateIncomingMessage, updateSelectedClient, updateClientData } = useActions();
   let { projectId } = useParams<{ projectId: string }>();
 
@@ -48,11 +47,11 @@ export default function PersonInfo({ selectedClient, closeModal, setModalProps }
 
     if (fieldName && isDifferentFieldValues) {
       const successCallback = () => {
-        dispatch(updateIncomingMessage({
+        updateIncomingMessage({
           clientId: selectedClient?.clientId,
           [fieldName]: fieldValue
-        }));
-        dispatch(updateSelectedClient({
+        });
+        updateSelectedClient({
           [fieldName]: fieldValue,
           changesHistory: [
             ...selectedClient.changesHistory,
@@ -63,15 +62,15 @@ export default function PersonInfo({ selectedClient, closeModal, setModalProps }
               timestamp: Date.now(),
             }
           ],
-        }));
+        });
       };
 
-      dispatch(updateClientData(Object.assign(clientData, {
+      updateClientData(Object.assign(clientData, {
         updatedBy: 'operator',
         [fieldName]: fieldValue,
         changeInFieldValue: getChangeInFieldValue(fieldName),
         successCallback,
-      })));
+      }));
     }
   };
 

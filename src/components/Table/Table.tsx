@@ -1,13 +1,10 @@
 import React from 'react';
 import Row from './components/Row';
 import styles from './table.module.scss';
-
-interface Row {
-  [key: string]: string,
-}
+import { Channel } from '../../types/channels';
 
 interface Props {
-  data: Row[],
+  data: any,
   columns: any,
 }
 
@@ -33,7 +30,7 @@ export default function Table({ columns, data}: Props) {
         </div>
       }
 
-      {data.map((row: Row, idx) => {
+      {data.map((row: any, idx: number) => {
         return (
           <Row
             key={idx}

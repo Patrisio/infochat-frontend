@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 
 import Button from '../../../../components/Button/Button';
 
 import styles from './buttonsGroup.module.scss';
 import { useActions } from '../../../../hooks/useActions';
+import { useTypedSelector } from '../../../../hooks/useTypedSelector';
 
 interface Props {
   hasChanges: Boolean,
@@ -37,7 +37,7 @@ interface RootState {
 
 export default function ButtonsGroup({ hasChanges, toggleChanges, setActiveTab, resetBlockSettings, saveChangesCallback }: Props) {
   const [isOpenButtonsGroup, toggleState] = useState(hasChanges);
-  const settings = useSelector((state: RootState) => state.channels.settings);
+  const { settings } = useTypedSelector(state => state.channels);
   const { saveChatSettings } = useActions();
   let { projectId } = useParams<{ projectId: string }>();
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 
 import Input from '../../../../../../components/Input/Input';
 
@@ -9,6 +8,7 @@ import { getEntityValueById } from '../../../../../../lib/utils/entity';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useActions } from '../../../../../../hooks/useActions';
+import { useTypedSelector } from '../../../../../../hooks/useTypedSelector';
 
 interface BusinessHours {
   [key: string]: string,
@@ -59,23 +59,19 @@ export default function BusinessHours({
   businessDayId, weekday, from, to,
   deleteBusinessHoursModule
 }: Props) {
-  const businessDays = useSelector((state: RootState) => state.channels.settings.businessDays);
+  const { businessDays } = useTypedSelector(state => state.channels.settings);
   const { updateChannelSettings } = useActions();
 
   const selectOption = (id: string | number, key: string, entity: { id: string | number, value: string }[]) => {
-    const foundBusinessDaysItem: BusinessDay | undefined = businessDays.find((item: BusinessDay ) => item.businessDayId === businessDayId);
+    const foundBusinessDaysItem: any = businessDays.find(item => item.businessDayId === businessDayId);
 
     if (foundBusinessDaysItem) {
-      const foundBusinessHoursItemIndex: number = businessDays.findIndex((item: BusinessDay ) => item.businessDayId === businessDayId);
+      const foundBusinessHoursItemIndex: number = businessDays.findIndex(item => item.businessDayId === businessDayId);
       foundBusinessDaysItem[key] = getEntityValueById(entity, id);
       businessDays.splice(foundBusinessHoursItemIndex, 1, foundBusinessDaysItem);
     }
 
     updateChannelSettings({ businessDays });
-  };
-
-  const getEntityIdByValue = (entity: { id: string, value: string }[], value: string) => {
-    return entity.find((entity) => entity.value === value)?.id;
   };
 
   return (

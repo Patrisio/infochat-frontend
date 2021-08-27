@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import CSS from 'csstype';
 import { useParams } from 'react-router';
-import { useDispatch, useSelector } from 'react-redux';
-import { Location } from 'history';
 
 import useForm from '../../hooks/useForm';
 
@@ -15,34 +12,16 @@ import Modal from '../../components/Modal/Modal';
 import Table from '../../components/Table/Table';
 import EditableUserForm from '../../modules/EditableUserForm/EditableUserForm';
 
+import { useActions } from '../../hooks/useActions';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
+
 import styles from './teammates.module.scss';
 import { generateRandomHash } from '../../utils/string';
-import { useActions } from '../../hooks/useActions';
 import validateForm from './validateForm';
 import cloneDeep from 'lodash/cloneDeep';
 
-interface Teammate {
-  id: string,
-  username: string,
-  phone: string,
-  email: string,
-  avatar: string,
-  role: string,
-  status: string,
-}
-
 interface IParams {
   projectId: string,
-}
-
-interface Teammate {
-  [key: string]: string
-}
-
-interface RootState {
-  teammates: {
-    teammates: Teammate[]
-  }
 }
 
 interface ModalProps {
@@ -74,7 +53,7 @@ export default function Teammates() {
   });
 
   let { projectId } = useParams<IParams>();
-  const teammates = useSelector((state: RootState) => state.teammates.teammates);
+  const { teammates } = useTypedSelector(state => state.teammates);
   
   const { addTeammate, deleteTeammate, fetchTeammates, updateTeammate } = useActions();
 

@@ -12,3 +12,5 @@ export const rootReducer = combineReducers({
   templates: templatesReducer,
   tariff: tariffReducer,
 });
+
+export type RootState = ReturnType<typeof rootReducer>;

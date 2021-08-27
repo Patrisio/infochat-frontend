@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
-import { useSelector } from 'react-redux';
 
 import Table from '../../components/Table/Table';
 import Button from '../../components/Button/Button';
@@ -19,6 +18,7 @@ import ChatPreview from './components/ChatPreview/ChatPreview';
 import styles from './channels.module.scss';
 import cloneDeep from 'lodash/cloneDeep';
 import { useActions } from '../../hooks/useActions';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 import chat from '../../assets/chat.svg';
 import chatChannels from '../../assets/chat-channels.svg';
 import invite from '../../assets/invite.svg';
@@ -59,8 +59,6 @@ interface AccordionHeader {
 }
 
 export default function Channels() {
-  const [isModalAddChannelShow, setStateModal] = useState(false);
-  // const [connectedChannels, setConnectedChannels] = useState<Channel[]>([]);
   const [currentModal, setModalProps] = useState<ModalProps>({
     show: false,
     title: '',
@@ -70,8 +68,7 @@ export default function Channels() {
     width: '',
     height: '',
   });
-  const connectedChannels = useSelector((state: RootState) => state.channels.channels);
-  const teammates = useSelector((state: RootState) => state.teammates.teammates);
+  const { channels: connectedChannels } = useTypedSelector(state => state.channels);
 
   let { projectId } = useParams<{ projectId: string }>();
   const { addChannel, fetchChannels, fetchChatSettings } = useActions();
@@ -114,7 +111,7 @@ export default function Channels() {
         </span>
         <Switcher
           onChange={(value: boolean) => {
-            const channel = connectedChannels.find((channel: Channel) => channel.name === data.name);
+            const channel = connectedChannels.find(channel => channel.name === data.name);
 
             if (channel) {
               if (prevStatus === 'disabled') {
@@ -318,7 +315,7 @@ export default function Channels() {
       <div className={styles.modalBody}>
         {
           channels.map(({  imageSrc, alt, backgroundColor, title, id }, idx) => {
-            const isAlreadyConnectedChannel = connectedChannels.find((channel: Channel) => channel.name === id);
+            const isAlreadyConnectedChannel = connectedChannels.find(channel => channel.name === id);
 
             return (
               <div

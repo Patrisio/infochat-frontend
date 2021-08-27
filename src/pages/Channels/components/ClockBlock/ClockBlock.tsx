@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 
 import BusinessHours from './components/BusinessHours/BusinessHours';
 import Button from '../../../../components/Button/Button';
-import Tabs from '../../../../components/Tabs/Tabs';
 import Input from '../../../../components/Input/Input';
 import ButtonsGroup from '../ButtonsGroup/ButtonsGroup';
 
@@ -11,6 +9,7 @@ import styles from './clockBlock.module.scss';
 import { generateRandomHash } from '../../../../utils/string';
 import { responseTime, request } from './constants';
 import { useActions } from '../../../../hooks/useActions';
+import { useTypedSelector } from '../../../../hooks/useTypedSelector';
 import moment from 'moment-timezone';
 import { getTimezones, getTimezoneByCode } from '../../../../lib/utils/date';
 import { getEntityIdByValue } from '../../../../lib/utils/entity';
@@ -74,11 +73,11 @@ let defaultBusinessDays: BusinessHours | BusinessHours[] = {
 };
 
 export default function ClockBlock({ setActiveTab }: Props) {
-  const businessDays = useSelector((state: RootState) => state.channels.settings.businessDays);
-  const responseTimeText = useSelector((state: RootState) => state.channels.settings.responseTimeText);
-  const requestText = useSelector((state: RootState) => state.channels.settings.requestText);
-  const chatSettingsTimezone = useSelector((state: RootState) => state.channels.settings.timezone);
-  const chatSettings = useSelector((state: RootState) => state.channels.settings);
+  const { businessDays } = useTypedSelector(state => state.channels.settings);
+  const { responseTimeText } = useTypedSelector(state => state.channels.settings);
+  const { requestText } = useTypedSelector(state => state.channels.settings);
+  const { timezone: chatSettingsTimezone } = useTypedSelector(state => state.channels.settings);
+  const { settings: chatSettings } = useTypedSelector(state => state.channels);
   const { updateChannelSettings } = useActions();
 
   const [hasChanges, toggleChanges] = useState(false);
