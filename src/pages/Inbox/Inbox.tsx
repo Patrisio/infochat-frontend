@@ -19,10 +19,12 @@ import InboxSidebar from './components/InboxSidebar/InboxSidebar';
 import styles from './inbox.module.scss';
 import man from '../../assets/man.png';
 import { getAllInboxMessages } from '../../lib/utils/messages';
+import { isProjectOwner } from '../../lib/utils/accessRights';
 
 export default function Inbox() {
   let { projectId, dialogType } = useParams<{ projectId: string, dialogType: string }>();
   const { currentUser } = useContext<any>(Context);
+  const isOwner = isProjectOwner(currentUser.role);
 
   const { selectedClient } = useTypedSelector(state => state.inbox);
   const { incomingMessages } = useTypedSelector(state => state.inbox);
@@ -124,13 +126,16 @@ export default function Inbox() {
                     className={styles.manImage}
                   />
                   <p>У вас ещё нет ни одного канала</p>
-                  <Button
-                    type='button'
-                    fluid
-                    onClick={() => history.push(`/project/${projectId}/settings/channels`)}
-                  >
-                    Добавить канал
-                  </Button>
+                  {
+                    isOwner &&
+                    <Button
+                      type='button'
+                      fluid
+                      onClick={() => history.push(`/project/${projectId}/settings/channels`)}
+                    >
+                      Добавить канал
+                    </Button>
+                  }
                 </div> :
                 selectedClient.clientId === '' ?
                 <div className={styles.notSelectedClientIdContainer}>

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useParams } from 'react-router';
 import { Context } from '../../../../context/Context';
@@ -6,6 +6,7 @@ import { Context } from '../../../../context/Context';
 import Sidebar from '../../../../components/Sidebar/Sidebar';
 import SidebarList from '../../../../components/Sidebar/components/SidebarList/SidebarList';
 import Avatar from '../../../../components/Avatar/Avatar';
+import Badge from '../../../../components/Badge/Badge';
 
 import { faInbox, faEnvelope, faEnvelopeOpen, faAt, faComments, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,7 +14,9 @@ import cloneDeep from 'lodash/cloneDeep';
 import { useActions } from '../../../../hooks/useActions';
 import { useTypedSelector } from '../../../../hooks/useTypedSelector';
 import styles from './inboxSidebar.module.scss';
+import socket from '../../../../socket';
 import { Teammate } from '../../../../types/teammates';
+import { isProjectOwner } from '../../../../lib/utils/accessRights';
 
 interface Channel {
   name: string,
@@ -30,9 +33,10 @@ export default function InboxSidebar({ inboxMessages }: InboxSidebarProps) {
   const { teammates } = useTypedSelector(state => state.teammates);
 
   const { currentUser } = useContext<any>(Context);
+  const isOwner = isProjectOwner(currentUser.role);
   let { projectId, dialogType } = useParams<{ projectId: string, dialogType: string }>();
 
-  const { selectClient } = useActions();
+  const { selectClient, updateTeammate } = useActions();
   let history = useHistory();
 
   const hideOpenedMessagesArea = () => {
@@ -71,12 +75,14 @@ export default function InboxSidebar({ inboxMessages }: InboxSidebarProps) {
     </Link>
   );
   const channelsTitle = () => (
+    isOwner ?
     <Link
       className={styles.title}
       to={`/project/${projectId}/settings/channels`}
     >
       Каналы
-    </Link>
+    </Link> :
+    <h3 className={styles.title}>Каналы</h3>
   );
 
   const formatDialogs = () => {
@@ -149,7 +155,7 @@ export default function InboxSidebar({ inboxMessages }: InboxSidebarProps) {
         });
       }
   
-      if (currentUser.role === 'owner') {
+      if (isOwner) {
         result.push({
           name: 'Добавить канал',
           stylesList: {
@@ -167,14 +173,24 @@ export default function InboxSidebar({ inboxMessages }: InboxSidebarProps) {
   const formatTeammates = (teammates: Teammate[]) => {
     const result = [];
 
-    for (let { username } of teammates) {
+    for (let { username, isOnline } of teammates) {
       result.push({
         name: username,
-        icon: <Avatar name={username} size='small' />
+        icon: (
+          <Badge
+            size='small'
+            color={isOnline ? styles.isOnline : styles.isOffline}
+          >
+            <Avatar
+              name={username}
+              size='small'
+            />
+          </Badge>
+        ),
       });
     }
 
-    if (currentUser.role === 'owner') {
+    if (isOwner) {
       result.push({
         name: 'Добавить сотрудника',
         stylesList: {
@@ -188,6 +204,20 @@ export default function InboxSidebar({ inboxMessages }: InboxSidebarProps) {
     return result;
   };
 
+  useEffect(() => {
+    socket.on('updateTeammateOnlineStatus', (teammateData: any) => {
+      updateTeammate({
+        oldEmail: teammateData.email,
+        projectId,
+        isOnline: teammateData.isOnline,
+      });
+    });
+
+    return () => {
+      socket.off('updateTeammateOnlineStatus');
+    };
+  }, [socket]);
+
   return (
     <Sidebar>
       <SidebarList
@@ -200,19 +230,25 @@ export default function InboxSidebar({ inboxMessages }: InboxSidebarProps) {
         listItems={formatChannels(channels)}
       />
 
-      <SidebarList
-        title={teammatesTitle()}
-        listItems={formatTeammates(teammates)}
-      />
-
-      <div className={styles.fixedSidebarSection}>
+      {
+        isOwner &&
         <SidebarList
-          listItems={[{
-            name: 'Настройки',
-            onClick: () => history.push(`/project/${projectId}/settings/start`),
-          }]}
+          title={teammatesTitle()}
+          listItems={formatTeammates(teammates)}
         />
-      </div>
+      }
+
+      {
+        isOwner &&
+        <div className={styles.fixedSidebarSection}>
+          <SidebarList
+            listItems={[{
+              name: 'Настройки',
+              onClick: () => history.push(`/project/${projectId}/settings/start`),
+            }]}
+          />
+        </div>
+      }
     </Sidebar>
   );
 }

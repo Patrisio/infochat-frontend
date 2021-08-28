@@ -1,6 +1,7 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
+import socket from '../../socket';
 
 import CurrentUserInfo from '../CurrentUserInfo/CurrentUserInfo';
 import { Context } from '../../context/Context';
@@ -9,19 +10,41 @@ import Switcher from '../Switcher/Switcher';
 import Popup from '../Popup/Popup';
 import Avatar from '../Avatar/Avatar';
 
+import { useActions } from '../../hooks/useActions';
+
 import styles from './header.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserEdit, faLayerGroup, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { isProjectOwner } from '../../lib/utils/accessRights';
 
 export default function Header() {
-  const [isOnline, toggleState] = useState(true);
+  const { currentUser, setCurrentUser } = useContext(Context);
+  const [isOnline, toggleIsOnline] = useState(currentUser.isOnline);
 
-  const { currentUser } = useContext(Context);
   const { projectId } = useParams<{projectId: string }>();
+  const { updateTeammate } = useActions();
   const balance = currentUser.balance;
+  const isOwner = isProjectOwner(currentUser.role);
 
-  const switchState = (value: boolean) => {
-    toggleState(value);
+  const switchIsOnline = (isOnline: boolean) => {
+    toggleIsOnline(isOnline);
+    updateTeammate({
+      oldEmail: currentUser.email,
+      isOnline,
+      projectId,
+      successCallback: () => setCurrentUser(
+        (prev: any) => {
+          socket.emit('updateTeammateOnlineStatus', {
+            isOnline,
+            email: currentUser.email,
+          });
+          return {
+            ...prev,
+            isOnline,
+          };
+        }
+      ),
+    });
   };
 
   const PopupBodyUser = () => {
@@ -42,17 +65,20 @@ export default function Header() {
                 <span>Изменить профиль</span>
               </Link>
             </li>
-            <li>
-              <Link
-                className={styles.link}
-                to={`/project/${projectId}/projects`}
-              >
-                <div className={styles.icon}>
-                  <FontAwesomeIcon icon={faLayerGroup} />
-                </div>
-                <span>Мои проекты</span>
-              </Link>
-            </li>
+            {
+              isOwner &&
+              <li>
+                <Link
+                  className={styles.link}
+                  to={`/project/${projectId}/projects`}
+                >
+                  <div className={styles.icon}>
+                    <FontAwesomeIcon icon={faLayerGroup} />
+                  </div>
+                  <span>Мои проекты</span>
+                </Link>
+              </li>
+            }
           </ul>
         </div>
 
@@ -68,6 +94,10 @@ export default function Header() {
       </div>
     );
   };
+
+  useEffect(() => {
+    toggleIsOnline(currentUser.isOnline);
+  }, [currentUser.isOnline]);
 
   return (
     <header className={styles.headerContainer}>
@@ -90,7 +120,7 @@ export default function Header() {
         </div>
 
         {
-          balance !== null &&
+          balance !== null && isOwner &&
           <div className={styles.currentUserBalance}>
             Баланс: <span className={styles.balanceValue}>{ balance } ₽</span>
           </div>
@@ -99,8 +129,8 @@ export default function Header() {
         <div className={styles.switcherBlock}>
           <span className={styles.stateLabel}>{ isOnline ? 'в сети' : 'не доступен' }</span>
           <Switcher
-            onChange={switchState}
-            value={true}
+            onChange={switchIsOnline}
+            value={isOnline}
           />
         </div>
       </div>

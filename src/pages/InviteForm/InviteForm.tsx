@@ -72,6 +72,7 @@ export default function InviteForm() {
           fluid
           onChange={handleChange}
           errorMessage={errors.name}
+          classNames={styles.field}
         />
         <Input
           placeholder='Фамилия'
@@ -80,6 +81,7 @@ export default function InviteForm() {
           fluid
           onChange={handleChange}
           errorMessage={errors.surname}
+          classNames={styles.field}
         />
         <Input
           placeholder='Пароль'
@@ -88,6 +90,7 @@ export default function InviteForm() {
           fluid
           onChange={handleChange}
           errorMessage={errors.password}
+          classNames={styles.field}
         />
         <Input
           placeholder='Подтвердите пароль'
@@ -96,6 +99,7 @@ export default function InviteForm() {
           fluid
           onChange={handleChange}
           errorMessage={errors.confirmPassword}
+          classNames={styles.field}
         />
         <Button
           type='submit'

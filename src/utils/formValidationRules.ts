@@ -41,8 +41,8 @@ export function checkPhone(phone: string) {
 export function checkPassword(password: string) {
   if (!password) {
     return 'Введите пароль';
-  } else if (password.length < 6) {
-    return 'Пароль должен содержать как минимкм 6 символов';
+  } else if (password.length < 8) {
+    return 'Пароль должен содержать как минимкм 8 символов';
   }
 }
 

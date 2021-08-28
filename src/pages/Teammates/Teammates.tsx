@@ -17,8 +17,10 @@ import { useTypedSelector } from '../../hooks/useTypedSelector';
 
 import styles from './teammates.module.scss';
 import { generateRandomHash } from '../../utils/string';
+import { isProjectOwner, Role } from '../../lib/utils/accessRights';
 import validateForm from './validateForm';
 import cloneDeep from 'lodash/cloneDeep';
+import Badge from '../../components/Badge/Badge';
 
 interface IParams {
   projectId: string,
@@ -75,8 +77,8 @@ export default function Teammates() {
     inviteTeammate,
   );
 
-  const getRole = (role: string) => {
-    return role === 'owner' ? 'Владелец' : 'Оператор';
+  const getRole = (role: Role) => {
+    return isProjectOwner(role)? 'Владелец' : 'Оператор';
   };
 
   const getStatus = (status: string) => {
@@ -153,13 +155,15 @@ export default function Teammates() {
         data.avatar ?
         <img
           src={data.avatar}
-          alt="avatar"
+          alt='avatar'
           className={styles.operatorAvatar}
         /> :
-        <Avatar
-          name={data.username}
-          size='large'
-        />
+        <Badge color={data.isOnline ? styles.isOnline : styles.isOffline}>
+          <Avatar
+            name={data.username}
+            size='large'
+          />
+        </Badge>
       ),
     },
     {

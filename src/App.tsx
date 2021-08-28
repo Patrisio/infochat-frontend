@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 
 import Router from './router/router';
 import socket from './socket';
-import { Context } from './context/Context';
+import { Context, IUser } from './context/Context';
 import { useActions } from './hooks/useActions';
+import { isProjectOwner } from './lib/utils/accessRights';
 
 import 'normalize.css';
 import './scss/App.scss';
@@ -39,15 +39,16 @@ export default function App() {
     };
   }, [socket]);
 
-  const initialCurrentUser = {
+  const initialCurrentUser: IUser = {
     avatar: '',
     email: '',
-    role: '',
+    role: 'operator',
     status: '',
     username: '',
     projectId: null,
     timezone: null,
     balance: null,
+    isOnline: true,
     projects: [],
   };
 
@@ -61,7 +62,6 @@ export default function App() {
   useEffect(() => {
     if (currentUserDataIsNeeded(window.location.href)) {
       const successCallback = (currentUser: any) => {
-        console.log(currentUser, 'currentUser');
         setCurrentUser(currentUser);
         socket.emit('joinRoom', currentUser.projects[0].id);
         socket.on('msgToClient', (message: any) => {
@@ -75,12 +75,14 @@ export default function App() {
       };
     }
   }, []);
-  
 
   return (
     <Context.Provider value={{ currentUser, setCurrentUser }}>
       <div className="App">
-        { Router() }
+        {
+          currentUser.email &&
+          <Router isOwner={isProjectOwner(currentUser.role)} />
+        }
       </div>
     </Context.Provider>
   );

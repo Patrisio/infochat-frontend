@@ -3,6 +3,7 @@ export interface Teammate {
   email: string,
   role: string,
   status: string,
+  isOnline: boolean,
   username: string,
 }
 

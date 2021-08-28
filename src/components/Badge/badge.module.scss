@@ -1,0 +1,34 @@
+@import '../../scss/variables.scss';
+
+.badgeContainer {
+  position: relative;
+}
+
+.badge {
+  position: absolute;
+  border-radius: 100px;
+  border: 1px solid $white-1;
+}
+
+.small {
+  width: 5px;
+  height: 5px;
+  top: -1px;
+  right: 6px;
+}
+
+.medium {
+  width: 10px;
+  height: 10px;
+  top: -3px;
+  right: -2px;
+}
+
+.large {
+  width: 15px;
+  height: 15px;
+}
+
+.defaultBadgeColor {
+  background: $brown-8;
+}

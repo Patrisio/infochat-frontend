@@ -1,4 +1,5 @@
 import { createContext } from 'react';
+import { Role } from '../lib/utils/accessRights';
 
 export interface Project {
   id: number,
@@ -6,15 +7,16 @@ export interface Project {
   teammatesCount: number,
 }
 
-interface IUser {
+export interface IUser {
   avatar: string,
   email: string,
-  role: string,
+  role: Role,
   status: string,
   username: string,
   projectId: number | null,
   timezone: string | null,
   balance: number | null,
+  isOnline: boolean,
   projects: Project[],
 }
 
@@ -27,12 +29,13 @@ export const Context = createContext<ContextProps>({
   currentUser: {
     avatar: '',
     email: '',
-    role: '',
+    role: 'operator',
     status: '',
     username: '',
     projectId: null,
     timezone: null,
     balance: null,
+    isOnline: true,
     projects: [],
   },
   setCurrentUser: () => {},
