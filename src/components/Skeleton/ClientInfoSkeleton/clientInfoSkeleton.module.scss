@@ -1,5 +1,9 @@
 @import '../../../scss/variables.scss';
 
+.clientInfoSkeletonContainer {
+  width: 330px;
+}
+
 .clientInfoSkeletonHeader {
   display: flex;
   align-items: center;

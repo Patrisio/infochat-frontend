@@ -11,27 +11,29 @@ import MessageInputContainer from '../MessageInputContainer/MessageInputContaine
 import styles from './appealsContainerMessages.module.scss';
 import { useActions } from '../../../../hooks/useActions';
 import { useTypedSelector } from '../../../../hooks/useTypedSelector';
-import { getClientName } from '../../../../utils/clientData';
+import { SelectedClient } from '../../../../types/inbox';
 
 interface AppealsContainerMessagesProps {
+  clientName: string,
+  messagesHistory: SelectedClient['messagesHistory'],
+  clientId: string,
   closeModal: ModalProps['onClose'],
   setModalProps: (data: ModalProps) => void,
 }
 
-export default function AppealsContainerMessages({ closeModal, setModalProps }: AppealsContainerMessagesProps) {
-  const { selectedClient } = useTypedSelector(state => state.inbox);
+export default function AppealsContainerMessages({ clientName, messagesHistory, clientId, closeModal, setModalProps }: AppealsContainerMessagesProps) {
   const { incomingMessages } = useTypedSelector(state => state.inbox);
   const { changeMessagesStatus } = useActions();
   let { projectId } = useParams<{ projectId: string }>();
   const messagesHistoryContainerRef = useRef<HTMLDivElement>(null);
 
-  const isDisabled = () => !incomingMessages.find(incMsg => incMsg.clientId === selectedClient.clientId)?.assignedTo;
+  const isDisabled = () => !incomingMessages.find(incMsg => incMsg.clientId === clientId)?.assignedTo;
 
   const closeDialog = () => {
     changeMessagesStatus({
       messagesStatus: 'closed',
       projectId,
-      clientId: selectedClient.clientId,
+      clientId,
     });
   };
 
@@ -103,13 +105,13 @@ export default function AppealsContainerMessages({ closeModal, setModalProps }: 
         removeAnimationClass(childrenNodesLength, childrenNodes);
       };
     }
-  }, [incomingMessages]);
+  }, [clientId]);
 
   return (
     <div className={styles.converasationChatContainer}>
       <div className={styles.dialogHeader}>
         <div>
-          <p className={styles.clientName}>{ getClientName(selectedClient.avatarColor, selectedClient.avatarName) }</p>
+          <p className={styles.clientName}>{ clientName }</p>
         </div>
 
         <div
@@ -138,7 +140,7 @@ export default function AppealsContainerMessages({ closeModal, setModalProps }: 
         ref={messagesHistoryContainerRef}
       >
         {
-          selectedClient.messagesHistory.map((message, idx) => {
+          messagesHistory.map((message, idx) => {
             return (
               <MessageInner
                 key={idx}

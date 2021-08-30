@@ -71,6 +71,16 @@ export const channelsReducer = (state = initialState, action: ChannelsAction): C
 
       return cloneDeep(Object.assign(state, updatedSettings));
 
+    case ChannelsActionTypes.UPDATE_CHANNEL_STATUS_BY_CHANNEL_NAME:
+      const { name, status } = action.payload;
+      const foundChannel = state.channels.find(channel => channel.name === name);
+
+      if (foundChannel) {
+        foundChannel.status = status;
+      }
+
+      return cloneDeep(Object.assign(state, { channels: state.channels }));
+
     default:
       return state;
   }

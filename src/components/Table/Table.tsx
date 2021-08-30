@@ -1,7 +1,6 @@
 import React from 'react';
 import Row from './components/Row';
 import styles from './table.module.scss';
-import { Channel } from '../../types/channels';
 
 interface Props {
   data: any,

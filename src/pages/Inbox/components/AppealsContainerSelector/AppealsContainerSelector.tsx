@@ -25,15 +25,6 @@ interface FilterVariant {
   value: string,
 }
 
-interface RootState {
-  inbox: {
-    messages: IMessagesHistory[]
-    incomingMessages: IIncomingMessage[],
-    isFetchingIncomingMessages: boolean,
-    selectedClient: IIncomingMessage,
-  },
-}
-
 interface AppealsContainerSelectorProps {
   messages: any
 }
@@ -58,7 +49,7 @@ export default function AppealsContainerSelector({
   });
 
   const {
-    updateIncomingMessage, getClientInfo, updateIncomingMessagesFilters,
+    getClientInfo, updateIncomingMessagesFilters,
     updateSelectedClient, selectClient
   } = useActions();
   const { currentUser } = useContext(Context);
@@ -67,14 +58,14 @@ export default function AppealsContainerSelector({
   const showClientMessages = (clientId: string) => {
     if (clientId !== selectedClientId) {
       const successCallback = (clientInfo: any) => {
-        updateIncomingMessage({ clientId });
-        const selectedClient: IIncomingMessage | undefined = incomingMessages.find(message => message.clientId === clientId);
-        selectClient(cloneDeep(selectedClient));
         updateSelectedClient({
           changesHistory: clientInfo.changesHistory,
           notes: clientInfo.notes,
         });
       };
+
+      const selectedClient: IIncomingMessage | undefined = incomingMessages.find(message => message.clientId === clientId);
+      selectClient(cloneDeep(selectedClient));
 
       getClientInfo({
         projectId,

@@ -30,3 +30,8 @@ export const fetchChatSettings = (payload: { projectId: string, successCallback?
   type: ChannelsActionTypes.FETCH_CHAT_SETTINGS,
   payload,
 });
+
+export const updateChannelStatusByChannelName = (payload: any): ChannelsAction => ({
+  type: ChannelsActionTypes.UPDATE_CHANNEL_STATUS_BY_CHANNEL_NAME,
+  payload,
+});

@@ -116,7 +116,7 @@ export default function PersonInfo({ selectedClient, closeModal, setModalProps }
     <div className={styles.personInfoContainer}>
       {
         isFetchingSelectedClienInfo ?
-        <ClientInfoSkeleton />:
+        <ClientInfoSkeleton /> :
         <>
           <ClientPreview
             selectedClient={selectedClient}

@@ -63,6 +63,7 @@ export enum ChannelsActionTypes {
   ADD_CHANNEL = 'ADD_CHANNEL',
   SAVE_CHAT_SETTINGS = 'SAVE_CHAT_SETTINGS',
   FETCH_CHAT_SETTINGS = 'FETCH_CHAT_SETTINGS',
+  UPDATE_CHANNEL_STATUS_BY_CHANNEL_NAME = 'UPDATE_CHANNEL_STATUS_BY_CHANNEL_NAME',
 }
 
 interface addChannelsAction {
@@ -93,6 +94,10 @@ interface fetchChatSettingsAction {
   type: ChannelsActionTypes.FETCH_CHAT_SETTINGS,
   payload: any,
 }
+interface updateChannelStatusByChannelName {
+  type: ChannelsActionTypes.UPDATE_CHANNEL_STATUS_BY_CHANNEL_NAME,
+  payload: any,
+}
 
 export type ChannelsAction = 
   addChannelsAction
@@ -102,3 +107,4 @@ export type ChannelsAction =
   | toggleFetchingChannelsAction
   | saveChatSettingsAction
   | fetchChatSettingsAction
+  | updateChannelStatusByChannelName

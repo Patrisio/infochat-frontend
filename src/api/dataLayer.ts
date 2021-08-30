@@ -16,7 +16,7 @@ export async function inviteUser(payload: any) {
 }
 
 export async function fetchCurrentUser(payload: any) {
-  return await requestApiGet('api_get_current_user', {}, payload.successCallback);
+  return await requestApiGet('api_get_current_user', {}, payload.successCallback, payload.errorCallback);
 }
 
 export async function signIn(payload: any) {

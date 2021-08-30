@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, memo } from 'react';
 import { useParams } from 'react-router';
 
 import Table from '../../components/Table/Table';
@@ -15,6 +15,8 @@ import ClockBlock from './components/ClockBlock/ClockBlock';
 import AutomationBlock from './components/AutomationBlock/AutomationBlock';
 import ChatPreview from './components/ChatPreview/ChatPreview';
 
+// import StatusSwitcher from './StatusSwitcher';
+
 import styles from './channels.module.scss';
 import cloneDeep from 'lodash/cloneDeep';
 import { useActions } from '../../hooks/useActions';
@@ -27,15 +29,6 @@ import install from '../../assets/install.svg';
 import operators from '../../assets/operators.svg';
 import style from '../../assets/style.svg';
 
-interface Channel {
-  [key: string]: string,
-}
-
-interface Response {
-  code: number,
-  channels: Channel[],
-}
-
 interface ModalProps {
   show: boolean,
   title: string,
@@ -44,18 +37,6 @@ interface ModalProps {
   onClose: () => void,
   width: string,
   height?: string,
-}
-
-interface RootState {
-  channels: {
-    channels: Channel[]
-  },
-  teammates: any
-}
-
-interface AccordionHeader {
-  imageSrc: string,
-  label: string,
 }
 
 export default function Channels() {
@@ -71,7 +52,7 @@ export default function Channels() {
   const { channels: connectedChannels } = useTypedSelector(state => state.channels);
 
   let { projectId } = useParams<{ projectId: string }>();
-  const { addChannel, fetchChannels, fetchChatSettings } = useActions();
+  const { addChannel, fetchChannels, fetchChatSettings, updateChannelStatusByChannelName } = useActions();
 
   const getChannelPreview = (data: string) => {
     switch(data) {
@@ -97,8 +78,7 @@ export default function Channels() {
   };
 
   const StatusSwitcher = (data: any) => {
-    const [statuses, setStatus] = useState([data.status, 'disabled']);
-    const [prevStatus, setNewStatus] = useState(data.status);
+    const statuses = ['pending', 'disabled'];
 
     return (
       <div className={styles.switcher}>
@@ -107,20 +87,14 @@ export default function Channels() {
           ${data.status === 'pending' ? styles.pending :
             data.status === 'disabled' ? styles.disabled : ''}
         `}>
-          {getChannelStatus(data.status)}
+          { getChannelStatus(data.status) }
         </span>
         <Switcher
-          onChange={(value: boolean) => {
-            const channel = connectedChannels.find(channel => channel.name === data.name);
-
-            if (channel) {
-              if (prevStatus === 'disabled') {
-                channel.status = data.status;
-              }
-              
-              channel.status = statuses.find(((statusItem: string) => statusItem !== channel.status));
-              setNewStatus(channel.status);
-            }
+          onChange={(isActive: boolean) => {
+            updateChannelStatusByChannelName({
+              name: data.name,
+              status: isActive ? 'pending' : statuses.find(((statusItem: string) => statusItem !== data.status)),
+            });
           }}
           value={true}
         />
@@ -191,7 +165,7 @@ export default function Channels() {
       visible: false,
       cellComponent: (data: any) => (
         <span className={styles.channel}>{getChannelName(data.name)}</span>
-      ),
+      )
     },
     {
       key: 'status',
@@ -233,11 +207,14 @@ export default function Channels() {
               title: 'Редактировать чат на сайте',
               body: (
                 <div className={styles.modalBody}>
-                  <div className={styles.chatSettingsContainer}>
+                  <div
+                    key='1'
+                    className={styles.chatSettingsContainer}
+                  >
                     <Accordion panels={panels}/>
                   </div>
-
-                  <ChatPreview />
+                  
+                  <ChatPreview key='2' />
                 </div>
               ),
               footer: null,
@@ -298,7 +275,6 @@ export default function Channels() {
   ];
 
   useEffect(() => {
-    console.log('jjjjjjjjjj');
     getChannels();
   }, []);
 

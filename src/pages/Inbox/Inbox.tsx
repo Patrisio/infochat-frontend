@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, Suspense, lazy } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router';
 
@@ -10,16 +10,19 @@ import Header from '../../components/Header/Header';
 import Spin from '../../components/Spin/Spin';
 import Button from '../../components/Button/Button';
 import Modal, { ModalProps } from '../../components//Modal/Modal';
+import ClientInfoSkeleton from '../../components/Skeleton/ClientInfoSkeleton/ClientInfoSkeleton';
 
 import AppealsContainerSelector from './components/AppealsContainerSelector/AppealsContainerSelector';
-import AppealsContainerMessages from './components/AppealsContainerMessages/AppealsContainerMessages';
-import PersonInfo from './components/PersonInfo/PersonInfo';
 import InboxSidebar from './components/InboxSidebar/InboxSidebar';
 
 import styles from './inbox.module.scss';
 import man from '../../assets/man.png';
 import { getAllInboxMessages } from '../../lib/utils/messages';
 import { isProjectOwner } from '../../lib/utils/accessRights';
+import { getClientName } from '../../utils/clientData';
+
+const AppealsContainerMessages = lazy(() => import('./components/AppealsContainerMessages/AppealsContainerMessages'));
+const PersonInfo = lazy(() => import('./components/PersonInfo/PersonInfo'));
 
 export default function Inbox() {
   let { projectId, dialogType } = useParams<{ projectId: string, dialogType: string }>();
@@ -142,15 +145,23 @@ export default function Inbox() {
                   <p className={styles.notSelectedClientIdNotice}>Пожалуйста, выберите диалог, чтобы начать общение</p>
                 </div> :
                 <>
-                  <AppealsContainerMessages
-                    closeModal={currentModal.onClose}
-                    setModalProps={setModalProps}
-                  />
-                  <PersonInfo
-                    selectedClient={selectedClient}
-                    closeModal={currentModal.onClose}
-                    setModalProps={setModalProps}
-                  />
+                  <Suspense fallback={<Spin />}>
+                    <AppealsContainerMessages
+                      clientName={getClientName(selectedClient.avatarColor, selectedClient.avatarName)}
+                      messagesHistory={selectedClient.messagesHistory}
+                      clientId={selectedClient.clientId}
+                      closeModal={currentModal.onClose}
+                      setModalProps={setModalProps}
+                    />
+                  </Suspense>
+
+                  <Suspense fallback={<ClientInfoSkeleton />}>
+                    <PersonInfo
+                      selectedClient={selectedClient}
+                      closeModal={currentModal.onClose}
+                      setModalProps={setModalProps}
+                    />
+                  </Suspense>
                 </>
               }
             </div>

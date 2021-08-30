@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import Button from '../../Button/Button';
 import Avatar from '../../Avatar/Avatar';
 import styles from './row.module.scss';
@@ -20,9 +20,7 @@ interface IData {
 
 export default function Row({ row, columns }: IData) {
   return (
-    <div
-      className={styles.gridRow}
-    >
+    <div className={styles.gridRow}>
       {
         columns.map((column: any, idx: number) => {
           return (

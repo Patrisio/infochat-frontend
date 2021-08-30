@@ -10,6 +10,9 @@ export default function Switcher({ onChange, value = false }: IProps) {
   const [isActive, toggle] = useState(value);
 
   useEffect(() => toggle(value), [value]);
+  useEffect(() => {
+    onChange(isActive);
+  }, [isActive]);
 
   return (
     <label className={styles.toggleControl}>
@@ -19,7 +22,6 @@ export default function Switcher({ onChange, value = false }: IProps) {
         onChange={() => {
           toggle(prev => {
             console.log(!prev);
-            onChange(!prev);
             return !prev;
           });
         }}
