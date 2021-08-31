@@ -197,3 +197,8 @@ export async function noteDelete(payload: any) {
   const { successCallback, ...noteData } = payload;
   return await requestApiPost('api_delete_note', noteData, {}, successCallback);
 }
+
+export async function clientAppealDelete(payload: any) {
+  const { successCallback, ...clientData } = payload;
+  return await requestApiPost('api_delete_client_appeal_by_client_id', {}, clientData, successCallback);
+}

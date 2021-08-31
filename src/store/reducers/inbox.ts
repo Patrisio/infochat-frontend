@@ -1,8 +1,23 @@
-import { InboxState, IIncomingMessage, InboxAction, InboxActionTypes } from '../../types/inbox';
+import { InboxState, IIncomingMessage, InboxAction, InboxActionTypes, SelectedClient } from '../../types/inbox';
 
 import { getLastUnreadMessagesCount } from '../../utils/clientData';
 
 import cloneDeep from 'lodash/cloneDeep';
+
+export const defaultSelectedClient: SelectedClient = {
+  id: '',
+  projectId: '',
+  clientId: '',
+  messagesHistory: [],
+  assignedTo: '',
+  phone: '',
+  email: '',
+  avatarName: '',
+  avatarColor: '',
+  messagesStatus: 'unread',
+  notes: [],
+  changesHistory: [],
+};
 
 const initialState: InboxState = {
   filters: {
@@ -17,20 +32,7 @@ const initialState: InboxState = {
   incomingMessages: [],
   isFetchingIncomingMessages: false,
   isFetchingSelectedClienInfo: false,
-  selectedClient: {
-    id: '',
-    projectId: '',
-    clientId: '',
-    messagesHistory: [],
-    assignedTo: '',
-    phone: '',
-    email: '',
-    avatarName: '',
-    avatarColor: '',
-    messagesStatus: 'unread',
-    notes: [],
-    changesHistory: [],
-  },
+  selectedClient: defaultSelectedClient,
 };
 
 export const inboxReducer = (state = initialState, action: InboxAction): InboxState => {
@@ -128,6 +130,12 @@ export const inboxReducer = (state = initialState, action: InboxAction): InboxSt
       return {
         ...state,
         isFetchingSelectedClienInfo: !state.isFetchingSelectedClienInfo,
+      };
+
+    case InboxActionTypes.INCOMING_MESSAGES_DELETE_FROM_INBOX:
+      return {
+        ...state,
+        incomingMessages: state.incomingMessages.filter((incMsg) => incMsg.clientId !== action.payload.clientId),
       };
     
     default:

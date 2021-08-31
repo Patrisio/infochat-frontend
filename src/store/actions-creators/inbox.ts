@@ -10,8 +10,18 @@ export const getClientInfo = (payload: any): InboxAction => ({
   payload,
 });
 
+export const deleteClientAppeal = (payload: any): InboxAction => ({
+  type: InboxActionTypes.DELETE_CLIENT_APPEAL,
+  payload,
+});
+
 export const addToInboxIncomingMessage = (payload: any): InboxAction => ({
   type: InboxActionTypes.INCOMING_MESSAGES_ADD_TO_INBOX,
+  payload,
+});
+
+export const deleteFromInboxIncomingMessage = (payload: any): InboxAction => ({
+  type: InboxActionTypes.INCOMING_MESSAGES_DELETE_FROM_INBOX,
   payload,
 });
 

@@ -1,7 +1,7 @@
 import { call, put, takeEvery, all, StrictEffect } from 'redux-saga/effects';
 import { getClientInfo } from '../store/actions-creators/inbox';
 import {
-  getTeammates, incomingMessagesFetch,
+  getTeammates, incomingMessagesFetch, clientAppealDelete,
   selectedClientUpdate, messageToInboxAdd, selectedClientInfoGet,
   messagesStatusUpdate, noteAdd, noteDelete
 } from '../api/dataLayer';
@@ -124,11 +124,22 @@ function* addNote(action: any): Generator<StrictEffect> {
 
 function* deleteNote(action: any): Generator<StrictEffect> {
   try {
-    console.log(action.payload);
     yield call(noteDelete, action.payload);
   } catch (e) {
     yield put({
       type: 'DELETE_NOTE_FAILED',
+      message: e.message,
+    });
+  }
+}
+
+function* deleteClientAppealByClientId(action: any): Generator<StrictEffect> {
+  try {
+    console.log(action.payload);
+    yield call(clientAppealDelete, action.payload);
+  } catch (e) {
+    yield put({
+      type: 'DELETE_CLIENT_APPEAL_FAILED',
       message: e.message,
     });
   }
@@ -162,6 +173,10 @@ function* watchDeleteNote(): Generator<StrictEffect> {
   yield takeEvery('DELETE_NOTE', deleteNote);
 }
 
+function* watchDeleteClientAppeal(): Generator<StrictEffect> {
+  yield takeEvery('DELETE_CLIENT_APPEAL', deleteClientAppealByClientId);
+}
+
 export default [
   watchFetchMessagesHistoryByProject(),,
   watchUpdateSelectedClient(),
@@ -170,4 +185,5 @@ export default [
   watchUpdateMessagesStatus(),
   watchAddNote(),
   watchDeleteNote(),
+  watchDeleteClientAppeal(),
 ];

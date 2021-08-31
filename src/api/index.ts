@@ -53,6 +53,7 @@ async function loadRoutes(): Promise<{[key: string]: string}> {
     api_delete_note: '/inbox/client/[*:clientId]/deleteNote',
     api_add_channel: '/inbox/project/[*:projectId]/addChannel',
     api_add_message: '/inbox/addMessage',
+    api_delete_client_appeal_by_client_id: '/inbox/project/[*:projectId]/client/[*:clientId]/deleteClientAppealByClientId',
 
     api_add_teammate: '/teammates/project/[*:projectId]/settings/teammates/addTeammate',
     api_delete_teammate: '/teammates/project/[*:projectId]/settings/teammates/deleteTeammate',

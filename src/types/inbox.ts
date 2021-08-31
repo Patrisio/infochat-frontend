@@ -66,6 +66,7 @@ export enum InboxActionTypes {
   INCOMING_MESSAGES_FETCH = 'FETCH_INCOMING_MESSAGES',
   INCOMING_MESSAGES_FETCHING = 'FETCHING_INCOMING_MESSAGES',
   INCOMING_MESSAGES_ADD_TO_INBOX = 'ADD_TO_INBOX_INCOMING_MESSAGE',
+  INCOMING_MESSAGES_DELETE_FROM_INBOX = 'INCOMING_MESSAGES_DELETE_FROM_INBOX',
   INCOMING_MESSAGES_UPDATE_FILTERS = 'UPDATE_FILTERS',
 
   // ASSIGNED_USER_UPDATE = 'ASSIGNED_USER_UPDATE',
@@ -73,6 +74,8 @@ export enum InboxActionTypes {
   SELECT_CLIENT = 'SELECT_CLIENT',
 
   INCOMING_MESSAGES_FOR_SELECTED_CLIENT_ADD = 'ADD_INCOMING_MESSAGES_FOR_SELECTED_CLIENT',
+
+  DELETE_CLIENT_APPEAL = 'DELETE_CLIENT_APPEAL',
 
   CLIENT_DATA_UPDATE = 'CLIENT_DATA_UPDATE',
   CLIENT_DATA_CHANGE_MESSAGES_STATUS = 'CHANGE_MESSAGES_STATUS',
@@ -110,9 +113,18 @@ interface addToInboxIncomingMessageAction {
   type: InboxActionTypes.INCOMING_MESSAGES_ADD_TO_INBOX,
   payload: any,
 }
+interface deleteFromInboxIncomingMessageAction {
+  type: InboxActionTypes.INCOMING_MESSAGES_DELETE_FROM_INBOX,
+  payload: any,
+}
 interface updateIncomingMessagesFiltersAction {
   type: InboxActionTypes.INCOMING_MESSAGES_UPDATE_FILTERS,
   filters: any,
+}
+
+interface deleteClientAppeal {
+  type: InboxActionTypes.DELETE_CLIENT_APPEAL,
+  payload: any,
 }
 
 interface selectClientAction {
@@ -163,7 +175,9 @@ export type InboxAction =
   | fetchIncomingMessagesAction
   | fetchingIncomingMessagesAction
   | addToInboxIncomingMessageAction
+  | deleteFromInboxIncomingMessageAction
   | updateIncomingMessagesFiltersAction
+  | deleteClientAppeal
   | selectClientAction
   | addIncomingMessageForSelectedClientAction
   | updateClientDataAction

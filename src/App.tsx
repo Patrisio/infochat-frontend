@@ -33,6 +33,7 @@ export default function App() {
         avatarName: message.avatarName,
         avatarColor: message.avatarColor,
         messagesStatus: 'unread',
+        isBlocked: false,
       };
 
       const incomingMessage = {

@@ -12,6 +12,7 @@ import styles from './appealsContainerMessages.module.scss';
 import { useActions } from '../../../../hooks/useActions';
 import { useTypedSelector } from '../../../../hooks/useTypedSelector';
 import { SelectedClient } from '../../../../types/inbox';
+import { defaultSelectedClient } from '../../../../store/reducers/inbox';
 
 interface AppealsContainerMessagesProps {
   clientName: string,
@@ -23,7 +24,10 @@ interface AppealsContainerMessagesProps {
 
 export default function AppealsContainerMessages({ clientName, messagesHistory, clientId, closeModal, setModalProps }: AppealsContainerMessagesProps) {
   const { incomingMessages } = useTypedSelector(state => state.inbox);
-  const { changeMessagesStatus } = useActions();
+  const {
+    changeMessagesStatus, deleteClientAppeal,
+    updateSelectedClient, deleteFromInboxIncomingMessage,
+  } = useActions();
   let { projectId } = useParams<{ projectId: string }>();
   const messagesHistoryContainerRef = useRef<HTMLDivElement>(null);
 
@@ -66,7 +70,19 @@ export default function AppealsContainerMessages({ clientName, messagesHistory, 
         <Button
           type='button'
           classNames={styles.button}
-          onClick={closeModal}
+          onClick={() => {
+            const removeIncomingAppealAndResetSelectedClient = () => {
+              updateSelectedClient(defaultSelectedClient);
+              deleteFromInboxIncomingMessage({ clientId });
+              closeModal();
+            };
+
+            deleteClientAppeal({
+              clientId,
+              projectId,
+              successCallback: () => removeIncomingAppealAndResetSelectedClient(),
+            });
+          }}
         >
           Удалить
         </Button>
