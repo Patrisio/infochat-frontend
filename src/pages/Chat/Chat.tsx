@@ -262,6 +262,12 @@ export default function Chat() {
     }
   };
 
+  const closeChatIframes = () => {
+    window.parent.postMessage({
+      event: 'closeChatWindowIframe',
+    }, '*');
+  };
+
   useEffect(() => {
     window.parent.postMessage({ event: 'getDataFromClientWebsite' }, '*');
     
@@ -463,6 +469,10 @@ export default function Chat() {
       clearTimeout(countdownWithoutAnswerFromOperator);
     });
 
+    socket.on('blockClient', () => {
+      closeChatIframes();
+    });
+
     return () => {
       socket.off('addMessageToClientChat');
     };
@@ -472,7 +482,14 @@ export default function Chat() {
     fetchIncomingMessages({
       projectId,
       clientId,
-      successCallback: (messages: any) => addMessage(messages.messagesHistory),
+      successCallback: (clientData: any) => {
+        if (clientData.isBlocked) {
+          closeChatIframes();
+          return;
+        }
+
+        addMessage(clientData.messagesHistory);
+      },
     });
   };
 

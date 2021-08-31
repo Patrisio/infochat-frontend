@@ -89,7 +89,7 @@ export const inboxReducer = (state = initialState, action: InboxAction): InboxSt
     case InboxActionTypes.INCOMING_MESSAGES_UPDATE_FILTERS:
       return {
         ...state,
-        filters: { ...action.filters }
+        filters: { ...Object.assign(state.filters, action.filters) },
       };
 
     case InboxActionTypes.INCOMING_MESSAGES_FOR_SELECTED_CLIENT_ADD:

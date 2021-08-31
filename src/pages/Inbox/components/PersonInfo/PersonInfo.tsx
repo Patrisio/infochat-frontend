@@ -37,6 +37,7 @@ export default function PersonInfo({ selectedClient, closeModal, setModalProps }
     phone: selectedClient.phone,
     assignedTo: selectedClient.assignedTo,
     clientId: selectedClient.clientId,
+    isBlocked: selectedClient.isBlocked,
     projectId,
   };
 
@@ -119,6 +120,7 @@ export default function PersonInfo({ selectedClient, closeModal, setModalProps }
         <ClientInfoSkeleton /> :
         <>
           <ClientPreview
+            clientData={clientData}
             selectedClient={selectedClient}
             updateClientData={updateClient}
           />

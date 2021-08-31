@@ -111,6 +111,7 @@ export default function Inbox() {
         />
 
         <AppealsContainerSelector
+          inboxFilters={filters}
           messages={dialogType === 'all' ? incomingMessages : getIncomingMessagesByDialogTypeAndFilters()}
         />
 

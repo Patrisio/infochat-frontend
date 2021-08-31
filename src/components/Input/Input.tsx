@@ -15,6 +15,7 @@ interface IInputProps {
   value?: string | number,
   type: string,
   name?: string,
+  onClear?: () => void,
   onChange?: (e: any) => void,
   onClick?: (item: {icon?: string, value: string}) => void,
   onSelect?: (arg0: string | number) => void,
@@ -46,6 +47,7 @@ export default function Input({
   fluid,
   width,
   classNames,
+  onClear,
   onChange,
   onClick,
   onSelect,
@@ -158,6 +160,7 @@ export default function Input({
             className={styles.clearSearchFieldIcon}
             onClick={() => {
               setFieldValue('');
+              onClear && onClear();
             }}
           >
             <FontAwesomeIcon

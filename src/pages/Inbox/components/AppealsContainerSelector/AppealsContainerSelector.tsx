@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import styles from './appealsContainerSelector.module.scss';
 import cloneDeep from 'lodash/cloneDeep';
@@ -19,17 +19,18 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import 'moment/locale/ru';
 
-
 interface FilterVariant {
   id: string,
   value: string,
 }
 
 interface AppealsContainerSelectorProps {
+  inboxFilters: any,
   messages: any
 }
 
 export default function AppealsContainerSelector({
+  inboxFilters,
   messages
 }: AppealsContainerSelectorProps) {
   const { channels } = useTypedSelector(state => state.channels);
@@ -39,14 +40,7 @@ export default function AppealsContainerSelector({
   const { isFetchingIncomingMessages } = useTypedSelector(state => state.inbox);
 
   const [isOpenSearchPopup, toggleOpenSearchPopup] = useState(false);
-  const [filters, updateFilters] = useState({
-    searchBy: {
-      value: '',
-      tag: 'text',
-    },
-    channel: 'all',
-    assigned: 'all',
-  });
+  const [filters, updateFilters] = useState(inboxFilters);
 
   const {
     getClientInfo, updateIncomingMessagesFilters,
@@ -150,7 +144,7 @@ export default function AppealsContainerSelector({
   const updateSearchByFilter = (e: any) => {
     const value = e.target.value;
 
-    updateFilters((prev) => {
+    updateFilters((prev: any) => {
       return {
         ...prev,
         searchBy: {
@@ -162,7 +156,7 @@ export default function AppealsContainerSelector({
   };
 
   const selectOption = (filterName: string, id: string | number) => {
-    updateFilters(prev => ({
+    updateFilters((prev: any) => ({
       ...prev,
       [filterName]: filterName === 'searchBy' ?
         {
@@ -178,7 +172,7 @@ export default function AppealsContainerSelector({
     toggleOpenSearchPopup(prev => !prev);
   };
 
-  const PopupBodySearch = () => {
+  const PopupBodySearch = ({ filters }: { filters: any }) => {
     const searchBy = [
       {
         id: 'text',
@@ -263,12 +257,28 @@ export default function AppealsContainerSelector({
     );
   };
 
+  const resetSearchByFilter = () => {
+    updateFilters((prev: any) => {
+      return {
+        ...prev,
+        searchBy: {
+          value: '',
+          tag: prev.searchBy.tag
+        }
+      };
+    });
+  };
+
+  useEffect(() => {
+    updateFilters(inboxFilters);
+  }, [inboxFilters]);
+
   return (
     <div className={styles.appealsContainerSeletor}>
       <div className={styles.searchPanelContainer}>
         <Popup
           isOpenPopup={isOpenSearchPopup}
-          body={<PopupBodySearch />}
+          body={<PopupBodySearch filters={filters}/>}
           width='339px'
           onClick={(bool?: boolean) => {
             if (typeof bool === 'boolean') {
@@ -289,6 +299,7 @@ export default function AppealsContainerSelector({
                 classNames={styles.search}
                 placeholder='Поиск по людям или сообщениям'
                 allowClear
+                onClear={resetSearchByFilter}
                 onChange={updateSearchByFilter}
               />
           </div>

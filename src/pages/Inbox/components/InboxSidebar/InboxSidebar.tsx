@@ -36,7 +36,7 @@ export default function InboxSidebar({ inboxMessages }: InboxSidebarProps) {
   const isOwner = isProjectOwner(currentUser.role);
   let { projectId, dialogType } = useParams<{ projectId: string, dialogType: string }>();
 
-  const { selectClient, updateTeammate } = useActions();
+  const { selectClient, updateTeammate, updateIncomingMessagesFilters } = useActions();
   let history = useHistory();
 
   const hideOpenedMessagesArea = () => {
@@ -152,6 +152,7 @@ export default function InboxSidebar({ inboxMessages }: InboxSidebarProps) {
           stylesList: {
             marginLeft: '8px',
           },
+          onClick: () => updateIncomingMessagesFilters({ channel: name }),
         });
       }
   
@@ -172,8 +173,9 @@ export default function InboxSidebar({ inboxMessages }: InboxSidebarProps) {
 
   const formatTeammates = (teammates: Teammate[]) => {
     const result = [];
+    const teammatesWithoutCurrentUser = teammates.filter(teammate => teammate.email !== currentUser.email);
 
-    for (let { username, isOnline } of teammates) {
+    for (let { username, isOnline, email } of teammatesWithoutCurrentUser) {
       result.push({
         name: username,
         icon: (
@@ -187,6 +189,7 @@ export default function InboxSidebar({ inboxMessages }: InboxSidebarProps) {
             />
           </Badge>
         ),
+        onClick: () => updateIncomingMessagesFilters({ assigned: email }),
       });
     }
 
