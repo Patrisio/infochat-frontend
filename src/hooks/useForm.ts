@@ -22,7 +22,7 @@ export default function useForm(
       });
       return;
     }
-    
+    console.log(name, value);
     setFormValues({
       ...values,
       [name]: value

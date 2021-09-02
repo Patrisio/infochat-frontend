@@ -3,6 +3,7 @@ export enum AuthActionTypes {
   AUTH_SIGNIN = 'AUTH_SIGNIN',
   AUTH_SIGNUP = 'AUTH_SIGNUP',
   AUTH_GET_CURRENT_USER = 'AUTH_GET_CURRENT_USER',
+  DECODE_JWT = 'DECODE_JWT',
 }
 
 interface authInviteAction {
@@ -22,8 +23,14 @@ interface authSignUpAction {
   payload: any,
 }
 
+interface decodeJwtAction {
+  type: AuthActionTypes.DECODE_JWT,
+  payload: any,
+}
+
 export type AuthAction =
   authInviteAction
   | getCurrentUserAction
   | authSignInAction
   | authSignUpAction
+  | decodeJwtAction

@@ -7,6 +7,7 @@ export default function validateForm(values: any, meta: any) {
   let errors: any = {};
 
   const getFormattedValues = (values: any) => {
+    console.log(values, 'FORMATTED_VALUES');
     const { email, confirmEmail, password, name, surname } = values;
     const formattedValues: { [key: string]: string } = {
       oldEmail: email,
@@ -21,7 +22,7 @@ export default function validateForm(values: any, meta: any) {
     if (meta.isEditablePassword) {
       formattedValues.password = password;
     }
-
+    console.log(formattedValues, 'RESULT');
     return formattedValues;
   };
 

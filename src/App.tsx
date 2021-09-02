@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Suspense } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 import Router from './router/router';
 import socket from './socket';
@@ -13,16 +13,33 @@ import './scss/App.scss';
 
 export default function App() {
   const [hasAuthError, setAuthError] = useState(false);
-  const { addIncomingMessage, addIncomingMessageForSelectedClient, getCurrentUser } = useActions();
+  const { addIncomingMessage, addIncomingMessageForSelectedClient, getCurrentUser, updateTeammate } = useActions();
   const history = useHistory();
+  const { projectId } = useParams<{ projectId: string }>();
 
   const currentUserDataIsNeeded = (url: string) => {
-    const pagesWithoutCurrentUserData = ['iframe', 'signup', 'signin'];
+    const pagesWithoutCurrentUserData = ['iframe', 'signup', 'signin', 'invite'];
     return !pagesWithoutCurrentUserData.find((page: string) => url.includes(page));
   };
   const isNeedCurrentUserData = currentUserDataIsNeeded(window.location.href);
 
   useEffect(() => {
+    socket.on('setActiveTeammateStatus', (teammateData: { email: string, username: string }) => {
+      updateTeammate({
+        status: 'active',
+        oldEmail: teammateData.email,
+        username: teammateData.username,
+      });
+    });
+
+    socket.on('updateTeammateOnlineStatus', (teammateData: any) => {
+      updateTeammate({
+        oldEmail: teammateData.email,
+        projectId,
+        isOnline: teammateData.isOnline,
+      });
+    });
+
     socket.on('addIncomingMessage', (message: any) => {
       const newClient = {
         assignedTo: '',
@@ -47,6 +64,8 @@ export default function App() {
 
     return () => {
       socket.off('addIncomingMessage');
+      socket.off('updateTeammateOnlineStatus');
+      socket.off('setActiveTeammateStatus');
     };
   }, [socket]);
 

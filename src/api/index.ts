@@ -42,6 +42,7 @@ async function loadRoutes(): Promise<{[key: string]: string}> {
     api_auth_sign_in: '/auth/signin',
     api_auth_sign_up: '/auth/signup',
     api_send_email: '/auth/project/[*:projectId]/sendEmail',
+    api_decode_jwt: '/auth/[*:token]/decodeJwt',
 
     api_update_messages_status_by_client_id: '/inbox/project/[*:projectId]/client/[*:clientId]/updateMessagesStatusByClientId',
     api_update_selected_client_by_project_id: '/inbox/project/[*:projectId]/client/[*:clientId]/update',

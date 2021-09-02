@@ -19,3 +19,8 @@ export const authSignUp = (payload: any): AuthAction => ({
   type: AuthActionTypes.AUTH_SIGNUP,
   payload,
 });
+
+export const decodeJwt = (payload: any): AuthAction => ({
+  type: AuthActionTypes.DECODE_JWT,
+  payload,
+});

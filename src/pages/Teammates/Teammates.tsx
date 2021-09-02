@@ -21,6 +21,8 @@ import { isProjectOwner, Role } from '../../lib/utils/accessRights';
 import validateForm from './validateForm';
 import cloneDeep from 'lodash/cloneDeep';
 import Badge from '../../components/Badge/Badge';
+import { Console } from 'console';
+import { updateToken } from '../../lib/utils/token';
 
 interface IParams {
   projectId: string,
@@ -241,7 +243,7 @@ export default function Teammates() {
               title: 'Настройка профиля',
               body: (
                 <EditableUserForm
-                  saveData={saveData}
+                  saveData={(values: any) => saveData(data.email, values)}
                   setFormData={setFormData}
                   email={data.email}
                   password={'fakePassword123'}
@@ -262,15 +264,18 @@ export default function Teammates() {
     },
   ];
 
-  const saveData = (values: any) => {
+  const saveData = (oldEmail: string, values: any) => {
     const { name, surname, ...restFormData } = values;
+    console.log(values, 'UP__');
     const username = `${name} ${surname}`;
 
     updateTeammate({
       ...restFormData,
       username,
       projectId,
-      successCallback: () => {
+      oldEmail,
+      successCallback: (data: any) => {
+        updateToken(data.token);
         currentModal.onClose();
       },
     });

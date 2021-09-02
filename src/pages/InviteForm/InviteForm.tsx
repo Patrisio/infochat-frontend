@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router';
-import { useDispatch } from 'react-redux';
-
+import { useParams, useHistory } from 'react-router';
 import useForm from '../../hooks/useForm';
 
 import Input from '../../components/Input/Input';
@@ -10,6 +8,8 @@ import Button from '../../components/Button/Button';
 import styles from './inviteForm.module.scss';
 import { useActions } from '../../hooks/useActions';
 import validateForm from './validateForm';
+import { updateToken } from '../../lib/utils/token';
+import socket from '../../socket';
 
 interface ParamTypes {
   inviteId: string,
@@ -18,27 +18,33 @@ interface ParamTypes {
 
 export default function InviteForm() {
   let { inviteId, projectId } = useParams<ParamTypes>();
-  const { authInvite } = useActions();
+  const { authInvite, decodeJwt } = useActions();
+  const history = useHistory();
   
   useEffect(() => {
-    const token = localStorage.getItem('token');
-
-    if (token) {
-      localStorage.removeItem('token');
-    }
-
-    localStorage.setItem('token', inviteId);
+    updateToken(inviteId);
   }, []);
 
   const joinToProject = async (values: any) => {
+    const username = `${values.name} ${values.surname}`;
+
     const successCallback = (data: any) => {
       if (data.code === 200) {
-        window.location.href = `/project/${projectId}/inbox/opened`;
+        decodeJwt({
+          token: inviteId,
+          successCallback: (decodeToken: any) => {
+            socket.emit('setActiveTeammateStatus', {
+              username,
+              email: decodeToken.email,
+            });
+            history.push(`/project/${projectId}/inbox/opened`);
+          },
+        });
       }
     };
 
     authInvite({
-      username: `${values.name} ${values.surname}`,
+      username,
       password: values.password,
       projectId,
       inviteId,

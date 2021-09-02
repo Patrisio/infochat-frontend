@@ -13,6 +13,7 @@ import { getTimezones, getTimezoneByCode, USER_TIME_ZONE } from '../../lib/utils
 import { useActions } from '../../hooks/useActions';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import styles from './profile.module.scss';
+import { updateToken } from '../../lib/utils/token';
 
 export default function Profile() {
   const { currentUser, setCurrentUser } = useContext<any>(Context);
@@ -41,14 +42,17 @@ export default function Profile() {
       username,
       oldEmail: currentUser.email,
       projectId,
-      successCallback: () => setCurrentUser((prev: any) => {
-        return {
-          ...prev,
-          username,
-          timezone: formData.timezone,
-          ...restFormData,
-        };
-      }),
+      successCallback: (data: any) => {
+        updateToken(data.token);
+        setCurrentUser((prev: any) => {
+          return {
+            ...prev,
+            username,
+            timezone: formData.timezone,
+            ...restFormData,
+          };
+        });
+      },
     });
   };
 

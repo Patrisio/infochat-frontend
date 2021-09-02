@@ -1,6 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import useForm from '../../hooks/useForm';
 
@@ -13,6 +12,7 @@ import validateForm from './validateForm';
 
 export default function SignUpPage()  {
   const { authSignIn } = useActions();
+  const history = useHistory();
 
   const signInUser = (values: any) => {
     const successCallback = (data: any) => {
@@ -21,7 +21,7 @@ export default function SignUpPage()  {
       }
 
       localStorage.setItem('token', data.accessToken);
-      window.location.href = `/project/${data.projectId}/inbox/opened`;
+      history.push(`/project/${data.projectId}/inbox/opened`);
     };
 
     authSignIn({

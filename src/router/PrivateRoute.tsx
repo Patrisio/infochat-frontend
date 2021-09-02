@@ -6,7 +6,11 @@ interface PrivateRouteProps {
   isOwner: boolean,
 }
 
-export default function PrivateRoute({ component: Component, isOwner, ...restProps }: PrivateRouteProps) {
+export default function PrivateRoute({
+  component: Component,
+  isOwner,
+  ...restProps
+}: PrivateRouteProps) {
   return (
     <Route
       {...restProps}

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext, Suspense, lazy } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router';
-
 import { Context } from '../../context/Context';
 import { useActions } from '../../hooks/useActions';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
@@ -26,7 +25,7 @@ const PersonInfo = lazy(() => import('./components/PersonInfo/PersonInfo'));
 
 export default function Inbox() {
   let { projectId, dialogType } = useParams<{ projectId: string, dialogType: string }>();
-  const { currentUser } = useContext<any>(Context);
+  const { currentUser, setCurrentUser } = useContext<any>(Context);
   const isOwner = isProjectOwner(currentUser.role);
 
   const { selectedClient } = useTypedSelector(state => state.inbox);
@@ -46,7 +45,7 @@ export default function Inbox() {
     height: '',
   });
 
-  const { fetchTeammates, fetchIncomingMessages, fetchChannels } = useActions();
+  const { fetchTeammates, fetchIncomingMessages, fetchChannels, getCurrentUser } = useActions();
   let history = useHistory();
 
   const inboxMessages = getAllInboxMessages(incomingMessages, currentUser);
@@ -100,8 +99,14 @@ export default function Inbox() {
   };
 
   useEffect(() => {
-    console.log(currentModal, 'currentModalcurrentModalcurrentModalcurrentModalcurrentModal');
-  }, [currentModal]);
+    if (!currentUser.email) {
+      const successCallback = (currentUser: any) => {
+        console.log(currentUser, 'currentUser');
+        setCurrentUser(currentUser);
+      };
+      getCurrentUser({ successCallback });
+    }
+  }, []);
 
   return (
     <div>

@@ -14,7 +14,6 @@ import cloneDeep from 'lodash/cloneDeep';
 import { useActions } from '../../../../hooks/useActions';
 import { useTypedSelector } from '../../../../hooks/useTypedSelector';
 import styles from './inboxSidebar.module.scss';
-import socket from '../../../../socket';
 import { Teammate } from '../../../../types/teammates';
 import { isProjectOwner } from '../../../../lib/utils/accessRights';
 
@@ -206,20 +205,6 @@ export default function InboxSidebar({ inboxMessages }: InboxSidebarProps) {
 
     return result;
   };
-
-  useEffect(() => {
-    socket.on('updateTeammateOnlineStatus', (teammateData: any) => {
-      updateTeammate({
-        oldEmail: teammateData.email,
-        projectId,
-        isOnline: teammateData.isOnline,
-      });
-    });
-
-    return () => {
-      socket.off('updateTeammateOnlineStatus');
-    };
-  }, [socket]);
 
   return (
     <Sidebar>

@@ -120,7 +120,7 @@ export async function sendEmail(payload: { email: string, projectId: string }) {
 
 export async function getChannels(projectId: string) {
   const { channels } = await requestApiGet('api_get_channels', { projectId });
-  return channels
+  return channels;
 }
 
 export async function channelAdd(payload: { projectId: string, name: string }) {
@@ -201,4 +201,9 @@ export async function noteDelete(payload: any) {
 export async function clientAppealDelete(payload: any) {
   const { successCallback, ...clientData } = payload;
   return await requestApiPost('api_delete_client_appeal_by_client_id', {}, clientData, successCallback);
+}
+
+export async function jwtDecode(payload: any) {
+  const { successCallback, token } = payload;
+  return await requestApiGet('api_decode_jwt', { token }, successCallback);
 }

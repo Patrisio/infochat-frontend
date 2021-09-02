@@ -1,5 +1,5 @@
 import { call, put, takeEvery, all, StrictEffect } from 'redux-saga/effects';
-import { inviteUser, signIn, signUp, fetchCurrentUser } from '../api/dataLayer';
+import { inviteUser, signIn, signUp, fetchCurrentUser, jwtDecode } from '../api/dataLayer';
 
 function* authInvite(action: any): Generator<StrictEffect> {
   try {
@@ -56,6 +56,17 @@ function* getCurrentUser(action: any): Generator<StrictEffect> {
   }
 }
 
+function* decodeJwt(action: any): Generator<StrictEffect> {
+  try {
+    yield call(jwtDecode, action.payload);
+  } catch (e) {
+    yield put({
+      type: 'DECODE_JWT_FAILED',
+      message: e.message,
+    });
+  }
+}
+
 function* watchInvite(): Generator<StrictEffect> {
   yield takeEvery('AUTH_INVITE', authInvite);
 }
@@ -72,9 +83,14 @@ function* watchGetCurrentUser(): Generator<StrictEffect> {
   yield takeEvery('AUTH_GET_CURRENT_USER', getCurrentUser);
 }
 
+function* watchDecodeJwt(): Generator<StrictEffect> {
+  yield takeEvery('DECODE_JWT', decodeJwt);
+}
+
 export default [
   watchInvite(),
   watchSignIn(),
   watchSignUp(),
   watchGetCurrentUser(),
+  watchDecodeJwt(),
 ];
