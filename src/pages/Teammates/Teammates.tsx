@@ -243,7 +243,7 @@ export default function Teammates() {
               title: 'Настройка профиля',
               body: (
                 <EditableUserForm
-                  saveData={(values: any) => saveData(data.email, values)}
+                  saveData={(values: any) => saveData({ oldEmail: data.email, role: data.role }, values)}
                   setFormData={setFormData}
                   email={data.email}
                   password={'fakePassword123'}
@@ -264,7 +264,7 @@ export default function Teammates() {
     },
   ];
 
-  const saveData = (oldEmail: string, values: any) => {
+  const saveData = ({ oldEmail, role }: { oldEmail: string, role: string }, values: any) => {
     const { name, surname, ...restFormData } = values;
     console.log(values, 'UP__');
     const username = `${name} ${surname}`;
@@ -274,8 +274,13 @@ export default function Teammates() {
       username,
       projectId,
       oldEmail,
+      role,
       successCallback: (data: any) => {
-        updateToken(data.token);
+        const token = data.token;
+        if (token && role === 'owner') {
+          updateToken(token);
+        }
+
         currentModal.onClose();
       },
     });
