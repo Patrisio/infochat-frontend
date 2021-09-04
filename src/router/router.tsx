@@ -16,7 +16,7 @@ export default function Router({ isOwner }: { isOwner: boolean }) {
       {
         Object.keys(routes).map((SPARoute, idx) => {
           const { onlyOwner, ...routeData } = routes[SPARoute];
-          
+          console.log('HERE');
           return (
             onlyOwner ?
             <PrivateRoute

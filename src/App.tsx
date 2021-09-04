@@ -24,6 +24,7 @@ export default function App() {
   const isNeedCurrentUserData = currentUserDataIsNeeded(window.location.href);
 
   useEffect(() => {
+    console.log('UP___UUP');
     socket.on('setActiveTeammateStatus', (teammateData: { email: string, username: string }) => {
       updateTeammate({
         status: 'active',
@@ -104,16 +105,16 @@ export default function App() {
         socket.off('msgToClient');
       };
     }
-  }, []);
+  }, [isNeedCurrentUserData]);
 
   return (
     <Context.Provider value={{ currentUser, setCurrentUser }}>
       <div className='App'>
-      <Suspense fallback={<Spin classNames='appLoader' />}>
-        {
-          (currentUser.email || hasAuthError || !isNeedCurrentUserData) &&
-          <Router isOwner={isProjectOwner(currentUser.role)} />
-        }
+        <Suspense fallback={<Spin classNames='appLoader' />}>
+          {
+            (currentUser.email || hasAuthError || !isNeedCurrentUserData) &&
+            <Router isOwner={isProjectOwner(currentUser.role)} />
+          }
         </Suspense>
       </div>
     </Context.Provider>

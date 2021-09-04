@@ -50,12 +50,6 @@ export default function Inbox() {
 
   const inboxMessages = getAllInboxMessages(incomingMessages, currentUser);
 
-  useEffect(() => {
-    fetchIncomingMessages({ projectId });
-    fetchTeammates({ projectId });
-    fetchChannels({ projectId });
-  }, []);
-
   const filterByFilters = (incMsg: any) => {
     const checkList = {
       searchBy: false,
@@ -106,6 +100,10 @@ export default function Inbox() {
       };
       getCurrentUser({ successCallback });
     }
+
+    fetchIncomingMessages({ projectId });
+    fetchTeammates({ projectId });
+    fetchChannels({ projectId });
   }, []);
 
   return (

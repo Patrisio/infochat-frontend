@@ -10,6 +10,7 @@ import MessageInputContainer from '../MessageInputContainer/MessageInputContaine
 
 import styles from './appealsContainerMessages.module.scss';
 import { useActions } from '../../../../hooks/useActions';
+import usePrevious from '../../../../hooks/usePrevious';
 import { useTypedSelector } from '../../../../hooks/useTypedSelector';
 import { SelectedClient } from '../../../../types/inbox';
 import { defaultSelectedClient } from '../../../../store/reducers/inbox';
@@ -23,7 +24,7 @@ interface AppealsContainerMessagesProps {
 }
 
 export default function AppealsContainerMessages({ clientName, messagesHistory, clientId, closeModal, setModalProps }: AppealsContainerMessagesProps) {
-  const { incomingMessages } = useTypedSelector(state => state.inbox);
+  const { incomingMessages, selectedClient } = useTypedSelector(state => state.inbox);
   const {
     changeMessagesStatus, deleteClientAppeal,
     updateSelectedClient, deleteFromInboxIncomingMessage,
@@ -108,6 +109,8 @@ export default function AppealsContainerMessages({ clientName, messagesHistory, 
     }
   };
 
+  const prevClientId = usePrevious(clientId);
+
   useEffect(() => {
     const messagesHistoryContainerElement = messagesHistoryContainerRef.current;
 
@@ -118,10 +121,12 @@ export default function AppealsContainerMessages({ clientName, messagesHistory, 
       setAnimationClass(childrenNodesLength, childrenNodes);
 
       return () => {
-        removeAnimationClass(childrenNodesLength, childrenNodes);
+        if (prevClientId !== clientId) {
+          removeAnimationClass(childrenNodesLength, childrenNodes);
+        }
       };
     }
-  }, [clientId]);
+  }, [clientId, selectedClient.messagesHistory]);
 
   return (
     <div className={styles.converasationChatContainer}>
