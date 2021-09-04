@@ -70,6 +70,7 @@ export enum InboxActionTypes {
   INCOMING_MESSAGES_UPDATE_FILTERS = 'UPDATE_FILTERS',
 
   // ASSIGNED_USER_UPDATE = 'ASSIGNED_USER_UPDATE',
+  REMAP_DIALOGS_TO_SELECTED_TEAMMATE = 'REMAP_DIALOGS_TO_SELECTED_TEAMMATE',
 
   SELECT_CLIENT = 'SELECT_CLIENT',
 
@@ -167,6 +168,10 @@ interface deleteNoteAction {
   type: InboxActionTypes.NOTE_DELETE,
   payload: any,
 }
+interface remapDialogsToSelectedTeammate {
+  type: InboxActionTypes.REMAP_DIALOGS_TO_SELECTED_TEAMMATE,
+  payload: any,
+}
 
 export type InboxAction =
   AddMessageAction
@@ -187,3 +192,4 @@ export type InboxAction =
   | fetchingSelectedClientGetInfoAction
   | addNoteAction
   | deleteNoteAction
+  | remapDialogsToSelectedTeammate

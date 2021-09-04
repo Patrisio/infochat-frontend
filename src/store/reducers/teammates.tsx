@@ -31,22 +31,20 @@ export const teammatesReducer = (state = initialState, action: TeammatesAction):
       const { isOnline, username, oldEmail, email, status } = action.payload;
       const hasIsOnlineProperty = action.payload.hasOwnProperty('isOnline');
 
-      // if (hasIsOnlineProperty || username) {
-        let foundTeammate = state.teammates.find(teammate => teammate.email === oldEmail);
-        let foundTeammateIndex = state.teammates.findIndex(teammate => teammate.email === oldEmail);
-        console.log(foundTeammate, 'foundTeammate_FOUND');
-        if (foundTeammate) {
-          foundTeammate = {
-            ...foundTeammate,
-            isOnline: hasIsOnlineProperty ? isOnline : foundTeammate.isOnline,
-            username: username ? username : foundTeammate.username,
-            status: status ? status : foundTeammate.status,
-            email: email ? email : oldEmail,
-          };
-          console.log(foundTeammate, 'foundTeammate');
-          state.teammates.splice(foundTeammateIndex, 1, foundTeammate);
-        }
-      // }
+      let foundTeammate = state.teammates.find(teammate => teammate.email === oldEmail);
+      let foundTeammateIndex = state.teammates.findIndex(teammate => teammate.email === oldEmail);
+
+      if (foundTeammate) {
+        foundTeammate = {
+          ...foundTeammate,
+          isOnline: hasIsOnlineProperty ? isOnline : foundTeammate.isOnline,
+          username: username ? username : foundTeammate.username,
+          status: status ? status : foundTeammate.status,
+          email: email ? email : oldEmail,
+        };
+
+        state.teammates.splice(foundTeammateIndex, 1, foundTeammate);
+      }
 
       return {
         ...state,

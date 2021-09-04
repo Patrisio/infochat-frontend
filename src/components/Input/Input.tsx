@@ -216,7 +216,7 @@ export default function Input({
                       }
 
                       setOpen(false);
-                      onClick!(item);
+                      onClick && onClick(item);
                     }}
                   >
                     {item.icon && <img src={item.icon} />}

@@ -3,6 +3,7 @@ import { InboxState, IIncomingMessage, InboxAction, InboxActionTypes, SelectedCl
 import { getLastUnreadMessagesCount } from '../../utils/clientData';
 
 import cloneDeep from 'lodash/cloneDeep';
+import { StaticRouter } from 'react-router';
 
 export const defaultSelectedClient: SelectedClient = {
   id: '',
@@ -136,6 +137,21 @@ export const inboxReducer = (state = initialState, action: InboxAction): InboxSt
       return {
         ...state,
         incomingMessages: state.incomingMessages.filter((incMsg) => incMsg.clientId !== action.payload.clientId),
+      };
+
+    case InboxActionTypes.REMAP_DIALOGS_TO_SELECTED_TEAMMATE:
+      const { deletedTeammateEmail, teammateEmailForRemapDialogs } = action.payload;
+      
+      return {
+        ...state,
+        incomingMessages: state.incomingMessages.map(incMsg =>
+          incMsg.assignedTo === deletedTeammateEmail ?
+            {
+              ...incMsg,
+              assignedTo: teammateEmailForRemapDialogs
+            } :
+            incMsg
+        ),
       };
     
     default:

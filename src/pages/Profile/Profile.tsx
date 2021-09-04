@@ -43,7 +43,11 @@ export default function Profile() {
       oldEmail: currentUser.email,
       projectId,
       successCallback: (data: any) => {
-        updateToken(data.token);
+        const token = data.token;
+        if (token) {
+          updateToken(data.token);
+        }
+        
         setCurrentUser((prev: any) => {
           return {
             ...prev,

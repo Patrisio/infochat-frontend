@@ -207,3 +207,8 @@ export async function jwtDecode(payload: any) {
   const { successCallback, token } = payload;
   return await requestApiGet('api_decode_jwt', { token }, successCallback);
 }
+
+export async function toSelectedTeammateRemapDialogs(payload: any) {
+  const { successCallback, projectId, ...teammatesEmails } = payload;
+  return await requestApiPost('api_remap_dialogs_to_selected_teammate', teammatesEmails, { projectId }, successCallback);
+}

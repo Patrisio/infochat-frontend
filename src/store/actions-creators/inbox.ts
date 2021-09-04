@@ -79,3 +79,8 @@ export const deleteNote = (payload: any): InboxAction => ({
   type: InboxActionTypes.NOTE_DELETE,
   payload,
 });
+
+export const remapDialogsToSelectedTeammate = (payload: any): InboxAction => ({
+  type: InboxActionTypes.REMAP_DIALOGS_TO_SELECTED_TEAMMATE,
+  payload,
+});

@@ -1,9 +1,8 @@
 import { call, put, takeEvery, all, StrictEffect } from 'redux-saga/effects';
-import { getClientInfo } from '../store/actions-creators/inbox';
 import {
-  getTeammates, incomingMessagesFetch, clientAppealDelete,
+  incomingMessagesFetch, clientAppealDelete,
   selectedClientUpdate, messageToInboxAdd, selectedClientInfoGet,
-  messagesStatusUpdate, noteAdd, noteDelete
+  messagesStatusUpdate, noteAdd, noteDelete, toSelectedTeammateRemapDialogs,
 } from '../api/dataLayer';
 
 function* fetchIncomingMessages(action: any): Generator<StrictEffect> {
@@ -145,6 +144,17 @@ function* deleteClientAppealByClientId(action: any): Generator<StrictEffect> {
   }
 }
 
+function* remapDialogsToSelectedTeammate(action: any): Generator<StrictEffect> {
+  try {
+    yield call(toSelectedTeammateRemapDialogs, action.payload);
+  } catch (e) {
+    yield put({
+      type: 'REMAP_DIALOGS_TO_SELECTED_TEAMMATE_FAILED',
+      message: e.message,
+    });
+  }
+}
+
 function* watchFetchMessagesHistoryByProject(): Generator<StrictEffect> {
   yield takeEvery('FETCH_INCOMING_MESSAGES', fetchIncomingMessages);
 }
@@ -177,6 +187,10 @@ function* watchDeleteClientAppeal(): Generator<StrictEffect> {
   yield takeEvery('DELETE_CLIENT_APPEAL', deleteClientAppealByClientId);
 }
 
+function* watchRemapDialogsToSelectedTeammate(): Generator<StrictEffect> {
+  yield takeEvery('REMAP_DIALOGS_TO_SELECTED_TEAMMATE', remapDialogsToSelectedTeammate);
+}
+
 export default [
   watchFetchMessagesHistoryByProject(),,
   watchUpdateSelectedClient(),
@@ -186,4 +200,5 @@ export default [
   watchAddNote(),
   watchDeleteNote(),
   watchDeleteClientAppeal(),
+  watchRemapDialogsToSelectedTeammate(),
 ];
