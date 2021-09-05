@@ -79,11 +79,18 @@ export default function MessageInputContainer({ messagesHistoryContainerElement 
   };
 
   const appointDialog = () => {
-    changeMessagesStatus({
+    const changeMessagesStatusData = {
       messagesStatus: 'opened',
       assignedTo: currentUser.email,
       projectId,
-      clientId: selectedClient.clientId,
+      clientId: selectedClient.clientId
+    };
+    
+    changeMessagesStatus({
+      ...changeMessagesStatusData,
+      successCallback: () => {
+        socket.emit('changeMessagesStatus', changeMessagesStatusData, (data: any) => console.log(data));
+      },
     });
   };
 

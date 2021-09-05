@@ -15,7 +15,10 @@ import './scss/App.scss';
 
 export default function App() {
   const [hasAuthError, setAuthError] = useState(false);
-  const { addIncomingMessage, addIncomingMessageForSelectedClient, getCurrentUser, updateTeammate } = useActions();
+  const {
+    addIncomingMessage, addIncomingMessageForSelectedClient, getCurrentUser,
+    updateTeammate, changeMessagesStatus,
+  } = useActions();
   const history = useHistory();
   const { projectId } = useParams<{ projectId: string }>();
 
@@ -65,10 +68,15 @@ export default function App() {
       addIncomingMessage(newClient);
     });
 
+    socket.on('changeMessagesStatus', (payload: any) => {
+      changeMessagesStatus(payload);
+    });
+
     return () => {
       socket.off('addIncomingMessage');
       socket.off('updateTeammateOnlineStatus');
       socket.off('setActiveTeammateStatus');
+      socket.off('changeMessagesStatus');
     };
   }, [socket]);
 
