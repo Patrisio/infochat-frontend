@@ -9,7 +9,8 @@ import Button from '../../components/Button/Button';
 import { useActions } from '../../hooks/useActions';
 import styles from './SignInPage.module.scss';
 import validateForm from './validateForm';
-import { NotificationContext } from '../../context/NotificationContext'
+import { NotificationContext } from '../../context/NotificationContext';
+import { updateToken } from '../../lib/utils/token';
 
 export default function SignUpPage()  {
   const { authSignIn } = useActions();
@@ -18,11 +19,7 @@ export default function SignUpPage()  {
 
   const signInUser = (values: any) => {
     const successCallback = (data: any) => {
-      if (localStorage.getItem('token')) {
-        localStorage.removeItem('token');
-      }
-
-      localStorage.setItem('token', data.accessToken);
+      updateToken(data.accessToken);
       history.push(`/project/${data.projectId}/inbox/opened`);
     };
     const errorCallback = (response: any) => {

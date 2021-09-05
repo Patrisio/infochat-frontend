@@ -28,7 +28,7 @@ export function checkUsername(username: string) {
   if (!username.trim()) {
     return 'Введите имя пользователя';
   } else if (username.split(' ').length < 2) {
-    return 'Введите ваше имя и фамилию';
+    return 'Введите ваши имя и фамилию';
   }
 }
 

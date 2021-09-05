@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
 import useForm from '../../hooks/useForm';
@@ -9,22 +9,35 @@ import Button from '../../components/Button/Button';
 
 import styles from './SignUpPage.module.scss';
 import validateForm from './validateForm';
+import { NotificationContext } from '../../context/NotificationContext';
+import { updateToken } from '../../lib/utils/token';
 
 export default function SignUpPage()  {
   const { authSignUp } = useActions();
   const history = useHistory();
+  const { notification, updateNotification } = useContext(NotificationContext);
 
   const signUpUser = async (values: any) => {
     const successCallback = (data: {
       accessToken: string,
       projectId: string,
     }) => {
-      if (localStorage.getItem('token')) {
-        localStorage.removeItem('token');
+      updateToken(data.accessToken);
+
+      if (notification.isShow) {
+        updateNotification({
+          isShow: false,
+          text: null,
+        });
       }
 
-      localStorage.setItem('token', data.accessToken);
       history.push(`/project/${data.projectId}/inbox/opened`);
+    };
+    const errorCallback = (response: any) => {
+      updateNotification({
+        isShow: true,
+        text: response.message,
+      });
     };
 
     authSignUp({
@@ -32,6 +45,7 @@ export default function SignUpPage()  {
       role: 'owner',
       status: 'active',
       successCallback,
+      errorCallback,
     });
   };
 
@@ -55,7 +69,7 @@ export default function SignUpPage()  {
       >
         <h1 className={styles.h1}>Регистрация в InfoChat</h1>
         <Input
-          placeholder='Имя'
+          placeholder='Имя и фамилия'
           type='text'
           name='username'
           fluid

@@ -25,7 +25,8 @@ export async function signIn(payload: any) {
 }
 
 export async function signUp(payload: any) {
-  return await requestApiPost('api_auth_sign_up', payload);
+  const { successCallback, errorCallback, ...signUpCredentials } = payload;
+  return await requestApiPost('api_auth_sign_up', signUpCredentials, {}, successCallback, errorCallback);
 }
 
 export async function getTeammates(payload: any) {

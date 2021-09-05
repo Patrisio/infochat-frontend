@@ -20,7 +20,7 @@ function* authSignUp(action: any): Generator<StrictEffect> {
     const { email, password, successCallback } = action.payload;
     const data: any = yield call(signUp, action.payload);
 
-    if (data.statusCode !== 400) {
+    if (data.statusCode !== 400 && data.statusCode !== 409) {
       yield put({
         type: 'AUTH_SIGNIN',
         payload: { email, password, successCallback }
