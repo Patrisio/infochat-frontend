@@ -4,7 +4,7 @@ import OutsideClickHandler from 'react-outside-click-handler';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimesCircle, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
-interface IData {
+export interface IData {
   id?: string | number,
   icon?: string,
   value: string,
@@ -219,8 +219,8 @@ export default function Input({
                       onClick && onClick(item);
                     }}
                   >
-                    {item.icon && <img src={item.icon} />}
-                    <p className={styles.popupValue}>{item.value}</p>
+                    { item.icon && <img src={item.icon} /> }
+                    <p className={`${styles.popupValue}`}>{ item.value }</p>
                   </div>
                 );
               })

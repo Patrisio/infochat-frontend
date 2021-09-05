@@ -3,7 +3,7 @@ import { getTeammates, teammateAdd, sendEmail, removeTeammate, teammateUpdate } 
 
 function* fetchTeammates(action: any): Generator<StrictEffect> {
   try {
-    const user = yield call(getTeammates, action.payload.projectId);
+    const user = yield call(getTeammates, action.payload);
     yield put({
       type: 'TEAMMATES_ADD',
       teammate: user

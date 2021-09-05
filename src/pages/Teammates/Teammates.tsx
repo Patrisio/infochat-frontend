@@ -64,6 +64,8 @@ export default function Teammates() {
     updateTeammate, fetchIncomingMessages, remapDialogsToSelectedTeammate,
   } = useActions();
 
+  
+
   const inviteTeammate = (values: any) => {
     addTeammate({
       id: generateRandomHash(),
@@ -97,15 +99,6 @@ export default function Teammates() {
     }
   };
 
-  const formattedTeammates = (email: string) => {
-    return teammates
-      .filter((teammate) => teammate.email !== email && teammate.status === 'active')
-      .map((teammate) => ({
-        id: teammate.email,
-        value: teammate.username,
-      }));
-  };
-
   const removeTeammate = (email: string) => {
     deleteTeammate({ email, projectId });
   };
@@ -114,9 +107,72 @@ export default function Teammates() {
     console.log('SAVE');
   };
 
-  const EditableUserFormFooter = ({ role, email }: { role: Role, email: string }) => {
+  const AttachedDialogsModalFooter = ({ email }: { email: string }) => {
     let selectedTeammateForRemapDialogs: string | number | null = null;
+    const getTeammates = (teammates: any, email: string) => {
+      return teammates
+        .filter((teammate: any) => teammate.email !== email && teammate.status === 'active')
+        .map((teammate: any) => ({
+          id: teammate.email,
+          value: teammate.username,
+        }));
+    };
+  
+    const [formattedTeammates, setTeammates] = useState(getTeammates(teammates, email));
 
+    const filterTeammates = (e: any) => {
+      const value = e.target.value.toLowerCase();
+      const filteredTeammates = getTeammates(teammates, email).filter((teammate: any) => teammate.value.toLowerCase().includes(value));
+      console.log(filteredTeammates, 'filteredTeammates');
+      setTeammates(filteredTeammates);
+    };
+
+    return (
+      <div className={styles.attachedDialogsConfirmModalFooter}>
+        <div className={styles.teammateOptions}>
+          <Input
+            type='text'
+            placeholder='Закрепить диалоги за другим сотрудником'
+            data={formattedTeammates}
+            fluid
+            fixedSelect
+            onChange={filterTeammates}
+            onSelect={(email: string | number) => selectedTeammateForRemapDialogs = email}
+          />
+        </div>
+        
+        <Button
+          type='button'
+          classNames={styles.attachedDialogsButton}
+          background='delete'
+          onClick={() => {
+            remapDialogsToSelectedTeammate({
+              deletedTeammateEmail: email,
+              teammateEmailForRemapDialogs: selectedTeammateForRemapDialogs,
+              projectId,
+              successCallback: () => {
+                removeTeammate(email);
+                currentModal.onClose();
+              },
+            });
+          }}
+        >
+          Удалить профиль сотрудника
+        </Button>
+
+        <Button
+          type='button'
+          classNames={`${styles.marginTop} ${styles.attachedDialogsButton}`}
+          background='edit'
+          onClick={() => currentModal.onClose()}
+        >
+          Отмена
+        </Button>
+      </div>
+    );
+  };
+
+  const EditableUserFormFooter = ({ role, email }: { role: Role, email: string }) => {
     return !isProjectOwner(role) ?
     (
       <Button
@@ -144,49 +200,7 @@ export default function Teammates() {
                   У удаляемого сотрудника есть прикрепленные диалоги. Выберите другого сотрудника, чтобы закрепить за ним эти диалоги или не выбирайте, чтобы диалоги стали общими.
                 </div>
               ),
-              footer: (
-                <div className={styles.attachedDialogsConfirmModalFooter}>
-                  <div className={styles.teammateOptions}>
-                    <Input
-                      type='text'
-                      placeholder='Закрепить диалоги за другим сотрудником'
-                      data={formattedTeammates(email)}
-                      readOnly
-                      fluid
-                      fixedSelect
-                      onSelect={(email: string | number) => selectedTeammateForRemapDialogs = email}
-                    />
-                  </div>
-                  
-                  <Button
-                    type='button'
-                    classNames={styles.attachedDialogsButton}
-                    background='delete'
-                    onClick={() => {
-                      remapDialogsToSelectedTeammate({
-                        deletedTeammateEmail: email,
-                        teammateEmailForRemapDialogs: selectedTeammateForRemapDialogs,
-                        projectId,
-                        successCallback: () => {
-                          removeTeammate(email);
-                          currentModal.onClose();
-                        },
-                      });
-                    }}
-                  >
-                    Удалить профиль сотрудника
-                  </Button>
-  
-                  <Button
-                    type='button'
-                    classNames={`${styles.marginTop} ${styles.attachedDialogsButton}`}
-                    background='edit'
-                    onClick={() => currentModal.onClose()}
-                  >
-                    Отмена
-                  </Button>
-                </div>
-              ),
+              footer: <AttachedDialogsModalFooter email={email}/>,
               onClose: () => {
                 setModalProps(prev => cloneDeep(Object.assign(prev, { show: false })));
               },
@@ -234,7 +248,7 @@ export default function Teammates() {
   };
 
   useEffect(() => {
-    fetchTeammates({ projectId });
+    fetchTeammates(projectId);
     fetchIncomingMessages({ projectId });
   }, []);
 

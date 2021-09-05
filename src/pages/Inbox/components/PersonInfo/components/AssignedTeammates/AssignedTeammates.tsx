@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 
-import Input from '../../../../../../components/Input/Input';
+import Input, { IData } from '../../../../../../components/Input/Input';
 import Tabs from '../../../../../../components/Tabs/Tabs';
 
 import { useTypedSelector } from '../../../../../../hooks/useTypedSelector';
@@ -29,12 +29,16 @@ export default function AssignedTeammates({ selectedClient }: AssignedTeammatesP
 
   const [assignedTeammates, setAssignedTeammate] = useState<ITeammate[]>([]);
 
-  const getTeammates = () => {
-    return teammates.map((teammate: Teammate) => ({
-      id: teammate.email,
-      value: teammate.username
-    }));
+  const getTeammates = (): IData[] => {
+    return teammates
+      .filter((teammate: any) => teammate.status === 'active')
+      .map((teammate: Teammate) => ({
+        id: teammate.email,
+        value: teammate.username
+      }));
   };
+
+  const [formattedTeammates, setTeammates] = useState(getTeammates());
 
   const assignTeammate = (teammate: ITeammate) => {
     changeMessagesStatus({
@@ -47,10 +51,10 @@ export default function AssignedTeammates({ selectedClient }: AssignedTeammatesP
     console.log(teammate.id);
     const teammateName = teammates.find((user: Teammate) => user.email === teammate.id).username;
     console.log(teammateName, 'teammateName');
-    setAssignedTeammate((prev) => prev.concat({
+    setAssignedTeammate([{
       id: teammate.id,
       value: teammateName,
-    }));
+    }]);
   };
 
   const removeAssignedTeammate = (teammate: ITeammate) => {
@@ -64,6 +68,13 @@ export default function AssignedTeammates({ selectedClient }: AssignedTeammatesP
     setAssignedTeammate((prev) => prev.filter((assignedTeammate) => assignedTeammate.value !== teammate.value));
   };
 
+  const filterTeammates = (e: any) => {
+    const value = e.target.value.toLowerCase();
+    const filteredTeammates = getTeammates().filter((teammate: any) => teammate.value.toLowerCase().includes(value));
+
+    setTeammates(filteredTeammates);
+  };
+
   useEffect(() => {
     const teammateName = teammates.find((user: Teammate) => user.email === selectedClient.assignedTo)?.username;
     const assignedTeammate = {
@@ -72,7 +83,7 @@ export default function AssignedTeammates({ selectedClient }: AssignedTeammatesP
     };
 
     setAssignedTeammate([assignedTeammate].filter(item => item.id));
-  }, [selectedClient.clientId]);
+  }, [selectedClient.clientId, selectedClient.assignedTo]);
 
   return (
     <div>
@@ -82,7 +93,8 @@ export default function AssignedTeammates({ selectedClient }: AssignedTeammatesP
         classNames={styles.checkTeammateInput}
         fluid
         onClick={assignTeammate}
-        data={getTeammates()}
+        onChange={filterTeammates}
+        data={formattedTeammates}
       />
 
       <Tabs
