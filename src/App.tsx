@@ -18,6 +18,7 @@ export default function App() {
   const {
     addIncomingMessage, addIncomingMessageForSelectedClient, getCurrentUser,
     updateTeammate, changeMessagesStatus, remapDialogsToSelectedTeammate,
+    updateIncomingMessage, updateSelectedClient,
   } = useActions();
   const history = useHistory();
   const { projectId } = useParams<{ projectId: string }>();
@@ -76,11 +77,22 @@ export default function App() {
       history.push('/signin');
     });
 
+    socket.on('updateIncomingMessage', (payload: any) => {
+      updateIncomingMessage(payload);
+    });
+    
+    socket.on('updateSelectedClient', (payload: any) => {
+      updateSelectedClient(payload);
+    });
+
     return () => {
       socket.off('addIncomingMessage');
       socket.off('updateTeammateOnlineStatus');
       socket.off('setActiveTeammateStatus');
       socket.off('changeMessagesStatus');
+      socket.off('remapDialogsToSelectedTeammate');
+      socket.off('updateIncomingMessage');
+      socket.off('updateSelectedClient');
     };
   }, [socket]);
 

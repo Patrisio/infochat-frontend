@@ -16,6 +16,7 @@ import { useTypedSelector } from '../../../../hooks/useTypedSelector';
 import { SelectedClient } from '../../../../types/inbox';
 import styles from './personInfo.module.scss';
 import { getChangeInFieldValue } from '../../../../utils/clientData';
+import socket from '../../../../socket';
 
 interface PersonInfoProps {
   selectedClient: SelectedClient,
@@ -48,11 +49,11 @@ export default function PersonInfo({ selectedClient, closeModal, setModalProps }
 
     if (fieldName && isDifferentFieldValues) {
       const successCallback = () => {
-        updateIncomingMessage({
+        const updateIncomingMessageData = {
           clientId: selectedClient?.clientId,
           [fieldName]: fieldValue
-        });
-        updateSelectedClient({
+        }
+        const updateSelectedClientData = {
           [fieldName]: fieldValue,
           changesHistory: [
             ...selectedClient.changesHistory,
@@ -63,7 +64,12 @@ export default function PersonInfo({ selectedClient, closeModal, setModalProps }
               timestamp: Date.now(),
             }
           ],
-        });
+        };
+        updateIncomingMessage(updateIncomingMessageData);
+        updateSelectedClient(updateSelectedClientData);
+
+        socket.emit('updateIncomingMessage', updateIncomingMessageData);
+        socket.emit('updateSelectedClient', updateSelectedClientData);
       };
 
       updateClientData(Object.assign(clientData, {

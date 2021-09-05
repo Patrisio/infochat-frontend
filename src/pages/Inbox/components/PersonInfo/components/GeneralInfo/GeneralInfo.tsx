@@ -69,7 +69,7 @@ export default function GeneralInfo({ selectedClient, updateClientData }: Genera
     }, []);
 
     setGeneralInfo(generalClientData);
-  }, [selectedClient.clientId]);
+  }, [selectedClient]);
 
   return (
     <ul className={styles.generalList}>
