@@ -1,9 +1,6 @@
 import { InboxState, IIncomingMessage, InboxAction, InboxActionTypes, SelectedClient } from '../../types/inbox';
-
 import { getLastUnreadMessagesCount } from '../../utils/clientData';
-
 import cloneDeep from 'lodash/cloneDeep';
-import { StaticRouter } from 'react-router';
 
 export const defaultSelectedClient: SelectedClient = {
   id: '',

@@ -10,6 +10,7 @@ import styles from './assignedTeammates.module.scss';
 import { Teammate } from '../../../../../../types/teammates';
 import { InboxState } from '../../../../../../types/inbox';
 import { useActions } from '../../../../../../hooks/useActions';
+import socket from '../../../../../../socket';
 
 interface ITeammate {
   id?: string | '' |  null,
@@ -41,16 +42,20 @@ export default function AssignedTeammates({ selectedClient }: AssignedTeammatesP
   const [formattedTeammates, setTeammates] = useState(getTeammates());
 
   const assignTeammate = (teammate: ITeammate) => {
-    changeMessagesStatus({
+    const changeMessagesStatusData = {
       clientId: selectedClient.clientId,
       projectId,
       assignedTo: teammate.id,
       messagesStatus: 'opened',
+    };
+    changeMessagesStatus({
+      ...changeMessagesStatusData,
+      successCallback: () => {
+        socket.emit('changeMessagesStatus', changeMessagesStatusData, (data: any) => console.log(data));
+      },
     });
 
-    console.log(teammate.id);
     const teammateName = teammates.find((user: Teammate) => user.email === teammate.id).username;
-    console.log(teammateName, 'teammateName');
     setAssignedTeammate([{
       id: teammate.id,
       value: teammateName,

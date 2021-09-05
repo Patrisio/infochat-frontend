@@ -22,6 +22,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import Badge from '../../components/Badge/Badge';
 import { updateToken } from '../../lib/utils/token';
 import { NotificationContext } from '../../context/NotificationContext';
+import socket from '../../socket';
 
 interface IParams {
   projectId: string,
@@ -143,12 +144,16 @@ export default function Teammates() {
           classNames={styles.attachedDialogsButton}
           background='delete'
           onClick={() => {
-            remapDialogsToSelectedTeammate({
+            const remapDialogsToSelectedTeammateData = {
               deletedTeammateEmail: email,
               teammateEmailForRemapDialogs: selectedTeammateForRemapDialogs,
               projectId,
+            };
+            remapDialogsToSelectedTeammate({
+              ...remapDialogsToSelectedTeammateData,
               successCallback: () => {
                 removeTeammate(email);
+                socket.emit('remapDialogsToSelectedTeammate', remapDialogsToSelectedTeammateData);
                 currentModal.onClose();
               },
             });

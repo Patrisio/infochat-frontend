@@ -17,7 +17,7 @@ export default function App() {
   const [hasAuthError, setAuthError] = useState(false);
   const {
     addIncomingMessage, addIncomingMessageForSelectedClient, getCurrentUser,
-    updateTeammate, changeMessagesStatus,
+    updateTeammate, changeMessagesStatus, remapDialogsToSelectedTeammate,
   } = useActions();
   const history = useHistory();
   const { projectId } = useParams<{ projectId: string }>();
@@ -29,7 +29,6 @@ export default function App() {
   const isNeedCurrentUserData = currentUserDataIsNeeded(window.location.href);
 
   useEffect(() => {
-    console.log('UP___UUP');
     socket.on('setActiveTeammateStatus', (teammateData: { email: string, username: string }) => {
       updateTeammate({
         status: 'active',
@@ -70,6 +69,11 @@ export default function App() {
 
     socket.on('changeMessagesStatus', (payload: any) => {
       changeMessagesStatus(payload);
+    });
+
+    socket.on('remapDialogsToSelectedTeammate', (payload: any) => {
+      remapDialogsToSelectedTeammate(payload);
+      history.push('/signin');
     });
 
     return () => {
