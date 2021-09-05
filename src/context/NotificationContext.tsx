@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 
-interface Notification {
+export interface Notification {
   isShow: boolean,
   text: string | null,
 }

@@ -4,7 +4,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import Router from './router/router';
 import socket from './socket';
 import { Context, IUser } from './context/Context';
-import { NotificationContext } from './context/NotificationContext';
+import { NotificationContext, Notification as NotificationInterface } from './context/NotificationContext';
 import { useActions } from './hooks/useActions';
 import { isProjectOwner } from './lib/utils/accessRights';
 import Spin from './components/Spin/Spin';
@@ -29,7 +29,54 @@ export default function App() {
   };
   const isNeedCurrentUserData = currentUserDataIsNeeded(window.location.href);
 
+  const initialCurrentUser: IUser = {
+    avatar: '',
+    email: '',
+    role: 'operator',
+    status: '',
+    username: '',
+    projectId: null,
+    timezone: null,
+    balance: null,
+    isOnline: true,
+    projects: [],
+  };
+
+  const initialNotification: NotificationInterface = {
+    isShow: false,
+    text: null,
+  };
+
+  const [currentUser, setCurrentUser] = useState(initialCurrentUser);
+  const [notification, updateNotification] = useState(initialNotification);
+
   useEffect(() => {
+    if (isNeedCurrentUserData) {
+      const successCallback = (currentUser: any) => {
+        setCurrentUser(currentUser);
+        setAuthError(false);
+        socket.emit('joinRoom', currentUser.projects[0].id);
+        socket.on('msgToClient', (message: any) => {
+          console.log(message);
+        });
+      };
+      const errorCallback = () => {
+        setAuthError(true);
+        history.push('/signin');
+      };
+      getCurrentUser({ successCallback, errorCallback });
+
+      return () => {
+        socket.off('msgToClient');
+      };
+    }
+  }, [isNeedCurrentUserData]);
+
+  useEffect(() => {
+    socket.on('disconnect', () => {
+      socket.open();
+    });
+
     socket.on('setActiveTeammateStatus', (teammateData: { email: string, username: string }) => {
       updateTeammate({
         status: 'active',
@@ -90,6 +137,7 @@ export default function App() {
     });
 
     return () => {
+      socket.off('disconnect');
       socket.off('addIncomingMessage');
       socket.off('updateTeammateOnlineStatus');
       socket.off('setActiveTeammateStatus');
@@ -100,49 +148,6 @@ export default function App() {
       socket.off('deleteFromInboxIncomingMessage');
     };
   }, [socket]);
-
-  const initialCurrentUser: IUser = {
-    avatar: '',
-    email: '',
-    role: 'operator',
-    status: '',
-    username: '',
-    projectId: null,
-    timezone: null,
-    balance: null,
-    isOnline: true,
-    projects: [],
-  };
-
-  const initialNotification = {
-    isShow: false,
-    text: null,
-  };
-
-  const [currentUser, setCurrentUser] = useState(initialCurrentUser);
-  const [notification, updateNotification] = useState(initialNotification);
-
-  useEffect(() => {
-    if (isNeedCurrentUserData) {
-      const successCallback = (currentUser: any) => {
-        setCurrentUser(currentUser);
-        setAuthError(false);
-        socket.emit('joinRoom', currentUser.projects[0].id);
-        socket.on('msgToClient', (message: any) => {
-          console.log(message);
-        });
-      };
-      const errorCallback = () => {
-        setAuthError(true);
-        history.push('/signin');
-      };
-      getCurrentUser({ successCallback, errorCallback });
-
-      return () => {
-        socket.off('msgToClient');
-      };
-    }
-  }, [isNeedCurrentUserData]);
 
   return (
     <Context.Provider value={{ currentUser, setCurrentUser }}>
