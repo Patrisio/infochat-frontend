@@ -13,6 +13,7 @@ export interface TeammatesState {
 
 export enum TeammatesActionTypes {
   TEAMMATE_ADD = 'TEAMMATE_ADD',
+  TEAMMATE_ADD_SAGA = 'TEAMMATE_ADD_SAGA',
   TEAMMATE_DELETE = 'TEAMMATE_DELETE',
   // TEAMMATE_ASSIGN = 'TEAMMATE_ASSIGN',
   TEAMMATE_FETCH = 'TEAMMATE_FETCH',
@@ -22,6 +23,11 @@ export enum TeammatesActionTypes {
 
 interface addTeammateAction {
   type: TeammatesActionTypes.TEAMMATE_ADD,
+  teammate: any,
+}
+
+interface addTeammateSagaAction {
+  type: TeammatesActionTypes.TEAMMATE_ADD_SAGA,
   teammate: any,
 }
 
@@ -47,6 +53,7 @@ interface addTeammatesAction {
 
 export type TeammatesAction =
   addTeammateAction
+  | addTeammateSagaAction
   | deleteTeammateAction
   | fetchTeammatesAction
   | updateTeammateAction

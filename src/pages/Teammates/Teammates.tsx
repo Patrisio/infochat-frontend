@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router';
 
 import useForm from '../../hooks/useForm';
@@ -22,6 +21,7 @@ import validateForm from './validateForm';
 import cloneDeep from 'lodash/cloneDeep';
 import Badge from '../../components/Badge/Badge';
 import { updateToken } from '../../lib/utils/token';
+import { NotificationContext } from '../../context/NotificationContext';
 
 interface IParams {
   projectId: string,
@@ -60,20 +60,21 @@ export default function Teammates() {
   const { incomingMessages } = useTypedSelector(state => state.inbox);
   
   const {
-    addTeammate, deleteTeammate, fetchTeammates,
+    addTeammateSaga, deleteTeammate, fetchTeammates,
     updateTeammate, fetchIncomingMessages, remapDialogsToSelectedTeammate,
   } = useActions();
 
-  
+  const { updateNotification } = useContext(NotificationContext);
 
   const inviteTeammate = (values: any) => {
-    addTeammate({
+    addTeammateSaga({
       id: generateRandomHash(),
       email: values.email,
       projectId,
       role: 'operator',
       status: 'pending',
-      username: values.email.charAt(0).toUpperCase()
+      username: values.email.charAt(0).toUpperCase(),
+      errorCallback: (response: any) => updateNotification({ isShow: true, text: response.message }),
     });
     setFormValues({});
   };
@@ -103,10 +104,6 @@ export default function Teammates() {
     deleteTeammate({ email, projectId });
   };
 
-  const save = () => {
-    console.log('SAVE');
-  };
-
   const AttachedDialogsModalFooter = ({ email }: { email: string }) => {
     let selectedTeammateForRemapDialogs: string | number | null = null;
     const getTeammates = (teammates: any, email: string) => {
@@ -123,7 +120,7 @@ export default function Teammates() {
     const filterTeammates = (e: any) => {
       const value = e.target.value.toLowerCase();
       const filteredTeammates = getTeammates(teammates, email).filter((teammate: any) => teammate.value.toLowerCase().includes(value));
-      console.log(filteredTeammates, 'filteredTeammates');
+
       setTeammates(filteredTeammates);
     };
 
@@ -178,14 +175,8 @@ export default function Teammates() {
       <Button
         type='button'
         onClick={() => {
-          // removeTeammate(data.email);
-          console.log('DELETE');
-          console.log(incomingMessages, 'incomingMessages');
-          console.log(email, 'email');
-          
-
           const hasAttachedDialogs = incomingMessages.filter(incMsg => incMsg.assignedTo === email).length > 0;
-          console.log(hasAttachedDialogs, 'hasAttachedDialogs');
+
           if (hasAttachedDialogs) {
             setModalProps({
               show: true,
@@ -248,7 +239,7 @@ export default function Teammates() {
   };
 
   useEffect(() => {
-    fetchTeammates(projectId);
+    fetchTeammates({ projectId });
     fetchIncomingMessages({ projectId });
   }, []);
 
@@ -375,7 +366,6 @@ export default function Teammates() {
 
   const saveData = ({ oldEmail, role }: { oldEmail: string, role: string }, values: any) => {
     const { name, surname, ...restFormData } = values;
-    console.log(values, 'UP__');
     const username = `${name} ${surname}`;
 
     updateTeammate({

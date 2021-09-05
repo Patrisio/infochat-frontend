@@ -4,9 +4,11 @@ import { useHistory, useParams } from 'react-router-dom';
 import Router from './router/router';
 import socket from './socket';
 import { Context, IUser } from './context/Context';
+import { NotificationContext } from './context/NotificationContext';
 import { useActions } from './hooks/useActions';
 import { isProjectOwner } from './lib/utils/accessRights';
 import Spin from './components/Spin/Spin';
+import Notification from './components/Notification/Notification';
 
 import 'normalize.css';
 import './scss/App.scss';
@@ -83,7 +85,13 @@ export default function App() {
     projects: [],
   };
 
+  const initialNotification = {
+    isShow: false,
+    text: null,
+  };
+
   const [currentUser, setCurrentUser] = useState(initialCurrentUser);
+  const [notification, updateNotification] = useState(initialNotification);
 
   useEffect(() => {
     if (isNeedCurrentUserData) {
@@ -109,14 +117,17 @@ export default function App() {
 
   return (
     <Context.Provider value={{ currentUser, setCurrentUser }}>
-      <div className='App'>
-        <Suspense fallback={<Spin classNames='appLoader' />}>
-          {
-            (currentUser.email || hasAuthError || !isNeedCurrentUserData) &&
-            <Router isOwner={isProjectOwner(currentUser.role)} />
-          }
-        </Suspense>
-      </div>
+      <NotificationContext.Provider value={{ notification, updateNotification }}>
+        <div className='App'>
+          <Suspense fallback={<Spin classNames='appLoader' />}>
+            { notification.isShow && <Notification /> }
+            {
+              (currentUser.email || hasAuthError || !isNeedCurrentUserData) &&
+              <Router isOwner={isProjectOwner(currentUser.role)} />
+            }
+          </Suspense>
+        </div>
+      </NotificationContext.Provider>
     </Context.Provider>
   );
 }

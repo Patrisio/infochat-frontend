@@ -5,6 +5,11 @@ export const addTeammate = (teammate: any): TeammatesAction => ({
   teammate,
 });
 
+export const addTeammateSaga = (teammate: any): TeammatesAction => ({
+  type: TeammatesActionTypes.TEAMMATE_ADD_SAGA,
+  teammate,
+});
+
 export const deleteTeammate = (teammate: any): TeammatesAction => ({
   type: TeammatesActionTypes.TEAMMATE_DELETE,
   teammate,

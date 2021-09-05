@@ -1,4 +1,4 @@
-import { call, put, takeEvery, all, StrictEffect } from 'redux-saga/effects';
+import { call, put, takeEvery, all, StrictEffect, cancelled } from 'redux-saga/effects';
 import { getTeammates, teammateAdd, sendEmail, removeTeammate, teammateUpdate } from '../api/dataLayer';
 
 function* fetchTeammates(action: any): Generator<StrictEffect> {
@@ -18,10 +18,20 @@ function* fetchTeammates(action: any): Generator<StrictEffect> {
 
 function* addTeammate(action: any): Generator<StrictEffect> {
   try {
-    const { email, projectId, role, status, username } = action.teammate;
+    const { errorCallback, ...teammateData } = action.teammate;
 
-    yield call(teammateAdd, { email, projectId, role, status, username });
-    yield call(sendEmail, { email, projectId });
+    const response: any = yield call(teammateAdd, { ...teammateData, errorCallback });
+
+    if (response.statusCode !== 409) {
+      yield put({
+        type: 'TEAMMATE_ADD',
+        teammate: teammateData,
+      });
+      yield call(sendEmail, {
+        email: teammateData.email,
+        projectId: teammateData.projectId,
+      });
+    }
   } catch (e) {
     yield put({
       type: 'TEAMMATE_ADD_FAILED',
@@ -57,7 +67,7 @@ function* watchFetchTeammates(): Generator<StrictEffect> {
 }
 
 function* watchAddTeammate(): Generator<StrictEffect> {
-  yield takeEvery('TEAMMATE_ADD', addTeammate);
+  yield takeEvery('TEAMMATE_ADD_SAGA', addTeammate);
 }
 
 function* watchDeleteTeammate(): Generator<StrictEffect> {

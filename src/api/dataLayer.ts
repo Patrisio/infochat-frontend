@@ -28,8 +28,8 @@ export async function signUp(payload: any) {
   return await requestApiPost('api_auth_sign_up', payload);
 }
 
-export async function getTeammates(projectId: string) {
-  return await requestApiGet('api_get_teammates', { projectId });
+export async function getTeammates(payload: any) {
+  return await requestApiGet('api_get_teammates', payload);
 }
 
 export async function teammateUpdate(payload: any) {
@@ -93,8 +93,9 @@ export async function teammateAdd(payload: {
   role: string,
   status: string,
   username: string,
+  errorCallback: () => void,
 }) {
-  const { email, role, status, username, projectId } = payload;
+  const { email, role, status, username, projectId, errorCallback } = payload;
   return await requestApiPost('api_add_teammate',
     {
       email,
@@ -104,7 +105,9 @@ export async function teammateAdd(payload: {
     },
     {
       projectId,
-    }
+    },
+    () => {},
+    errorCallback
   );
 }
 

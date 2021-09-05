@@ -19,7 +19,7 @@ interface Params {
 
 export const POST: Method = 'POST';
 export const GET: Method = 'GET';
-const errorCodes = [400, 401, 500];
+const errorCodes = [400, 401, 409, 500];
 
 export async function requestApi({
   method = POST,
