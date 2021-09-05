@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useDispatch } from 'react-redux';
 
 import Note from '../../../Note/Note';
@@ -10,6 +10,7 @@ import { Context } from '../../../../../../context/Context';
 import { useActions } from '../../../../../../hooks/useActions';
 import { InboxState } from '../../../../../../types/inbox';
 import styles from './notes.module.scss';
+import socket from '../../../../../../socket';
 
 interface NotesProps {
   selectedClient: InboxState['selectedClient'],
@@ -20,17 +21,22 @@ interface NotesProps {
 export default function Notes({ selectedClient, setModalProps, closeModal }: NotesProps) {
   const [isOpenedNotesTextarea, toggleNotesTextarea] = useState<boolean>(false);
   const [noteText, setNoteText] = useState<string>('');
+  const [notes, setNotes] = useState(selectedClient.notes);
 
   const { currentUser } = useContext(Context);
   const { updateSelectedClient, addNote, deleteNote } = useActions();
 
   const removeNote = (id: number) => {
+    const notes = selectedClient.notes.filter((note) => note.id !== id);
+
     deleteNote({
       id,
-      successCallback: () => updateSelectedClient({
-        notes: selectedClient.notes.filter((note) => note.id !== id),
-      })
+      successCallback: () => {
+        updateSelectedClient({ notes });
+        socket.emit('updateSelectedClient', { notes });
+      }
     });
+    
     closeModal();
   };
 
@@ -72,13 +78,14 @@ export default function Notes({ selectedClient, setModalProps, closeModal }: Not
         madeBy: currentUser.username,
       };
       const addNewNote = ({ id, timestamp }: { id: number, timestamp: number }) => {
-        updateSelectedClient({
-          notes: selectedClient.notes.concat({
-            id,
-            ...noteData,
-            timestamp,
-          })
+        const notes = selectedClient.notes.concat({
+          id,
+          ...noteData,
+          timestamp,
         });
+        
+        updateSelectedClient({ notes });
+        socket.emit('updateSelectedClient', { notes })
         setNoteText('');
         toggleNotesTextarea(prev => !prev);
       };
@@ -107,6 +114,11 @@ export default function Notes({ selectedClient, setModalProps, closeModal }: Not
     e.stopPropagation();
     toggleNotesTextarea(prev => !prev);
   };
+
+  useEffect(() => {
+    setNotes(selectedClient.notes);
+    console.log('UPDATED_STATE');
+  }, [selectedClient.notes]);
 
   return (
     <>
@@ -149,8 +161,8 @@ export default function Notes({ selectedClient, setModalProps, closeModal }: Not
       }
 
       {
-        selectedClient.notes &&
-        selectedClient.notes.map(({ id, madeBy, text, timestamp }) => {
+        notes &&
+        notes.map(({ id, madeBy, text, timestamp }) => {
           return (
             <Note
               key={id}
