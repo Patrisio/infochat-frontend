@@ -18,7 +18,7 @@ export default function App() {
   const {
     addIncomingMessage, addIncomingMessageForSelectedClient, getCurrentUser,
     updateTeammate, changeMessagesStatus, remapDialogsToSelectedTeammate,
-    updateIncomingMessage, updateSelectedClient,
+    updateIncomingMessage, updateSelectedClient, deleteFromInboxIncomingMessage,
   } = useActions();
   const history = useHistory();
   const { projectId } = useParams<{ projectId: string }>();
@@ -85,6 +85,10 @@ export default function App() {
       updateSelectedClient(payload);
     });
 
+    socket.on('deleteFromInboxIncomingMessage', (payload: any) => {
+      deleteFromInboxIncomingMessage(payload);
+    });
+
     return () => {
       socket.off('addIncomingMessage');
       socket.off('updateTeammateOnlineStatus');
@@ -93,6 +97,7 @@ export default function App() {
       socket.off('remapDialogsToSelectedTeammate');
       socket.off('updateIncomingMessage');
       socket.off('updateSelectedClient');
+      socket.off('deleteFromInboxIncomingMessage');
     };
   }, [socket]);
 

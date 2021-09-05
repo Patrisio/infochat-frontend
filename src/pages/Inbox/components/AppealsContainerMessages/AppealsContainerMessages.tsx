@@ -14,6 +14,7 @@ import usePrevious from '../../../../hooks/usePrevious';
 import { useTypedSelector } from '../../../../hooks/useTypedSelector';
 import { SelectedClient } from '../../../../types/inbox';
 import { defaultSelectedClient } from '../../../../store/reducers/inbox';
+import socket from '../../../../socket';
 
 interface AppealsContainerMessagesProps {
   clientName: string,
@@ -35,10 +36,14 @@ export default function AppealsContainerMessages({ clientName, messagesHistory, 
   const isDisabled = () => !incomingMessages.find(incMsg => incMsg.clientId === clientId)?.assignedTo;
 
   const closeDialog = () => {
-    changeMessagesStatus({
+    const changeMessagesStatusData = {
       messagesStatus: 'closed',
       projectId,
       clientId,
+    };
+    changeMessagesStatus({
+      ...changeMessagesStatusData,
+      successCallback: () => socket.emit('changeMessagesStatus', changeMessagesStatusData),
     });
   };
 
@@ -75,6 +80,8 @@ export default function AppealsContainerMessages({ clientName, messagesHistory, 
             const removeIncomingAppealAndResetSelectedClient = () => {
               updateSelectedClient(defaultSelectedClient);
               deleteFromInboxIncomingMessage({ clientId });
+              socket.emit('updateSelectedClient', defaultSelectedClient);
+              socket.emit('deleteFromInboxIncomingMessage', { clientId });
               closeModal();
             };
 
