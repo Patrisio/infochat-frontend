@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
 import useForm from '../../hooks/useForm';
@@ -9,10 +9,12 @@ import Button from '../../components/Button/Button';
 import { useActions } from '../../hooks/useActions';
 import styles from './SignInPage.module.scss';
 import validateForm from './validateForm';
+import { NotificationContext } from '../../context/NotificationContext'
 
 export default function SignUpPage()  {
   const { authSignIn } = useActions();
   const history = useHistory();
+  const { updateNotification } = useContext(NotificationContext);
 
   const signInUser = (values: any) => {
     const successCallback = (data: any) => {
@@ -23,10 +25,17 @@ export default function SignUpPage()  {
       localStorage.setItem('token', data.accessToken);
       history.push(`/project/${data.projectId}/inbox/opened`);
     };
+    const errorCallback = (response: any) => {
+      updateNotification({
+        isShow: true,
+        text: response.message,
+      });
+    };
 
     authSignIn({
       ...values,
       successCallback,
+      errorCallback,
     });
   };
 

@@ -20,8 +20,8 @@ export async function fetchCurrentUser(payload: any) {
 }
 
 export async function signIn(payload: any) {
-  const { successCallback, ...loginCredentials } = payload;
-  return await requestApiPost('api_auth_sign_in', loginCredentials, {}, successCallback);
+  const { successCallback, errorCallback, ...loginCredentials } = payload;
+  return await requestApiPost('api_auth_sign_in', loginCredentials, {}, successCallback, errorCallback);
 }
 
 export async function signUp(payload: any) {
