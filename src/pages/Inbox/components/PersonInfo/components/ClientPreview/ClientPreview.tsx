@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisV, faUserLock } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisV, faUserLock, faUnlockAlt } from '@fortawesome/free-solid-svg-icons';
 
 import Animal from '../../../../../../components/Animal/Animal';
 import Textarea from '../../../../../../components/Textarea/Textarea';
@@ -53,17 +53,22 @@ export default function ClientPreview({ clientData, selectedClient, updateClient
           className={styles.blockClientContainer}
           onClick={blockOrUnblockClient}
         >
-          <FontAwesomeIcon icon={faUserLock} />
           {
             selectedClient.isBlocked ?
-            <div className={styles.textContainer}>
-              <p className={styles.title}>Снять блокировку</p>
-              <p className={styles.description}>Возобновить получение сообщений от собеседника</p>
-            </div> :
-            <div className={styles.textContainer}>
-              <p className={styles.title}>Блокировать собеседника</p>
-              <p className={styles.description}>Вы не будете больше получать сообщения от собеседника</p>
-            </div>
+            <>
+              <FontAwesomeIcon icon={faUnlockAlt} />
+              <div className={styles.textContainer}>
+                <p className={styles.title}>Снять блокировку</p>
+                <p className={styles.description}>Возобновить получение сообщений от собеседника</p>
+              </div>
+            </> :
+            <>
+              <FontAwesomeIcon icon={faUserLock} />
+              <div className={styles.textContainer}>
+                <p className={styles.title}>Блокировать собеседника</p>
+                <p className={styles.description}>Вы не будете больше получать сообщения от собеседника</p>
+              </div>
+            </>
           }
         </div>
       </div>
