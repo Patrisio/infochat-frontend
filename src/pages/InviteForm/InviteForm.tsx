@@ -29,7 +29,7 @@ export default function InviteForm() {
     const username = `${values.name} ${values.surname}`;
 
     const successCallback = (data: any) => {
-      if (data.code === 200) {
+      if (data.statusCode === 200) {
         decodeJwt({
           token: inviteId,
           successCallback: (decodeToken: any) => {

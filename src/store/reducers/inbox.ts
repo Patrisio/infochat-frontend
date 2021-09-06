@@ -110,13 +110,17 @@ export const inboxReducer = (state = initialState, action: InboxAction): InboxSt
       const client = state.incomingMessages.find(incMsg => incMsg?.clientId === action.payload.clientId) as IIncomingMessage;
       const clientIndex = state.incomingMessages.findIndex(incMsg => incMsg?.clientId === action.payload.clientId);
 
-      const updatedClient = Object.assign(client, action.payload);
-      state.incomingMessages.splice(clientIndex, 1, updatedClient);
-
-      return cloneDeep({
-        ...state,
-        incomingMessages: state.incomingMessages
-      });
+      if (client) {
+        const updatedClient = Object.assign(client, action.payload);
+        state.incomingMessages.splice(clientIndex, 1, updatedClient);
+  
+        return cloneDeep({
+          ...state,
+          incomingMessages: state.incomingMessages
+        });
+      }
+      
+      return state;
 
     case InboxActionTypes.INCOMING_MESSAGES_FETCHING:
       return {

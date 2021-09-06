@@ -49,13 +49,14 @@ interface RuleInterface {
   result: string,
 }
 
-interface Settings {
+export interface Settings {
   chatName: string,
   greeting: string,
   backgroundImage: number,
   buttonLocation: string,
   buttonScale: string,
   buttonText: string,
+  buttonWidth: number,
   infochatLinkEnabled: number,
   customCss: string,
   operators: Operator[],
@@ -63,6 +64,8 @@ interface Settings {
   responseTimeText: string,
   requestText: string,
   rules: RuleInterface[],
+  timeWithoutAnswer: number,
+  timezone: string,
 }
 
 interface State {

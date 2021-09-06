@@ -55,7 +55,7 @@ export default function ButtonsGroup({ hasChanges, toggleChanges, setActiveTab, 
             fluid
             classNames={styles.saveBtn}
             onClick={() => {
-              saveChatSettings(settings, projectId);
+              saveChatSettings({ settings, projectId });
               saveChangesCallback && saveChangesCallback();
               toggleChanges(false);
             }}

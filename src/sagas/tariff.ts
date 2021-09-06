@@ -2,10 +2,8 @@ import { call, put, takeEvery, StrictEffect } from 'redux-saga/effects';
 import { tariffPlanFetch, tariffPlanUpdate } from '../api/dataLayer';
 
 function* fetchTariffPlan(action: any): Generator<StrictEffect> {
-  const { projectId } = action.payload;
-
   try {
-    const tariffPlan: any = yield call(tariffPlanFetch, projectId);
+    const tariffPlan: any = yield call(tariffPlanFetch, action.payload);
     yield put({
       type: 'TARIFF_PLAN_UPDATE',
       payload: tariffPlan.tariffPlan,

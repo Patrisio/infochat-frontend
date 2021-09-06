@@ -1,4 +1,5 @@
 import { requestApi, GET, POST } from './apiCore';
+import { Response } from './types';
 
 const VALUE_PATTERN = /\[.:\w+\]/g;
 const PARAM_PATTERN_NAME = /:\w+/g;
@@ -6,8 +7,8 @@ const PARAM_PATTERN_NAME = /:\w+/g;
 export async function requestApiGet(
   routeID: string,
   getParams = {},
-  successCallback?: (data: any) => void,
-  errorCallback?: () => void
+  successCallback?: (response: Response) => void,
+  errorCallback?: (response: Response) => void
 ) {
   return requestApi({
     method: GET,
@@ -22,8 +23,8 @@ export async function requestApiPost(
   routeID: string,
   postBody: any = null,
   getParams: any = {},
-  successCallback?: () => void,
-  errorCallback?: () => void
+  successCallback?: (response: Response) => void,
+  errorCallback?: (response: Response) => void
 ) {
   return requestApi({
     method: POST,

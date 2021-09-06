@@ -88,7 +88,6 @@ interface toggleFetchingChannelsAction {
 interface saveChatSettingsAction {
   type: ChannelsActionTypes.SAVE_CHAT_SETTINGS,
   payload: any,
-  projectId: any,
 }
 interface fetchChatSettingsAction {
   type: ChannelsActionTypes.FETCH_CHAT_SETTINGS,

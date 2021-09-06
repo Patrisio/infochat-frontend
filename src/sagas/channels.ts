@@ -3,14 +3,13 @@ import { getChannels, channelAdd, chatSettingsSave, chatSettingsFetch } from '..
 
 function* fetchChannels(action: any): Generator<StrictEffect> {
   try {
-    console.log('__SAGA__');
     yield put({
       type: 'TOGGLE_FETCHING_CHANNELS',
     });
-    const channels = yield call(getChannels, action.payload.projectId);
+    const response: any = yield call(getChannels, action.payload);
     yield put({
       type: 'ADD_CHANNELS',
-      channels,
+      channels: response.data,
     });
     yield put({
       type: 'TOGGLE_FETCHING_CHANNELS',
@@ -36,8 +35,7 @@ function* addChannel(action: any): Generator<StrictEffect> {
 
 function* saveChatSettings(action: any): Generator<StrictEffect> {
   try {
-    console.log(action);
-    yield call(chatSettingsSave, action.payload, action.projectId);
+    yield call(chatSettingsSave, action.payload);
   } catch (e) {
     yield put({
       type: 'USER_FETCH_FAILED',

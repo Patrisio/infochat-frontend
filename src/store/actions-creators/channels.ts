@@ -20,10 +20,9 @@ export const updateChannelSettings = (payload: any): ChannelsAction => ({
   payload,
 });
 
-export const saveChatSettings = (payload: any, projectId: string): ChannelsAction => ({
+export const saveChatSettings = (payload: any): ChannelsAction => ({
   type: ChannelsActionTypes.SAVE_CHAT_SETTINGS,
   payload,
-  projectId,
 });
 
 export const fetchChatSettings = (payload: { projectId: string, successCallback?: (data: any) => void }): ChannelsAction => ({

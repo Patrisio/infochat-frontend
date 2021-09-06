@@ -1,6 +1,39 @@
 import { requestApiPost, requestApiGet } from './';
+import {
+  Response,
+  InviteUserPayload,
+  FetchCurrentUserPayload,
+  SignInPayload,
+  SignUpPayload,
+  GetTeammatesPayload,
+  TeammateUpdatePayload,
+  IncomingMessagesFetchPayload,
+  SelectedClientInfoGetPayload,
+  MessagesStatusUpdatePayload,
+  SelectedClientUpdatePayload,
+  TeammateAddPayload,
+  RemoveTeammatePayload,
+  SendEmailPayload,
+  MessageToInboxAddPayload,
+  GetChannelsPayload,
+  ChannelAddPayload,
+  ChatSettingsSavePayload,
+  ChatSettingsFetchPayload,
+  TemplateAddPayload,
+  TemplateDeletePayload,
+  TemplateEditPayload,
+  GetTemplatesPayload,
+  ProjectAddPayload,
+  TariffPlanFetchPayload,
+  TariffPlanUpdatePayload,
+  NoteAddPayload,
+  NoteDeletePayload,
+  ClientAppealDeletePayload,
+  JwtDecodePayload,
+  ToSelectedTeammateRemapDialogsPayload,
+} from './types';
 
-export async function inviteUser(payload: any) {
+export async function inviteUser(payload: InviteUserPayload): Promise<Response> {
   const { username, password, projectId, inviteId } = payload;
   return await requestApiPost(
     'api_auth_invite',
@@ -15,30 +48,31 @@ export async function inviteUser(payload: any) {
   );
 }
 
-export async function fetchCurrentUser(payload: any) {
-  return await requestApiGet('api_get_current_user', {}, payload.successCallback, payload.errorCallback);
+export async function fetchCurrentUser(payload: FetchCurrentUserPayload): Promise<Response> {
+  const { successCallback, errorCallback } = payload;
+  return await requestApiGet('api_get_current_user', {}, successCallback, errorCallback);
 }
 
-export async function signIn(payload: any) {
+export async function signIn(payload: SignInPayload): Promise<Response> {
   const { successCallback, errorCallback, ...loginCredentials } = payload;
   return await requestApiPost('api_auth_sign_in', loginCredentials, {}, successCallback, errorCallback);
 }
 
-export async function signUp(payload: any) {
+export async function signUp(payload: SignUpPayload): Promise<Response> {
   const { successCallback, errorCallback, ...signUpCredentials } = payload;
   return await requestApiPost('api_auth_sign_up', signUpCredentials, {}, successCallback, errorCallback);
 }
 
-export async function getTeammates(payload: any) {
+export async function getTeammates(payload: GetTeammatesPayload): Promise<Response> {
   return await requestApiGet('api_get_teammates', payload);
 }
 
-export async function teammateUpdate(payload: any) {
+export async function teammateUpdate(payload: TeammateUpdatePayload): Promise<Response> {
   const { projectId, successCallback, ...updatedTeammateData } = payload;
   return await requestApiPost('api_update_teammate', updatedTeammateData, { projectId }, successCallback);
 }
 
-export async function incomingMessagesFetch(payload: { projectId: string, clientId: string }) {
+export async function incomingMessagesFetch(payload: IncomingMessagesFetchPayload): Promise<Response> {
   const { clientId, projectId } = payload;
 
   if (clientId) {
@@ -48,20 +82,16 @@ export async function incomingMessagesFetch(payload: { projectId: string, client
   return await requestApiGet('api_get_messages_history_by_project_id', { projectId });
 }
 
-export async function selectedClientInfoGet(payload: {
-  projectId: string,
-  clientId: string,
-  successCallback: (data: any) => void,
-}) {
+export async function selectedClientInfoGet(payload: SelectedClientInfoGetPayload): Promise<Response> {
   const { projectId, clientId } = payload;
   return await requestApiGet('api_get_client_info', { projectId, clientId });
 }
 
-export async function messageToInboxAdd(payload: any) {
+export async function messageToInboxAdd(payload: MessageToInboxAddPayload): Promise<Response> {
   return await requestApiPost('api_add_message', payload);
 }
 
-export async function messagesStatusUpdate(payload: any) {
+export async function messagesStatusUpdate(payload: MessagesStatusUpdatePayload): Promise<Response> {
   const { projectId, messagesStatus, assignedTo, clientId } = payload;
   return await requestApiPost(
     'api_update_messages_status_by_client_id',
@@ -76,7 +106,7 @@ export async function messagesStatusUpdate(payload: any) {
   );
 }
 
-export async function selectedClientUpdate(payload: any) {
+export async function selectedClientUpdate(payload: SelectedClientUpdatePayload): Promise<Response> {
   const { projectId, clientId, ...restPayloadData } = payload;
   return await requestApiPost(
     'api_update_selected_client_by_project_id',
@@ -88,14 +118,7 @@ export async function selectedClientUpdate(payload: any) {
   );
 }
 
-export async function teammateAdd(payload: {
-  email: string,
-  projectId?: string,
-  role: string,
-  status: string,
-  username: string,
-  errorCallback: () => void,
-}) {
+export async function teammateAdd(payload: TeammateAddPayload): Promise<Response> {
   const { email, role, status, username, projectId, errorCallback } = payload;
   return await requestApiPost('api_add_teammate',
     {
@@ -112,36 +135,36 @@ export async function teammateAdd(payload: {
   );
 }
 
-export async function removeTeammate(payload: {email: string, projectId: string}) {
+export async function removeTeammate(payload: RemoveTeammatePayload): Promise<Response> {
   const { email, projectId } = payload;
   return await requestApiPost('api_delete_teammate', { email }, { projectId });
 }
 
-export async function sendEmail(payload: { email: string, projectId: string }) {
+export async function sendEmail(payload: SendEmailPayload): Promise<Response> {
   const { email, projectId } = payload;
   return await requestApiPost('api_send_email', { email }, { projectId });
 }
 
-export async function getChannels(projectId: string) {
-  const { channels } = await requestApiGet('api_get_channels', { projectId });
-  return channels;
+export async function getChannels(payload: GetChannelsPayload): Promise<Response> {
+  return await requestApiGet('api_get_channels', payload);
 }
 
-export async function channelAdd(payload: { projectId: string, name: string }) {
+export async function channelAdd(payload: ChannelAddPayload): Promise<Response> {
   const { projectId, name } = payload;
   return await requestApiPost('api_add_channel', { name }, { projectId });
 }
 
-export async function chatSettingsSave(payload: any, projectId: string) {
-  return await requestApiPost('api_save_chat_settings', payload, { projectId });
+export async function chatSettingsSave(payload: ChatSettingsSavePayload): Promise<Response> {
+  const { projectId, settings } = payload;
+  return await requestApiPost('api_save_chat_settings', settings, { projectId });
 }
 
-export async function chatSettingsFetch(payload: { projectId: string, successCallback: (data: any) => {} }) {
+export async function chatSettingsFetch(payload: ChatSettingsFetchPayload): Promise<Response> {
   const { projectId, successCallback } = payload;
   return await requestApiGet('api_get_chat_settings', { projectId }, successCallback);
 }
 
-export async function templateAdd(payload: { id: string, name: string, message: string, projectId: string }) {
+export async function templateAdd(payload: TemplateAddPayload): Promise<Response> {
   const { id, name, message, projectId } = payload;
   return await requestApiPost('api_add_template',
     {
@@ -155,12 +178,12 @@ export async function templateAdd(payload: { id: string, name: string, message: 
   );
 }
 
-export async function templateDelete(payload: { templateId: string, projectId: string }) {
+export async function templateDelete(payload: TemplateDeletePayload): Promise<Response> {
   const { templateId, projectId } = payload;
   return await requestApiPost('api_delete_template', { templateId }, { projectId });
 }
 
-export async function templateEdit(payload: { id: string, name: string, message: string, projectId: string }) {
+export async function templateEdit(payload: TemplateEditPayload): Promise<Response> {
   const { id, name, message, projectId } = payload;
   return await requestApiPost('api_update_template',
     {
@@ -174,45 +197,47 @@ export async function templateEdit(payload: { id: string, name: string, message:
   );
 }
 
-export async function getTemplates(projectId: string) {
+export async function getTemplates(payload: GetTemplatesPayload): Promise<Response> {
+  const { projectId } = payload;
   return await requestApiGet('api_get_templates', { projectId });
 }
 
-export async function projectAdd(payload: { name: string, timezone: string, successCallback: () => void }) {
+export async function projectAdd(payload: ProjectAddPayload): Promise<Response> {
   const { successCallback, ...projectData } = payload;
   return await requestApiPost('api_add_project', projectData, {}, successCallback);
 }
 
-export async function tariffPlanFetch(projectId: string): Promise<{ code: number, tariffPlan: any }> {
+export async function tariffPlanFetch(payload: TariffPlanFetchPayload): Promise<Response> {
+  const { projectId } = payload;
   return await requestApiGet('api_get_tariff_plan', { projectId });
 }
 
-export async function tariffPlanUpdate(payload: any) {
+export async function tariffPlanUpdate(payload: TariffPlanUpdatePayload): Promise<Response> {
   const { projectId, ...tariffPlan } = payload;
   return await requestApiPost('api_update_tariff_plan', tariffPlan, { projectId });
 }
 
-export async function noteAdd(payload: any) {
+export async function noteAdd(payload: NoteAddPayload): Promise<Response> {
   const { successCallback, clientId, ...noteData } = payload;
   return await requestApiPost('api_add_note', noteData, { clientId }, successCallback);
 }
 
-export async function noteDelete(payload: any) {
+export async function noteDelete(payload: NoteDeletePayload): Promise<Response> {
   const { successCallback, ...noteData } = payload;
   return await requestApiPost('api_delete_note', noteData, {}, successCallback);
 }
 
-export async function clientAppealDelete(payload: any) {
+export async function clientAppealDelete(payload: ClientAppealDeletePayload): Promise<Response> {
   const { successCallback, ...clientData } = payload;
   return await requestApiPost('api_delete_client_appeal_by_client_id', {}, clientData, successCallback);
 }
 
-export async function jwtDecode(payload: any) {
+export async function jwtDecode(payload: JwtDecodePayload): Promise<Response> {
   const { successCallback, token } = payload;
   return await requestApiGet('api_decode_jwt', { token }, successCallback);
 }
 
-export async function toSelectedTeammateRemapDialogs(payload: any) {
+export async function toSelectedTeammateRemapDialogs(payload: ToSelectedTeammateRemapDialogsPayload): Promise<Response> {
   const { successCallback, projectId, ...teammatesEmails } = payload;
   return await requestApiPost('api_remap_dialogs_to_selected_teammate', teammatesEmails, { projectId }, successCallback);
 }

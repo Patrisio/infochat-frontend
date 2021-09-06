@@ -3,7 +3,7 @@ import { templateAdd, templateDelete, templateEdit, getTemplates } from '../api/
 
 function* fetchTemplates(action: any): Generator<StrictEffect> {
   try {
-    const data: any = yield call(getTemplates, action.payload.projectId);
+    const data: any = yield call(getTemplates, action.payload);
 
     yield put({
       type: 'TEMPLATES_ADD',

@@ -73,10 +73,6 @@ export default function App() {
   }, [isNeedCurrentUserData]);
 
   useEffect(() => {
-    socket.on('disconnect', () => {
-      socket.open();
-    });
-
     socket.on('setActiveTeammateStatus', (teammateData: { email: string, username: string }) => {
       updateTeammate({
         status: 'active',
