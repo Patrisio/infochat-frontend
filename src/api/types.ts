@@ -1,13 +1,15 @@
 import { IUser } from '../context/Context';
 import { Role } from '../lib/utils/accessRights';
 import { Settings } from '../pages/Channels/components/AutomationBlock/AutomationBlock';
+
+interface FetchCurrentUserData extends IUser {}
+
 export interface Response {
   status: 'success' | 'error',
   statusCode: number,
   message?: string,
   data?: FetchCurrentUserData
 }
-interface FetchCurrentUserData extends IUser {}
 
 export interface Callbacks {
   successCallback: (response: Response) => void,

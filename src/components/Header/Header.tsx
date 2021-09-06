@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useParams } from 'react-router';
+import { useParams, useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import socket from '../../socket';
 
@@ -16,11 +16,13 @@ import styles from './header.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserEdit, faLayerGroup, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { isProjectOwner } from '../../lib/utils/accessRights';
+import { updateToken } from '../../lib/utils/token';
 
 export default function Header() {
   const { currentUser, setCurrentUser } = useContext(Context);
   const [isOnline, toggleIsOnline] = useState(currentUser.isOnline);
 
+  const history = useHistory();
   const { projectId } = useParams<{projectId: string }>();
   const { updateTeammate } = useActions();
   const balance = currentUser.balance;
@@ -48,6 +50,11 @@ export default function Header() {
   };
 
   const PopupBodyUser = () => {
+    const logout = () => {
+      updateToken('');
+      history.push('/signin');
+    };
+
     return (
       <div className={styles.popup}>
         <p className={styles.email}>{ currentUser.email }</p>
@@ -82,15 +89,15 @@ export default function Header() {
           </ul>
         </div>
 
-        <Link
+        <div
           className={styles.link}
-          to={`/project/${projectId}/projects`}
+          onClick={logout}
         >
           <div className={styles.icon}>
             <FontAwesomeIcon icon={faSignOutAlt} />
           </div>
           <span>Выход</span>
-        </Link>
+        </div>
       </div>
     );
   };
