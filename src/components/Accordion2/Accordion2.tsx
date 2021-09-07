@@ -8,11 +8,11 @@ interface PanelInterface {
   content: React.ReactElement,
 }
 
-interface Props {
+interface AccordionProps {
   panels: PanelInterface[],
 }
 
-export default function Accordion({ panels }: Props) {
+export default function Accordion({ panels }: AccordionProps) {
   const [activeTab, setActiveTab] = useState<number>(0);
 	
 	const activateTab = (index: number) => {

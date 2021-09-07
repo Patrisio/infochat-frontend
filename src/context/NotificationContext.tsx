@@ -1,13 +1,14 @@
 import { createContext } from 'react';
+import { Noop } from '../types/inbox';
 
-export interface Notification {
+export interface NotificationInterface {
   isShow: boolean,
   text: string | null,
 }
 
-interface NotificationContextProps {
-  notification: Notification
-  updateNotification: (prev: any) => void,
+export interface NotificationContextProps {
+  notification: NotificationInterface,
+  updateNotification: (prev: Noop<NotificationInterface>) => void,
 };
 
 export const NotificationContext = createContext<NotificationContextProps>({
@@ -15,5 +16,8 @@ export const NotificationContext = createContext<NotificationContextProps>({
     isShow: false,
     text: null,
   },
-  updateNotification: () => {},
+  updateNotification: () => ({
+    isShow: false,
+    text: null,
+  }),
 });

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styles from './switcher.module.scss';
 
-interface IProps {
+interface SwitcherProps {
   value?: boolean,
   onChange: (isActive: boolean) => void,
 }
 
-export default function Switcher({ onChange, value = false }: IProps) {
-  const [isActive, toggle] = useState(value);
+export default function Switcher({ onChange, value = false }: SwitcherProps) {
+  const [isActive, toggle] = useState<boolean>(value);
 
   useEffect(() => toggle(value), [value]);
   useEffect(() => {

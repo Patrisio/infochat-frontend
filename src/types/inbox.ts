@@ -1,3 +1,5 @@
+export type Noop<T> = (arg: T) => void;
+
 export interface IMessagesHistory {
   message: string | React.ReactNode,
   username: string,

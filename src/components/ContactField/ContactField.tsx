@@ -7,12 +7,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane, faCheck } from '@fortawesome/free-solid-svg-icons';
 import styles from './contactField.module.scss';
 
-interface ContactField {
+interface ContactFieldProps {
   field: string,
   onClick: (fieldValue: string) => void,
 }
 
-export default function ContactField({ field, onClick }: ContactField) {
+export default function ContactField({ field, onClick }: ContactFieldProps) {
   const [fieldValue, updateFieldValue] = useState<string>('');
   const [isContactSent, toggleButtonState] = useState<boolean>(false);
   const isDisabledField = () => {

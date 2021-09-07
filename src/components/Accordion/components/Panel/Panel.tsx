@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ReactNode, ReactElement, useState } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
@@ -12,7 +12,7 @@ interface PanelProps {
 }
 
 export default function Panel({ title, count, content }: PanelProps) {
-  const [isOpened, toggleOpen] = useState(true);
+  const [isOpened, toggleOpen] = useState<boolean>(true);
 
   return (
     <div className={styles.accordion}>
@@ -34,12 +34,12 @@ export default function Panel({ title, count, content }: PanelProps) {
                 />
               </div>
               <span className={styles.notesHeaderTitleName}>
-                {title}
+                { title }
               </span>
               {
                 Boolean(count && count > 0) &&
                 <span className={styles.notesCount}>
-                  {`(${count})`}
+                  { `(${count})` }
                 </span>
               }
             </div>

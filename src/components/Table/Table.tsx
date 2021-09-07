@@ -2,12 +2,12 @@ import React from 'react';
 import Row from './components/Row';
 import styles from './table.module.scss';
 
-interface Props {
+interface TableProps {
   data: any,
   columns: any,
 }
 
-export default function Table({ columns, data}: Props) {
+export default function Table({ columns, data}: TableProps) {
   const hasVisibleHeaderCells = () => columns.filter((column: any) => column.visible).length > 0;
 
   return (

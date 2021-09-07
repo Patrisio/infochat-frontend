@@ -2,7 +2,7 @@ import React from 'react';
 import CSS from 'csstype';
 import styles from './sidebarItem.module.scss';
 
-interface IProps {
+interface SidebarItemProps {
   name?: string,
   count?: number,
   icon?: React.ReactNode,
@@ -17,7 +17,7 @@ interface Item {
   onClick?: () => void
 }
 
-export default function SidebarItem({ name, count, icon, onClick, stylesList, mode = 'dark' }: IProps ) {
+export default function SidebarItem({ name, count, icon, onClick, stylesList, mode = 'dark' }: SidebarItemProps ) {
   const setActiveSidebarItem = (e: any) => {
     const target = e.currentTarget;
     const sidebarItems = document.getElementsByClassName(styles.listItem);

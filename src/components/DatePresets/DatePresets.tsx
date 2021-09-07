@@ -8,11 +8,11 @@ import {
   getYesterday, getWeekPeriod, getMonthPeriod
 } from '../../lib/utils/date';
 
-interface DatePresets {
+interface DatePresetsProps {
   onChange: (date: string | { from: string, to: string }) => void,
 }
 
-export default function DatePresets({ onChange }: DatePresets) {
+export default function DatePresets({ onChange }: DatePresetsProps) {
   const [selectedDate, selectDate] = useState('today');
 
   const getDateValue = (dateId: string) => {
@@ -41,7 +41,7 @@ export default function DatePresets({ onChange }: DatePresets) {
     }
   };
 
-  const changeDate = (e: any) => {
+  const changeDate = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedDateId = e.target.value;
     selectDate(selectedDateId);
     const date = getDateValue(selectedDateId);

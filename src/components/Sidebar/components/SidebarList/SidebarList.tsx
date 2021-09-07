@@ -3,7 +3,7 @@ import CSS from 'csstype';
 import styles from './sidebarList.module.scss';
 import SidebarItem from '../SidebarItem/SidebarItem';
 
-interface IProps {
+interface SidebarListProps {
   title?: string | React.ReactNode,
   listItems: any,
   mode?: 'light' | 'dark',
@@ -17,7 +17,7 @@ interface Item {
   onClick?: () => void,
 }
 
-export default function SidebarList({ title, listItems, mode = 'dark' }: IProps ) {
+export default function SidebarList({ title, listItems, mode = 'dark' }: SidebarListProps ) {
   return (
     <div className={styles.sidebarListContainer}>
       {

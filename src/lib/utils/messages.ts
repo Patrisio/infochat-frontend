@@ -1,26 +1,5 @@
 import { InboxState } from "../../types/inbox";
 
-interface IMessagesHistory {
-  message: string,
-  clientId: string,
-  username: string
-}
-
-type MessagesStatus = 'unread' | 'assigned' | 'opened' | 'closed';
-
-interface IIncomingMessage {
-  id: string,
-  projectId: string,
-  clientId: string,
-  messagesHistory: IMessagesHistory[],
-  assignedTo: string | null,
-  avatarName: string,
-  avatarColor: string,
-  email: string,
-  phone: string,
-  messagesStatus: MessagesStatus,
-}
-
 export function getAllInboxMessages(incomingMessages: InboxState['incomingMessages'], currentUser: any): any {
   const unreadClientIds: any = [];
   const unreadCount = incomingMessages.filter((msg) => {

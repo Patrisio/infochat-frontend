@@ -1,4 +1,5 @@
 import { generateUrlWithGetParams } from './';
+import { Response } from './types';
 
 interface RequestApi {
   method?: Method,
@@ -28,7 +29,7 @@ export async function requestApi({
   postBody = null,
   successCallback = () => {},
   errorCallback = () => {},
-}: RequestApi) {
+}: RequestApi): Promise<Response> {
   url = generateUrlWithGetParams(url, getParams);
 
   const params: Params = {

@@ -9,7 +9,7 @@ export async function requestApiGet(
   getParams = {},
   successCallback?: (response: Response) => void,
   errorCallback?: (response: Response) => void
-) {
+): Promise<Response> {
   return requestApi({
     method: GET,
     url: await getRoute(routeID),
@@ -25,7 +25,7 @@ export async function requestApiPost(
   getParams: any = {},
   successCallback?: (response: Response) => void,
   errorCallback?: (response: Response) => void
-) {
+): Promise<Response> {
   return requestApi({
     method: POST,
     url: await getRoute(routeID),
@@ -78,7 +78,7 @@ async function loadRoutes(): Promise<{[key: string]: string}> {
   };
 }
 
-function getRouteDataFromPattern(pattern: any) {
+function getRouteDataFromPattern(pattern: string): any {
   const valueRegexpStrings = pattern.match(VALUE_PATTERN);
   const valuesNames = pattern.match(PARAM_PATTERN_NAME);
   let params: any = {};
@@ -94,7 +94,7 @@ function getRouteDataFromPattern(pattern: any) {
   return params;
 }
 
-export function generateUrlWithGetParams(pattern: any, getParams: any) {
+export function generateUrlWithGetParams(pattern: string, getParams: any): string {
   const patternData = getRouteDataFromPattern(pattern);
   let url = pattern;
 
@@ -111,7 +111,7 @@ export function generateUrlWithGetParams(pattern: any, getParams: any) {
   return query ? `${url}/${query}` : url;
 }
 
-function serializeParams(params: any, prefix?: string) {
+function serializeParams(params: any, prefix?: string): string {
   const result: any = [];
 
   Object.keys(params).forEach((key) => {
@@ -127,6 +127,6 @@ function serializeParams(params: any, prefix?: string) {
   return result.join('&');
 }
 
-async function getRoute(routeID: string) {
+async function getRoute(routeID: string): Promise<string> {
   return (await loadRoutes())[routeID];
 }

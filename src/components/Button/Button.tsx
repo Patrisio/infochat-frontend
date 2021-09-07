@@ -1,5 +1,4 @@
 import React from 'react';
-import CSS from 'csstype';
 import styles from './Button.module.scss';
 
 interface IButtonProps {
@@ -9,7 +8,6 @@ interface IButtonProps {
   size?: string,
   background?: string,
   onClick?: (e?: any) => void,
-  stylesList?: CSS.Properties | undefined,
   disabled?: boolean,
   classNames?: string,
 }
@@ -21,7 +19,6 @@ export default function Button({
   size,
   background,
   onClick,
-  stylesList,
   disabled,
   classNames,
 }: IButtonProps) {
@@ -42,7 +39,6 @@ export default function Button({
         }
         ${classNames}
       `}
-      // style={stylesList}
       type={type}
       onClick={onClick}
       disabled={disabled}

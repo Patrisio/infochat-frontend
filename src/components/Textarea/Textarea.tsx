@@ -1,5 +1,4 @@
 import React, { useState, useEffect, forwardRef } from 'react';
-import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 import styles from './textarea.module.scss';
 
 interface Props {
@@ -33,7 +32,7 @@ const Textarea = forwardRef(({
   spellCheck = false,
   errorMessage,
 }: Props, ref: any) => {
-  const [textareaValue, setTextareaValue] = useState(value);
+  const [textareaValue, setTextareaValue] = useState<string | undefined>(value);
   
   useEffect(() => {
     setTextareaValue(value);

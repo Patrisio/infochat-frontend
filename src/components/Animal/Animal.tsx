@@ -19,7 +19,7 @@ interface IStyles {
 
 export default class Animal extends Component<IProps> {
   validateName(): { animal: string, translate: string } {
-    const {name} = this.props;
+    const { name } = this.props;
 
     if (name) {
       const lower = name.toLowerCase();

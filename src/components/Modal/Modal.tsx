@@ -1,4 +1,4 @@
-import React, { useState, useEffect, cloneElement } from 'react';
+import React, { cloneElement } from 'react';
 import styles from './modal.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

@@ -1,24 +1,12 @@
-import React, { memo } from 'react';
-import Button from '../../Button/Button';
-import Avatar from '../../Avatar/Avatar';
+import React from 'react';
 import styles from './row.module.scss';
 
-interface Teammate {
-  id: string,
-  username: string,
-  phone: string,
-  email: string,
-  avatar: string,
-  role: string,
-  status: string,
-}
-
-interface IData {
+interface RowData {
   row: any,
   columns: any
 }
 
-export default function Row({ row, columns }: IData) {
+export default function Row({ row, columns }: RowData) {
   return (
     <div className={styles.gridRow}>
       {

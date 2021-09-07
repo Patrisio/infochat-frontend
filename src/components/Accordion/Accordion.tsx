@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import Panel from './components/Panel/Panel';
 
@@ -24,7 +24,7 @@ export default function Accordion({ panels }: AccordionProps) {
             title={title}
             content={content}
             count={count}
-          /> : null
+          /> : null;
         })
       }
     </div>

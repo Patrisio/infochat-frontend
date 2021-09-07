@@ -10,12 +10,12 @@ interface Tab {
   value: string | '' |  null,
 }
 
-interface Props {
+interface TabsProps {
   data: any,
   removeTab: (tab: any) => void,
 }
 
-export default function Tabs({ data, removeTab }: Props) {
+export default function Tabs({ data, removeTab }: TabsProps) {
   return (
     <div className={styles.assignedTeammatesList}>
       {
