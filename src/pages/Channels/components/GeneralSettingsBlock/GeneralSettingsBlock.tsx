@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { cloneDeep, debounce } from 'lodash';
 
 import Input from '../../../../components/Input/Input';
 import Textarea from '../../../../components/Textarea/Textarea';
@@ -13,7 +14,6 @@ import styles from './generalSettingsBlock.module.scss';
 import theme1 from '../../../../assets/theme1.png';
 import theme2 from '../../../../assets/theme2.png';
 import theme3 from '../../../../assets/theme3.png';
-import { cloneDeep, debounce } from 'lodash';
 
 interface Location {
   id: string,
@@ -25,13 +25,13 @@ interface Scale {
   value: string,
 }
 
-interface Props {
+interface GeneralSettingsBlockProps {
   setActiveTab?: () => void,
 }
 
 let defaultSettings: Settings | undefined;
 
-export default function GeneralSettingsBlock({ setActiveTab }: Props) {
+export default function GeneralSettingsBlock({ setActiveTab }: GeneralSettingsBlockProps) {
   const { settings } = useTypedSelector(state => state.channels);
   const { updateChannelSettings } = useActions();
   
@@ -91,9 +91,9 @@ export default function GeneralSettingsBlock({ setActiveTab }: Props) {
     },
   ];
 
-  const updateBlockSettings = (settings: any) => updateChannelSettings(settings);
+  const updateBlockSettings = (settings: Partial<Settings>) => updateChannelSettings(settings);
 
-  const setActiveThemeCard = (e: any, elementIndex?: number) => {
+  const setActiveThemeCard = (e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLDivElement> | null, elementIndex?: number) => {
     const themesCards = document.getElementsByClassName(styles.themeCard);
 
     const resetActiveStyles = () => {
@@ -107,9 +107,9 @@ export default function GeneralSettingsBlock({ setActiveTab }: Props) {
       resetActiveStyles();
       themesCards[elementIndex].className += ` ${styles.active}`;
     } else {
-      const target = e.currentTarget;
+      const target = e?.currentTarget;
       resetActiveStyles();
-      target.className += ` ${styles.active}`;
+      target!.className += ` ${styles.active}`;
     }
   };
 
@@ -126,7 +126,7 @@ export default function GeneralSettingsBlock({ setActiveTab }: Props) {
           fluid
           maxLength={30}
           value={settings.chatName}
-          onChange={(e: any) => {
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             updateBlockSettings({ chatName: e.target.value });
             toggleChanges(true);
           }}
@@ -154,7 +154,7 @@ export default function GeneralSettingsBlock({ setActiveTab }: Props) {
                 <div
                   key={bg.id}
                   className={styles.themeCard}
-                  onClick={(e) => {
+                  onClick={(e: React.MouseEvent<HTMLDivElement>) => {
                     if (bg.id === settings.backgroundImage) return;
                     setActiveThemeCard(e);
                     updateBlockSettings({ backgroundImage: bg.id });
@@ -181,8 +181,8 @@ export default function GeneralSettingsBlock({ setActiveTab }: Props) {
           <p>Расположение кнопки</p>
           <Input
             type='text'
-            onSelect={(id) => {
-              updateBlockSettings({ buttonLocation: id });
+            onSelect={(id: string | number) => {
+              updateBlockSettings({ buttonLocation: id as string });
               toggleChanges(true);
             }}
             value={buttonLocation.find((location: Location) => location.id === settings.buttonLocation)?.value}
@@ -198,8 +198,8 @@ export default function GeneralSettingsBlock({ setActiveTab }: Props) {
           <p>Масштаб кнопки</p>
           <Input
             type='text'
-            onSelect={(id) => {
-              updateBlockSettings({ buttonScale: id });
+            onSelect={(id: string | number) => {
+              updateBlockSettings({ buttonScale: id as string });
               toggleChanges(true);
             }}
             value={buttonScale.find((scale: Scale) => scale.id === settings.buttonScale)?.value}
@@ -279,7 +279,7 @@ export default function GeneralSettingsBlock({ setActiveTab }: Props) {
         setActiveTab={setActiveTab}
         resetBlockSettings={() => {
           setIsEnabledCustomCss(Boolean(defaultSettings?.customCss));
-          updateBlockSettings(defaultSettings);
+          defaultSettings && updateBlockSettings(defaultSettings);
         }}
       />
     </div>

@@ -71,3 +71,7 @@ $opacity-1: rgba(62,62,62,.35);
 $opacity-2: hsla(0,0%,100%,.35);
 $opacity-3: hsla(0,0%,69%,.8);
 $opacity-4: rgba(0,0,0,.125);
+
+:export {
+  blue1: $blue-1;
+}

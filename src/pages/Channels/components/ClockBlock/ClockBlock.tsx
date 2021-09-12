@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import moment from 'moment-timezone';
 
 import BusinessHours from './components/BusinessHours/BusinessHours';
 import Button from '../../../../components/Button/Button';
@@ -10,7 +11,6 @@ import { generateRandomHash } from '../../../../utils/string';
 import { responseTime, request } from './constants';
 import { useActions } from '../../../../hooks/useActions';
 import { useTypedSelector } from '../../../../hooks/useTypedSelector';
-import moment from 'moment-timezone';
 import { getTimezones, getTimezoneByCode } from '../../../../lib/utils/date';
 import { getEntityIdByValue } from '../../../../lib/utils/entity';
 
@@ -18,54 +18,14 @@ interface Props {
   setActiveTab?: () => void,
 }
 
-interface Operator {
-  icon?: string,
-  value: string | '' |  null,
-  id?: string,
-}
-
-interface BusinessDay {
+interface BusinessHoursInterface {
   businessDayId: string,
   weekday: string,
   timeFrom: string,
   timeTo: string,
 }
 
-interface Settings {
-  chatName: '',
-  greeting: '',
-  backgroundImage: 1,
-  buttonLocation: '',
-  buttonScale: '',
-  buttonText: '',
-  infochatLinkEnabled: 1,
-  customCss: '',
-  operators: Operator[],
-  businessDays: BusinessDay[],
-  responseTimeText: string,
-  requestText: string,
-  timezone: string,
-  timeWithoutAnswer: number,
-}
-
-interface State {
-  channels: [],
-  settings: Settings,
-}
-
-interface RootState {
-  channels: State,
-  teammates: any,
-}
-
-interface BusinessHours {
-  businessDayId: string,
-  weekday: string,
-  timeFrom: string,
-  timeTo: string,
-}
-
-let defaultBusinessDays: BusinessHours | BusinessHours[] = {
+let defaultBusinessDays: BusinessHoursInterface | BusinessHoursInterface[] = {
   businessDayId: generateRandomHash(),
   weekday: 'Понедельник',
   timeFrom: '09:00',
@@ -86,7 +46,7 @@ export default function ClockBlock({ setActiveTab }: Props) {
   
   const deleteBusinessHoursModule = (id: string) => {
     updateChannelSettings({
-      businessDays: businessDays.filter((item: BusinessHours) => item.businessDayId !== id).slice(),
+      businessDays: businessDays.filter((item) => item.businessDayId !== id).slice(),
     });
   };
 
@@ -110,7 +70,7 @@ export default function ClockBlock({ setActiveTab }: Props) {
     defaultBusinessDays = businessDays;
   };
 
-  const changeInputRadioButtonHandler = (e: any, stateName: string) => {
+  const changeInputRadioButtonHandler = (e: React.ChangeEvent<HTMLInputElement>, stateName: string) => {
     updateChannelSettings({ [stateName]: e.target.value });
     toggleChanges(true);
   };
@@ -119,15 +79,15 @@ export default function ClockBlock({ setActiveTab }: Props) {
     updateChannelSettings({ timezone });
   };
 
-  const changeNotAnswerOperatorValue = (e: any) => {
-    const value = e.target.value;
+  const changeNotAnswerOperatorValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value);
 
     if (value < 0) {
       updateChannelSettings({ timeWithoutAnswer: 0 });
       return;
     }
 
-    updateChannelSettings({ timeWithoutAnswer: parseInt(value) });
+    updateChannelSettings({ timeWithoutAnswer: value });
   };
 
   useEffect(() => {

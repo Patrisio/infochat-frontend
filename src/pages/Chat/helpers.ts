@@ -3,6 +3,7 @@ export function getLogicalSign(id: string): string {
     case 'not':
       return '!==';
     case 'not contain':
+    case 'contain':
       return 'includes';
     case 'moreThan':
       return '>';

@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import Input from '../../../../../../components/Input/Input';
 import ConditionOptionsLine from '../ConditionOptionsLine/ConditionOptionsLine';
 
 import styles from './condition.module.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+
 
 interface Props {
   variant: string,
   operator: string,
   value: string,
-  id: string,
+  id: string | number | null,
   ruleId: string,
   deleteCondition: (ruleId: string, conditionId: string) => void,
   updateCondition: (ruleId: string, conditionId: string, property: any) => void,
@@ -47,7 +48,7 @@ export default function Condition({
 
   const selectOption = (property: {[key: string]: string | number}) => {
     console.log(property, 'property');
-    updateCondition(ruleId, id, property);
+    updateCondition(ruleId, id as string, property);
     toggleChanges(true);
   };
 
@@ -89,7 +90,7 @@ export default function Condition({
         />
         <div
           className={styles.deleteConditionIcon}
-          onClick={() => deleteCondition(ruleId, id)}
+          onClick={() => deleteCondition(ruleId, id as string)}
         >
           <FontAwesomeIcon  icon={faTimes} color='$orange-1' />
         </div>

@@ -9,20 +9,20 @@ import { useActions } from '../../../../hooks/useActions';
 import { useTypedSelector } from '../../../../hooks/useTypedSelector';
 import { Operator } from '../../../../types/channels';
 
-interface Props {
+interface OperatorsBlockProps {
   setActiveTab?: () => void,
 }
 
 let defaultOperators: Operator[];
 
-export default function OperatorsBlock({ setActiveTab }: Props) {
+export default function OperatorsBlock({ setActiveTab }: OperatorsBlockProps) {
   const { operators: assignedOperators } = useTypedSelector(state => state.channels.settings);
   const { teammates: existingTeammates } = useTypedSelector(state => state.teammates);
-  const [hasChanges, toggleChanges] = useState(false);
+  const [hasChanges, toggleChanges] = useState<boolean>(false);
   const { updateChannelSettings } = useActions();
 
   const getTeammates = () => {
-    return existingTeammates.map((operator: any) => ({
+    return existingTeammates.map((operator) => ({
       value: operator.username,
       id: operator.email,
     }));
@@ -30,7 +30,7 @@ export default function OperatorsBlock({ setActiveTab }: Props) {
 
   const removeAssignedTeammate = (teammate: Operator) => {
     updateChannelSettings({
-      operators: assignedOperators.filter((operator: any) => operator.id !== teammate.id),
+      operators: assignedOperators.filter((operator) => operator.id !== teammate.id),
     });
     toggleChanges(true);
   };

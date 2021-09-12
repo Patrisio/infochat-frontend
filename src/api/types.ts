@@ -1,6 +1,6 @@
 import { IUser } from '../context/Context';
 import { Role } from '../lib/utils/accessRights';
-import { Settings } from '../pages/Channels/components/AutomationBlock/AutomationBlock';
+import { Settings } from '../types/channels';
 
 interface FetchCurrentUserData extends IUser {}
 

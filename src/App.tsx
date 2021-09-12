@@ -4,7 +4,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import Router from './router/router';
 import socket from './socket';
 import { Context, IUser } from './context/Context';
-import { NotificationContext, Notification as NotificationInterface } from './context/NotificationContext';
+import { NotificationContext, NotificationInterface } from './context/NotificationContext';
 import { useActions } from './hooks/useActions';
 import { isProjectOwner } from './lib/utils/accessRights';
 import Spin from './components/Spin/Spin';

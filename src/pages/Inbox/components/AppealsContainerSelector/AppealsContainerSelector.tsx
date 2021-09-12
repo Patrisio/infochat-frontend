@@ -1,7 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import styles from './appealsContainerSelector.module.scss';
 import cloneDeep from 'lodash/cloneDeep';
+import moment from 'moment';
+import 'moment/locale/ru';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 import Animal from '../../../../components/Animal/Animal';
 import Popup from '../../../../components/Popup/Popup';
@@ -9,15 +12,12 @@ import Input from '../../../../components/Input/Input';
 import Button from '../../../../components/Button/Button';
 import AppealsSkeleton from '../../../../components/Skeleton/AppealsSkeleton/AppealsSkeleton';
 
-import { IIncomingMessage, IMessagesHistory } from '../../../../types/inbox';
+import { IIncomingMessage, IMessagesHistory, SelectedClient, Filters } from '../../../../types/inbox';
 import { getClientName, getLastUnreadMessagesCount } from '../../../../utils/clientData';
 import { useActions } from '../../../../hooks/useActions';
 import { useTypedSelector } from '../../../../hooks/useTypedSelector';
 import { Context } from '../../../../context/Context';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import moment from 'moment';
-import 'moment/locale/ru';
+import styles from './appealsContainerSelector.module.scss';
 
 interface FilterVariant {
   id: string,
@@ -25,8 +25,8 @@ interface FilterVariant {
 }
 
 interface AppealsContainerSelectorProps {
-  inboxFilters: any,
-  messages: any
+  inboxFilters: Filters,
+  messages: IIncomingMessage[],
 }
 
 export default function AppealsContainerSelector({
@@ -51,7 +51,7 @@ export default function AppealsContainerSelector({
 
   const showClientMessages = (clientId: string) => {
     if (clientId !== selectedClientId) {
-      const successCallback = (clientInfo: any) => {
+      const successCallback = (clientInfo: SelectedClient) => {
         updateSelectedClient({
           changesHistory: clientInfo.changesHistory,
           notes: clientInfo.notes,
@@ -72,7 +72,7 @@ export default function AppealsContainerSelector({
   const getLastMessage = (messagesHistory: IMessagesHistory[], clientName: string) => {
     const lastMessage = messagesHistory[messagesHistory.length - 1];
     let pureLastMessage;
-    const lastMessageText: any = lastMessage.message;
+    const lastMessageText = lastMessage.message as string;
     if (lastMessageText) {
       pureLastMessage = lastMessageText.replace(/<[^>]*>?/gm, '');
     }
@@ -96,7 +96,7 @@ export default function AppealsContainerSelector({
   };
 
   const getTeammates = () => {
-    const formattedTeammates = teammates.map((teammate: any) => {
+    const formattedTeammates = teammates.map((teammate) => {
       if (currentUser.email === teammate.email) {
         return {
           id: teammate.email,
@@ -119,7 +119,7 @@ export default function AppealsContainerSelector({
   };
 
   const getChannels = () => {
-    const formattedChannels = channels.map((channel: any) => {
+    const formattedChannels = channels.map((channel) => {
       if (channel.name === 'chat') {
         return {
           id: channel.name,
@@ -141,10 +141,10 @@ export default function AppealsContainerSelector({
     return formattedChannels;
   };
 
-  const updateSearchByFilter = (e: any) => {
+  const updateSearchByFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
 
-    updateFilters((prev: any) => {
+    updateFilters((prev) => {
       return {
         ...prev,
         searchBy: {
@@ -156,7 +156,7 @@ export default function AppealsContainerSelector({
   };
 
   const selectOption = (filterName: string, id: string | number) => {
-    updateFilters((prev: any) => ({
+    updateFilters((prev) => ({
       ...prev,
       [filterName]: filterName === 'searchBy' ?
         {
@@ -172,7 +172,7 @@ export default function AppealsContainerSelector({
     toggleOpenSearchPopup(prev => !prev);
   };
 
-  const PopupBodySearch = ({ filters }: { filters: any }) => {
+  const PopupBodySearch = ({ filters }: { filters: Filters }) => {
     const searchBy = [
       {
         id: 'text',
@@ -195,7 +195,7 @@ export default function AppealsContainerSelector({
     const channels = getChannels();
 
     const getFilterValue = (filterId: string, filterName: FilterVariant[]) => {
-      return filterName.find((channel: any) => channel.id === filterId)?.value;
+      return filterName.find((channel) => channel.id === filterId)?.value;
     };
 
     return (
@@ -258,7 +258,7 @@ export default function AppealsContainerSelector({
   };
 
   const resetSearchByFilter = () => {
-    updateFilters((prev: any) => {
+    updateFilters((prev) => {
       return {
         ...prev,
         searchBy: {

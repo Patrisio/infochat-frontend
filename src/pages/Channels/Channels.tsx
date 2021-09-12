@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, memo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 
 import Table from '../../components/Table/Table';
@@ -15,9 +15,8 @@ import ClockBlock from './components/ClockBlock/ClockBlock';
 import AutomationBlock from './components/AutomationBlock/AutomationBlock';
 import ChatPreview from './components/ChatPreview/ChatPreview';
 
-// import StatusSwitcher from './StatusSwitcher';
-
 import styles from './channels.module.scss';
+import colors from '../../scss/variables.module.scss';
 import cloneDeep from 'lodash/cloneDeep';
 import { useActions } from '../../hooks/useActions';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
@@ -37,6 +36,11 @@ interface ModalProps {
   onClose: () => void,
   width: string,
   height?: string,
+}
+
+interface CellData {
+  name: string,
+  status: string,
 }
 
 export default function Channels() {
@@ -64,20 +68,20 @@ export default function Channels() {
   const getChannelName = (name: string) => {
     switch(name) {
       case 'chat':
-        return 'Чат на сайте';
+        return 'Чат на сайте' as string;
     }
   };
 
   const getChannelStatus = (status: string) => {
     switch(status) {
       case 'pending':
-        return 'Ожидание';
+        return 'Ожидание' as string;
       case 'disabled':
-        return 'Выключено';
+        return 'Выключено' as string;
     }
   };
 
-  const StatusSwitcher = (data: any) => {
+  const StatusSwitcher = (data: CellData) => {
     const statuses = ['pending', 'disabled'];
 
     return (
@@ -134,7 +138,7 @@ export default function Channels() {
     {
       key: 'avatar',
       visible: true,
-      headerComponent: (data: any) => (
+      headerComponent: () => (
         <Button
           type='button'
           background='transparent'
@@ -153,7 +157,7 @@ export default function Channels() {
           Добавить новый канал
         </Button>
       ),
-      cellComponent: (data: any) => (
+      cellComponent: (data: CellData) => (
         <div className={styles.channelNameContainer}>
           <img src={getChannelPreview(data.name)} />
           <span className={styles.channelName}>{getChannelName(data.name)}</span>
@@ -163,7 +167,7 @@ export default function Channels() {
     {
       key: 'name',
       visible: false,
-      cellComponent: (data: any) => (
+      cellComponent: (data: CellData) => (
         <span className={styles.channel}>{getChannelName(data.name)}</span>
       )
     },
@@ -175,7 +179,7 @@ export default function Channels() {
     {
       key: 'action',
       visible: true,
-      headerComponent: (data: any) => (
+      headerComponent: (data: CellData) => (
         <Button
           type='button'
           background='edit'
@@ -194,7 +198,7 @@ export default function Channels() {
           + Добавить
         </Button>
       ),
-      cellComponent: (data: any) => (
+      cellComponent: (data: CellData) => (
         <Button
           type='button'
           background='edit'
@@ -233,42 +237,42 @@ export default function Channels() {
     {
       imageSrc: chat,
       alt: 'chat',
-      backgroundColor: '$blue-1',
+      backgroundColor: colors.blue1,
       title: 'Чат на сайте',
       id: 'chat',
     },
     {
       imageSrc: chat,
       alt: 'chat',
-      backgroundColor: '$blue-1',
+      backgroundColor: colors.blue1,
       title: 'Чат на сайте',
       id: 'chat',
     },
     {
       imageSrc: chat,
       alt: 'chat',
-      backgroundColor: '$blue-1',
+      backgroundColor: colors.blue1,
       title: 'Чат на сайте',
       id: 'chat',
     },
     {
       imageSrc: chat,
       alt: 'chat',
-      backgroundColor: '$blue-1',
+      backgroundColor: colors.blue1,
       title: 'Чат на сайте',
       id: 'chat',
     },
     {
       imageSrc: chat,
       alt: 'chat',
-      backgroundColor: '$blue-1',
+      backgroundColor: colors.blue1,
       title: 'Чат на сайте',
       id: 'chat',
     },
     {
       imageSrc: chat,
       alt: 'chat',
-      backgroundColor: '$blue-1',
+      backgroundColor: colors.blue1,
       title: 'Чат на сайте',
       id: 'chat',
     },

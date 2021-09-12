@@ -24,7 +24,10 @@ interface AppealsContainerMessagesProps {
   setModalProps: (data: ModalProps) => void,
 }
 
-export default function AppealsContainerMessages({ clientName, messagesHistory, clientId, closeModal, setModalProps }: AppealsContainerMessagesProps) {
+export default function AppealsContainerMessages({
+  clientName, messagesHistory, clientId,
+  closeModal, setModalProps,
+}: AppealsContainerMessagesProps) {
   const { incomingMessages, selectedClient } = useTypedSelector(state => state.inbox);
   const {
     changeMessagesStatus, deleteClientAppeal,

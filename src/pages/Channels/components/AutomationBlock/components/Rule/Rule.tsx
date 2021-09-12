@@ -8,6 +8,7 @@ import Condition from '../../components/Condition/Condition';
 import ButtonsGroup from '../../../ButtonsGroup/ButtonsGroup';
 
 import styles from './rule.module.scss';
+import { Condition as ConditionInterface } from '../../../../../../types/channels';
 
 interface Condition {
   variant: string,
@@ -20,7 +21,7 @@ interface Props {
   name: string,
   result: string,
   isActivate: boolean,
-  conditions: Condition[],
+  conditions: ConditionInterface[],
   ruleId: string,
   toggleChangesForAutomationBlock: (bool: boolean) => void,
   addCondition: (ruleId: string) => void,

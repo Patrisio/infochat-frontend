@@ -8,6 +8,16 @@ export interface Operator {
   id: string,
 }
 
+type OperatorSign = 'contain' | 'not contain' | 'not' | 'moreThan' | 'lessThan';
+type Variant = 'currentPageAddress' | 'timeOnCurrentPage' | 'allOperatorsAreOffline' | 'referralLink';
+
+export interface Condition {
+  id: number | string,
+  operator: OperatorSign,
+  value: string,
+  variant: Variant,
+}
+
 export interface BusinessDay {
   businessDayId: string,
   weekday: string,
@@ -17,9 +27,9 @@ export interface BusinessDay {
 
 export interface Rule {
   id: string,
-  name: string,
-  isActivate: boolean,
   conditions: Condition[],
+  isActivate: boolean,
+  name: string,
   result: string,
 }
 
@@ -46,13 +56,6 @@ export interface ChannelsState {
   channels: Channel[],
   settings: Settings,
   fetching: boolean,
-}
-
-export interface Condition {
-  id: string,
-  variant: string,
-  operator: string,
-  value: string,
 }
 
 export enum ChannelsActionTypes {

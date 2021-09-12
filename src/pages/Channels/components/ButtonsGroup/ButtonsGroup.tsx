@@ -7,36 +7,19 @@ import styles from './buttonsGroup.module.scss';
 import { useActions } from '../../../../hooks/useActions';
 import { useTypedSelector } from '../../../../hooks/useTypedSelector';
 
-interface Props {
-  hasChanges: Boolean,
+interface ButtonsGroupProps {
+  hasChanges: boolean,
   toggleChanges: (bool: boolean) => void,
   setActiveTab?: (index: number) => void,
   resetBlockSettings: () => void,
   saveChangesCallback?: () => void,
 }
 
-interface Settings {
-  chatName: '',
-  greeting: '',
-  backgroundImage: 1,
-  buttonLocation: '',
-  buttonScale: '',
-  buttonText: '',
-  infochatLinkEnabled: 1,
-  customCss: '',
-}
-
-interface State {
-  channels: [],
-  settings: Settings,
-}
-
-interface RootState {
-  channels: State,
-}
-
-export default function ButtonsGroup({ hasChanges, toggleChanges, setActiveTab, resetBlockSettings, saveChangesCallback }: Props) {
-  const [isOpenButtonsGroup, toggleState] = useState(hasChanges);
+export default function ButtonsGroup({
+  hasChanges, toggleChanges, setActiveTab,
+  resetBlockSettings, saveChangesCallback,
+}: ButtonsGroupProps) {
+  const [isOpenButtonsGroup, toggleState] = useState<boolean>(hasChanges);
   const { settings } = useTypedSelector(state => state.channels);
   const { saveChatSettings } = useActions();
   let { projectId } = useParams<{ projectId: string }>();

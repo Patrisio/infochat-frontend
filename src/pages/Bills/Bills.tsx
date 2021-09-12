@@ -126,7 +126,7 @@ export default function Bills() {
     )
   };
 
-  const changePaymentWay = (e: any) => {
+  const changePaymentWay = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPaymentWay(e.target.value);
   };
 

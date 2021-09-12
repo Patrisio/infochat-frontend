@@ -9,8 +9,10 @@ import { cloneDeep } from 'lodash';
 import { useActions } from '../../../../hooks/useActions';
 import { useTypedSelector } from '../../../../hooks/useTypedSelector';
 import styles from './automationBlock.module.scss';
+import { Rule as RuleInerface, Condition } from '../../../../types/channels';
 
-interface Props {
+
+interface AutomationBlockProps {
   setActiveTab?: () => void,
 }
 
@@ -18,68 +20,7 @@ interface UpdatedProp {
   [key: string]: string
 }
 
-interface Channel {
-  name: string
-}
-
-interface Operator {
-  name: string,
-  id: string,
-}
-
-interface BusinessDay {
-  businessDayId: string,
-  weekday: string,
-  timeFrom: string,
-  timeTo: string,
-}
-
-interface Condition {
-  id: string,
-  variant: string,
-  operator: string,
-  value: string,
-}
-
-interface RuleInterface {
-  id: string,
-  name: string,
-  isActivate: boolean,
-  conditions: Condition[],
-  result: string,
-}
-
-export interface Settings {
-  chatName: string,
-  greeting: string,
-  backgroundImage: number,
-  buttonLocation: string,
-  buttonScale: string,
-  buttonText: string,
-  buttonWidth: number,
-  infochatLinkEnabled: number,
-  customCss: string,
-  operators: Operator[],
-  businessDays: BusinessDay[],
-  responseTimeText: string,
-  requestText: string,
-  rules: RuleInterface[],
-  timeWithoutAnswer: number,
-  timezone: string,
-}
-
-interface State {
-  channels: Channel[],
-  settings: Settings,
-  fetching: boolean,
-}
-
-interface RootState {
-  channels: State,
-  teammates: any,
-}
-
-export default function AutomationBlock({ setActiveTab }: Props) {
+export default function AutomationBlock({ setActiveTab }: AutomationBlockProps) {
   const [hasChanges, toggleChanges] = useState(false);
   const defaultCondition: Condition = {
     id: generateRandomHash(),
@@ -87,7 +28,7 @@ export default function AutomationBlock({ setActiveTab }: Props) {
     operator: 'contain',
     value: '',
   };
-  const defaultRule = {
+  const defaultRule: RuleInerface = {
     id: generateRandomHash(),
     name: 'Приветствие',
     isActivate: false,

@@ -19,13 +19,15 @@ import man from '../../assets/man.png';
 import { getAllInboxMessages } from '../../lib/utils/messages';
 import { isProjectOwner } from '../../lib/utils/accessRights';
 import { getClientName } from '../../utils/clientData';
+import { IUser } from '../../context/Context';
+import { DialogType } from '../../types/inbox';
 
 const AppealsContainerMessages = lazy(() => import('./components/AppealsContainerMessages/AppealsContainerMessages'));
 const PersonInfo = lazy(() => import('./components/PersonInfo/PersonInfo'));
 
 export default function Inbox() {
-  let { projectId, dialogType } = useParams<{ projectId: string, dialogType: string }>();
-  const { currentUser, setCurrentUser } = useContext<any>(Context);
+  let { projectId, dialogType } = useParams<{ projectId: string, dialogType: DialogType }>();
+  const { currentUser, setCurrentUser } = useContext(Context);
   const isOwner = isProjectOwner(currentUser.role);
 
   const { selectedClient } = useTypedSelector(state => state.inbox);
@@ -89,13 +91,12 @@ export default function Inbox() {
   };
 
   const getIncomingMessagesByDialogTypeAndFilters = () => {
-    return inboxMessages[dialogType].clientIds.filter(filterByFilters);
+    return inboxMessages[dialogType]?.clientIds.filter(filterByFilters) ?? [];
   };
 
   useEffect(() => {
     if (!currentUser.email) {
-      const successCallback = (currentUser: any) => {
-        console.log(currentUser, 'currentUser');
+      const successCallback = (currentUser: IUser) => {
         setCurrentUser(currentUser);
       };
       getCurrentUser({ successCallback });

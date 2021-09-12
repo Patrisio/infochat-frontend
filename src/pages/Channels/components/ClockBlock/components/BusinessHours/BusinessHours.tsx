@@ -14,39 +14,6 @@ interface BusinessHours {
   [key: string]: string,
 }
 
-interface Operator {
-  icon?: string,
-  value: string | '' |  null,
-  id?: string,
-}
-
-interface BusinessDay {
-  [key: string]: string | number
-}
-
-interface Settings {
-  chatName: '',
-  greeting: '',
-  backgroundImage: 1,
-  buttonLocation: '',
-  buttonScale: '',
-  buttonText: '',
-  infochatLinkEnabled: 1,
-  customCss: '',
-  operators: Operator[],
-  businessDays: BusinessDay[],
-}
-
-interface State {
-  channels: [],
-  settings: Settings,
-}
-
-interface RootState {
-  channels: State,
-  teammates: any,
-}
-
 interface Props {
   businessDayId: string,
   weekday: string,

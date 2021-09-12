@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import { createContext, Dispatch, SetStateAction } from 'react';
 import { Role } from '../lib/utils/accessRights';
 
 export interface Project {
@@ -22,7 +22,7 @@ export interface IUser {
 
 interface ContextProps {
   currentUser: IUser,
-  setCurrentUser: (prev: any) => void,
+  setCurrentUser: Dispatch<SetStateAction<IUser>>,
 };
 
 export const Context = createContext<ContextProps>({

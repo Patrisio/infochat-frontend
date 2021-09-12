@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react';
-import CSS from 'csstype';
 
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
@@ -21,10 +20,6 @@ interface EditableUserFormProps {
   surname: string,
 }
 
-const save = () => {
-
-};
-
 export default function EditableUserForm({
   setFormData,
   saveData,
@@ -35,10 +30,10 @@ export default function EditableUserForm({
   name = '',
   surname = '',
 }: EditableUserFormProps) {
-  const [isEditableEmail, toggleEditableEmail] = useState(false);
-  const [isEditablePassword, toggleEditablePassword] = useState(false);
+  const [isEditableEmail, toggleEditableEmail] = useState<boolean>(false);
+  const [isEditablePassword, toggleEditablePassword] = useState<boolean>(false);
 
-  const { currentUser } = useContext<any>(Context);
+  const { currentUser } = useContext(Context);
   const [userName, userSurname] = currentUser.username.split(' ');
 
   const { handleChange, handleSubmit, values, errors, setFormValues } = useForm(

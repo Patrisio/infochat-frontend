@@ -1,5 +1,30 @@
 export type Noop<T> = (arg: T) => void;
 
+export type DialogType = 'assigned' | 'closed' | 'opened' | 'unread' | 'all';
+
+export interface InboxMessages {
+  unread: {
+    clientIds: InboxState['incomingMessages'],
+    count: number,
+  },
+  opened: {
+    clientIds: InboxState['incomingMessages'],
+    count: number,
+  },
+  closed: {
+    clientIds: InboxState['incomingMessages'],
+    count: number,
+  },
+  assigned: {
+    clientIds: InboxState['incomingMessages'],
+    count: number,
+  },
+  all?: {
+    clientIds: InboxState['incomingMessages'],
+    count: number,
+  },
+}
+
 export interface IMessagesHistory {
   message: string | React.ReactNode,
   username: string,
@@ -39,7 +64,7 @@ export interface SelectedClient extends IIncomingMessage {
   changesHistory: ModificationInterface[],
 }
 
-interface Filters {
+export interface Filters {
   searchBy: {
     value: string,
     tag: string,

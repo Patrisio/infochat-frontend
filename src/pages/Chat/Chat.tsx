@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef, isValidElement, cloneElement } from 'react';
 import { useParams } from 'react-router';
+import moment from 'moment-timezone';
+import { throttle } from 'lodash';
 
 import ContactField from '../../components/ContactField/ContactField';
 import Button from '../../components/Button/Button';
@@ -10,23 +12,51 @@ import styles from './chat.module.scss';
 import { useActions } from '../../hooks/useActions';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import Animal from '../../components/Animal/Animal';
-import { throttle } from 'lodash';
 import { getLogicalSign, getScriptCondition } from './helpers';
 import { numericSort } from '../../lib/utils/sort';
 import { getEntityIdByValue } from '../../lib/utils/entity';
 import { scrollToBottomOfWrapper } from '../../lib/utils/scroll';
-import moment from 'moment-timezone';
 import { businessHours, weekdays, isDateBetween } from '../../lib/utils/date';
 import { replaceWhiteSpaceToBr } from '../../utils/string';
+import { Settings, Rule, Condition, BusinessDay } from '../../types/channels';
 
 import theme1 from '../../assets/theme1-big.png';
 import theme2 from '../../assets/theme2-big.png';
 import theme3 from '../../assets/theme3-big.png';
 import { request } from '../Channels/components/ClockBlock/constants';
 
+interface RuleStep {
+  ruleId: string,
+  status: string
+}
+
+interface Message {
+  assignedTo: string | null
+  avatarColor: string,
+  avatarName: string,
+  client_id: string,
+  id: string,
+  message: string,
+  username: string,
+}
+
+interface ClientData {
+  clientId: string
+  id: string | number | null,
+  isBlocked: boolean,
+  messagesHistory: Message[],
+  projectId: string,
+}
+
+interface BotMessage {
+  username: string,
+  timestamp: number,
+  message: string | React.ReactElement,
+}
+
 let parentWindowOrigin = '';
-let savedClientChatSettings: any = null;
-let savedRulesSteps: any = null;
+let savedClientChatSettings: Settings | null = null;
+let savedRulesSteps: RuleStep[] | null = null;
 let countdownWithoutAnswerFromOperator: NodeJS.Timeout;
 let messagesSentCount = 0;
 
@@ -51,17 +81,6 @@ export default function Chat() {
   interface ParamTypes {
     clientId: string,
     projectId: string
-  }
-
-  interface IMessages {
-    clientId: string,
-    username: string,
-    msg: string
-  }
-
-  interface RuleStep {
-    ruleId: string,
-    status: string
   }
 
   interface Background {
@@ -93,24 +112,23 @@ export default function Chat() {
   const getBackgroundImageSettings = () => {
     const imagePath = backgrounds.find((bg: Background) => bg.id === settings.backgroundImage)?.path;
 
-    if (imagePath) return {
+    return imagePath ?
+    {
       backgroundImage: `url(${imagePath})`,
       backgroundSize: 'cover',
-    };
-
-    return {};
+    } : {};
   };
 
-  const postMessageChatEventHandler = (message: any) => {
-    switch (message.event) {
-      case 'acceptDataFromClientWebsite':
-        savedClientChatSettings = message.localStorageClientChatSettings;
-        parentWindowOrigin = message.origin;
-        savedRulesSteps = message.localStorageRulesSteps;
-        console.log('HERE');
-        break;
-    }
-  };
+  // const postMessageChatEventHandler = (message: any) => {
+  //   console.log(message, '__MESSAGE++');
+  //   switch (message.event) {
+  //     case 'acceptDataFromClientWebsite':
+  //       savedClientChatSettings = message.localStorageClientChatSettings;
+  //       parentWindowOrigin = message.origin;
+  //       savedRulesSteps = message.localStorageRulesSteps;
+  //       break;
+  //   }
+  // };
 
   const sendMessagesPullToGetClientData = () => {
     const username = 'bot';
@@ -187,7 +205,8 @@ export default function Chat() {
 
     const messagesPull = [warningMessage, communicationMethodsMessage, variantsMessage ];
     
-    const sendBotMessage = (message: any) => {
+    const sendBotMessage = (message: BotMessage) => {
+      console.log(message, 'BOT_MESSAGE');
       addMessage(message);
     };
 
@@ -198,7 +217,7 @@ export default function Chat() {
     }
   };
 
-  const applyBusinessHoursRules = (chatSettings: any) => {
+  const applyBusinessHoursRules = (chatSettings: Settings) => {
     const requestConditionId = getEntityIdByValue(request, chatSettings.requestText)
     if (messagesSentCount === 1 && requestConditionId === 'alwaysAfterFirstClientMessage') {
       sendMessagesPullToGetClientData();
@@ -221,7 +240,7 @@ export default function Chat() {
       const checkClientSentMessageInNotBusinessHoursByWeekday = (weekday: number): boolean => {
         let isClientSentMessageInNonBusinessHours = false;
 
-        const businessDaysFilteredByWeekday = businessDays.filter((businessDay: any) => 
+        const businessDaysFilteredByWeekday = businessDays.filter((businessDay: BusinessDay) => 
           getEntityIdByValue(weekdays, businessDay.weekday) === weekday
         );
 
@@ -270,17 +289,18 @@ export default function Chat() {
 
   useEffect(() => {
     window.parent.postMessage({ event: 'getDataFromClientWebsite' }, '*');
-    
-    const messageHandler = (e: any) => {
-      postMessageChatEventHandler(e.data);
-    }
-    window.addEventListener('message', messageHandler);
+    console.log('ttttttttttttt');
+    // const messageHandler = (e: any) => {
+    //   console.log('erdtfygvubhnjlmk');
+    //   postMessageChatEventHandler(e.data);
+    // }
+    // window.addEventListener('message', messageHandler);
 
     socket.emit('joinRoom', clientId);
 
     getMessagesHistory();
 
-    const sendMessage = (rule: any) => {
+    const sendMessage = (rule: Rule) => {
       const botMessage = {
         username: 'bot',
         message: rule.result,
@@ -295,7 +315,7 @@ export default function Chat() {
           message: botMessage,
           avatarName,
           avatarColor,
-        }, (data: any) => console.log(data));
+        });
         window.parent.postMessage({
           event: 'updateRulesSteps',
           ruleId: rule.id,
@@ -313,7 +333,7 @@ export default function Chat() {
       });
     };
 
-    const runBotByRules = (rules: any) => {
+    const runBotByRules = (rules: Rule[]) => {
       const sendFailedStatusForRulesStepsByRuleId = (ruleId: string) => {
         window.parent.postMessage({
           event: 'updateRulesSteps',
@@ -322,7 +342,7 @@ export default function Chat() {
         }, '*');
       };
 
-      const timeConditionCallback = (isLastTimeValue: boolean, areAllSyncConditionsTrue: boolean, rule: any) => {
+      const timeConditionCallback = (isLastTimeValue: boolean, areAllSyncConditionsTrue: boolean, rule: Rule) => {
         if (isLastTimeValue) {
           if (areAllSyncConditionsTrue) {
             sendMessage(rule);
@@ -332,7 +352,7 @@ export default function Chat() {
         }
       }
 
-      const getTimeValuesAndSyncConditionsResults = (conditions: any): {
+      const getTimeValuesAndSyncConditionsResults = (conditions: Condition[]): {
         timeValues: number[],
         syncConditionsResults: boolean[]
       } => {
@@ -341,7 +361,7 @@ export default function Chat() {
         const syncConditionsResults: boolean[] = [];
         let logicalOperator;
 
-        conditions.forEach((condition: any) => {
+        conditions.forEach((condition: Condition) => {
           if (condition.operator === 'moreThan' || condition.operator === 'lessThan') {
             timeValues.push(parseInt(condition.value));
           } else {
@@ -359,7 +379,7 @@ export default function Chat() {
         };
       };
 
-      const executeAsyncConditionsOfRule = (sortedTimeValues: number[], areAllSyncConditionsTrue: boolean, rule: any) => {
+      const executeAsyncConditionsOfRule = (sortedTimeValues: number[], areAllSyncConditionsTrue: boolean, rule: Rule) => {
         for (let k = 0; k < sortedTimeValues.length; k++) {
           const delay = sortedTimeValues[k];
           const isLastTimeValue = k === sortedTimeValues.length - 1;
@@ -371,11 +391,11 @@ export default function Chat() {
         }
       };
 
-      const executeRule = (rule: any) => {
+      const executeRule = (rule: Rule) => {
         const { timeValues, syncConditionsResults } = getTimeValuesAndSyncConditionsResults(rule.conditions);
 
         const sortedTimeValues = timeValues.sort(numericSort);
-        const areAllSyncConditionsTrue = syncConditionsResults.findIndex((syncAction: any) => !syncAction) === -1;
+        const areAllSyncConditionsTrue = syncConditionsResults.findIndex((syncAction: boolean) => !syncAction) === -1;
 
         if (sortedTimeValues.length > 0) {
           executeAsyncConditionsOfRule(sortedTimeValues, areAllSyncConditionsTrue, rule);
@@ -396,18 +416,18 @@ export default function Chat() {
       }
     };
 
-    const applyChatSettings = (chatSettings: any) => {
+    const applyChatSettings = (chatSettings: Settings) => {
       applyBusinessHoursRules(chatSettings);
       applyRules(chatSettings);
     };
 
-    const applyRules = (chatSettings: any) => {
-      const getRulesInProgressStatus = (rules: any) => {
+    const applyRules = (chatSettings: Settings) => {
+      const getRulesInProgressStatus = (rules: Rule[]) => {
         const rulesInProgressStatus = [];
 
         for (let i = 0; i < rules.length; i++) {
           const rule = rules[i];
-          const foundRuleStep = savedRulesSteps.find((ruleStep: RuleStep) => ruleStep.ruleId === rule.id);
+          const foundRuleStep = savedRulesSteps?.find((ruleStep) => ruleStep.ruleId === rule.id);
 
           if (foundRuleStep && foundRuleStep.status === 'inProgress') {
             rulesInProgressStatus.push(rule);
@@ -438,7 +458,7 @@ export default function Chat() {
 
     fetchChatSettings({ projectId, successCallback: applyChatSettings });
     
-    const scrollHandler = (messagesHistoryContainer: any) => throttle(() => {
+    const scrollHandler = (messagesHistoryContainer: HTMLDivElement) => throttle(() => {
       const infochatLink = infochatLinkRef.current;
 
       if (infochatLink) {
@@ -458,13 +478,13 @@ export default function Chat() {
       messagesHistoryContainer.addEventListener('scroll', scrollHandler(messagesHistoryContainer));
     }
 
-    return () => {
-      window.removeEventListener('message', messageHandler);
-    };
+    // return () => {
+    //   window.removeEventListener('message', messageHandler);
+    // };
   }, []);
 
   useEffect(() => {
-    socket.on('addMessageToClientChat', (message: any) => {
+    socket.on('addMessageToClientChat', (message: Message) => {
       addMessage(message.message);
       clearTimeout(countdownWithoutAnswerFromOperator);
     });
@@ -482,7 +502,8 @@ export default function Chat() {
     fetchIncomingMessages({
       projectId,
       clientId,
-      successCallback: (clientData: any) => {
+      successCallback: (clientData: ClientData) => {
+        console.log(clientData, 'clientData');
         if (clientData.isBlocked) {
           closeChatIframes();
           return;
@@ -493,7 +514,7 @@ export default function Chat() {
     });
   };
 
-  const sendMessage = (inputArea: any) => {
+  const sendMessage = (inputArea: string) => {
     const timestamp = Date.now();
 
     const message = inputArea;
@@ -514,7 +535,7 @@ export default function Chat() {
         message: newMessage,
         avatarName,
         avatarColor,
-      }, (data: any) => console.log(data));
+      });
 
       applyBusinessHoursRules(settings);
     };
@@ -563,7 +584,7 @@ export default function Chat() {
           <div className={styles.messagesWrapper}>
             {
               messages && messages.length > 0 &&
-              messages.map((message: any, idx) => {
+              messages.map((message, idx) => {
                 return isValidElement(message.message) ?
                 cloneElement(message.message, { key: idx }) :
                 (
@@ -573,7 +594,7 @@ export default function Chat() {
                       ${styles.messageWrapper}
                     `}
                     key={idx}
-                    dangerouslySetInnerHTML={{__html: message.message}}
+                    dangerouslySetInnerHTML={{__html: message.message as string}}
                   />
                 )
               })

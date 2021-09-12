@@ -1,21 +1,21 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useParams } from 'react-router';
-import { Context } from '../../../../context/Context';
+import { faInbox, faEnvelope, faEnvelopeOpen, faAt, faComments, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import cloneDeep from 'lodash/cloneDeep';
 
 import Sidebar from '../../../../components/Sidebar/Sidebar';
 import SidebarList from '../../../../components/Sidebar/components/SidebarList/SidebarList';
 import Avatar from '../../../../components/Avatar/Avatar';
 import Badge from '../../../../components/Badge/Badge';
 
-import { faInbox, faEnvelope, faEnvelopeOpen, faAt, faComments, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import cloneDeep from 'lodash/cloneDeep';
 import { useActions } from '../../../../hooks/useActions';
 import { useTypedSelector } from '../../../../hooks/useTypedSelector';
 import styles from './inboxSidebar.module.scss';
 import { Teammate } from '../../../../types/teammates';
 import { isProjectOwner } from '../../../../lib/utils/accessRights';
+import { Context } from '../../../../context/Context';
 
 interface Channel {
   name: string,
