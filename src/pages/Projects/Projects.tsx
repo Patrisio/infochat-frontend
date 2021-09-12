@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router';
+import cloneDeep from 'lodash/cloneDeep';
 
 import InboxSidebar from '../Inbox/components/InboxSidebar/InboxSidebar';
 import Title from '../../components/Typography/Title/Title';
@@ -13,7 +14,6 @@ import useForm from '../../hooks/useForm';
 
 import { Context } from '../../context/Context';
 import { getAllInboxMessages } from '../../lib/utils/messages';
-import cloneDeep from 'lodash/cloneDeep';
 import { useActions } from '../../hooks/useActions';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { getTimezones, getTimezoneByCode, DEFAULT_TIME_ZONE } from '../../lib/utils/date';
@@ -30,6 +30,12 @@ interface ModalProps {
   height?: string,
 }
 
+interface CellData {
+  id: number,
+  name: string,
+  teammatesCount: number,
+}
+
 export default function Projects() {
   const { incomingMessages } = useTypedSelector(state => state.inbox);
 
@@ -44,7 +50,7 @@ export default function Projects() {
   });
 
   const { addProject } = useActions();
-  const { currentUser, setCurrentUser } = useContext<any>(Context);
+  const { currentUser, setCurrentUser } = useContext(Context);
   const history = useHistory();
 
   const inboxMessages = getAllInboxMessages(incomingMessages, currentUser);
@@ -54,7 +60,7 @@ export default function Projects() {
     {
       key: 'name',
       visible: true,
-      headerComponent: (data: any) => (
+      headerComponent: () => (
         <Button
           type='button'
           background='transparent'
@@ -73,7 +79,7 @@ export default function Projects() {
           Добавить новый проект
         </Button>
       ),
-      cellComponent: (data: any) => (
+      cellComponent: (data: CellData) => (
         <div className={styles.projectName}>
           {data.name}
         </div>
@@ -82,7 +88,7 @@ export default function Projects() {
     {
       key: 'teammates',
       visible: false,
-      cellComponent: (data: any) => (
+      cellComponent: (data: CellData) => (
         <div className={styles.teammatesCount}>
           {`${data.teammatesCount} сотрудников`}
         </div>
@@ -91,7 +97,7 @@ export default function Projects() {
     {
       key: 'action',
       visible: true,
-      headerComponent: (data: any) => (
+      headerComponent: () => (
         <Button
           type='button'
           background='edit'
@@ -110,7 +116,7 @@ export default function Projects() {
           + Новый
         </Button>
       ),
-      cellComponent: (data: any) => (
+      cellComponent: (data: CellData) => (
         <Button
           type='button'
           background='edit'
@@ -128,9 +134,9 @@ export default function Projects() {
   const ModalBody = () => {
     const [timezone, setTimezone] = useState<string>(DEFAULT_TIME_ZONE);
 
-    const createNewProject = (values: any) => {
-      const updateCurrentUser = (data: any) => {
-        setCurrentUser((prev: any) => {
+    const createNewProject = (values: { name: string, projectName: string }) => {
+      const updateCurrentUser = (data: { id: number }) => {
+        setCurrentUser((prev) => {
           const newProject = {
             id: data.id,
             name: values.projectName,

@@ -10,6 +10,7 @@ import { useActions } from '../../hooks/useActions';
 import validateForm from './validateForm';
 import { updateToken } from '../../lib/utils/token';
 import socket from '../../socket';
+import { Response } from '../../api/types';
 
 interface ParamTypes {
   inviteId: string,
@@ -25,14 +26,24 @@ export default function InviteForm() {
     updateToken(inviteId);
   }, []);
 
-  const joinToProject = async (values: any) => {
+  const joinToProject = async (values: {
+    confirmPassword: string,
+    name: string,
+    password: string,
+    surname: string,
+  }) => {
     const username = `${values.name} ${values.surname}`;
 
-    const successCallback = (data: any) => {
+    const successCallback = (data: Response) => {
       if (data.statusCode === 200) {
         decodeJwt({
           token: inviteId,
-          successCallback: (decodeToken: any) => {
+          successCallback: (decodeToken: {
+            email: string,
+            iat: number,
+            exp: number,
+          }) => {
+            console.log(decodeToken, 'decodeToken');
             socket.emit('setActiveTeammateStatus', {
               username,
               email: decodeToken.email,

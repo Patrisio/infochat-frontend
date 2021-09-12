@@ -24,15 +24,25 @@ interface PersonInfoProps {
   setModalProps: (data: ModalProps) => void
 }
 
+export interface ClientData {
+  avatarName: SelectedClient['avatarName'],
+  email: SelectedClient['email'],
+  phone: SelectedClient['phone'],
+  assignedTo: SelectedClient['assignedTo'],
+  clientId: SelectedClient['clientId'],
+  isBlocked: SelectedClient['isBlocked'],
+  projectId: string,
+}
+
 export default function PersonInfo({ selectedClient, closeModal, setModalProps }: PersonInfoProps) {
-  const { isFetchingSelectedClienInfo } = useTypedSelector((state: any) => state.inbox);
+  const { isFetchingSelectedClienInfo } = useTypedSelector((state) => state.inbox);
 
   let fieldInitialValue: string | null = '';
   
   const { updateIncomingMessage, updateSelectedClient, updateClientData } = useActions();
   let { projectId } = useParams<{ projectId: string }>();
 
-  const clientData = {
+  const clientData: ClientData = {
     avatarName: selectedClient.avatarName,
     email: selectedClient.email,
     phone: selectedClient.phone,

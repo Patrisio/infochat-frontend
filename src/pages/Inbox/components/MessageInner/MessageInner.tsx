@@ -1,33 +1,18 @@
 import React from 'react';
-import Animal from '../../../../components/Animal/Animal';
-import styles from './messageInner.module.scss';
-import { useTypedSelector } from '../../../../hooks/useTypedSelector';
 import moment from 'moment';
 import 'moment/locale/ru';
 
-type IMessagesHistory = {
-  message: string,
-  clientId: string,
-  username: string
-};
+import Animal from '../../../../components/Animal/Animal';
 
-type IIncomingMessage = {
-  projectId: string,
-  clientId: string,
-  messagesHistory: IMessagesHistory[],
-  avatarName: string,
-  avatarColor: string,
-};
+import styles from './messageInner.module.scss';
+import { useTypedSelector } from '../../../../hooks/useTypedSelector';
+import { IMessagesHistory } from '../../../../types/inbox';
 
-interface RootState {
-  inbox: {
-    messages: IMessagesHistory[]
-    incomingMessages: IIncomingMessage[],
-    selectedClient: IIncomingMessage
-  },
+interface MessageInputProps {
+  message: IMessagesHistory,
 }
 
-export default function MessageInput({ message }: any) {
+export default function MessageInput({ message }: MessageInputProps) {
   const { selectedClient } = useTypedSelector(state => state.inbox);
 
   const getMessageCreationTime = (timestamp: number) => {
@@ -60,7 +45,7 @@ export default function MessageInput({ message }: any) {
         }
         <div
           className={`${message.username === 'client' ? styles.clientMessage : styles.teammateMessage} ${styles.messageWrapper}`}
-          dangerouslySetInnerHTML={{__html: message.message}}
+          dangerouslySetInnerHTML={{ __html: message.message as string }}
         />
         {/* {
           (message.username === 'operator' || message.username === 'bot') &&

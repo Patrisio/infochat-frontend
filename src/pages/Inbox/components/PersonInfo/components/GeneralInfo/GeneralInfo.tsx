@@ -37,19 +37,21 @@ export default function GeneralInfo({ selectedClient, updateClientData }: Genera
 
   const [generalInfo, setGeneralInfo] = useState<GeneralInfoItem[]>(defaultGeneralInfo);
 
-  const saveInitialFieldValue = (e: any) => {
+  const saveInitialFieldValue = (e: React.FocusEvent<HTMLInputElement>) => {
     const target = e.target;
     fieldInitialValue = target.value;
   };
 
-  const changeField = (fieldValue: string, fieldEntity: any) => {
-    setGeneralInfo((prev: any) => {
+  const changeField = (fieldValue: string, fieldEntity: GeneralInfoItem) => {
+    setGeneralInfo((prev) => {
       const copy = cloneDeep(prev);
-      const foundItem = copy.find((item: any) => item.field === fieldEntity.field);
-      const foundItemIndex = copy.findIndex((item: any) => item.field === fieldEntity.field);
+      const foundItem = copy.find((item) => item.field === fieldEntity.field);
+      const foundItemIndex = copy.findIndex((item) => item.field === fieldEntity.field);
 
-      foundItem.value = fieldValue;
-      copy.splice(foundItemIndex, 1, foundItem);
+      if (foundItem) {
+        foundItem.value = fieldValue;
+        copy.splice(foundItemIndex, 1, foundItem);
+      }
 
       return copy;
     });

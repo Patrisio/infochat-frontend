@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useParams, useHistory } from 'react-router';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons';
 
 import Sidebar from '../../components/Sidebar/Sidebar';
 import Teammates from '../Teammates/Teammates';
@@ -13,15 +15,8 @@ import Bills from '../Bills/Bills';
 
 import SidebarList from '../../components/Sidebar/components/SidebarList/SidebarList';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons';
-
 import styles from './settings.module.scss';
-
-
-interface IProps {
-  children: React.ReactNode,
-}
+import colors from '../../scss/variales.module.scss';
 
 export default function Settings() {
   let { projectId, pageId } = useParams<{ projectId: string, pageId: string }>();
@@ -62,14 +57,14 @@ export default function Settings() {
     const channels = {
       name: 'Каналы',
       stylesList: {
-        color: '$brown-10',
+        color: colors.$brown10,
       },
       onClick: () => history.push(`/project/${projectId}/settings/channels`),
     };
     const teammates = {
       name: 'Сотрудники',
       stylesList: {
-        color: '$brown-10',
+        color: colors.$brown10,
       },
       onClick: () => {
         history.push({
@@ -81,7 +76,7 @@ export default function Settings() {
     const templates = {
       name: 'Шаблоны ответов',
       stylesList: {
-        color: '$brown-10',
+        color: colors.$brown10,
       },
       onClick: () => {
         history.push(`/project/${projectId}/settings/templates`)
@@ -90,7 +85,7 @@ export default function Settings() {
     const statistics = {
       name: 'Статистика',
       stylesList: {
-        color: '$brown-10',
+        color: colors.$brown10,
       },
       onClick: () => {
         history.push(`/project/${projectId}/settings/statistics`)
@@ -106,21 +101,21 @@ export default function Settings() {
     const tariff = {
       name: 'Конфигуратор тарифа',
       stylesList: {
-        color: '$brown-10',
+        color: colors.$brown10,
       },
       onClick: () => history.push(`/project/${projectId}/settings/tariff`),
     };
     const bills = {
       name: 'Пополнение счета',
       stylesList: {
-        color: '$brown-10',
+        color: colors.$brown10,
       },
       onClick: () => history.push(`/project/${projectId}/settings/bills`),
     };
     const billingHistory = {
       name: 'История транзакций',
       stylesList: {
-        color: '$brown-10',
+        color: colors.$brown10,
       },
       onClick: () => {
         history.push(`/project/${projectId}/settings/billing-history`)

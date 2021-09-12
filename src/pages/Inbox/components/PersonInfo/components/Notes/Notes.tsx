@@ -11,6 +11,7 @@ import { useActions } from '../../../../../../hooks/useActions';
 import { InboxState } from '../../../../../../types/inbox';
 import styles from './notes.module.scss';
 import socket from '../../../../../../socket';
+import { RenameLocation } from 'typescript';
 
 interface NotesProps {
   selectedClient: InboxState['selectedClient'],

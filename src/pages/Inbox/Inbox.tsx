@@ -20,7 +20,7 @@ import { getAllInboxMessages } from '../../lib/utils/messages';
 import { isProjectOwner } from '../../lib/utils/accessRights';
 import { getClientName } from '../../utils/clientData';
 import { IUser } from '../../context/Context';
-import { DialogType } from '../../types/inbox';
+import { DialogType, IIncomingMessage, IMessagesHistory } from '../../types/inbox';
 
 const AppealsContainerMessages = lazy(() => import('./components/AppealsContainerMessages/AppealsContainerMessages'));
 const PersonInfo = lazy(() => import('./components/PersonInfo/PersonInfo'));
@@ -52,7 +52,7 @@ export default function Inbox() {
 
   const inboxMessages = getAllInboxMessages(incomingMessages, currentUser);
 
-  const filterByFilters = (incMsg: any) => {
+  const filterByFilters = (incMsg: IIncomingMessage) => {
     const checkList = {
       searchBy: false,
       channel: true,

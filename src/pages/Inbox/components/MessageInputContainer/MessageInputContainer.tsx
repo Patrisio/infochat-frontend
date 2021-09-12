@@ -35,7 +35,7 @@ export default function MessageInputContainer({ messagesHistoryContainerElement 
   const [userTemplatesInput, setUserTemplatesInput] = useState('');
   const [inputAreaValue, setInputAreaValue] = useState('');
 
-  const sendMessage = (inputArea: any) => {
+  const sendMessage = (inputArea: string) => {
     const message = inputArea;
     const timestamp = Date.now();
     const newMessage = {
@@ -65,8 +65,7 @@ export default function MessageInputContainer({ messagesHistoryContainerElement 
           message: newMessage,
           timestamp,
         }
-      }, 
-      (data: any) => console.log(data));
+      });
     };
 
     addToInboxIncomingMessage({
@@ -89,7 +88,7 @@ export default function MessageInputContainer({ messagesHistoryContainerElement 
     changeMessagesStatus({
       ...changeMessagesStatusData,
       successCallback: () => {
-        socket.emit('changeMessagesStatus', changeMessagesStatusData, (data: any) => console.log(data));
+        socket.emit('changeMessagesStatus', changeMessagesStatusData);
       },
     });
   };

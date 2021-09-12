@@ -14,15 +14,34 @@ import { useActions } from '../../hooks/useActions';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import styles from './profile.module.scss';
 import { updateToken } from '../../lib/utils/token';
+import { Response } from '../../api/types';
+
+interface FormData {
+  email: string,
+  password: string,
+  name: string,
+  surname: string,
+  timezone: string,
+}
+
+interface SavedFormData extends FormData {
+  oldEmail: "yftugy@Tug.ewf33"
+}
+
+interface ResponseData {
+  code: number,
+  status: 'success' | 'error',
+  token: string | null,
+}
 
 export default function Profile() {
-  const { currentUser, setCurrentUser } = useContext<any>(Context);
+  const { currentUser, setCurrentUser } = useContext(Context);
   let { projectId } = useParams<{ projectId: string }>()
 
   const { incomingMessages } = useTypedSelector(state => state.inbox);
   const { updateTeammate } = useActions();
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     email: currentUser.email,
     password: 'fakePassword123',
     name: '',
@@ -32,7 +51,7 @@ export default function Profile() {
 
   const inboxMessages = getAllInboxMessages(incomingMessages, currentUser);
 
-  const saveData = (data: any) => {
+  const saveData = (data: Partial<SavedFormData>) => {
     const { name, surname, ...restFormData } = data;
     const username = `${name} ${surname}`;
 
@@ -42,13 +61,13 @@ export default function Profile() {
       username,
       oldEmail: currentUser.email,
       projectId,
-      successCallback: (data: any) => {
+      successCallback: (data: ResponseData) => {
         const token = data.token;
         if (token) {
-          updateToken(data.token);
+          updateToken(token);
         }
         
-        setCurrentUser((prev: any) => {
+        setCurrentUser((prev) => {
           return {
             ...prev,
             username,

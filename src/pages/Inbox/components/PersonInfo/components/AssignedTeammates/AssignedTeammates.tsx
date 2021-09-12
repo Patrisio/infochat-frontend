@@ -26,13 +26,13 @@ export default function AssignedTeammates({ selectedClient }: AssignedTeammatesP
   const { changeMessagesStatus } = useActions();
   let { projectId } = useParams<{ projectId: string }>();
 
-  const { teammates } = useTypedSelector((state: any) => state.teammates);
+  const { teammates } = useTypedSelector((state) => state.teammates);
 
   const [assignedTeammates, setAssignedTeammate] = useState<ITeammate[]>([]);
 
   const getTeammates = (): IData[] => {
     return teammates
-      .filter((teammate: any) => teammate.status === 'active')
+      .filter((teammate) => teammate.status === 'active')
       .map((teammate: Teammate) => ({
         id: teammate.email,
         value: teammate.username
@@ -51,15 +51,17 @@ export default function AssignedTeammates({ selectedClient }: AssignedTeammatesP
     changeMessagesStatus({
       ...changeMessagesStatusData,
       successCallback: () => {
-        socket.emit('changeMessagesStatus', changeMessagesStatusData, (data: any) => console.log(data));
+        socket.emit('changeMessagesStatus', changeMessagesStatusData);
       },
     });
 
-    const teammateName = teammates.find((user: Teammate) => user.email === teammate.id).username;
-    setAssignedTeammate([{
-      id: teammate.id,
-      value: teammateName,
-    }]);
+    const foundTeammate = teammates.find((user) => user.email === teammate.id);
+    if (foundTeammate) {
+      setAssignedTeammate([{
+        id: teammate.id,
+        value: foundTeammate.username,
+      }]);
+    }
   };
 
   const removeAssignedTeammate = (teammate: ITeammate) => {
@@ -73,21 +75,23 @@ export default function AssignedTeammates({ selectedClient }: AssignedTeammatesP
     setAssignedTeammate((prev) => prev.filter((assignedTeammate) => assignedTeammate.value !== teammate.value));
   };
 
-  const filterTeammates = (e: any) => {
+  const filterTeammates = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.toLowerCase();
-    const filteredTeammates = getTeammates().filter((teammate: any) => teammate.value.toLowerCase().includes(value));
+    const filteredTeammates = getTeammates().filter((teammate) => teammate.value.toLowerCase().includes(value));
 
     setTeammates(filteredTeammates);
   };
 
   useEffect(() => {
-    const teammateName = teammates.find((user: Teammate) => user.email === selectedClient.assignedTo)?.username;
-    const assignedTeammate = {
-      id: selectedClient.assignedTo,
-      value: teammateName,
-    };
-
-    setAssignedTeammate([assignedTeammate].filter(item => item.id));
+    const foundTeammate = teammates.find((user) => user.email === selectedClient.assignedTo);
+    if (foundTeammate) {
+      const assignedTeammate = {
+        id: selectedClient.assignedTo,
+        value: foundTeammate.username,
+      };
+  
+      setAssignedTeammate([assignedTeammate].filter(item => item.id));
+    }
   }, [selectedClient.clientId, selectedClient.assignedTo]);
 
   return (

@@ -3,7 +3,7 @@ import {
   checkName, checkSurname
 } from '../../utils/formValidationRules';
 
-export default function validateForm(values: any, meta: any) {
+export default function validateForm(values: any) {
   let errors: any = {};
 
   const nameError = checkName(values.name);

@@ -11,9 +11,10 @@ import styles from './clientPreview.module.scss';
 import { InboxState } from '../../../../../../types/inbox';
 import { useActions } from '../../../../../../hooks/useActions';
 import socket from '../../../../../../socket';
+import { ClientData } from '../../PersonInfo';
 
 interface ClientPreviewProps {
-  clientData: any,
+  clientData: ClientData,
   selectedClient: InboxState['selectedClient'],
   updateClientData: (e: any, fieldName: string) => void,
 }
@@ -35,8 +36,7 @@ export default function ClientPreview({ clientData, selectedClient, updateClient
       });
 
       if (!selectedClient.isBlocked) {
-        socket.emit('blockClient', { room: selectedClient.clientId }, 
-        (data: any) => console.log(data));
+        socket.emit('blockClient', { room: selectedClient.clientId });
       }
     };
 
