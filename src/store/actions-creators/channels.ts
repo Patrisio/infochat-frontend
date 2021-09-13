@@ -5,9 +5,9 @@ export const fetchChannels = (payload: any): ChannelsAction => ({
   payload,
 });
 
-export const addChannels = (channels: any): ChannelsAction => ({
+export const addChannels = (payload: any): ChannelsAction => ({
   type: ChannelsActionTypes.ADD_CHANNELS,
-  channels,
+  payload,
 });
 
 export const addChannel = (payload: any): ChannelsAction => ({

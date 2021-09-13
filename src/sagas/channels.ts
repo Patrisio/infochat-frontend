@@ -1,18 +1,19 @@
 import { call, put, takeEvery, all, StrictEffect } from 'redux-saga/effects';
 import { getChannels, channelAdd, chatSettingsSave, chatSettingsFetch } from '../api/dataLayer';
+import { ChannelsActionTypes, ChannelsAction } from '../types/channels';
 
-function* fetchChannels(action: any): Generator<StrictEffect> {
+function* fetchChannels(action: ChannelsAction): Generator<StrictEffect> {
   try {
     yield put({
-      type: 'TOGGLE_FETCHING_CHANNELS',
+      type: ChannelsActionTypes.TOGGLE_FETCHING_CHANNELS,
     });
     const response: any = yield call(getChannels, action.payload);
     yield put({
-      type: 'ADD_CHANNELS',
-      channels: response.data,
+      type: ChannelsActionTypes.ADD_CHANNELS,
+      payload: response.data,
     });
     yield put({
-      type: 'TOGGLE_FETCHING_CHANNELS',
+      type: ChannelsActionTypes.TOGGLE_FETCHING_CHANNELS,
     });
   } catch (e) {
     yield put({
@@ -22,7 +23,7 @@ function* fetchChannels(action: any): Generator<StrictEffect> {
   }
 }
 
-function* addChannel(action: any): Generator<StrictEffect> {
+function* addChannel(action: ChannelsAction): Generator<StrictEffect> {
   try {
     yield call(channelAdd, action.payload);
   } catch (e) {
@@ -33,7 +34,7 @@ function* addChannel(action: any): Generator<StrictEffect> {
   }
 }
 
-function* saveChatSettings(action: any): Generator<StrictEffect> {
+function* saveChatSettings(action: ChannelsAction): Generator<StrictEffect> {
   try {
     yield call(chatSettingsSave, action.payload);
   } catch (e) {
@@ -44,12 +45,12 @@ function* saveChatSettings(action: any): Generator<StrictEffect> {
   }
 }
 
-function* fetchChatSettings(action: any): Generator<StrictEffect> {
+function* fetchChatSettings(action: ChannelsAction): Generator<StrictEffect> {
   try {
     const chatSettings = yield call(chatSettingsFetch, action.payload);
 
     yield put({
-      type: 'UPDATE_SETTINGS',
+      type: ChannelsActionTypes.UPDATE_SETTINGS,
       payload: chatSettings,
     });
   } catch (e) {
@@ -61,19 +62,19 @@ function* fetchChatSettings(action: any): Generator<StrictEffect> {
 }
 
 function* watchFetchChannels(): Generator<StrictEffect> {
-  yield takeEvery('FETCH_CHANNELS', fetchChannels);
+  yield takeEvery(ChannelsActionTypes.FETCH_CHANNELS, fetchChannels);
 }
 
 function* watchAddChannel(): Generator<StrictEffect> {
-  yield takeEvery('ADD_CHANNEL', addChannel);
+  yield takeEvery(ChannelsActionTypes.ADD_CHANNEL, addChannel);
 }
 
 function* watchChatSaveSettings(): Generator<StrictEffect> {
-  yield takeEvery('SAVE_CHAT_SETTINGS', saveChatSettings);
+  yield takeEvery(ChannelsActionTypes.SAVE_CHAT_SETTINGS, saveChatSettings);
 }
 
 function* watchFetchChatSettings(): Generator<StrictEffect> {
-  yield takeEvery('FETCH_CHAT_SETTINGS', fetchChatSettings);
+  yield takeEvery(ChannelsActionTypes.FETCH_CHAT_SETTINGS, fetchChatSettings);
 }
 
 export default [

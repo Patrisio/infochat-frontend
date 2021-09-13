@@ -1,24 +1,25 @@
-import { call, put, takeEvery, all, StrictEffect } from 'redux-saga/effects';
+import { call, put, takeEvery, StrictEffect } from 'redux-saga/effects';
 import {
   incomingMessagesFetch, clientAppealDelete,
   selectedClientUpdate, messageToInboxAdd, selectedClientInfoGet,
   messagesStatusUpdate, noteAdd, noteDelete, toSelectedTeammateRemapDialogs,
 } from '../api/dataLayer';
+import { InboxActionTypes, InboxAction } from '../types/inbox';
 
-function* fetchIncomingMessages(action: any): Generator<StrictEffect> {
+function* fetchIncomingMessages(action: InboxAction): Generator<StrictEffect> {
   try {
-    const successCallback = action.incomingMessage.successCallback;
-    yield put({ type: 'FETCHING_INCOMING_MESSAGES' });
-    const incomingMessage = yield call(incomingMessagesFetch, action.incomingMessage);
-    yield put({ type: 'FETCHING_INCOMING_MESSAGES' });
+    const successCallback = action.payload.successCallback;
+    yield put({ type: InboxActionTypes.INCOMING_MESSAGES_FETCHING });
+    const incomingMessage = yield call(incomingMessagesFetch, action.payload);
+    yield put({ type: InboxActionTypes.INCOMING_MESSAGES_FETCHING });
 
     if (successCallback) {
       successCallback(incomingMessage);
     }
 
     yield put({
-      type: 'ADD_INCOMING_MESSAGES',
-      incomingMessage,
+      type: InboxActionTypes.INCOMING_MESSAGES_ADD,
+      payload: incomingMessage,
     });
   } catch (e) {
     yield put({
@@ -28,14 +29,14 @@ function* fetchIncomingMessages(action: any): Generator<StrictEffect> {
   }
 }
 
-function* changeMessagesStatus(action: any): Generator<StrictEffect> {
+function* changeMessagesStatus(action: InboxAction): Generator<StrictEffect> {
   try {
     const { clientId, messagesStatus, assignedTo } = action.payload;
     const successCallback = action.payload.successCallback;
 
     yield call(messagesStatusUpdate, action.payload);
     yield put({
-      type: 'UPDATE_INCOMING_MESSAGE',
+      type: InboxActionTypes.INCOMING_MESSAGES_UPDATE,
       payload: {
         clientId,
         messagesStatus,
@@ -43,7 +44,7 @@ function* changeMessagesStatus(action: any): Generator<StrictEffect> {
       }
     });
     yield put({
-      type: 'SELECTED_CLIENT_UPDATE',
+      type: InboxActionTypes.SELECTED_CLIENT_UPDATE,
       payload: { assignedTo },
     });
 
@@ -58,7 +59,7 @@ function* changeMessagesStatus(action: any): Generator<StrictEffect> {
   }
 }
 
-function* updateSelectedClient(action: any): Generator<StrictEffect> {
+function* updateSelectedClient(action: InboxAction): Generator<StrictEffect> {
   try {
     const successCallback = action.payload.successCallback;
 
@@ -74,7 +75,7 @@ function* updateSelectedClient(action: any): Generator<StrictEffect> {
   }
 }
 
-function* addMessageToInbox(action: any): Generator<StrictEffect> {
+function* addMessageToInbox(action: InboxAction): Generator<StrictEffect> {
   try {
     const successCallback = action.payload.successCallback;
 
@@ -91,12 +92,12 @@ function* addMessageToInbox(action: any): Generator<StrictEffect> {
   }
 }
 
-function* getSelectedClientInfo(action: any): Generator<StrictEffect> {
+function* getSelectedClientInfo(action: InboxAction): Generator<StrictEffect> {
   try {
     const successCallback = action.payload.successCallback;
-    yield put({ type: 'FETCHING_SELECTED_CLIENT_INFO' });
+    yield put({ type: InboxActionTypes.FETCHING_SELECTED_CLIENT_INFO });
     const clientInfo = yield call(selectedClientInfoGet, action.payload);
-    yield put({ type: 'FETCHING_SELECTED_CLIENT_INFO' });
+    yield put({ type: InboxActionTypes.FETCHING_SELECTED_CLIENT_INFO });
 
     if (successCallback) {
       yield successCallback(clientInfo);
@@ -109,7 +110,7 @@ function* getSelectedClientInfo(action: any): Generator<StrictEffect> {
   }
 }
 
-function* addNote(action: any): Generator<StrictEffect> {
+function* addNote(action: InboxAction): Generator<StrictEffect> {
   try {
     console.log(action.payload);
     yield call(noteAdd, action.payload);
@@ -121,7 +122,7 @@ function* addNote(action: any): Generator<StrictEffect> {
   }
 }
 
-function* deleteNote(action: any): Generator<StrictEffect> {
+function* deleteNote(action: InboxAction): Generator<StrictEffect> {
   try {
     yield call(noteDelete, action.payload);
   } catch (e) {
@@ -132,7 +133,7 @@ function* deleteNote(action: any): Generator<StrictEffect> {
   }
 }
 
-function* deleteClientAppealByClientId(action: any): Generator<StrictEffect> {
+function* deleteClientAppealByClientId(action: InboxAction): Generator<StrictEffect> {
   try {
     console.log(action.payload);
     yield call(clientAppealDelete, action.payload);
@@ -144,7 +145,7 @@ function* deleteClientAppealByClientId(action: any): Generator<StrictEffect> {
   }
 }
 
-function* remapDialogsToSelectedTeammate(action: any): Generator<StrictEffect> {
+function* remapDialogsToSelectedTeammate(action: InboxAction): Generator<StrictEffect> {
   try {
     yield call(toSelectedTeammateRemapDialogs, action.payload);
   } catch (e) {
@@ -156,39 +157,39 @@ function* remapDialogsToSelectedTeammate(action: any): Generator<StrictEffect> {
 }
 
 function* watchFetchMessagesHistoryByProject(): Generator<StrictEffect> {
-  yield takeEvery('FETCH_INCOMING_MESSAGES', fetchIncomingMessages);
+  yield takeEvery(InboxActionTypes.INCOMING_MESSAGES_FETCH, fetchIncomingMessages);
 }
 
 function* watchUpdateSelectedClient(): Generator<StrictEffect> {
-  yield takeEvery('CLIENT_DATA_UPDATE', updateSelectedClient);
+  yield takeEvery(InboxActionTypes.CLIENT_DATA_UPDATE, updateSelectedClient);
 }
 
 function* watchAddMessageToInbox(): Generator<StrictEffect> {
-  yield takeEvery('ADD_TO_INBOX_INCOMING_MESSAGE', addMessageToInbox);
+  yield takeEvery(InboxActionTypes.INCOMING_MESSAGES_ADD_TO_INBOX, addMessageToInbox);
 }
 
 function* watchGetInfoForSelectedClient(): Generator<StrictEffect> {
-  yield takeEvery('SELECTED_CLIENT_GET_INFO', getSelectedClientInfo);
+  yield takeEvery(InboxActionTypes.SELECTED_CLIENT_GET_INFO, getSelectedClientInfo);
 }
 
 function* watchUpdateMessagesStatus(): Generator<StrictEffect> {
-  yield takeEvery('CHANGE_MESSAGES_STATUS', changeMessagesStatus);
+  yield takeEvery(InboxActionTypes.CLIENT_DATA_CHANGE_MESSAGES_STATUS, changeMessagesStatus);
 }
 
 function* watchAddNote(): Generator<StrictEffect> {
-  yield takeEvery('ADD_NOTE', addNote);
+  yield takeEvery(InboxActionTypes.NOTE_ADD, addNote);
 }
 
 function* watchDeleteNote(): Generator<StrictEffect> {
-  yield takeEvery('DELETE_NOTE', deleteNote);
+  yield takeEvery(InboxActionTypes.NOTE_DELETE, deleteNote);
 }
 
 function* watchDeleteClientAppeal(): Generator<StrictEffect> {
-  yield takeEvery('DELETE_CLIENT_APPEAL', deleteClientAppealByClientId);
+  yield takeEvery(InboxActionTypes.DELETE_CLIENT_APPEAL, deleteClientAppealByClientId);
 }
 
 function* watchRemapDialogsToSelectedTeammate(): Generator<StrictEffect> {
-  yield takeEvery('REMAP_DIALOGS_TO_SELECTED_TEAMMATE', remapDialogsToSelectedTeammate);
+  yield takeEvery(InboxActionTypes.REMAP_DIALOGS_TO_SELECTED_TEAMMATE, remapDialogsToSelectedTeammate);
 }
 
 export default [

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
+import cloneDeep from 'lodash/cloneDeep';
 
 import Table from '../../components/Table/Table';
 import Button from '../../components/Button/Button';
@@ -17,9 +18,9 @@ import ChatPreview from './components/ChatPreview/ChatPreview';
 
 import styles from './channels.module.scss';
 import colors from '../../scss/variables.module.scss';
-import cloneDeep from 'lodash/cloneDeep';
 import { useActions } from '../../hooks/useActions';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
+
 import chat from '../../assets/chat.svg';
 import chatChannels from '../../assets/chat-channels.svg';
 import invite from '../../assets/invite.svg';
@@ -54,7 +55,7 @@ export default function Channels() {
     height: '',
   });
   const { channels: connectedChannels } = useTypedSelector(state => state.channels);
-
+  console.log(connectedChannels, 'connectedChannels');
   let { projectId } = useParams<{ projectId: string }>();
   const { addChannel, fetchChannels, fetchChatSettings, updateChannelStatusByChannelName } = useActions();
 

@@ -71,7 +71,7 @@ export enum ChannelsActionTypes {
 
 interface addChannelsAction {
   type: ChannelsActionTypes.ADD_CHANNELS,
-  channels: any,
+  payload: any,
 }
 interface updateChannelSettingsAction {
   type: ChannelsActionTypes.UPDATE_SETTINGS,
@@ -87,6 +87,7 @@ interface fetchChannelsAction {
 }
 interface toggleFetchingChannelsAction {
   type: ChannelsActionTypes.TOGGLE_FETCHING_CHANNELS,
+  payload?: any,
 }
 interface saveChatSettingsAction {
   type: ChannelsActionTypes.SAVE_CHAT_SETTINGS,

@@ -49,7 +49,7 @@ export const channelsReducer = (state = initialState, action: ChannelsAction): C
     case ChannelsActionTypes.ADD_CHANNELS:
       return {
         ...state,
-        channels: action.channels,
+        channels: action.payload,
       };
 
     case ChannelsActionTypes.ADD_CHANNEL:

@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons';
 
 import Sidebar from '../../components/Sidebar/Sidebar';
+import SidebarList from '../../components/Sidebar/components/SidebarList/SidebarList';
 import Teammates from '../Teammates/Teammates';
 import Start from '../Start/Start';
 import Channels from '../Channels/Channels';
@@ -12,8 +13,6 @@ import Templates from '../Templates/Templates';
 import Statistics from '../Statistics/Statistics';
 import Tariff from '../Tariff/Tariff';
 import Bills from '../Bills/Bills';
-
-import SidebarList from '../../components/Sidebar/components/SidebarList/SidebarList';
 
 import styles from './settings.module.scss';
 import colors from '../../scss/variables.module.scss';

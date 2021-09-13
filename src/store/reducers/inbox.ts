@@ -36,7 +36,7 @@ const initialState: InboxState = {
 export const inboxReducer = (state = initialState, action: InboxAction): InboxState => {
   switch (action.type) {
     case InboxActionTypes.MESSAGES_ADD:
-      const message: any = action.message;
+      const message: any = action.payload;
       let newMessages: any;
 
       if (Array.isArray(message)) {
@@ -54,24 +54,24 @@ export const inboxReducer = (state = initialState, action: InboxAction): InboxSt
       };
     
     case InboxActionTypes.INCOMING_MESSAGES_ADD:
-      if (Array.isArray(action.incomingMessage)) {
+      if (Array.isArray(action.payload)) {
         return cloneDeep({
           ...state,
-          incomingMessages: action.incomingMessage
+          incomingMessages: action.payload,
         });
       } else {
-        const client = state.incomingMessages.find(incMsg => incMsg?.clientId === action.incomingMessage.clientId) as IIncomingMessage;
-        const clientIndex = state.incomingMessages.findIndex(incMsg => incMsg.clientId === action.incomingMessage.clientId);
+        const client = state.incomingMessages.find(incMsg => incMsg?.clientId === action.payload.clientId) as IIncomingMessage;
+        const clientIndex = state.incomingMessages.findIndex(incMsg => incMsg.clientId === action.payload.clientId);
         const isNewClient = !client;
 
         if (isNewClient) {
           return {
             ...state,
-            incomingMessages: [action.incomingMessage].concat(state.incomingMessages),
+            incomingMessages: [action.payload].concat(state.incomingMessages),
           };
         } else {
           const incomingMessagesCopy = cloneDeep(state.incomingMessages);
-          client?.messagesHistory.push(...action.incomingMessage.messagesHistory);
+          client?.messagesHistory.push(...action.payload.messagesHistory);
           if (getLastUnreadMessagesCount(client)) {
             incomingMessagesCopy.splice(clientIndex, 1);
             incomingMessagesCopy.unshift(client);
@@ -89,19 +89,19 @@ export const inboxReducer = (state = initialState, action: InboxAction): InboxSt
     case InboxActionTypes.INCOMING_MESSAGES_UPDATE_FILTERS:
       return {
         ...state,
-        filters: { ...Object.assign(state.filters, action.filters) },
+        filters: { ...Object.assign(state.filters, action.payload) },
       };
 
     case InboxActionTypes.INCOMING_MESSAGES_FOR_SELECTED_CLIENT_ADD:
-      if (action.incomingMessage.clientId === state.selectedClient.clientId) {
+      if (action.payload.clientId === state.selectedClient.clientId) {
         const messagesHistory = state.selectedClient.messagesHistory;
-        return { ...state, selectedClient: cloneDeep(Object.assign(state.selectedClient, { messagesHistory: [...messagesHistory, action.incomingMessage] })) };
+        return { ...state, selectedClient: cloneDeep(Object.assign(state.selectedClient, { messagesHistory: [...messagesHistory, action.payload] })) };
       }
 
       return state;
 
     case InboxActionTypes.SELECT_CLIENT:
-      return { ...state, selectedClient: action.client };
+      return { ...state, selectedClient: action.payload };
 
     case InboxActionTypes.SELECTED_CLIENT_UPDATE:
       return cloneDeep({ ...state, selectedClient: Object.assign(state.selectedClient, action.payload) });

@@ -119,12 +119,12 @@ export enum InboxActionTypes {
 
 interface AddMessageAction {
   type: InboxActionTypes.MESSAGES_ADD,
-  message: any,
+  payload: any,
 }
 
 interface addIncomingMessageAction {
   type: InboxActionTypes.INCOMING_MESSAGES_ADD,
-  incomingMessage: any,
+  payload: any,
 }
 interface updateIncomingMessageAction {
   type: InboxActionTypes.INCOMING_MESSAGES_UPDATE,
@@ -132,10 +132,11 @@ interface updateIncomingMessageAction {
 }
 interface fetchIncomingMessagesAction {
   type: InboxActionTypes.INCOMING_MESSAGES_FETCH,
-  incomingMessage: any,
+  payload: any,
 }
 interface fetchingIncomingMessagesAction {
   type: InboxActionTypes.INCOMING_MESSAGES_FETCHING,
+  payload?: any,
 }
 interface addToInboxIncomingMessageAction {
   type: InboxActionTypes.INCOMING_MESSAGES_ADD_TO_INBOX,
@@ -147,7 +148,7 @@ interface deleteFromInboxIncomingMessageAction {
 }
 interface updateIncomingMessagesFiltersAction {
   type: InboxActionTypes.INCOMING_MESSAGES_UPDATE_FILTERS,
-  filters: any,
+  payload: any,
 }
 
 interface deleteClientAppeal {
@@ -157,12 +158,12 @@ interface deleteClientAppeal {
 
 interface selectClientAction {
   type: InboxActionTypes.SELECT_CLIENT,
-  client: any,
+  payload: any,
 }
 
 interface addIncomingMessageForSelectedClientAction {
   type: InboxActionTypes.INCOMING_MESSAGES_FOR_SELECTED_CLIENT_ADD,
-  incomingMessage: any,
+  payload: any,
 }
 
 interface updateClientDataAction {
@@ -185,6 +186,7 @@ interface getClientInfoAction {
 }
 interface fetchingSelectedClientGetInfoAction {
   type: InboxActionTypes.FETCHING_SELECTED_CLIENT_INFO,
+  payload?: any,
 }
 
 interface addNoteAction {

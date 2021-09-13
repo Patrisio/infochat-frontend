@@ -1,8 +1,8 @@
 import { InboxActionTypes, InboxAction } from '../../types/inbox';
 
-export const addMessage = (message: any): InboxAction => ({
+export const addMessage = (payload: any): InboxAction => ({
   type: InboxActionTypes.MESSAGES_ADD,
-  message,
+  payload,
 });
 
 export const getClientInfo = (payload: any): InboxAction => ({
@@ -25,9 +25,9 @@ export const deleteFromInboxIncomingMessage = (payload: any): InboxAction => ({
   payload,
 });
 
-export const fetchIncomingMessages = (incomingMessage: any): InboxAction => ({
+export const fetchIncomingMessages = (payload: any): InboxAction => ({
   type: InboxActionTypes.INCOMING_MESSAGES_FETCH,
-  incomingMessage,
+  payload,
 });
 
 export const changeMessagesStatus = (payload: any): InboxAction => ({
@@ -35,9 +35,9 @@ export const changeMessagesStatus = (payload: any): InboxAction => ({
   payload,
 });
 
-export const updateIncomingMessagesFilters = (filters: any): InboxAction => ({
+export const updateIncomingMessagesFilters = (payload: any): InboxAction => ({
   type: InboxActionTypes.INCOMING_MESSAGES_UPDATE_FILTERS,
-  filters,
+  payload,
 });
 
 export const updateClientData = (payload: any): InboxAction => ({
@@ -45,19 +45,19 @@ export const updateClientData = (payload: any): InboxAction => ({
   payload,
 });
 
-export const addIncomingMessage = (incomingMessage: any): InboxAction => ({
+export const addIncomingMessage = (payload: any): InboxAction => ({
   type: InboxActionTypes.INCOMING_MESSAGES_ADD,
-  incomingMessage,
+  payload,
 });
 
-export const selectClient = (client: any): InboxAction => ({
+export const selectClient = (payload: any): InboxAction => ({
   type: InboxActionTypes.SELECT_CLIENT,
-  client,
+  payload,
 });
 
-export const addIncomingMessageForSelectedClient = (incomingMessage: any): InboxAction => ({
+export const addIncomingMessageForSelectedClient = (payload: any): InboxAction => ({
   type: InboxActionTypes.INCOMING_MESSAGES_FOR_SELECTED_CLIENT_ADD,
-  incomingMessage,
+  payload,
 });
 
 export const updateIncomingMessage = (payload: any): InboxAction => ({
