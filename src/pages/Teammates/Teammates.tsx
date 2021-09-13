@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router';
+import cloneDeep from 'lodash/cloneDeep';
 
 import useForm from '../../hooks/useForm';
 
@@ -18,11 +19,12 @@ import styles from './teammates.module.scss';
 import { generateRandomHash } from '../../utils/string';
 import { isProjectOwner, Role } from '../../lib/utils/accessRights';
 import validateForm from './validateForm';
-import cloneDeep from 'lodash/cloneDeep';
 import Badge from '../../components/Badge/Badge';
 import { updateToken } from '../../lib/utils/token';
 import { NotificationContext } from '../../context/NotificationContext';
 import socket from '../../socket';
+import { Response } from '../../api/types';
+import { Teammate } from '../../types/teammates';
 
 interface IParams {
   projectId: string,
@@ -37,6 +39,25 @@ interface ModalProps {
   width: string,
   height?: string,
   errors?: any,
+}
+
+interface InviteTeammate {
+  confirmEmail: string,
+  confirmPassword: string,
+  email: string,
+  name: string,
+  password: string,
+  surname: string,
+}
+
+interface CellData {
+  id: number,
+  email: string
+  isOnline: boolean,
+  role: Role,
+  status: string
+  username: string,
+  avatar?: string,
 }
 
 export default function Teammates() {
@@ -67,7 +88,7 @@ export default function Teammates() {
 
   const { updateNotification } = useContext(NotificationContext);
 
-  const inviteTeammate = (values: any) => {
+  const inviteTeammate = (values: InviteTeammate) => {
     addTeammateSaga({
       id: generateRandomHash(),
       email: values.email,
@@ -75,7 +96,7 @@ export default function Teammates() {
       role: 'operator',
       status: 'pending',
       username: values.email.charAt(0).toUpperCase(),
-      errorCallback: (response: any) => updateNotification({ isShow: true, text: response.message }),
+      errorCallback: (response: Response) => updateNotification({ isShow: true, text: response.message as string }),
     });
     setFormValues({});
   };
@@ -107,10 +128,10 @@ export default function Teammates() {
 
   const AttachedDialogsModalFooter = ({ email }: { email: string }) => {
     let selectedTeammateForRemapDialogs: string | number | null = null;
-    const getTeammates = (teammates: any, email: string) => {
+    const getTeammates = (teammates: Teammate[], email: string) => {
       return teammates
-        .filter((teammate: any) => teammate.email !== email && teammate.status === 'active')
-        .map((teammate: any) => ({
+        .filter((teammate) => teammate.email !== email && teammate.status === 'active')
+        .map((teammate) => ({
           id: teammate.email,
           value: teammate.username,
         }));
@@ -120,7 +141,8 @@ export default function Teammates() {
 
     const filterTeammates = (e: any) => {
       const value = e.target.value.toLowerCase();
-      const filteredTeammates = getTeammates(teammates, email).filter((teammate: any) => teammate.value.toLowerCase().includes(value));
+      const filteredTeammates = getTeammates(teammates, email)
+        .filter((teammate) => teammate.value.toLowerCase().includes(value));
 
       setTeammates(filteredTeammates);
     };
@@ -253,7 +275,7 @@ export default function Teammates() {
       avatar: 'avatar',
       key: 'avatar',
       visible: false,
-      cellComponent: (data: any) => (
+      cellComponent: (data: CellData) => (
         data.avatar ?
         <img
           src={data.avatar}
@@ -272,7 +294,7 @@ export default function Teammates() {
       name: 'name',
       key: 'name',
       visible: false,
-      cellComponent: (data: any) => (
+      cellComponent: (data: CellData) => (
         <div className={styles.operatorNameEmail}>
           <p className={styles.operatorName}>{ data.username }</p>
           <p className={styles.operatorEmail}>{ data.email }</p>
@@ -283,7 +305,7 @@ export default function Teammates() {
       role: 'role',
       key: 'role',
       visible: false,
-      cellComponent: (data: any) => (
+      cellComponent: (data: CellData) => (
         <div>
           <p className={styles.operatorRole}>{ getRole(data.role) }</p>
         </div>
@@ -293,7 +315,7 @@ export default function Teammates() {
       status: 'status',
       key: 'status',
       visible: false,
-      cellComponent: (data: any) => (
+      cellComponent: (data: CellData) => (
         <div>
           { getStatus(data.status) }
         </div>
@@ -303,7 +325,7 @@ export default function Teammates() {
       action: 'action',
       key: 'action',
       visible: false,
-      cellComponent: (data: any) => (
+      cellComponent: (data: CellData) => (
         data.status === 'pending' ?
         <Button
           type='button'
@@ -343,7 +365,7 @@ export default function Teammates() {
               title: 'Настройка профиля',
               body: (
                 <EditableUserForm
-                  saveData={(values: any) => saveData({ oldEmail: data.email, role: data.role }, values)}
+                  saveData={(values) => saveData({ oldEmail: data.email, role: data.role }, values)}
                   setFormData={setFormData}
                   email={data.email}
                   password={'fakePassword123'}
@@ -369,7 +391,8 @@ export default function Teammates() {
     },
   ];
 
-  const saveData = ({ oldEmail, role }: { oldEmail: string, role: string }, values: any) => {
+  const saveData = ({ oldEmail, role }: { oldEmail: string, role: string }, values: InviteTeammate) => {
+    console.log(values, '__VALLLLL');
     const { name, surname, ...restFormData } = values;
     const username = `${name} ${surname}`;
 
@@ -379,7 +402,11 @@ export default function Teammates() {
       projectId,
       oldEmail,
       role,
-      successCallback: (data: any) => {
+      successCallback: (data: {
+        code: number,
+        status: 'success' | 'error',
+        token: string,
+      }) => {
         const token = data.token;
         if (token && role === 'owner') {
           updateToken(token);

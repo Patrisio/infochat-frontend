@@ -40,7 +40,7 @@ export default function FeatureCard({ imageSrc, id, name, description, category,
         />
       </div>
 
-      <Title level='3' weight='semibold' classNames={styles.featureCardTitle}>{name}</Title>
+      <Title level='3' weight='semibold' classNames={styles.featureCardTitle}>{ name }</Title>
       <p className={styles.description}>{description}</p>
 
       <div className={styles.categoryContainer}>

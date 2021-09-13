@@ -1,6 +1,6 @@
 import { checkEmail } from '../../utils/formValidationRules';
 
-export default function validateForm(values: any, meta: any) {
+export default function validateForm(values: { email: string }) {
   let errors: any = {};
 
   let emailError = checkEmail(values.email);

@@ -16,7 +16,7 @@ import Bills from '../Bills/Bills';
 import SidebarList from '../../components/Sidebar/components/SidebarList/SidebarList';
 
 import styles from './settings.module.scss';
-import colors from '../../scss/variales.module.scss';
+import colors from '../../scss/variables.module.scss';
 
 export default function Settings() {
   let { projectId, pageId } = useParams<{ projectId: string, pageId: string }>();

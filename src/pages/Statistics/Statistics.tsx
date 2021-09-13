@@ -27,7 +27,6 @@ export default function Statistics() {
   };
 
   const updateDatePeriod = (date: string | { from: string, to: string }) => {
-    console.log(date, '__DATE__');
     setDatePeriod(date);
   };
 

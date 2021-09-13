@@ -1,4 +1,4 @@
-export default function validateForm(values: any) {
+export default function validateForm(values: { name: string, message: string }) {
   let errors: any = {};
 
   if (!values.name) {

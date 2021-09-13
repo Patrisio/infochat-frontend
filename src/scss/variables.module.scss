@@ -7,6 +7,8 @@ $blue-6: #0573db;
 $blue-7: #0062cc;
 $blue-8: #0886f8;
 $blue-9: #a3cff4;
+$blue-10: #f4fffd;
+$blue-11: #f4f9ff;
 
 $white-1: #fff;
 $white-2: #f0f0f0;
@@ -63,9 +65,14 @@ $orange-2: #ffe5e0;
 
 $green-1: #00c200;
 $green-2: #44b044;
+$green-3: #f5fff5;
+$green-4: #faffec;
+$green-5: #fbfff2;
 
 $yellow-1: #ffefb2;
 $yellow-2: #fff5d1;
+
+$red-1: snow;
 
 $opacity-1: rgba(62,62,62,.35);
 $opacity-2: hsla(0,0%,100%,.35);
@@ -74,5 +81,11 @@ $opacity-4: rgba(0,0,0,.125);
 
 :export {
   blue1: $blue-1;
+  blue10: $blue-10;
+  blue11: $blue-11;
   brown10: $brown-10;
+  green3: $green-3;
+  green4: $green-4;
+  green5: $green-5;
+  red1: $red-1;
 }

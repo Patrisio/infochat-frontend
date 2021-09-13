@@ -30,15 +30,10 @@ interface ModalProps {
 }
 
 interface Template {
-  [key: string]: string
-}
+  [key: string]: string,
 
-interface Templates {
-  templates: Template[],
-}
-
-interface RootState {
-  templates: Templates,
+  message: string,
+  name: string,
 }
 
 interface ModalBodyProps {
@@ -47,6 +42,12 @@ interface ModalBodyProps {
   message?: string,
   errors?: { name: string, message: string }
   children?: React.ReactNode,
+}
+
+interface CellData {
+  id: string,
+  message: string,
+  name: string,
 }
 
 export default function Templates() {
@@ -69,7 +70,7 @@ export default function Templates() {
   let { projectId } = useParams<{ projectId: string }>();
   const { addTemplate, editTemplate, deleteTemplate, fetchTemplates } = useActions();
 
-  const makeTemplate = (template: any) => {
+  const makeTemplate = (template: Template) => {
     addTemplate({
       id: generateRandomHash(),
       ...template
@@ -82,7 +83,7 @@ export default function Templates() {
     {
       key: 'name',
       visible: true,
-      headerComponent: (data: any) => (
+      headerComponent: () => (
         <Button
           type='button'
           background='transparent'
@@ -112,7 +113,7 @@ export default function Templates() {
           Добавить новый шаблон
         </Button>
       ),
-      cellComponent: (data: any) => (
+      cellComponent: (data: CellData) => (
         <div className={styles.channelNameContainer}>
           <span className={styles.channelName}>{ data.name }</span>
         </div>
@@ -120,7 +121,7 @@ export default function Templates() {
     },
     {
       key: 'message',
-      cellComponent: (data: any) => (
+      cellComponent: (data: CellData) => (
         <span
           className={styles.channel}
           dangerouslySetInnerHTML={{ __html: data.message }}
@@ -130,7 +131,7 @@ export default function Templates() {
     {
       key: 'action',
       visible: true,
-      headerComponent: (data: any) => (
+      headerComponent: () => (
         <Button
           type='button'
           background='edit'
@@ -160,7 +161,7 @@ export default function Templates() {
           + Добавить
         </Button>
       ),
-      cellComponent: (data: any) => (
+      cellComponent: (data: CellData) => (
         <Button
           type='button'
           background='edit'
@@ -213,7 +214,7 @@ export default function Templates() {
     },
   ];
 
-  const changeTemplate = (id: string, values: any) => {
+  const changeTemplate = (id: string, values: {  }) => {
     editTemplate({ id, ...values }, projectId);
     currentModal.onClose();
   };
@@ -230,7 +231,7 @@ export default function Templates() {
         message,
       },
       validateForm,
-      id ? (values: any) => changeTemplate(id, values) : makeTemplate,
+      id ? (values: Template) => changeTemplate(id, values) : makeTemplate,
     );
     
     const formattedMessage = message?.split('<br />').join('\n')
@@ -249,7 +250,7 @@ export default function Templates() {
             name='name'
             value={name}
             errorMessage={errors?.name}
-            onChange={handleChange}//(e) => setTemplate(prev => Object.assign(prev, { name: e.target.value }))}
+            onChange={handleChange}
           />
         </div>
 
@@ -261,10 +262,6 @@ export default function Templates() {
             value={formattedMessage}
             errorMessage={errors?.message}
             onChange={(e) => handleChange(e, 'textarea')}
-            // (e) => {
-            //   const message = e.target.value.split('\n').join('<br />');
-            //   setTemplate(prev => Object.assign(prev, { message }));
-            // }}
           />
         </div>
 

@@ -11,21 +11,22 @@ import styles from './SignInPage.module.scss';
 import validateForm from './validateForm';
 import { NotificationContext } from '../../context/NotificationContext';
 import { updateToken } from '../../lib/utils/token';
+import { Response } from '../../api/types';
 
 export default function SignUpPage()  {
   const { authSignIn } = useActions();
   const history = useHistory();
   const { updateNotification } = useContext(NotificationContext);
 
-  const signInUser = (values: any) => {
-    const successCallback = (data: any) => {
+  const signInUser = (values: { email: string, password: string }) => {
+    const successCallback = (data: { accessToken: string, projectId: number }) => {
       updateToken(data.accessToken);
       history.push(`/project/${data.projectId}/inbox/opened`);
     };
-    const errorCallback = (response: any) => {
+    const errorCallback = (response: Response) => {
       updateNotification({
         isShow: true,
-        text: response.message,
+        text: response.message as string,
       });
     };
 

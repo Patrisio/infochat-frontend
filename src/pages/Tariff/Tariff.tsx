@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 
 import Title from '../../components/Typography/Title/Title';

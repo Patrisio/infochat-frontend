@@ -27,7 +27,7 @@ export default function TotalTariffPlan() {
   const { projectId } = useParams<{ projectId: string }>();
   const history = useHistory();
 
-  const features = Object.entries(tariffPlan).map((feature: any) => {
+  const features = Object.entries(tariffPlan).map((feature) => {
     return {
       id: feature[0],
       ...feature[1],

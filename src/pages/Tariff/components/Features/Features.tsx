@@ -4,13 +4,12 @@ import FeatureCard from '../FeatureCard/FeatureCard';
 
 import { useTypedSelector } from '../../../../hooks/useTypedSelector';
 
-import { Feature } from '../../constants';
 import styles from './features.module.scss';
 
 export default function Features() {
   const { plan: tariffPlan } = useTypedSelector(state => state.tariff);
 
-  const features = Object.entries(tariffPlan).map((feature: any) => {
+  const features = Object.entries(tariffPlan).map((feature) => {
     return {
       id: feature[0],
       ...feature[1],
@@ -20,7 +19,7 @@ export default function Features() {
   return (
     <div className={styles.featuresContainer}>
       {
-        features.map((feature: Feature, idx: number) => {
+        features.map((feature, idx) => {
           return (
             <FeatureCard
               key={idx}

@@ -11,13 +11,19 @@ import styles from './SignUpPage.module.scss';
 import validateForm from './validateForm';
 import { NotificationContext } from '../../context/NotificationContext';
 import { updateToken } from '../../lib/utils/token';
+import { Response } from '../../api/types';
 
 export default function SignUpPage()  {
   const { authSignUp } = useActions();
   const history = useHistory();
   const { notification, updateNotification } = useContext(NotificationContext);
 
-  const signUpUser = async (values: any) => {
+  const signUpUser = async (values: {
+    email: string,
+    password: string,
+    phone: string,
+    username: string,
+  }) => {
     const successCallback = (data: {
       accessToken: string,
       projectId: string,
@@ -33,10 +39,10 @@ export default function SignUpPage()  {
 
       history.push(`/project/${data.projectId}/inbox/opened`);
     };
-    const errorCallback = (response: any) => {
+    const errorCallback = (response: Response) => {
       updateNotification({
         isShow: true,
-        text: response.message,
+        text: response.message as string,
       });
     };
 

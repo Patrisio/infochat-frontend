@@ -1,6 +1,11 @@
 import { checkEmail, checkPassword, checkPhone, checkUsername } from '../../utils/formValidationRules';
 
-export default function validateForm(values: any) {
+export default function validateForm(values: {
+  email: string,
+  password: string,
+  phone: string,
+  username: string,
+}) {
   let errors: any = {};
 
   const usernameError = checkUsername(values.username);
