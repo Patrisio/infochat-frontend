@@ -1,18 +1,18 @@
 import { TeammatesActionTypes, TeammatesAction } from '../../types/teammates';
 
-export const addTeammate = (teammate: any): TeammatesAction => ({
+export const addTeammate = (payload: any): TeammatesAction => ({
   type: TeammatesActionTypes.TEAMMATE_ADD,
-  teammate,
+  payload,
 });
 
-export const addTeammateSaga = (teammate: any): TeammatesAction => ({
+export const addTeammateSaga = (payload: any): TeammatesAction => ({
   type: TeammatesActionTypes.TEAMMATE_ADD_SAGA,
-  teammate,
+  payload,
 });
 
-export const deleteTeammate = (teammate: any): TeammatesAction => ({
+export const deleteTeammate = (payload: any): TeammatesAction => ({
   type: TeammatesActionTypes.TEAMMATE_DELETE,
-  teammate,
+  payload,
 });
 
 export const updateTeammate = (payload: any): TeammatesAction => ({

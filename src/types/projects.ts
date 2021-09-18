@@ -4,7 +4,7 @@ export enum ProjectsActionTypes {
 
 interface addProjectAction {
   type: ProjectsActionTypes.PROJECT_ADD,
-  payload: any,//teammate: any,
+  payload: any,
 }
 
 export type ProjectsAction = 

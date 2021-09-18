@@ -18,22 +18,19 @@ export enum TemplatesActionTypes {
 
 interface addTemplateAction {
   type: TemplatesActionTypes.TEMPLATE_ADD,
-  template: any,
-  projectId: any,
+  payload: any,
 }
 interface deleteTemplateAction {
   type: TemplatesActionTypes.TEMPLATE_DELETE,
-  templateId: any,
-  projectId: any,
+  payload: any,
 }
 interface editTemplateAction {
   type: TemplatesActionTypes.TEMPLATE_EDIT,
-  template: any,
-  projectId: any,
+  payload: any,
 }
 interface addTemplatesAction {
   type: TemplatesActionTypes.TEMPLATES_ADD,
-  templates: any,
+  payload: any,
 }
 interface fetchTemplatesAction {
   type: TemplatesActionTypes.TEMPLATES_FETCH,

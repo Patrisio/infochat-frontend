@@ -73,8 +73,9 @@ export default function Templates() {
   const makeTemplate = (template: Template) => {
     addTemplate({
       id: generateRandomHash(),
-      ...template
-    }, projectId);
+      projectId,
+      ...template,
+    });
     
     currentModal.onClose();
   };
@@ -215,12 +216,12 @@ export default function Templates() {
   ];
 
   const changeTemplate = (id: string, values: {  }) => {
-    editTemplate({ id, ...values }, projectId);
+    editTemplate({ id, projectId, ...values });
     currentModal.onClose();
   };
 
-  const removeTemplate = (id: string) => {
-    deleteTemplate(id, projectId);
+  const removeTemplate = (templateId: string) => {
+    deleteTemplate({ templateId, projectId});
     currentModal.onClose();
   };
 

@@ -11,20 +11,20 @@ export const teammatesReducer = (state = initialState, action: TeammatesAction):
         ...state,
         teammates: [
           ...state.teammates,
-          action.teammate,
+          action.payload,
         ],
       };
 
     case TeammatesActionTypes.TEAMMATES_ADD:
       return {
         ...state,
-        teammates: action.teammate,
+        teammates: action.payload,
       };
 
     case TeammatesActionTypes.TEAMMATE_DELETE:
       return {
         ...state,
-        teammates: [...state.teammates].filter(teammate => teammate.email !== action.teammate.email),
+        teammates: [...state.teammates].filter(teammate => teammate.email !== action.payload.email),
       };
 
     case TeammatesActionTypes.TEAMMATE_UPDATE:

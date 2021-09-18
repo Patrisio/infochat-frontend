@@ -11,20 +11,20 @@ export const templatesReducer = (state = initialState, action: TemplatesAction):
     case TemplatesActionTypes.TEMPLATES_ADD:
       return {
         ...state,
-        templates: action.templates
+        templates: action.payload,
       };
 
     case TemplatesActionTypes.TEMPLATE_ADD:
       return {
         ...state,
-        templates: [...state.templates, action.template]
+        templates: [...state.templates, action.payload]
       };
 
     case TemplatesActionTypes.TEMPLATE_EDIT:
       const copy = cloneDeep(state.templates);
-      const foundTemplateIndex = copy.findIndex((template) => (template.id === action.template.id));
+      const foundTemplateIndex = copy.findIndex((template) => (template.id === action.payload.id));
 
-      copy.splice(foundTemplateIndex, 1, action.template);
+      copy.splice(foundTemplateIndex, 1, action.payload);
       
       return {
         ...state,
@@ -32,7 +32,7 @@ export const templatesReducer = (state = initialState, action: TemplatesAction):
       };
 
     case TemplatesActionTypes.TEMPLATE_DELETE:
-      return { templates: state.templates.filter((template) => template.id !== action.templateId) };
+      return { templates: state.templates.filter((template) => template.id !== action.payload.templateId) };
     
     default:
       return state;

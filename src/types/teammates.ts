@@ -23,17 +23,17 @@ export enum TeammatesActionTypes {
 
 interface addTeammateAction {
   type: TeammatesActionTypes.TEAMMATE_ADD,
-  teammate: any,
+  payload: any,
 }
 
 interface addTeammateSagaAction {
   type: TeammatesActionTypes.TEAMMATE_ADD_SAGA,
-  teammate: any,
+  payload: any,
 }
 
 interface deleteTeammateAction {
   type: TeammatesActionTypes.TEAMMATE_DELETE,
-  teammate: any,
+  payload: any,
 }
 
 interface fetchTeammatesAction {
@@ -48,7 +48,7 @@ interface updateTeammateAction {
 
 interface addTeammatesAction {
   type: TeammatesActionTypes.TEAMMATES_ADD,
-  teammate: any,
+  payload: any,
 }
 
 export type TeammatesAction =

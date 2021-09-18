@@ -1,7 +1,8 @@
 import { call, put, takeEvery, StrictEffect } from 'redux-saga/effects';
 import { projectAdd } from '../api/dataLayer';
+import { ProjectsAction, ProjectsActionTypes } from '../types/projects';
 
-function* addProject(action: any): Generator<StrictEffect> {
+function* addProject(action: ProjectsAction): Generator<StrictEffect> {
   try {
     yield call(projectAdd, action.payload);
   } catch (e) {
@@ -12,7 +13,7 @@ function* addProject(action: any): Generator<StrictEffect> {
   }
 }
 function* watchAddProject(): Generator<StrictEffect> {
-  yield takeEvery('PROJECT_ADD', addProject);
+  yield takeEvery(ProjectsActionTypes.PROJECT_ADD, addProject);
 }
 
 export default [

@@ -5,25 +5,22 @@ export const fetchTemplates = (payload: { projectId: string }): TemplatesAction 
   payload,
 });
 
-export const addTemplate = (template: any, projectId: string): TemplatesAction => ({
+export const addTemplate = (payload: any): TemplatesAction => ({
   type: TemplatesActionTypes.TEMPLATE_ADD,
-  template,
-  projectId,
+  payload,
 });
 
-export const addTemplates = (templates: any): TemplatesAction => ({
+export const addTemplates = (payload: any): TemplatesAction => ({
   type: TemplatesActionTypes.TEMPLATES_ADD,
-  templates,
+  payload,
 });
 
-export const editTemplate = (template: any, projectId: string): TemplatesAction => ({
+export const editTemplate = (payload: any): TemplatesAction => ({
   type: TemplatesActionTypes.TEMPLATE_EDIT,
-  template,
-  projectId,
+  payload,
 });
 
-export const deleteTemplate = (templateId: string, projectId: string): TemplatesAction => ({
+export const deleteTemplate = (payload: { templateId: string, projectId: string }): TemplatesAction => ({
   type: TemplatesActionTypes.TEMPLATE_DELETE,
-  templateId,
-  projectId,
+  payload,
 });
