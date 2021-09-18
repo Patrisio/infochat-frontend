@@ -77,8 +77,10 @@ export default function Templates() {
       ...template,
     });
     
-    currentModal.onClose();
+    closeModal();
   };
+
+  const closeModal = () => setModalProps(prev => cloneDeep(Object.assign(prev, { show: false })));
 
   const columns = [
     {
@@ -106,7 +108,7 @@ export default function Templates() {
                 </ModalBody>
               ),
               footer: null,
-              onClose: () => setModalProps(prev => cloneDeep(Object.assign(prev, { show: false }))),
+              onClose: closeModal,
               width: '520px',
             });
           }}
@@ -154,7 +156,7 @@ export default function Templates() {
                 </ModalBody>
               ),
               footer: null,
-              onClose: () => setModalProps(prev => cloneDeep(Object.assign(prev, { show: false }))),
+              onClose: closeModal,
               width: '520px',
             });
           }}
@@ -204,7 +206,7 @@ export default function Templates() {
                 </ModalBody>
               ),
               footer: null,
-              onClose: () => setModalProps(prev => cloneDeep(Object.assign(prev, { show: false }))),
+              onClose: closeModal,
               width: '520px',
             });
           }}
@@ -215,14 +217,14 @@ export default function Templates() {
     },
   ];
 
-  const changeTemplate = (id: string, values: {  }) => {
+  const changeTemplate = (id: string, values: Template) => {
     editTemplate({ id, projectId, ...values });
-    currentModal.onClose();
+    closeModal();
   };
 
   const removeTemplate = (templateId: string) => {
     deleteTemplate({ templateId, projectId});
-    currentModal.onClose();
+    closeModal();
   };
 
   const ModalBody = ({ id, name, message, children }: ModalBodyProps) => {
