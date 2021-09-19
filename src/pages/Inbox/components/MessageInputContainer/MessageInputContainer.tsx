@@ -13,6 +13,9 @@ import { useActions } from '../../../../hooks/useActions';
 import { useTypedSelector } from '../../../../hooks/useTypedSelector';
 import { Context } from '../../../../context/Context';
 
+import { MessageToInboxAddPayload, } from '../../../../api/types';
+import { IIncomingMessage, IMessagesHistory } from '../../../../types/inbox';
+
 interface MessageInputContainerProps {
   messagesHistoryContainerElement: HTMLDivElement | null,
 }
@@ -38,7 +41,7 @@ export default function MessageInputContainer({ messagesHistoryContainerElement 
   const sendMessage = (inputArea: string) => {
     const message = inputArea;
     const timestamp = Date.now();
-    const newMessage = {
+    const newMessage: IMessagesHistory = {
       clientId: selectedClient.clientId,
       username: 'operator',
       message,
@@ -47,6 +50,22 @@ export default function MessageInputContainer({ messagesHistoryContainerElement 
     };
 
     const successCallback = () => {
+      // export interface IMessagesHistory {
+      //   message: string | React.ReactNode,
+      //   username: string,
+      //   timestamp: number,
+      //   assignedTo?: string | null,
+      //   clientId?: string,
+      // }
+      // export interface MessageToInboxAddPayload extends Partial<Callbacks> {
+      //   clientId: string,
+      //   projectId: string,
+      //   message: string | BotMessage,
+      //   avatarName: string,
+      //   avatarColor: string,
+      //   messagesHistory: IMessagesHistory[],
+      // }
+
       addIncomingMessage({
         clientId: selectedClient.clientId,
         projectId,
@@ -67,6 +86,20 @@ export default function MessageInputContainer({ messagesHistoryContainerElement 
         }
       });
     };
+
+    // export interface IIncomingMessage {
+    //   [key: string]: string | IMessagesHistory[] | null | Note[] | ModificationInterface[],
+      
+    //   projectId: string,
+    //   clientId: string,
+    //   messagesHistory: IMessagesHistory[],
+    //   assignedTo: string | null,
+    //   phone: string,
+    //   email: string,
+    //   avatarName: string,
+    //   avatarColor: string,
+    //   messagesStatus: 'unread' | 'opened' | 'closed',
+    // }
 
     addToInboxIncomingMessage({
       clientId: selectedClient.clientId,

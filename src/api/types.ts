@@ -1,6 +1,7 @@
 import { IUser } from '../context/Context';
 import { Role } from '../lib/utils/accessRights';
 import { Settings } from '../types/channels';
+import { IMessagesHistory } from '../types/inbox';
 
 interface FetchCurrentUserData extends IUser {}
 
@@ -8,15 +9,31 @@ export interface Response {
   status: 'success' | 'error',
   statusCode: number,
   message?: string,
-  data?: FetchCurrentUserData
+  data: any,
 }
 
 export interface Callbacks {
-  successCallback: (response: Response) => void,
+  successCallback: (data: Response['data']) => void,
   errorCallback: (response: Response) => void,
 }
 
-export interface InviteUserPayload {
+export interface BotMessage {
+  username: string,
+  timestamp: number,
+  message: string | React.ReactElement,
+}
+
+export interface Message {
+  assignedTo: string | null
+  avatarColor: string,
+  avatarName: string,
+  client_id: string,
+  id: string,
+  message: string,
+  username: string,
+}
+
+export interface InviteUserPayload extends Callbacks {
   password: string,
   projectId: string,
   username: string,
@@ -45,21 +62,23 @@ export interface TeammateUpdatePayload extends Callbacks {
   role: Role
   username: string,
 }
-export interface IncomingMessagesFetchPayload {
+export interface IncomingMessagesFetchPayload extends Partial<Callbacks> {
   projectId: string,
-  clientId: string
+  clientId?: string
 }
-export interface SelectedClientInfoGetPayload extends Callbacks {
+export interface SelectedClientInfoGetPayload extends Partial<Callbacks> {
   projectId: string,
   clientId: string,
 }
-export interface MessagesStatusUpdatePayload {
+export interface MessagesStatusUpdatePayload extends Partial<Callbacks> {
   projectId: string,
   messagesStatus: string,
-  assignedTo: string,
+  assignedTo?: string | '' |  null,
   clientId: string,
 }
-export interface SelectedClientUpdatePayload {
+export interface SelectedClientUpdatePayload extends Callbacks {
+  [key: string]: any,
+
   projectId: string,
   clientId: string,
   assignedTo: string,
@@ -68,7 +87,7 @@ export interface SelectedClientUpdatePayload {
   email: string,
   isBlocked: boolean,
   phone: string,
-  updatedBy: Role,
+  updatedBy: Role | 'client',
 }
 export interface TeammateAddPayload extends Callbacks {
   email: string,
@@ -85,12 +104,13 @@ export interface SendEmailPayload {
   email: string,
   projectId: string,
 }
-export interface MessageToInboxAddPayload extends Callbacks {
+export interface MessageToInboxAddPayload extends Partial<Callbacks> {
   clientId: string,
   projectId: string,
-  message: string,
-  avatarName: string,
-  avatarColor: string,
+  message?: string | BotMessage,
+  avatarName?: string,
+  avatarColor?: string,
+  messagesHistory: IMessagesHistory[],
 }
 export interface GetChannelsPayload {
   projectId: string,
@@ -103,7 +123,7 @@ export interface ChatSettingsSavePayload {
   projectId: string,
   settings: Settings,
 }
-export interface ChatSettingsFetchPayload extends Callbacks {
+export interface ChatSettingsFetchPayload extends Partial<Callbacks> {
   projectId: string,
 }
 export interface TemplateAddPayload {
@@ -139,22 +159,23 @@ export interface TariffPlanUpdatePayload {
   operatorsCount: number,
   templatesCount: number,
 }
-export interface NoteAddPayload extends Callbacks {
+export interface NoteAddPayload extends Partial<Callbacks> {
   clientId: string,
   madeBy: string,
   text: string,
 }
-export interface NoteDeletePayload extends Callbacks {
+export interface NoteDeletePayload extends Partial<Callbacks> {
   id: number,
 }
-export interface ClientAppealDeletePayload extends Callbacks {
+export interface ClientAppealDeletePayload extends Partial<Callbacks> {
   clientId: string,
+  projectId?: string,
 }
 export interface JwtDecodePayload extends Callbacks {
   token: string,
 }
-export interface ToSelectedTeammateRemapDialogsPayload extends Callbacks {
+export interface ToSelectedTeammateRemapDialogsPayload extends Partial<Callbacks> {
   projectId: string,
   deletedTeammateEmail: string,
-  teammateEmailForRemapDialogs: string,
+  teammateEmailForRemapDialogs: string | null,
 }

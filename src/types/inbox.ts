@@ -1,3 +1,10 @@
+import {
+  SelectedClientInfoGetPayload, ClientAppealDeletePayload, MessageToInboxAddPayload,
+  IncomingMessagesFetchPayload, MessagesStatusUpdatePayload, SelectedClientUpdatePayload,
+  NoteAddPayload, NoteDeletePayload, ToSelectedTeammateRemapDialogsPayload, BotMessage,
+  Message, Callbacks,
+} from '../api/types';
+
 export type Noop<T> = (arg: T) => void;
 
 export type DialogType = 'assigned' | 'closed' | 'opened' | 'unread' | 'all';
@@ -28,7 +35,9 @@ export interface InboxMessages {
 export interface IMessagesHistory {
   message: string | React.ReactNode,
   username: string,
-  timestamp: number
+  timestamp: number,
+  assignedTo?: string | null,
+  clientId?: string,
 }
 
 export interface ModificationInterface {
@@ -45,8 +54,17 @@ export interface Note {
   timestamp: number,
 }
 
-export interface IIncomingMessage {
-  [key: string]: string | IMessagesHistory[] | null | Note[] | ModificationInterface[],
+export interface IncomingMessage extends Partial<Callbacks> {
+  clientId: string,
+  projectId: string,
+  message: IMessagesHistory,
+  timestamp?: number,
+  avatarName?: string,
+  avatarColor?: string,
+}
+
+export interface IIncomingMessage extends Partial<Callbacks> {
+  [key: string]: any,
   
   projectId: string,
   clientId: string,
@@ -57,7 +75,24 @@ export interface IIncomingMessage {
   avatarName: string,
   avatarColor: string,
   messagesStatus: 'unread' | 'opened' | 'closed',
+  message?: IMessagesHistory,
+  timestamp?: number,
 }
+
+// export interface SelectedClient {
+//   id: string | number,
+//   projectId: string,
+//   clientId: string,
+//   messagesHistory: IMessagesHistory[],
+//   assignedTo: string | null,
+//   phone: string,
+//   email: string,
+//   avatarName: string,
+//   avatarColor: string,
+//   messagesStatus: 'unread' | 'opened' | 'closed',
+//   notes: Note[],
+//   changesHistory: ModificationInterface[],
+// }
 
 export interface SelectedClient extends IIncomingMessage {
   notes: Note[],
@@ -83,9 +118,6 @@ export interface InboxState {
 }
 
 export enum InboxActionTypes {
-  // MESSAGES_LOAD = 'MESSAGES_LOAD',
-  // MESSAGES_LOAD_SUCCESS = 'MESSAGES_LOAD_SUCCESS',
-  // MESSAGES_LOAD_FAIL = 'MESSAGES_LOAD_FAIL',
   MESSAGES_ADD = 'ADD_MESSAGE',
 
   INCOMING_MESSAGES_ADD = 'ADD_INCOMING_MESSAGES',
@@ -96,7 +128,6 @@ export enum InboxActionTypes {
   INCOMING_MESSAGES_DELETE_FROM_INBOX = 'INCOMING_MESSAGES_DELETE_FROM_INBOX',
   INCOMING_MESSAGES_UPDATE_FILTERS = 'UPDATE_FILTERS',
 
-  // ASSIGNED_USER_UPDATE = 'ASSIGNED_USER_UPDATE',
   REMAP_DIALOGS_TO_SELECTED_TEAMMATE = 'REMAP_DIALOGS_TO_SELECTED_TEAMMATE',
 
   SELECT_CLIENT = 'SELECT_CLIENT',
@@ -119,12 +150,11 @@ export enum InboxActionTypes {
 
 interface AddMessageAction {
   type: InboxActionTypes.MESSAGES_ADD,
-  payload: any,
+  payload: Partial<MessageToInboxAddPayload> | BotMessage | Message[] | string,
 }
-
 interface addIncomingMessageAction {
   type: InboxActionTypes.INCOMING_MESSAGES_ADD,
-  payload: any,
+  payload: MessageToInboxAddPayload | IIncomingMessage,
 }
 interface updateIncomingMessageAction {
   type: InboxActionTypes.INCOMING_MESSAGES_UPDATE,
@@ -132,7 +162,7 @@ interface updateIncomingMessageAction {
 }
 interface fetchIncomingMessagesAction {
   type: InboxActionTypes.INCOMING_MESSAGES_FETCH,
-  payload: any,
+  payload: IncomingMessagesFetchPayload,
 }
 interface fetchingIncomingMessagesAction {
   type: InboxActionTypes.INCOMING_MESSAGES_FETCHING,
@@ -140,66 +170,59 @@ interface fetchingIncomingMessagesAction {
 }
 interface addToInboxIncomingMessageAction {
   type: InboxActionTypes.INCOMING_MESSAGES_ADD_TO_INBOX,
-  payload: any,
+  payload: MessageToInboxAddPayload | IIncomingMessage | IncomingMessage,
 }
 interface deleteFromInboxIncomingMessageAction {
   type: InboxActionTypes.INCOMING_MESSAGES_DELETE_FROM_INBOX,
-  payload: any,
+  payload: ClientAppealDeletePayload,
 }
 interface updateIncomingMessagesFiltersAction {
   type: InboxActionTypes.INCOMING_MESSAGES_UPDATE_FILTERS,
-  payload: any,
+  payload: Partial<Filters>,
 }
-
 interface deleteClientAppeal {
   type: InboxActionTypes.DELETE_CLIENT_APPEAL,
-  payload: any,
+  payload: ClientAppealDeletePayload,
 }
-
 interface selectClientAction {
   type: InboxActionTypes.SELECT_CLIENT,
-  payload: any,
+  payload: SelectedClient,
 }
-
 interface addIncomingMessageForSelectedClientAction {
   type: InboxActionTypes.INCOMING_MESSAGES_FOR_SELECTED_CLIENT_ADD,
-  payload: any,
+  payload: IMessagesHistory,
 }
-
 interface updateClientDataAction {
   type: InboxActionTypes.CLIENT_DATA_UPDATE,
-  payload: any,
+  payload: Partial<SelectedClientUpdatePayload>,
 }
 interface changeMessagesStatusAction {
   type: InboxActionTypes.CLIENT_DATA_CHANGE_MESSAGES_STATUS,
-  payload: any,
+  payload: MessagesStatusUpdatePayload,
 }
-
 interface updateSelectedClientAction {
   type: InboxActionTypes.SELECTED_CLIENT_UPDATE,
-  payload: any,
+  payload: MessagesStatusUpdatePayload | Partial<SelectedClient>,
 }
-
 interface getClientInfoAction {
   type: InboxActionTypes.SELECTED_CLIENT_GET_INFO,
-  payload: any,
+  payload: SelectedClientInfoGetPayload,
 }
 interface fetchingSelectedClientGetInfoAction {
   type: InboxActionTypes.FETCHING_SELECTED_CLIENT_INFO,
   payload?: any,
 }
-
 interface addNoteAction {
   type: InboxActionTypes.NOTE_ADD,
-  payload: any,
+  payload: NoteAddPayload,
 }
 interface deleteNoteAction {
   type: InboxActionTypes.NOTE_DELETE,
-  payload: any,
+  payload: NoteDeletePayload,
 }
 interface remapDialogsToSelectedTeammate {
   type: InboxActionTypes.REMAP_DIALOGS_TO_SELECTED_TEAMMATE,
-  payload: any,
+  payload: ToSelectedTeammateRemapDialogsPayload,
 }
 
 export type InboxAction =

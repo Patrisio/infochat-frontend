@@ -13,7 +13,7 @@ import { ModalProps } from '../../../../components/Modal/Modal';
 
 import { useActions } from '../../../../hooks/useActions';
 import { useTypedSelector } from '../../../../hooks/useTypedSelector';
-import { SelectedClient } from '../../../../types/inbox';
+import { SelectedClient, ModificationInterface } from '../../../../types/inbox';
 import styles from './personInfo.module.scss';
 import { getChangeInFieldValue } from '../../../../utils/clientData';
 import socket from '../../../../socket';
@@ -63,7 +63,7 @@ export default function PersonInfo({ selectedClient, closeModal, setModalProps }
           clientId: selectedClient?.clientId,
           [fieldName]: fieldValue
         }
-        const updateSelectedClientData = {
+        const updateSelectedClientData: Partial<SelectedClient> = {
           [fieldName]: fieldValue,
           changesHistory: [
             ...selectedClient.changesHistory,
@@ -73,7 +73,7 @@ export default function PersonInfo({ selectedClient, closeModal, setModalProps }
               changeInFieldValue: getChangeInFieldValue(fieldName),
               timestamp: Date.now(),
             }
-          ],
+          ] as ModificationInterface[],
         };
         updateIncomingMessage(updateIncomingMessageData);
         updateSelectedClient(updateSelectedClientData);
@@ -82,12 +82,44 @@ export default function PersonInfo({ selectedClient, closeModal, setModalProps }
         socket.emit('updateSelectedClient', updateSelectedClientData);
       };
 
-      updateClientData(Object.assign(clientData, {
-        updatedBy: 'operator',
-        [fieldName]: fieldValue,
-        changeInFieldValue: getChangeInFieldValue(fieldName),
-        successCallback,
-      }));
+      // export interface IIncomingMessage extends Partial<Callbacks> {
+      //   [key: string]: any,
+        
+      //   projectId: string,
+      //   clientId: string,
+      //   messagesHistory: IMessagesHistory[],
+      //   assignedTo: string | null,
+      //   phone: string,
+      //   email: string,
+      //   avatarName: string,
+      //   avatarColor: string,
+      //   messagesStatus: 'unread' | 'opened' | 'closed',
+      //   message?: IMessagesHistory,
+      //   timestamp?: number,
+      // }
+
+      // export interface SelectedClientUpdatePayload extends Callbacks {
+      //   projectId: string,
+      //   clientId: string,
+      //   assignedTo: string,
+      //   avatarName: string,
+      //   changeInFieldValue: string,
+      //   email: string,
+      //   isBlocked: boolean,
+      //   phone: string,
+      //   updatedBy: Role | 'client',
+      // }
+
+      updateClientData(
+        // Object.assign(clientData,
+          {
+            updatedBy: 'operator',
+            [fieldName]: fieldValue,
+            changeInFieldValue: getChangeInFieldValue(fieldName),
+            successCallback,
+          }
+      // )
+      );
     }
   };
 

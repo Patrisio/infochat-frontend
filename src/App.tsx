@@ -90,7 +90,7 @@ export default function App() {
     });
 
     socket.on('addIncomingMessage', (message: any) => {
-      const newClient = {
+      const newClient: any = {
         assignedTo: '',
         phone: '',
         email: '',

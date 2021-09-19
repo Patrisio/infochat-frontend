@@ -1,8 +1,10 @@
 import React, { cloneElement } from 'react';
-import styles from './modal.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+
+import styles from './modal.module.scss';
+import colors from '../../scss/variables.module.scss';
 
 export interface ModalProps {
   show: boolean,
@@ -57,7 +59,7 @@ export default function Modal({
           >
             <FontAwesomeIcon
               icon={faTimes}
-              color='$grey-23'
+              color={colors.grey23}
             />
           </div>
         </div>

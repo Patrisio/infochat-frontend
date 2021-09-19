@@ -19,6 +19,7 @@ import { scrollToBottomOfWrapper } from '../../lib/utils/scroll';
 import { businessHours, weekdays, isDateBetween } from '../../lib/utils/date';
 import { replaceWhiteSpaceToBr } from '../../utils/string';
 import { Settings, Rule, Condition, BusinessDay } from '../../types/channels';
+import { BotMessage, Message } from '../../api/types';
 
 import theme1 from '../../assets/theme1-big.png';
 import theme2 from '../../assets/theme2-big.png';
@@ -30,28 +31,12 @@ interface RuleStep {
   status: string
 }
 
-interface Message {
-  assignedTo: string | null
-  avatarColor: string,
-  avatarName: string,
-  client_id: string,
-  id: string,
-  message: string,
-  username: string,
-}
-
 interface ClientData {
   clientId: string
   id: string | number | null,
   isBlocked: boolean,
   messagesHistory: Message[],
   projectId: string,
-}
-
-interface BotMessage {
-  username: string,
-  timestamp: number,
-  message: string | React.ReactElement,
 }
 
 let parentWindowOrigin = '';
@@ -147,7 +132,7 @@ export default function Chat() {
           projectId,
           clientId,
           [field]: fieldValue,
-          successCallback: sendBotMessage(thankyouMessage)
+          successCallback: () => sendBotMessage(thankyouMessage),
         });
       };
 
@@ -301,7 +286,7 @@ export default function Chat() {
     getMessagesHistory();
 
     const sendMessage = (rule: Rule) => {
-      const botMessage = {
+      const botMessage: BotMessage = {
         username: 'bot',
         message: rule.result,
         timestamp: Date.now(),

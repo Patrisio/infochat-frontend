@@ -8,13 +8,16 @@ import { ModalProps } from '../../../../components/Modal/Modal';
 import MessageInner from '../MessageInner/MessageInner';
 import MessageInputContainer from '../MessageInputContainer/MessageInputContainer';
 
-import styles from './appealsContainerMessages.module.scss';
 import { useActions } from '../../../../hooks/useActions';
 import usePrevious from '../../../../hooks/usePrevious';
 import { useTypedSelector } from '../../../../hooks/useTypedSelector';
-import { SelectedClient } from '../../../../types/inbox';
+
+import styles from './appealsContainerMessages.module.scss';
 import { defaultSelectedClient } from '../../../../store/reducers/inbox';
 import socket from '../../../../socket';
+
+import { SelectedClient, } from '../../../../types/inbox';
+import { MessagesStatusUpdatePayload } from '../../../../api/types';
 
 interface AppealsContainerMessagesProps {
   clientName: string,
@@ -39,7 +42,7 @@ export default function AppealsContainerMessages({
   const isDisabled = () => !incomingMessages.find(incMsg => incMsg.clientId === clientId)?.assignedTo;
 
   const closeDialog = () => {
-    const changeMessagesStatusData = {
+    const changeMessagesStatusData: MessagesStatusUpdatePayload = {
       messagesStatus: 'closed',
       projectId,
       clientId,

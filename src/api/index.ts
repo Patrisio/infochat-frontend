@@ -7,7 +7,7 @@ const PARAM_PATTERN_NAME = /:\w+/g;
 export async function requestApiGet(
   routeID: string,
   getParams = {},
-  successCallback?: (response: Response) => void,
+  successCallback?: (response: Response['data']) => void,
   errorCallback?: (response: Response) => void
 ): Promise<Response> {
   return requestApi({
@@ -23,7 +23,7 @@ export async function requestApiPost(
   routeID: string,
   postBody: any = null,
   getParams: any = {},
-  successCallback?: (response: Response) => void,
+  successCallback?: (response: Response['data']) => void,
   errorCallback?: (response: Response) => void
 ): Promise<Response> {
   return requestApi({

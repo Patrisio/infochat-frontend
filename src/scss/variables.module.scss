@@ -80,6 +80,7 @@ $opacity-3: hsla(0,0%,69%,.8);
 $opacity-4: rgba(0,0,0,.125);
 
 :export {
+  white1: $white-1;
   blue1: $blue-1;
   blue10: $blue-10;
   blue11: $blue-11;
@@ -88,4 +89,5 @@ $opacity-4: rgba(0,0,0,.125);
   green4: $green-4;
   green5: $green-5;
   red1: $red-1;
+  grey23: $grey-23;
 }

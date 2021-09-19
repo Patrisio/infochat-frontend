@@ -127,7 +127,7 @@ export default function Teammates() {
   };
 
   const AttachedDialogsModalFooter = ({ email }: { email: string }) => {
-    let selectedTeammateForRemapDialogs: string | number | null = null;
+    let selectedTeammateForRemapDialogs: string | null = null;
     const getTeammates = (teammates: Teammate[], email: string) => {
       return teammates
         .filter((teammate) => teammate.email !== email && teammate.status === 'active')
@@ -157,7 +157,7 @@ export default function Teammates() {
             fluid
             fixedSelect
             onChange={filterTeammates}
-            onSelect={(email: string | number) => selectedTeammateForRemapDialogs = email}
+            onSelect={(email: string) => selectedTeammateForRemapDialogs = email}
           />
         </div>
         
@@ -171,6 +171,11 @@ export default function Teammates() {
               teammateEmailForRemapDialogs: selectedTeammateForRemapDialogs,
               projectId,
             };
+            // export interface ToSelectedTeammateRemapDialogsPayload extends Partial<Callbacks> {
+            //   projectId: string,
+            //   deletedTeammateEmail: string,
+            //   teammateEmailForRemapDialogs: string,
+            // }
             remapDialogsToSelectedTeammate({
               ...remapDialogsToSelectedTeammateData,
               successCallback: () => {

@@ -1,3 +1,8 @@
+import {
+  ChannelAddPayload, ChatSettingsSavePayload, GetChannelsPayload,
+  ChatSettingsFetchPayload,
+} from '../api/types';
+
 export interface Channel {
   name: string
   status: any,
@@ -71,19 +76,19 @@ export enum ChannelsActionTypes {
 
 interface addChannelsAction {
   type: ChannelsActionTypes.ADD_CHANNELS,
-  payload: any,
+  payload: Channel[],
 }
 interface updateChannelSettingsAction {
   type: ChannelsActionTypes.UPDATE_SETTINGS,
-  payload: any,
+  payload: Partial<Settings>,
 }
 interface addChannelAction {
   type: ChannelsActionTypes.ADD_CHANNEL,
-  payload: any,
+  payload: ChannelAddPayload,
 }
 interface fetchChannelsAction {
   type: ChannelsActionTypes.FETCH_CHANNELS,
-  payload: any,
+  payload: GetChannelsPayload,
 }
 interface toggleFetchingChannelsAction {
   type: ChannelsActionTypes.TOGGLE_FETCHING_CHANNELS,
@@ -91,11 +96,11 @@ interface toggleFetchingChannelsAction {
 }
 interface saveChatSettingsAction {
   type: ChannelsActionTypes.SAVE_CHAT_SETTINGS,
-  payload: any,
+  payload: ChatSettingsSavePayload,
 }
 interface fetchChatSettingsAction {
   type: ChannelsActionTypes.FETCH_CHAT_SETTINGS,
-  payload: any,
+  payload: ChatSettingsFetchPayload,
 }
 interface updateChannelStatusByChannelName {
   type: ChannelsActionTypes.UPDATE_CHANNEL_STATUS_BY_CHANNEL_NAME,

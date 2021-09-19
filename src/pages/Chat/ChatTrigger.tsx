@@ -3,13 +3,15 @@ import { useParams } from 'react-router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
-import styles from './chat.module.scss';
 import { useActions } from '../../hooks/useActions';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
+
 import socket from '../../socket';
 import chatTriggerIcon from '../../assets/chat-trigger-icon.svg';
 import { Settings } from '../../types/channels';
 
+import styles from './chat.module.scss';
+import colors from '../../scss/variables.module.scss';
 
 interface ParamTypes {
   clientId: string,
@@ -64,7 +66,7 @@ export default function ChatTrigger() {
             ${styles.closeTriggerIcon}
             ${isOpen ? styles.closeTriggerIconVisible : styles.closeTriggerIconHidden}
           `}>
-            <FontAwesomeIcon icon={faTimes} color='$white-1' />
+            <FontAwesomeIcon icon={faTimes} color={colors.white1} />
           </div>
           <img
             src={chatTriggerIcon}

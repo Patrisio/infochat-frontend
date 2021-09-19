@@ -58,8 +58,10 @@ export default function AppealsContainerSelector({
         });
       };
 
-      const selectedClient: IIncomingMessage | undefined = incomingMessages.find(message => message.clientId === clientId);
-      selectClient(cloneDeep(selectedClient));
+      const selectedClient = incomingMessages.find(message => message.clientId === clientId);
+      if (selectedClient) {
+        selectClient(cloneDeep(Object.assign(selectedClient)));
+      }
 
       getClientInfo({
         projectId,

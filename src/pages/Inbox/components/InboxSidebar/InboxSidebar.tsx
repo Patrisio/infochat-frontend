@@ -4,6 +4,7 @@ import { useParams } from 'react-router';
 import { faInbox, faEnvelope, faEnvelopeOpen, faAt, faComments, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cloneDeep from 'lodash/cloneDeep';
+import { defaultSelectedClient } from '../../../../store/reducers/inbox';
 
 import Sidebar from '../../../../components/Sidebar/Sidebar';
 import SidebarList from '../../../../components/Sidebar/components/SidebarList/SidebarList';
@@ -40,13 +41,7 @@ export default function InboxSidebar({ inboxMessages }: InboxSidebarProps) {
 
   const hideOpenedMessagesArea = () => {
     if (selectedClient.clientId !== '') {
-      selectClient(cloneDeep({
-        id: '',
-        projectId: '',
-        clientId: '',
-        messagesHistory: [],
-        assigned_to: ''
-      }));
+      selectClient(cloneDeep(defaultSelectedClient));
     }
   };
 

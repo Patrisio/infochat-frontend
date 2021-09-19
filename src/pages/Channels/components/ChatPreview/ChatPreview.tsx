@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSmileBeam, faPaperclip, faTimes } from '@fortawesome/free-solid-svg-icons'
 
-import styles from './chatPreview.module.scss';
 import fakeAvatar from '../../../../assets/fake-avatar.jpg';
 import chatTriggerIcon from '../../../../assets/chat-trigger-icon.svg';
 import theme1 from '../../../../assets/theme1-big.png';
@@ -9,8 +10,9 @@ import theme3 from '../../../../assets/theme3-big.png';
 
 import { useActions } from '../../../../hooks/useActions';
 import { useTypedSelector } from '../../../../hooks/useTypedSelector';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSmileBeam, faPaperclip, faTimes } from '@fortawesome/free-solid-svg-icons'
+
+import styles from './chatPreview.module.scss';
+import colors from '../../../../scss/variables.module.scss';
 
 interface Background {
   id: number,
@@ -128,7 +130,7 @@ export default function ChatPreview() {
             </div> :
             <FontAwesomeIcon
               icon={faTimes}
-              color='$white-1'
+              color={colors.white1}
               size='lg'
             />
           }

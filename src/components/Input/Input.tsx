@@ -18,7 +18,7 @@ interface IInputProps {
   onClear?: () => void,
   onChange?: (e: any) => void,
   onClick?: (item: {icon?: string, value: string}) => void,
-  onSelect?: (arg0: string | number) => void,
+  onSelect?: (arg0: any) => void,
   onBlur?: (e: any) => void,
   onFocus?: () => void,
   fluid?: boolean,

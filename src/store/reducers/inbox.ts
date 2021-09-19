@@ -1,6 +1,22 @@
-import { InboxState, IIncomingMessage, InboxAction, InboxActionTypes, SelectedClient } from '../../types/inbox';
+import { InboxState, IIncomingMessage, InboxAction, InboxActionTypes, SelectedClient, IMessagesHistory } from '../../types/inbox';
 import { getLastUnreadMessagesCount } from '../../utils/clientData';
 import cloneDeep from 'lodash/cloneDeep';
+
+// export interface IIncomingMessage extends Partial<Callbacks> {
+//   [key: string]: any,
+  
+//   projectId: string,
+//   clientId: string,
+//   messagesHistory: IMessagesHistory[],
+//   assignedTo: string | null,
+//   phone: string,
+//   email: string,
+//   avatarName: string,
+//   avatarColor: string,
+//   messagesStatus: 'unread' | 'opened' | 'closed',
+//   message: IMessagesHistory,
+//   timestamp: number,
+// }
 
 export const defaultSelectedClient: SelectedClient = {
   id: '',
@@ -63,15 +79,16 @@ export const inboxReducer = (state = initialState, action: InboxAction): InboxSt
         const client = state.incomingMessages.find(incMsg => incMsg?.clientId === action.payload.clientId) as IIncomingMessage;
         const clientIndex = state.incomingMessages.findIndex(incMsg => incMsg.clientId === action.payload.clientId);
         const isNewClient = !client;
-
+        const incomingMessage = action.payload as IIncomingMessage;
+        
         if (isNewClient) {
           return {
             ...state,
-            incomingMessages: [action.payload].concat(state.incomingMessages),
+            incomingMessages: [incomingMessage].concat(state.incomingMessages),
           };
         } else {
           const incomingMessagesCopy = cloneDeep(state.incomingMessages);
-          client?.messagesHistory.push(...action.payload.messagesHistory);
+          client?.messagesHistory.push(...incomingMessage.messagesHistory);
           if (getLastUnreadMessagesCount(client)) {
             incomingMessagesCopy.splice(clientIndex, 1);
             incomingMessagesCopy.unshift(client);
@@ -94,7 +111,7 @@ export const inboxReducer = (state = initialState, action: InboxAction): InboxSt
 
     case InboxActionTypes.INCOMING_MESSAGES_FOR_SELECTED_CLIENT_ADD:
       if (action.payload.clientId === state.selectedClient.clientId) {
-        const messagesHistory = state.selectedClient.messagesHistory;
+        const messagesHistory = state.selectedClient.messagesHistory as IMessagesHistory[];
         return { ...state, selectedClient: cloneDeep(Object.assign(state.selectedClient, { messagesHistory: [...messagesHistory, action.payload] })) };
       }
 

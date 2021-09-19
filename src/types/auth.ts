@@ -1,3 +1,8 @@
+import {
+  InviteUserPayload, SignInPayload, SignUpPayload,
+  JwtDecodePayload, FetchCurrentUserPayload,
+} from '../api/types';
+
 export enum AuthActionTypes {
   AUTH_INVITE = 'AUTH_INVITE',
   AUTH_SIGNIN = 'AUTH_SIGNIN',
@@ -6,26 +11,26 @@ export enum AuthActionTypes {
   DECODE_JWT = 'DECODE_JWT',
 }
 
-interface authInviteAction {
+export interface authInviteAction {
   type: AuthActionTypes.AUTH_INVITE,
-  payload: any,
+  payload: InviteUserPayload,
 }
-interface getCurrentUserAction {
+export interface getCurrentUserAction {
   type: AuthActionTypes.AUTH_GET_CURRENT_USER,
-  payload: any,
+  payload: FetchCurrentUserPayload,
 }
-interface authSignInAction {
+export interface authSignInAction {
   type: AuthActionTypes.AUTH_SIGNIN,
-  payload: any,
+  payload: SignInPayload,
 }
-interface authSignUpAction {
+export interface authSignUpAction {
   type: AuthActionTypes.AUTH_SIGNUP,
-  payload: any,
+  payload: SignUpPayload,
 }
 
-interface decodeJwtAction {
+export interface decodeJwtAction {
   type: AuthActionTypes.DECODE_JWT,
-  payload: any,
+  payload: JwtDecodePayload,
 }
 
 export type AuthAction =

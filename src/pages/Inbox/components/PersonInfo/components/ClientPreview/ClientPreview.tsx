@@ -40,10 +40,14 @@ export default function ClientPreview({ clientData, selectedClient, updateClient
       }
     };
 
-    updateClientData(Object.assign(clientData, {
-      isBlocked: !selectedClient.isBlocked,
-      successCallback,
-    }));
+    updateClientData(
+      // Object.assign(clientData,
+      {
+        isBlocked: !selectedClient.isBlocked,
+        successCallback,
+      }
+    // )
+    );
   };
   
   const BlockUserPopupBody = () => {
