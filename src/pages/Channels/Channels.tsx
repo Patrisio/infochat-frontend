@@ -309,7 +309,7 @@ export default function Channels() {
                   if (isAlreadyConnectedChannel) return;
 
                   addNewChannel(id);
-                  setModalProps(Object.assign(currentModal, { show: false }));
+                  setModalProps(prev => Object.assign(prev, { show: false }));
                 }}
               >
                 <div

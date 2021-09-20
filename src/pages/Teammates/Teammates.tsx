@@ -171,11 +171,6 @@ export default function Teammates() {
               teammateEmailForRemapDialogs: selectedTeammateForRemapDialogs,
               projectId,
             };
-            // export interface ToSelectedTeammateRemapDialogsPayload extends Partial<Callbacks> {
-            //   projectId: string,
-            //   deletedTeammateEmail: string,
-            //   teammateEmailForRemapDialogs: string,
-            // }
             remapDialogsToSelectedTeammate({
               ...remapDialogsToSelectedTeammateData,
               successCallback: () => {

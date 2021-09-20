@@ -41,12 +41,10 @@ export default function ClientPreview({ clientData, selectedClient, updateClient
     };
 
     updateClientData(
-      // Object.assign(clientData,
-      {
+      Object.assign(clientData, {
         isBlocked: !selectedClient.isBlocked,
         successCallback,
-      }
-    // )
+      })
     );
   };
   

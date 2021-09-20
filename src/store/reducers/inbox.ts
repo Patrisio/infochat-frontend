@@ -2,22 +2,6 @@ import { InboxState, IIncomingMessage, InboxAction, InboxActionTypes, SelectedCl
 import { getLastUnreadMessagesCount } from '../../utils/clientData';
 import cloneDeep from 'lodash/cloneDeep';
 
-// export interface IIncomingMessage extends Partial<Callbacks> {
-//   [key: string]: any,
-  
-//   projectId: string,
-//   clientId: string,
-//   messagesHistory: IMessagesHistory[],
-//   assignedTo: string | null,
-//   phone: string,
-//   email: string,
-//   avatarName: string,
-//   avatarColor: string,
-//   messagesStatus: 'unread' | 'opened' | 'closed',
-//   message: IMessagesHistory,
-//   timestamp: number,
-// }
-
 export const defaultSelectedClient: SelectedClient = {
   id: '',
   projectId: '',

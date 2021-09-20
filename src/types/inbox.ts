@@ -79,21 +79,6 @@ export interface IIncomingMessage extends Partial<Callbacks> {
   timestamp?: number,
 }
 
-// export interface SelectedClient {
-//   id: string | number,
-//   projectId: string,
-//   clientId: string,
-//   messagesHistory: IMessagesHistory[],
-//   assignedTo: string | null,
-//   phone: string,
-//   email: string,
-//   avatarName: string,
-//   avatarColor: string,
-//   messagesStatus: 'unread' | 'opened' | 'closed',
-//   notes: Note[],
-//   changesHistory: ModificationInterface[],
-// }
-
 export interface SelectedClient extends IIncomingMessage {
   notes: Note[],
   changesHistory: ModificationInterface[],
