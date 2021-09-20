@@ -67,7 +67,7 @@ export async function getTeammates(payload: GetTeammatesPayload): Promise<Respon
   return await requestApiGet('api_get_teammates', payload);
 }
 
-export async function teammateUpdate(payload: TeammateUpdatePayload): Promise<Response> {
+export async function teammateUpdate(payload: Partial<TeammateUpdatePayload>): Promise<Response> {
   const { projectId, successCallback, ...updatedTeammateData } = payload;
   return await requestApiPost('api_update_teammate', updatedTeammateData, { projectId }, successCallback);
 }

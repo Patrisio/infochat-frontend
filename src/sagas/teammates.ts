@@ -1,10 +1,13 @@
 import { call, put, takeEvery, StrictEffect } from 'redux-saga/effects';
 import { getTeammates, teammateAdd, sendEmail, removeTeammate, teammateUpdate } from '../api/dataLayer';
-import { TeammatesActionTypes, TeammatesAction } from '../types/teammates';
+import {
+  TeammatesActionTypes, fetchTeammatesAction, deleteTeammateAction,
+  updateTeammateAction, addTeammateAction,
+} from '../types/teammates';
 
-function* fetchTeammates(action: TeammatesAction): Generator<StrictEffect> {
+function* fetchTeammates({ payload }: fetchTeammatesAction): Generator<StrictEffect> {
   try {
-    const user = yield call(getTeammates, action.payload);
+    const user = yield call(getTeammates, payload);
     yield put({
       type: TeammatesActionTypes.TEAMMATES_ADD,
       payload: user
@@ -17,9 +20,9 @@ function* fetchTeammates(action: TeammatesAction): Generator<StrictEffect> {
   }
 }
 
-function* addTeammate(action: TeammatesAction): Generator<StrictEffect> {
+function* addTeammate({ payload }: addTeammateAction): Generator<StrictEffect> {
   try {
-    const { errorCallback, ...teammateData } = action.payload;
+    const { errorCallback, ...teammateData } = payload;
 
     const response: any = yield call(teammateAdd, { ...teammateData, errorCallback });
 
@@ -41,9 +44,9 @@ function* addTeammate(action: TeammatesAction): Generator<StrictEffect> {
   }
 }
 
-function* deleteTeammate(action: TeammatesAction): Generator<StrictEffect> {
+function* deleteTeammate({ payload }: deleteTeammateAction): Generator<StrictEffect> {
   try {
-    yield call(removeTeammate, action.payload);
+    yield call(removeTeammate, payload);
   } catch (e) {
     yield put({
       type: 'DELETE_TEAMMATE_FAILED',
@@ -52,9 +55,9 @@ function* deleteTeammate(action: TeammatesAction): Generator<StrictEffect> {
   }
 }
 
-function* updateTeammate(action: TeammatesAction): Generator<StrictEffect> {
+function* updateTeammate({ payload }: updateTeammateAction): Generator<StrictEffect> {
   try {
-    yield call(teammateUpdate, action.payload);
+    yield call(teammateUpdate, payload);
   } catch (e) {
     yield put({
       type: 'UPDATE_TEAMMATE_FAILED',

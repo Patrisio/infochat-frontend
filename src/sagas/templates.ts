@@ -1,10 +1,13 @@
 import { call, put, takeEvery, StrictEffect } from 'redux-saga/effects';
 import { templateAdd, templateDelete, templateEdit, getTemplates } from '../api/dataLayer';
-import { TemplatesActionTypes, TemplatesAction } from '../types/templates';
+import {
+  TemplatesActionTypes, fetchTemplatesAction, addTemplateAction,
+  editTemplateAction, deleteTemplateAction,
+} from '../types/templates';
 
-function* fetchTemplates(action: TemplatesAction): Generator<StrictEffect> {
+function* fetchTemplates({ payload }: fetchTemplatesAction): Generator<StrictEffect> {
   try {
-    const data: any = yield call(getTemplates, action.payload);
+    const data: any = yield call(getTemplates, payload);
 
     yield put({
       type: TemplatesActionTypes.TEMPLATES_ADD,
@@ -18,9 +21,9 @@ function* fetchTemplates(action: TemplatesAction): Generator<StrictEffect> {
   }
 }
 
-function* addTemplate(action: TemplatesAction): Generator<StrictEffect> {
+function* addTemplate({ payload }: addTemplateAction): Generator<StrictEffect> {
   try {
-    const { id, name, message, projectId } = action.payload;
+    const { id, name, message, projectId } = payload;
     yield call(templateAdd, { id, name, message, projectId });
   } catch (e) {
     yield put({
@@ -30,9 +33,9 @@ function* addTemplate(action: TemplatesAction): Generator<StrictEffect> {
   }
 }
 
-function* editTemplate(action: TemplatesAction): Generator<StrictEffect> {
+function* editTemplate({ payload }: editTemplateAction): Generator<StrictEffect> {
   try {
-    const { id, name, message, projectId } = action.payload;
+    const { id, name, message, projectId } = payload;
     yield call(templateEdit, { id, name, message, projectId });
   } catch (e) {
     yield put({
@@ -42,9 +45,9 @@ function* editTemplate(action: TemplatesAction): Generator<StrictEffect> {
   }
 }
 
-function* deleteTemplate(action: TemplatesAction): Generator<StrictEffect> {
+function* deleteTemplate({ payload }: deleteTemplateAction): Generator<StrictEffect> {
   try {
-    const { templateId, projectId } = action.payload;
+    const { templateId, projectId } = payload;
     yield call(templateDelete, { templateId, projectId });
   } catch (e) {
     yield put({

@@ -1,3 +1,5 @@
+import { TemplateAddPayload, GetTemplatesPayload, TemplateEditPayload, TemplateDeletePayload } from '../api/types';
+
 interface Template {
   id: string,
   name: string,
@@ -16,25 +18,25 @@ export enum TemplatesActionTypes {
   TEMPLATES_FETCH = 'TEMPLATES_FETCH',
 }
 
-interface addTemplateAction {
+export interface addTemplateAction {
   type: TemplatesActionTypes.TEMPLATE_ADD,
-  payload: any,
+  payload: TemplateAddPayload,
 }
-interface deleteTemplateAction {
+export interface deleteTemplateAction {
   type: TemplatesActionTypes.TEMPLATE_DELETE,
-  payload: any,
+  payload: TemplateDeletePayload,
 }
-interface editTemplateAction {
+export interface editTemplateAction {
   type: TemplatesActionTypes.TEMPLATE_EDIT,
-  payload: any,
+  payload: TemplateEditPayload,
 }
-interface addTemplatesAction {
+export interface addTemplatesAction {
   type: TemplatesActionTypes.TEMPLATES_ADD,
-  payload: any,
+  payload: TemplateAddPayload[],
 }
-interface fetchTemplatesAction {
+export interface fetchTemplatesAction {
   type: TemplatesActionTypes.TEMPLATES_FETCH,
-  payload: any,
+  payload: GetTemplatesPayload,
 }
 
 export type TemplatesAction =

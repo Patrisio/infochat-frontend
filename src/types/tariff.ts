@@ -1,3 +1,5 @@
+import { TariffPlanUpdatePayload, TariffPlanFetchPayload } from '../api/types';
+
 interface Plan {
   [key: string]: {
     imageSrc: string,
@@ -14,6 +16,8 @@ export interface TariffState {
   plan: Plan,
 }
 
+export type TariffPeriod = Omit<TariffState, 'plan'>;
+
 export enum TariffActionTypes {
   TARIFF_UPDATE = 'TARIFF_PLAN_UPDATE',
   TARIFF_PERIOD_UPDATE = 'TARIFF_PERIOD_UPDATE',
@@ -23,7 +27,7 @@ export enum TariffActionTypes {
 
 interface updateTariffPlanAction {
   type: TariffActionTypes.TARIFF_UPDATE,
-  payload: any,
+  payload: Partial<TariffPlanUpdatePayload>,
 }
 
 interface updateTariffPeriodAction {
@@ -33,7 +37,7 @@ interface updateTariffPeriodAction {
 
 interface fetchTariffPlan {
   type: TariffActionTypes.TARIFF_FETCH_PLAN,
-  payload: any,
+  payload: TariffPlanFetchPayload,
 }
 
 interface updateTariffPeriodAction {
@@ -43,7 +47,7 @@ interface updateTariffPeriodAction {
 
 interface saveTariffPlan {
   type: TariffActionTypes.TARIFF_SAVE_PLAN,
-  payload: any,
+  payload: Partial<TariffPlanUpdatePayload>,
 }
 
 export type TariffAction =

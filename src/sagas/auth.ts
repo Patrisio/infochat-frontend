@@ -4,9 +4,8 @@ import {
   AuthActionTypes, authInviteAction, getCurrentUserAction,
   authSignUpAction, authSignInAction, decodeJwtAction,
 } from '../types/auth';
-import { Response } from '../api/types';
 
-function* authInvite({ payload }: authInviteAction): Generator<StrictEffect, void, Response['data']> {
+function* authInvite({ payload }: authInviteAction): Generator<StrictEffect> {
   try {
     const { successCallback } = payload;
     const data = yield call(inviteUser, payload);

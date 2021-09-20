@@ -37,10 +37,10 @@ export const teammatesReducer = (state = initialState, action: TeammatesAction):
       if (foundTeammate) {
         foundTeammate = {
           ...foundTeammate,
-          isOnline: hasIsOnlineProperty ? isOnline : foundTeammate.isOnline,
+          isOnline: hasIsOnlineProperty ? isOnline as boolean : foundTeammate.isOnline as boolean,
           username: username ? username : foundTeammate.username,
           status: status ? status : foundTeammate.status,
-          email: email ? email : oldEmail,
+          email: email ? email as string : oldEmail as string,
         };
 
         state.teammates.splice(foundTeammateIndex, 1, foundTeammate);

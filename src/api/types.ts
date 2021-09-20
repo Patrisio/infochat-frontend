@@ -55,12 +55,24 @@ export interface SignUpPayload extends Callbacks {
 export interface GetTeammatesPayload {
   projectId: string,
 }
-export interface TeammateUpdatePayload extends Callbacks {
+export interface TeammateUpdateSaga extends Partial<Callbacks> {
+  id: string,
+  email: string,
+  projectId: string,
+  role: Role,
+  status: string,
+  username: string,
+}
+export interface TeammateUpdatePayload extends Partial<Callbacks> {
   projectId: string,
   oldEmail: string,
   password?: string,
   role: Role
   username: string,
+  email: string,
+  isOnline?: boolean,
+  status?: string,
+  timezone: string,
 }
 export interface IncomingMessagesFetchPayload extends Partial<Callbacks> {
   projectId: string,
@@ -81,7 +93,7 @@ export interface SelectedClientUpdatePayload extends Callbacks {
 
   projectId: string,
   clientId: string,
-  assignedTo: string,
+  assignedTo: string | null,
   avatarName: string,
   changeInFieldValue: string,
   email: string,
@@ -89,12 +101,14 @@ export interface SelectedClientUpdatePayload extends Callbacks {
   phone: string,
   updatedBy: Role | 'client',
 }
-export interface TeammateAddPayload extends Callbacks {
+export interface TeammateAddPayload extends Partial<Callbacks> {
   email: string,
   projectId: string,
   role: Role,
   status: string,
   username: string,
+  avatar: string,
+  isOnline: boolean,
 }
 export interface RemoveTeammatePayload {
   email: string,
@@ -145,15 +159,18 @@ export interface TemplateEditPayload {
 export interface GetTemplatesPayload {
   projectId: string,
 }
-export interface ProjectAddPayload extends Callbacks {
+export interface ProjectAddPayload extends Partial<Callbacks> {
   name: string,
   timezone: string,
+  email: string,
 }
 export interface TariffPlanFetchPayload {
   projectId: string,
 }
 export interface TariffPlanUpdatePayload {
   projectId: string,
+  featureId: string,
+  count: number,
   chatCount: number,
   infochatLinkCount: number,
   operatorsCount: number,

@@ -17,6 +17,7 @@ import { SelectedClient, ModificationInterface } from '../../../../types/inbox';
 import styles from './personInfo.module.scss';
 import { getChangeInFieldValue } from '../../../../utils/clientData';
 import socket from '../../../../socket';
+import { Role } from '../../../../lib/utils/accessRights';
 
 interface PersonInfoProps {
   selectedClient: SelectedClient,
@@ -82,43 +83,15 @@ export default function PersonInfo({ selectedClient, closeModal, setModalProps }
         socket.emit('updateSelectedClient', updateSelectedClientData);
       };
 
-      // export interface IIncomingMessage extends Partial<Callbacks> {
-      //   [key: string]: any,
-        
-      //   projectId: string,
-      //   clientId: string,
-      //   messagesHistory: IMessagesHistory[],
-      //   assignedTo: string | null,
-      //   phone: string,
-      //   email: string,
-      //   avatarName: string,
-      //   avatarColor: string,
-      //   messagesStatus: 'unread' | 'opened' | 'closed',
-      //   message?: IMessagesHistory,
-      //   timestamp?: number,
-      // }
-
-      // export interface SelectedClientUpdatePayload extends Callbacks {
-      //   projectId: string,
-      //   clientId: string,
-      //   assignedTo: string,
-      //   avatarName: string,
-      //   changeInFieldValue: string,
-      //   email: string,
-      //   isBlocked: boolean,
-      //   phone: string,
-      //   updatedBy: Role | 'client',
-      // }
-
       updateClientData(
-        // Object.assign(clientData,
+        Object.assign(clientData,
           {
-            updatedBy: 'operator',
+            updatedBy: 'operator' as Role,
             [fieldName]: fieldValue,
             changeInFieldValue: getChangeInFieldValue(fieldName),
             successCallback,
           }
-      // )
+      )
       );
     }
   };

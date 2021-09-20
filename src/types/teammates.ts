@@ -1,3 +1,8 @@
+import {
+  TeammateAddPayload, RemoveTeammatePayload, TeammateUpdatePayload,
+  GetTeammatesPayload, TeammateUpdateSaga,
+} from '../api/types';
+
 export interface Teammate {
   avatar: string,
   email: string,
@@ -15,40 +20,39 @@ export enum TeammatesActionTypes {
   TEAMMATE_ADD = 'TEAMMATE_ADD',
   TEAMMATE_ADD_SAGA = 'TEAMMATE_ADD_SAGA',
   TEAMMATE_DELETE = 'TEAMMATE_DELETE',
-  // TEAMMATE_ASSIGN = 'TEAMMATE_ASSIGN',
   TEAMMATE_FETCH = 'TEAMMATE_FETCH',
   TEAMMATE_UPDATE = 'TEAMMATE_UPDATE',
   TEAMMATES_ADD = 'TEAMMATES_ADD',
 }
 
-interface addTeammateAction {
+export interface addTeammateAction {
   type: TeammatesActionTypes.TEAMMATE_ADD,
-  payload: any,
+  payload: TeammateAddPayload,
 }
 
 interface addTeammateSagaAction {
   type: TeammatesActionTypes.TEAMMATE_ADD_SAGA,
-  payload: any,
+  payload: TeammateUpdateSaga,
 }
 
-interface deleteTeammateAction {
+export interface deleteTeammateAction {
   type: TeammatesActionTypes.TEAMMATE_DELETE,
-  payload: any,
+  payload: RemoveTeammatePayload,
 }
 
-interface fetchTeammatesAction {
+export interface fetchTeammatesAction {
   type: TeammatesActionTypes.TEAMMATE_FETCH,
-  payload: any,
+  payload: GetTeammatesPayload,
 }
 
-interface updateTeammateAction {
+export interface updateTeammateAction {
   type: TeammatesActionTypes.TEAMMATE_UPDATE,
-  payload: any,
+  payload: Partial<TeammateUpdatePayload>,
 }
 
 interface addTeammatesAction {
   type: TeammatesActionTypes.TEAMMATES_ADD,
-  payload: any,
+  payload: TeammateAddPayload[],
 }
 
 export type TeammatesAction =

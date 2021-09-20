@@ -1,26 +1,27 @@
 import { TemplatesActionTypes, TemplatesAction } from '../../types/templates';
+import { TemplateAddPayload, GetTemplatesPayload, TemplateEditPayload, TemplateDeletePayload } from '../../api/types';
 
-export const fetchTemplates = (payload: { projectId: string }): TemplatesAction => ({
+export const fetchTemplates = (payload: GetTemplatesPayload): TemplatesAction => ({
   type: TemplatesActionTypes.TEMPLATES_FETCH,
   payload,
 });
 
-export const addTemplate = (payload: any): TemplatesAction => ({
+export const addTemplate = (payload: TemplateAddPayload): TemplatesAction => ({
   type: TemplatesActionTypes.TEMPLATE_ADD,
   payload,
 });
 
-export const addTemplates = (payload: any): TemplatesAction => ({
+export const addTemplates = (payload: TemplateAddPayload[]): TemplatesAction => ({
   type: TemplatesActionTypes.TEMPLATES_ADD,
   payload,
 });
 
-export const editTemplate = (payload: any): TemplatesAction => ({
+export const editTemplate = (payload: TemplateEditPayload): TemplatesAction => ({
   type: TemplatesActionTypes.TEMPLATE_EDIT,
   payload,
 });
 
-export const deleteTemplate = (payload: { templateId: string, projectId: string }): TemplatesAction => ({
+export const deleteTemplate = (payload: TemplateDeletePayload): TemplatesAction => ({
   type: TemplatesActionTypes.TEMPLATE_DELETE,
   payload,
 });
