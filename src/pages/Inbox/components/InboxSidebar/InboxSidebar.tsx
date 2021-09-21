@@ -82,6 +82,7 @@ export default function InboxSidebar({ inboxMessages }: InboxSidebarProps) {
   const formatDialogs = () => {
     const all = {
       name: 'Все',
+      label: 'all',
       allClientIds: incomingMessages,
       icon: <FontAwesomeIcon icon={faInbox} />,
       stylesList: {
@@ -91,6 +92,7 @@ export default function InboxSidebar({ inboxMessages }: InboxSidebarProps) {
     };
     const unread = {
       name: 'Непрочитанные',
+      label: 'unread',
       count: inboxMessages.unread.count,
       icon: <FontAwesomeIcon icon={faEnvelope} />,
       stylesList: {
@@ -101,6 +103,7 @@ export default function InboxSidebar({ inboxMessages }: InboxSidebarProps) {
     };
     const opened = {
       name: 'Открытые',
+      label: 'opened',
       count: inboxMessages.opened.count,
       icon: <FontAwesomeIcon icon={faEnvelopeOpen} />,
       stylesList: {
@@ -111,6 +114,7 @@ export default function InboxSidebar({ inboxMessages }: InboxSidebarProps) {
     };
     const assigned = {
       name: 'Назначенные мне',
+      label: 'assigned',
       count: inboxMessages.assigned.count,
       icon: <FontAwesomeIcon icon={faAt} />,
       stylesList: {
@@ -121,6 +125,7 @@ export default function InboxSidebar({ inboxMessages }: InboxSidebarProps) {
     };
     const closed = {
       name: 'Закрытые',
+      label: 'closed',
       count: inboxMessages.closed.count,
       icon: <FontAwesomeIcon icon={faCheckSquare} />,
       stylesList: {
@@ -142,6 +147,7 @@ export default function InboxSidebar({ inboxMessages }: InboxSidebarProps) {
       for (let { name } of channels) {
         result.push({
           name: getChannelName(name),
+          label: name,
           icon: <FontAwesomeIcon icon={faComments} />,
           stylesList: {
             marginLeft: '8px',
@@ -172,6 +178,7 @@ export default function InboxSidebar({ inboxMessages }: InboxSidebarProps) {
     for (let { username, isOnline, email } of teammatesWithoutCurrentUser) {
       result.push({
         name: username,
+        label: email,
         icon: (
           <Badge
             size='small'
@@ -204,11 +211,13 @@ export default function InboxSidebar({ inboxMessages }: InboxSidebarProps) {
   return (
     <Sidebar>
       <SidebarList
+        type='dialogs'
         title={dialogTitle()}
         listItems={formatDialogs()}
       />
 
       <SidebarList
+        type='channel'
         title={channelsTitle()}
         listItems={formatChannels(channels)}
       />
@@ -216,6 +225,7 @@ export default function InboxSidebar({ inboxMessages }: InboxSidebarProps) {
       {
         isOwner &&
         <SidebarList
+          type='assigned'
           title={teammatesTitle()}
           listItems={formatTeammates(teammates)}
         />

@@ -12,6 +12,7 @@ import Input from '../../../../components/Input/Input';
 import Button from '../../../../components/Button/Button';
 import AppealsSkeleton from '../../../../components/Skeleton/AppealsSkeleton/AppealsSkeleton';
 
+import { SidebarContext } from '../../../../context/SidebarContext';
 import { IIncomingMessage, IMessagesHistory, SelectedClient, Filters } from '../../../../types/inbox';
 import { getClientName, getLastUnreadMessagesCount } from '../../../../utils/clientData';
 import { useActions } from '../../../../hooks/useActions';
@@ -47,6 +48,7 @@ export default function AppealsContainerSelector({
     updateSelectedClient, selectClient
   } = useActions();
   const { currentUser } = useContext(Context);
+  const { updateSidebar } = useContext(SidebarContext);
   let { projectId } = useParams<{projectId: string}>();
 
   const showClientMessages = (clientId: string) => {
@@ -158,6 +160,10 @@ export default function AppealsContainerSelector({
   };
 
   const selectOption = (filterName: string, id: string | number) => {
+    updateSidebar(prev => ({
+      ...prev,
+      [filterName]: id as string,
+    }));
     updateFilters((prev) => ({
       ...prev,
       [filterName]: filterName === 'searchBy' ?

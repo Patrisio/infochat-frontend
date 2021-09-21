@@ -3,8 +3,11 @@ import { useHistory, useParams } from 'react-router-dom';
 
 import Router from './router/router';
 import socket from './socket';
+
 import { Context, IUser } from './context/Context';
 import { NotificationContext, NotificationInterface } from './context/NotificationContext';
+import { SidebarContext, SidebarInterface } from './context/SidebarContext';
+
 import { useActions } from './hooks/useActions';
 import { isProjectOwner } from './lib/utils/accessRights';
 import Spin from './components/Spin/Spin';
@@ -47,8 +50,15 @@ export default function App() {
     text: null,
   };
 
+  const initialSidebar: SidebarInterface = {
+    dialogs: null,
+    channel: null,
+    assigned: null,
+  };
+
   const [currentUser, setCurrentUser] = useState(initialCurrentUser);
   const [notification, updateNotification] = useState(initialNotification);
+  const [sidebar, updateSidebar] = useState(initialSidebar);
 
   useEffect(() => {
     if (isNeedCurrentUserData) {
@@ -148,15 +158,17 @@ export default function App() {
   return (
     <Context.Provider value={{ currentUser, setCurrentUser }}>
       <NotificationContext.Provider value={{ notification, updateNotification }}>
-        <div className='App'>
-          <Suspense fallback={<Spin classNames='appLoader' />}>
-            { notification.isShow && <Notification /> }
-            {
-              (currentUser.email || hasAuthError || !isNeedCurrentUserData) &&
-              <Router isOwner={isProjectOwner(currentUser.role)} />
-            }
-          </Suspense>
-        </div>
+        <SidebarContext.Provider value={{ sidebar, updateSidebar }}>
+          <div className='App'>
+            <Suspense fallback={<Spin classNames='appLoader' />}>
+              { notification.isShow && <Notification /> }
+              {
+                (currentUser.email || hasAuthError || !isNeedCurrentUserData) &&
+                <Router isOwner={isProjectOwner(currentUser.role)} />
+              }
+            </Suspense>
+          </div>
+        </SidebarContext.Provider>
       </NotificationContext.Provider>
     </Context.Provider>
   );
