@@ -22,7 +22,7 @@ export default function useForm(
       });
       return;
     }
-    console.log(name, value);
+
     setFormValues({
       ...values,
       [name]: value
@@ -31,20 +31,22 @@ export default function useForm(
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log(values, 'VALUES');
-
+    setIsSubmitting(true);
     const { errors, formattedValues } = validate(values, meta);
+
+    if (Object.keys(errors).length > 0) {
+      setIsSubmitting(false);
+    }
 
     setErrors(errors);
     setFormValues(formattedValues);
-    setIsSubmitting(true);
   };
 
   useEffect(() => {
     if (Object.keys(errors).length === 0 && isSubmitting) {
-      callback(values);
+      callback(values, () => setIsSubmitting(false));
     }
   }, [errors]);
 
-  return { handleChange, handleSubmit, setFormValues, values, errors };
+  return { handleChange, handleSubmit, setFormValues, values, errors, isSubmitting };
 }

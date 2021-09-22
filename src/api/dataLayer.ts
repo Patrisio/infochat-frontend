@@ -59,8 +59,8 @@ export async function signIn(payload: SignInPayload): Promise<Response> {
 }
 
 export async function signUp(payload: SignUpPayload): Promise<Response> {
-  const { successCallback, errorCallback, ...signUpCredentials } = payload;
-  return await requestApiPost('api_auth_sign_up', signUpCredentials, {}, successCallback, errorCallback);
+  const { errorCallback, ...signUpCredentials } = payload;
+  return await requestApiPost('api_auth_sign_up', signUpCredentials, {}, () => {}, errorCallback);
 }
 
 export async function getTeammates(payload: GetTeammatesPayload): Promise<Response> {

@@ -1,6 +1,5 @@
-import React, { useContext } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import { useParams } from 'react-router';
+import React, { useContext, useEffect } from 'react';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { faInbox, faEnvelope, faEnvelopeOpen, faAt, faComments, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cloneDeep from 'lodash/cloneDeep';
@@ -17,6 +16,7 @@ import styles from './inboxSidebar.module.scss';
 import { Teammate } from '../../../../types/teammates';
 import { isProjectOwner } from '../../../../lib/utils/accessRights';
 import { Context } from '../../../../context/Context';
+import { SidebarContext } from '../../../../context/SidebarContext';
 
 interface Channel {
   name: string,
@@ -32,7 +32,9 @@ export default function InboxSidebar({ inboxMessages }: InboxSidebarProps) {
   const { channels } = useTypedSelector(state => state.channels);
   const { teammates } = useTypedSelector(state => state.teammates);
 
-  const { currentUser } = useContext<any>(Context);
+  const { currentUser } = useContext(Context);
+  const { updateSidebar } = useContext(SidebarContext);
+
   const isOwner = isProjectOwner(currentUser.role);
   let { projectId, dialogType } = useParams<{ projectId: string, dialogType: string }>();
 
@@ -207,6 +209,13 @@ export default function InboxSidebar({ inboxMessages }: InboxSidebarProps) {
 
     return result;
   };
+
+  useEffect(() => {
+    updateSidebar(prev => ({
+      ...prev,
+      dialogs: dialogType,
+    }));
+  }, []);
 
   return (
     <Sidebar>

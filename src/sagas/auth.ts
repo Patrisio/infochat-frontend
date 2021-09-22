@@ -1,5 +1,6 @@
 import { call, put, takeEvery, StrictEffect } from 'redux-saga/effects';
 import { inviteUser, signIn, signUp, fetchCurrentUser, jwtDecode } from '../api/dataLayer';
+import { Response } from '../api/types';
 import {
   AuthActionTypes, authInviteAction, getCurrentUserAction,
   authSignUpAction, authSignInAction, decodeJwtAction,
@@ -19,10 +20,10 @@ function* authInvite({ payload }: authInviteAction): Generator<StrictEffect> {
   }
 }
 
-function* authSignUp({ payload }: authSignUpAction): Generator<StrictEffect> {
+function* authSignUp({ payload }: authSignUpAction): Generator<StrictEffect, void, Response> {
   try {
     const { email, password, successCallback } = payload;
-    const data: any = yield call(signUp, payload);
+    const data = yield call(signUp, payload);
 
     if (data.statusCode !== 400 && data.statusCode !== 409) {
       yield put({

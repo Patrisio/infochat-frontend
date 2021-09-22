@@ -25,7 +25,7 @@ export default function App() {
   } = useActions();
   const history = useHistory();
   const { projectId } = useParams<{ projectId: string }>();
-
+  console.log(useParams(), 'dddd');
   const currentUserDataIsNeeded = (url: string) => {
     const pagesWithoutCurrentUserData = ['iframe', 'signup', 'signin', 'invite'];
     return !pagesWithoutCurrentUserData.find((page: string) => url.includes(page));

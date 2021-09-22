@@ -18,9 +18,10 @@ export default function SignUpPage()  {
   const history = useHistory();
   const { updateNotification } = useContext(NotificationContext);
 
-  const signInUser = (values: { email: string, password: string }) => {
+  const signInUser = (values: { email: string, password: string }, activateCallback: () => void) => {
     const successCallback = (data: { accessToken: string, projectId: number }) => {
       updateToken(data.accessToken);
+      activateCallback();
       history.push(`/project/${data.projectId}/inbox/opened`);
     };
     const errorCallback = (response: Response) => {
@@ -28,6 +29,7 @@ export default function SignUpPage()  {
         isShow: true,
         text: response.message as string,
       });
+      activateCallback();
     };
 
     authSignIn({
@@ -37,7 +39,7 @@ export default function SignUpPage()  {
     });
   };
 
-  const { handleChange, handleSubmit, errors } = useForm(
+  const { handleChange, handleSubmit, errors, isSubmitting } = useForm(
     {
       email: '',
       password: '',
@@ -75,6 +77,7 @@ export default function SignUpPage()  {
         <Button
           type='submit'
           fluid
+          disabled={isSubmitting}
         >
           Войти
         </Button>

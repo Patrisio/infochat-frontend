@@ -18,16 +18,16 @@ export default function SignUpPage()  {
   const history = useHistory();
   const { notification, updateNotification } = useContext(NotificationContext);
 
-  const signUpUser = async (values: {
+  const signUpUser = (values: {
     email: string,
     password: string,
     phone: string,
     username: string,
-  }) => {
+  }, activateCallback: () => void) => {
     const successCallback = (data: {
       accessToken: string,
       projectId: string,
-    }) => {
+    }, ) => {
       updateToken(data.accessToken);
 
       if (notification.isShow) {
@@ -36,7 +36,7 @@ export default function SignUpPage()  {
           text: null,
         });
       }
-
+      activateCallback();
       history.push(`/project/${data.projectId}/inbox/opened`);
     };
     const errorCallback = (response: Response) => {
@@ -44,6 +44,7 @@ export default function SignUpPage()  {
         isShow: true,
         text: response.message as string,
       });
+      activateCallback();
     };
 
     authSignUp({
@@ -55,7 +56,7 @@ export default function SignUpPage()  {
     });
   };
 
-  const { handleChange, handleSubmit, errors } = useForm(
+  const { handleChange, handleSubmit, errors, isSubmitting } = useForm(
     {
       username: '',
       phone: '',
@@ -65,6 +66,7 @@ export default function SignUpPage()  {
     validateForm,
     signUpUser
   );
+  console.log(isSubmitting, 'isSubmitting');
 
   return (
     <div className={styles.formWrapper}>
@@ -113,6 +115,7 @@ export default function SignUpPage()  {
         <Button
           type='submit'
           fluid
+          disabled={isSubmitting}
         >
           Зарегистрироваться
         </Button>
