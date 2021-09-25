@@ -1,0 +1,17 @@
+@import '../../scss/variables.module.scss';
+
+.notificationContainer {
+  position: relative;
+  background: $orange-2;
+  color: $orange-1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+}
+
+.closeIcon {
+  position: absolute;
+  right: 20px;
+  cursor: pointer;
+}

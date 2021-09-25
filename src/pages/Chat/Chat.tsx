@@ -42,7 +42,7 @@ interface ClientData {
 let parentWindowOrigin = '';
 let savedClientChatSettings: Settings | null = null;
 let savedRulesSteps: RuleStep[] | null = null;
-let countdownWithoutAnswerFromOperator: NodeJS.Timeout;
+let countdownWithoutAnswerFromOperator: any;
 let messagesSentCount = 0;
 
 const animal = new Animal({ name: '' });

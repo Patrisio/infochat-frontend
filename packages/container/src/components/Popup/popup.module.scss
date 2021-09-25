@@ -1,0 +1,63 @@
+@import '../../scss/variables.module.scss';
+
+.popupContainer {
+  position: relative;
+}
+
+.popup {
+  position: absolute;
+  left: 0;
+  background: $white-1;
+  border: 1px solid rgba(0,0,0,.15);
+  box-shadow: 0 1px 3px 0 rgb(83 79 71 / 15%), 0 5px 15px 0 rgb(83 79 71 / 25%);
+  border-radius: 5px;
+  z-index: 99;
+
+  &Visible {
+    transition: .2s all ease;
+    visibility: visible;
+    transform: scale(1);
+  }
+
+  &Hidden {
+    visibility: hidden;
+    transform: scale(0);
+  }
+
+  &CenterVisible {
+    transform: translateX(-50%) scale(1);
+    left: 50%;
+  }
+
+  &CenterHidden {
+    transform: translateX(-50%) scale(0);
+    left: 50%;
+  }
+}
+
+.top {
+  bottom: 100%;
+}
+
+.downRight {
+  top: 100%;
+  right: 0;
+  left: auto;
+}
+
+.popupTriggerContainer {
+  position: relative;
+}
+
+.arrowIconDown {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 5px;
+  right: -20px;
+}
+
+.arrowIconUp {
+  margin-left: 5px;
+  transform: translateY(-50%) rotate(180deg);
+}

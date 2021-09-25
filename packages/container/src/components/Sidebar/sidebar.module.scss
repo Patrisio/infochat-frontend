@@ -1,0 +1,20 @@
+@import '../../scss/variables.module.scss';
+
+.sidebarContainer {
+  position: fixed;
+  width: 270px;
+  height: 100vh;
+}
+
+.darkMode {
+  background: $black-2;
+}
+
+.lightMode {
+  background: $white-4;
+  border-right: 1px solid $grey-12;
+}
+
+.sidebarClone {
+  width: 270px;
+}

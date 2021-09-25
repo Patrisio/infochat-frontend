@@ -1,0 +1,36 @@
+@import '../../../../scss/variables.module.scss';
+
+.listItem {
+  font-size: 14px;
+  color: $opacity-3;
+  font-weight: 400;
+  padding: 5px 0;
+  padding-left: 30px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+
+.dark {
+  &:hover {
+    background: $brown-5;
+  }
+
+  &.active {
+    background: $brown-5;
+  }
+}
+
+.light {
+  &:hover {
+    color: $blue-4 !important;
+  }
+}
+
+.count {
+  margin-right: 30px;
+}
+
+.iconAndName {
+  display: flex;
+}

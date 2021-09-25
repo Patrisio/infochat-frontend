@@ -1,0 +1,28 @@
+@import '../../scss/variables.module.scss';
+
+.assignedTeammatesList {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.assignedTeammate {
+  display: flex;
+  align-items: center;
+  background-color: $white-4;
+  border: 1px solid $grey-2;
+  padding: 5px 14px;
+  width: fit-content;
+}
+
+.removeIcon {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.teammateName {
+  padding: 0 8px;
+  margin: 0;
+}

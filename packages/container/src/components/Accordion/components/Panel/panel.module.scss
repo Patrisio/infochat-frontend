@@ -1,0 +1,56 @@
+@import '../../../../scss/variables.module.scss';
+
+.accordion {
+  position: relative;
+  border: 1px solid $opacity-4;
+  border-radius: 5px;
+  background: $white-1;
+  margin-bottom: 10px;
+}
+
+.accordionHeader {
+  padding: 0 15px;
+}
+
+.accordionTitle {
+  user-select: none;
+  margin: 0;
+  padding: 10px 0;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.accordionBody {
+  padding: 0 15px 15px;
+}
+
+.notesHeaderTitleName {
+  user-select: none;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.notesHeaderTitle {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.accordionHeaderContent {
+  display: flex;
+}
+
+.notesCount {
+  color: $grey-1;
+  margin-left: 5px;
+}
+
+.arrowIconRight {
+  margin-right: 10px;
+}
+
+.arrowIconDown {
+  transform: rotate(90deg);
+  margin-right: 10px;
+}
