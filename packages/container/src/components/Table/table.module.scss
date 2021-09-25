@@ -1,0 +1,16 @@
+@import '../../scss/variables.module.scss';
+
+.gridContainer {
+  border: 1px solid $grey-14;
+  border-radius: 5px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+  height: 64px;
+  border-bottom: 1px solid $grey-14;
+}

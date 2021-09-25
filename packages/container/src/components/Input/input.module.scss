@@ -1,0 +1,113 @@
+@import '../../scss/variables.module.scss';
+
+.inputContainer {
+  position: relative;
+}
+
+.input {
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 18px 9px;
+  border-radius: 5px;
+  border: 1px solid $grey-24;
+  font-size: 16px;
+  background: $white-1;
+  transition: .3s;
+  outline: none;
+
+  &:disabled {
+    background: $grey-25;
+  }
+}
+
+.labelText {
+  margin-left: 10px;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+}
+
+.radioStyles {
+  min-width: fit-content;
+  height: fit-content;
+}
+
+.notRadioStyles {
+  min-width: 70px;
+  height: 50px;
+}
+
+.input:focus {
+  border: 1px solid $blue-4;
+}
+
+.fluid {
+  width: 100%;
+}
+
+.popup {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  width: 100%;
+  box-shadow: 0 1px 3px 0 rgb(83 79 71 / 15%), 0 5px 15px 0 rgb(83 79 71 / 25%);
+  background: $white-1;
+  z-index: 99;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.popupValue {
+  margin: 0;
+  padding: 8px 20px;
+  transition: .2s all;
+  cursor: pointer;
+
+  &:hover {
+    background: $white-6;
+  }
+}
+
+.clearSearchFieldIcon {
+  position: absolute;
+  right: -20px;
+  top: 0;
+  cursor: pointer;
+}
+
+.errorMessage {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 8px 19px;
+  width: calc(100% - 38px);
+  color: $white-1;
+  background: $orange-1;
+  font-size: 13px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.error {
+  border-color: $orange-1;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  margin-bottom: 30px !important;
+}
+
+.errorInputContainer {
+  margin-bottom: 15px;
+}
+
+.arrowIconDown {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.arrowIconUp {
+  transform: translateY(-50%) rotate(180deg);
+}

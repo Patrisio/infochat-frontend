@@ -1,0 +1,39 @@
+@import '../../../scss/variables.module.scss';
+
+.clientInfoSkeletonContainer {
+  width: 330px;
+}
+
+.clientInfoSkeletonHeader {
+  display: flex;
+  align-items: center;
+  padding: 13px 14px;
+  border-bottom: 1px solid $grey-13;
+}
+
+.clientInfoSkeletonDescription {
+  margin-left: 20px;
+  flex-grow: 1;
+}
+
+.clientInfoSkeletonEntity {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 13px 14px;
+  border-bottom: 1px solid $grey-13;
+}
+
+.clientInfoSkeletonEntityItem {
+  width: 50%;
+  margin-bottom: 10px;
+}
+
+.clientInfoSkeletonNote {
+  padding: 13px 14px;
+  border-bottom: 1px solid $grey-13;
+}
+
+.clientInfoSkeletonNoteDescription {
+  margin-top: 30px;
+}

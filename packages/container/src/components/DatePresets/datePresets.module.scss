@@ -1,0 +1,27 @@
+@import '../../scss/variables.module.scss';
+
+.datePresetsContainer {
+  display: flex;
+  width: fit-content;
+  border: 1px solid $grey-11;
+  border-radius: 5px;
+  margin-top: 25px;
+  user-select: none;
+  font-size: 13px;
+}
+
+.dateRadioButton {
+  display: none;
+}
+
+.dateTabActive {
+  background: $yellow-1;
+}
+
+.dateTab {
+  padding: 10px 15px 10px 5px;
+}
+
+.dateTab:not(:last-child) {
+  border-right: 1px solid $grey-11;
+}

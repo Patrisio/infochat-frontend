@@ -1,0 +1,88 @@
+@import '../../scss/variables.module.scss';
+
+.overlay {
+  position: fixed;
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  z-index: 99;
+  left: 0;
+  top: 0;
+  background: rgba(0, 0, 0, .5);
+  overflow-y: auto;
+  transition: .3s all;
+
+  &Hidden {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  &Visible {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+.modalContent {
+  position: relative;
+  z-index: 99;
+  background: $white-1;
+  border-radius: 5px;
+  overflow: hidden;
+  height: fit-content;
+  transition: .2s all ease;
+
+  &Hidden {
+    visibility: hidden;
+  }
+
+  &Visible {
+    visibility: visible;
+  }
+
+  &TopHidden {
+    visibility: hidden;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &TopVisible {
+    visibility: visible;
+    transform: translateX(-50%);
+    top: 30px;
+    left: 50%;
+  }
+}
+
+.modalBody {
+  overflow-y: auto;
+  height: calc(100% - 50px);
+}
+
+.center {
+  transform: translateX(-50%);
+  top: 0;
+  left: 50%;
+  align-self: center;
+}
+
+.header {
+  background: $white-3;
+  padding: 16px;
+  border-bottom: 1px solid $grey-17;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-weight: 500;
+  color: $brown-5;
+  font-size: 16px;
+  margin: 0;
+}
+
+.closeIcon {
+  cursor: pointer;
+}

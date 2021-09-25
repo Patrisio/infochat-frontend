@@ -1,0 +1,55 @@
+@import '../../../../scss/variables.module.scss';
+
+.projectsSelectorContainer {
+  flex-grow: 1;
+  text-align: center;
+  padding: 18.5px 0;
+  font-size: 20px;
+  font-weight: 500;
+  transition: .2s all;
+
+  &Hovered {
+    cursor: pointer;
+
+    &:hover {
+      opacity: .5;
+    }
+  }
+}
+
+.dark {
+  border-bottom: 1px solid rgba(227,230,232,.1);
+  color: $white-1;
+}
+
+.light {
+  border-bottom: 1px solid $grey-12;
+  color: $brown-6;
+}
+
+.projectsList {
+  list-style-type: none;
+  padding: 0;
+  width: 100%;
+  font-size: 14px;
+  padding: 5px 0;
+  transition: .3s all;
+}
+
+.projectName {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 20px;
+}
+
+.projectName:hover {
+  background: $grey-21;
+}
+
+.projectLink {
+  display: block;
+  width: 100%;
+  text-decoration: none;
+  color: $black-1;
+}

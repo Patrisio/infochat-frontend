@@ -1,0 +1,12 @@
+@import '../../../scss/variables.module.scss';
+
+.appealSkeletonContainer {
+  display: flex;
+  padding: 13px 14px;
+  border-bottom: 1px solid $grey-13;
+}
+
+.appealSkeletonDescription {
+  margin-left: 20px;
+  flex-grow: 1;
+}
