@@ -15,19 +15,20 @@ const prodConfig: any = {
       {
         test: /\.(scss|sass)$/,
         use: [
-          MiniCssExtractPlugin.loader,
+          // MiniCssExtractPlugin.loader,
+          'style-loader',
           'css-loader',
           'sass-loader',
         ],
       },
     ],
   },
-  plugins: [
-    new MiniCssExtractPlugin({
-      filename: '[name].css',
-      chunkFilename: '[id].css',
-    })
-  ],
+  // plugins: [
+  //   new MiniCssExtractPlugin({
+  //     filename: '[name].css',
+  //     chunkFilename: '[id].css',
+  //   })
+  // ],
 };
 
 module.exports = merge(commonConfig, prodConfig);
