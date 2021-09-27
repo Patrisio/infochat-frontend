@@ -61,7 +61,7 @@ const commonConfig: any = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'public/index.html',
+      template: '../public/index.html',
     }),
   ],
 };
