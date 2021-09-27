@@ -2,13 +2,14 @@ import path from 'path';
 import { merge } from 'webpack-merge';
 import commonConfig from './webpack.common';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-
+console.log(path.resolve(__dirname, '..', 'build'));
 const prodConfig: any = {
   mode: 'production',
   output: {
-    filename: '[name].[contenthash].js',
+    publicPath: '/build/',
+    filename: 'bundle.js',
     path: path.resolve(__dirname, '..', 'build'),
-    pathinfo: true,
+    // pathinfo: true,
   },
   module: {
     rules: [

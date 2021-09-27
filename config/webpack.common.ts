@@ -56,12 +56,15 @@ const commonConfig: any = {
       },
     ],
   },
+  performance: {
+    hints: false,
+  },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: '../public/index.html',
+      template: path.resolve(__dirname, '..', 'public', 'index.html'),
     }),
   ],
 };
