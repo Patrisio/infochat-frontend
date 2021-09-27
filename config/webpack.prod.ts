@@ -6,7 +6,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 const prodConfig: any = {
   mode: 'production',
   output: {
-    publicPath: '/build/',
+    publicPath: '/',
     filename: 'bundle.js',
     path: path.resolve(__dirname, '..', 'build'),
     // pathinfo: true,
