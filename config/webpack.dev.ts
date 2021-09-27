@@ -1,16 +1,8 @@
 import { merge } from 'webpack-merge';
 import commonConfig from './webpack.common';
-import * as webpack from 'webpack';
 import 'webpack-dev-server';
-
-interface DevConfig {
-  mode: 'development' | 'production',
-  output: any,
-  devServer: any,
-  plugins: any
-}
-
-import { Configuration, HotModuleReplacementPlugin } from "webpack";
+import { HotModuleReplacementPlugin } from "webpack";
+import { localBackendHost } from '../src/lib/utils/constants'; 
 
 const devConfig: any = {
   mode: 'development',
@@ -31,7 +23,7 @@ const devConfig: any = {
   ],
   devServer: {
     historyApiFallback: true,
-    port: 4000,
+    port: 3001,
     open: true,
     hot: true,
     proxy: [
@@ -44,7 +36,7 @@ const devConfig: any = {
           '/templates',
           '/projects',
         ],
-        target: 'http://localhost:3005',
+        target: localBackendHost,
       },
     ],
   },

@@ -4,6 +4,7 @@ import { useParams } from 'react-router';
 import Button from '../../../../components/Button/Button';
 
 import styles from './installBlock.module.scss';
+import { isProduction, host, localBackendHost } from '../../../../lib/utils/constants';
 
 export default function InstallBlock() {
   const [buttonText, setButtonText] = useState('Скопировать код в буфер');
@@ -11,24 +12,10 @@ export default function InstallBlock() {
   const codeRef = useRef<HTMLDivElement>(null);
 
   const displayCode = (projectId: string) => {
-    if (process.env.NODE_ENV === 'production') {
-      return (
-        <>
-          &lt;
-            <span>script</span>
-          &gt;
-            var a = document.createElement("script"),
-                h = "head";
-            a.async = true;
-            a.src = (document.location.protocol == "https:" ? "https://" : "http://") + `{document.location.host}` + `/inbox/api/{projectId}/widget`;
-            document.getElementsByTagName(h)[0].appendChild(a);
-          &lt;
-            <span>/script</span>
-          &gt;
-        </>
-      );
-    }
-
+    const getHost = () => {
+      return isProduction ? host : localBackendHost;
+    };
+    
     return (
       <>
         &lt;
@@ -37,7 +24,7 @@ export default function InstallBlock() {
           var a = document.createElement("script"),
               h = "head";
           a.async = true;
-          a.src = (document.location.protocol == "https:" ? "https://" : "http://") + "localhost:3005" + `/inbox/api/{projectId}/widget`;
+          a.src = (document.location.protocol == "https:" ? "https://" : "http://") + `{getHost()}` + `/inbox/api/{projectId}/widget`;
           document.getElementsByTagName(h)[0].appendChild(a);
         &lt;
           <span>/script</span>

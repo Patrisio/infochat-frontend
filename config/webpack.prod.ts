@@ -9,7 +9,6 @@ const prodConfig: any = {
     publicPath: '/',
     filename: 'bundle.js',
     path: path.resolve(__dirname, '..', 'build'),
-    // pathinfo: true,
   },
   module: {
     rules: [

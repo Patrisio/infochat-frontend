@@ -1,5 +1,6 @@
 import { generateUrlWithGetParams } from './';
 import { Response } from './types';
+import { host } from '../lib/utils/constants';
 
 interface RequestApi {
   method?: Method,
@@ -45,7 +46,7 @@ export async function requestApi({
     params.body = JSON.stringify(postBody);
   }
 
-  const response = await fetch(url, params);
+  const response = await fetch(`${host}${url}`, params);
   const result = await response.json();
 
   if (errorCodes.includes(result.statusCode)) {

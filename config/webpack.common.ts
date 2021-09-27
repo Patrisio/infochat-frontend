@@ -9,14 +9,14 @@ const commonConfig: any = {
   },
   module: {
     rules: [
-      {
-        test: /\.(png|jpe?g|webp|git|svg|)$/i,
-        use: [
-          {
-            loader: 'img-optimize-loader',
-          },
-        ],
-      },
+      // {
+      //   test: /\.(png|jpe?g|webp|git|svg|)$/i,
+      //   use: [
+      //     {
+      //       loader: 'img-optimize-loader',
+      //     },
+      //   ],
+      // },
       {
         test: /\.css$/,
         use: [
