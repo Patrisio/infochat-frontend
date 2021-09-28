@@ -24,7 +24,7 @@ export default function InstallBlock() {
           var a = document.createElement("script"),
               h = "head";
           a.async = true;
-          a.src = (document.location.protocol == "https:" ? "https://" : "http://") + `{getHost()}` + `/inbox/api/{projectId}/widget`;
+          a.src = `{getHost()}/inbox/api/{projectId}/widget`;
           document.getElementsByTagName(h)[0].appendChild(a);
         &lt;
           <span>/script</span>

@@ -40,7 +40,7 @@
   },
   "scripts": {
     "start": "webpack serve --config config/webpack.dev.ts",
-    "build": "webpack --config config/webpack.prod.ts"
+    "build": "webpack --progress --config config/webpack.prod.ts"
   },
   "eslintConfig": {
     "extends": [
