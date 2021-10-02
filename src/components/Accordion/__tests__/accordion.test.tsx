@@ -1,9 +1,8 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import { findByTestAttr } from 'lib/utils/testUtils';
-import Accordion from '../Accordion';
+import Accordion from 'ui/Accordion/Accordion';
 import Panel from '../components/Panel/Panel';
-import styles from '../accordion.module.scss';
 
 interface Panel {
   title: string,

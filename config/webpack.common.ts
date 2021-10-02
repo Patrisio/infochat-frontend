@@ -73,6 +73,7 @@ const commonConfig: any = {
       context: path.resolve(__dirname, '..', 'src', 'context'),
       modules: path.resolve(__dirname, '..', 'src', 'modules'),
       pages: path.resolve(__dirname, '..', 'src', 'pages'),
+      store: path.resolve(__dirname, '..', 'src', 'store'),
     },
   },
   plugins: [

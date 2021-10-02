@@ -2,7 +2,7 @@ import React from 'react';
 import '../../../../setupTests';
 import { mount } from 'enzyme';
 import { findByTestAttr } from 'lib/utils/testUtils';
-import Avatar from '../Avatar';
+import Avatar from 'ui/Avatar/Avatar';
 import styles from './avatar.module.scss';
 
 const setup = () => {

@@ -1,10 +1,10 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import { findByTestAttr } from 'lib/utils/testUtils';
-import ContactField from '../ContactField';
+import Button from 'ui/Button/Button';
+import Input from 'ui/Input/Input';
+import ContactField from 'ui/ContactField/ContactField';
 import styles from '../contactField.module.scss';
-import Button from '../../Button/Button';
-import Input from '../../Input/Input';
 
 const setup = () => {
   return mount(

@@ -14,4 +14,4 @@ export default {
   ...TariffPlayerCreators,
   ...TeammatesPlayerCreators,
   ...TemplatesPlayerCreators,
-}
+};
