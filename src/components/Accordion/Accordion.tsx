@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 
 import Panel from './components/Panel/Panel';
 
@@ -15,7 +15,7 @@ interface AccordionProps {
 
 export default function Accordion({ panels }: AccordionProps) {
   return (
-    <div>
+    <div data-test='accordion-component'>
       {
         panels.map(({ title, content, count, isVisible }, idx) => {
           return isVisible ?

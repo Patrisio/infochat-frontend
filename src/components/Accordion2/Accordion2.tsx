@@ -23,9 +23,10 @@ export default function Accordion({ panels }: AccordionProps) {
     <div
       className={styles.accordion}
       role='tablist'
+      data-test="accordion2-component"
     >
       {
-        panels.map((panel: PanelInterface, index) => {
+        panels.map((panel, index) => {
           const updatedPanel = Object.assign(panel, { content: cloneElement(panel.content, { setActiveTab }) });
 
           return (

@@ -28,6 +28,7 @@ export default function Avatar({ name, size = 'medium', stylesList }: IProps) {
           size === 'large' ? styles.large : styles.medium} 
       `}
       style={stylesList}
+      data-test="avatar-component"
     >
       {getUserInitials(name)}
     </div>

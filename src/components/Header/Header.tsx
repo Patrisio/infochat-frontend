@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
-import socket from '../../socket';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUserEdit, faLayerGroup, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
-import CurrentUserInfo from '../CurrentUserInfo/CurrentUserInfo';
+import socket from '../../socket';
 import { Context } from '../../context/Context';
 
 import Switcher from '../Switcher/Switcher';
@@ -13,8 +14,6 @@ import Avatar from '../Avatar/Avatar';
 import { useActions } from '../../hooks/useActions';
 
 import styles from './header.module.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserEdit, faLayerGroup, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { isProjectOwner } from '../../lib/utils/accessRights';
 import { updateToken } from '../../lib/utils/token';
 
@@ -121,7 +120,7 @@ export default function Header() {
             arrow
           >
             <div className={styles.currentUserInfo}>
-              <CurrentUserInfo />
+              {currentUser.username}
             </div>
           </Popup>
         </div>

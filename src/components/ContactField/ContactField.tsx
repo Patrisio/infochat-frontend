@@ -19,7 +19,10 @@ export default function ContactField({ field, onClick }: ContactFieldProps) {
     return fieldValue.length < 4;
   };
   return (
-    <div className={styles.contactFieldContainer}>
+    <div
+      className={styles.contactFieldContainer}
+      data-test='contact-field-component'
+    >
       <p className={styles.contactFieldTitle}>Пожалуйста, отправьте нам свой e-mail</p>
 
       <div className={styles.contactField}>
