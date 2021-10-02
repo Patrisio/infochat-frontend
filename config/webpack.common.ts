@@ -70,6 +70,9 @@ const commonConfig: any = {
       api: path.resolve(__dirname, '..', 'src', 'api'),
       types: path.resolve(__dirname, '..', 'src', 'types'),
       scss: path.resolve(__dirname, '..', 'src', 'scss'),
+      context: path.resolve(__dirname, '..', 'src', 'context'),
+      modules: path.resolve(__dirname, '..', 'src', 'modules'),
+      pages: path.resolve(__dirname, '..', 'src', 'pages'),
     },
   },
   plugins: [

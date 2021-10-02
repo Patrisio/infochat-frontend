@@ -1,14 +1,14 @@
 import { lazy } from 'react';
 
-const SignInPage = lazy(() => import('../pages/SignInPage/SignInPage'));
-const SignUpPage = lazy(() => import('../pages/SignUpPage/SignUpPage'));
-const Inbox = lazy(() => import('../pages/Inbox/Inbox'));
-const Chat = lazy(() => import('../pages/Chat/Chat'));
-const ChatTrigger = lazy(() => import('../pages/Chat/ChatTrigger'));
-const InviteForm = lazy(() => import('../pages/InviteForm/InviteForm'));
-const Settings = lazy(() => import('../pages/Settings/Settings'));
-const Profile = lazy(() => import('../pages/Profile/Profile'));
-const Projects = lazy(() => import('../pages/Projects/Projects'));
+const SignInPage = lazy(() => import('pages/SignInPage/SignInPage'));
+const SignUpPage = lazy(() => import('pages/SignUpPage/SignUpPage'));
+const Inbox = lazy(() => import('pages/Inbox/Inbox'));
+const Chat = lazy(() => import('pages/Chat/Chat'));
+const ChatTrigger = lazy(() => import('pages/Chat/ChatTrigger'));
+const InviteForm = lazy(() => import('pages/InviteForm/InviteForm'));
+const Settings = lazy(() => import('pages/Settings/Settings'));
+const Profile = lazy(() => import('pages/Profile/Profile'));
+const Projects = lazy(() => import('pages/Projects/Projects'));
 
 interface RouteProps {
   exact: boolean,
