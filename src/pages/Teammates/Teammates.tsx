@@ -15,11 +15,12 @@ import useForm from 'hooks/useForm';
 import { useActions } from 'hooks/useActions';
 import { useTypedSelector } from 'hooks/useTypedSelector';
 
+import { generateRandomHash } from 'lib/utils/string';
+import { isProjectOwner, Role } from 'lib/utils/accessRights';
+import { updateToken } from 'lib/utils/token';
+
 import styles from './teammates.module.scss';
-import { generateRandomHash } from '../../utils/string';
-import { isProjectOwner, Role } from '../../lib/utils/accessRights';
 import validateForm from './validateForm';
-import { updateToken } from '../../lib/utils/token';
 import { NotificationContext } from '../../context/NotificationContext';
 import socket from '../../socket';
 import { Response } from '../../api/types';

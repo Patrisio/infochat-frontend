@@ -1,4 +1,4 @@
-import { checkProjectName } from '../../utils/formValidationRules';
+import { checkProjectName } from 'lib/utils/formValidationRules';
 
 export default function validateForm(values: any, meta: any) {
   let errors: any = {};

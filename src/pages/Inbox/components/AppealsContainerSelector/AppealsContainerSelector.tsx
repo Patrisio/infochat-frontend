@@ -14,7 +14,7 @@ import AppealsSkeleton from 'ui/Skeleton/AppealsSkeleton/AppealsSkeleton';
 
 import { SidebarContext } from '../../../../context/SidebarContext';
 import { IIncomingMessage, IMessagesHistory, SelectedClient, Filters } from '../../../../types/inbox';
-import { getClientName, getLastUnreadMessagesCount } from '../../../../utils/clientData';
+import { getClientName, getLastUnreadMessagesCount } from 'lib/utils/clientData';
 import { useActions } from 'hooks/useActions';
 import { useTypedSelector } from 'hooks/useTypedSelector';
 import { Context } from '../../../../context/Context';

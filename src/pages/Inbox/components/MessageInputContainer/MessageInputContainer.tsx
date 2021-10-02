@@ -7,8 +7,8 @@ import Textarea from 'ui/Textarea/Textarea';
 
 import socket from '../../../../socket';
 import styles from './messageInputContainer.module.scss';
-import { scrollToBottomOfWrapper } from '../../../../lib/utils/scroll';
-import { replaceBrToWhiteSpace, replaceWhiteSpaceToBr } from '../../../../utils/string';
+import { scrollToBottomOfWrapper } from 'lib/utils/scroll';
+import { replaceBrToWhiteSpace, replaceWhiteSpaceToBr } from 'lib/utils/string';
 import { useActions } from 'hooks/useActions';
 import { useTypedSelector } from 'hooks/useTypedSelector';
 import { Context } from '../../../../context/Context';

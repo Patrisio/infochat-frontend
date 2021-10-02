@@ -9,7 +9,7 @@ import { NotificationContext, NotificationInterface } from './context/Notificati
 import { SidebarContext, SidebarInterface } from './context/SidebarContext';
 
 import { useActions } from 'hooks/useActions';
-import { isProjectOwner } from './lib/utils/accessRights';
+import { isProjectOwner } from 'lib/utils/accessRights';
 import Spin from './components/Spin/Spin';
 import Notification from './components/Notification/Notification';
 

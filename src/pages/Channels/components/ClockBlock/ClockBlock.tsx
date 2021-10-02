@@ -2,17 +2,20 @@ import React, { useState, useEffect } from 'react';
 import moment from 'moment-timezone';
 
 import BusinessHours from './components/BusinessHours/BusinessHours';
-import Button from 'ui/Button/Button';
-import Input from 'ui/Input/Input';
 import ButtonsGroup from '../ButtonsGroup/ButtonsGroup';
 
 import styles from './clockBlock.module.scss';
-import { generateRandomHash } from '../../../../utils/string';
 import { responseTime, request } from './constants';
+
+import Button from 'ui/Button/Button';
+import Input from 'ui/Input/Input';
+
 import { useActions } from 'hooks/useActions';
 import { useTypedSelector } from 'hooks/useTypedSelector';
-import { getTimezones, getTimezoneByCode } from '../../../../lib/utils/date';
-import { getEntityIdByValue } from '../../../../lib/utils/entity';
+
+import { getTimezones, getTimezoneByCode } from 'lib/utils/date';
+import { getEntityIdByValue } from 'lib/utils/entity';
+import { generateRandomHash } from 'lib/utils/string';
 
 interface Props {
   setActiveTab?: () => void,

@@ -1,6 +1,7 @@
-import { InboxState, IIncomingMessage, InboxAction, InboxActionTypes, SelectedClient, IMessagesHistory } from '../../types/inbox';
-import { getLastUnreadMessagesCount } from '../../utils/clientData';
 import cloneDeep from 'lodash/cloneDeep';
+
+import { InboxState, IIncomingMessage, InboxAction, InboxActionTypes, SelectedClient, IMessagesHistory } from '../../types/inbox';
+import { getLastUnreadMessagesCount } from 'lib/utils/clientData';
 
 export const defaultSelectedClient: SelectedClient = {
   id: '',

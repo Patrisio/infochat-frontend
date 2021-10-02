@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { animals, colors } from '../../utils/constants'
+import { animals, colors } from 'lib/utils/constants'
 import styles from './animal.module.scss';
 
 type IProps = {

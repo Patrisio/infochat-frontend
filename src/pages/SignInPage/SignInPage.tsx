@@ -10,7 +10,7 @@ import Button from 'ui/Button/Button';
 import styles from './SignInPage.module.scss';
 import validateForm from './validateForm';
 import { NotificationContext } from '../../context/NotificationContext';
-import { updateToken } from '../../lib/utils/token';
+import { updateToken } from 'lib/utils/token';
 import { Response } from '../../api/types';
 
 export default function SignUpPage()  {

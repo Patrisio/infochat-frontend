@@ -1,14 +1,16 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import Input from 'ui/Input/Input';
 
-import styles from './businessHours.module.scss';
-import { weekdays, businessHours } from '../../../../../../lib/utils/date';
-import { getEntityValueById } from '../../../../../../lib/utils/entity';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { weekdays, businessHours } from 'lib/utils/date';
+import { getEntityValueById } from 'lib/utils/entity';
+
 import { useActions } from 'hooks/useActions';
 import { useTypedSelector } from 'hooks/useTypedSelector';
+
+import styles from './businessHours.module.scss';
 
 interface BusinessHours {
   [key: string]: string,

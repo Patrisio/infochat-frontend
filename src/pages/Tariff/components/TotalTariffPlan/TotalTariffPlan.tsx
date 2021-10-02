@@ -8,8 +8,8 @@ import Button from 'ui/Button/Button';
 import { useActions } from 'hooks/useActions';
 import { useTypedSelector } from 'hooks/useTypedSelector';
 
-import { bonus } from '../../../../lib/utils/bonus';
-import { YEAR } from '../../../../lib/utils/date';
+import { bonus } from 'lib/utils/bonus';
+import { YEAR } from 'lib/utils/date';
 
 import styles from './totalTariffPlan.module.scss';
 

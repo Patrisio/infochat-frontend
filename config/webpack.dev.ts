@@ -2,7 +2,7 @@ import { merge } from 'webpack-merge';
 import commonConfig from './webpack.common';
 import 'webpack-dev-server';
 import { HotModuleReplacementPlugin } from "webpack";
-import { localBackendHost, productionHost } from '../src/lib/utils/constants'; 
+import { productionHost } from '../src/lib/utils/constants'; 
 
 const devConfig: any = {
   mode: 'development',

@@ -1,4 +1,4 @@
-import { checkEmail, checkPassword } from '../../utils/formValidationRules';
+import { checkEmail, checkPassword } from 'lib/utils/formValidationRules';
 
 export default function validateForm(values: { email: string, password: string, }) {
   let errors: any = {};

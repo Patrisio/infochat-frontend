@@ -14,9 +14,10 @@ import useForm from 'hooks/useForm';
 import { useActions } from 'hooks/useActions';
 import { useTypedSelector } from 'hooks/useTypedSelector';
 
+import { getAllInboxMessages } from 'lib/utils/messages';
+import { getTimezones, getTimezoneByCode, DEFAULT_TIME_ZONE } from 'lib/utils/date';
+
 import { Context } from '../../context/Context';
-import { getAllInboxMessages } from '../../lib/utils/messages';
-import { getTimezones, getTimezoneByCode, DEFAULT_TIME_ZONE } from '../../lib/utils/date';
 import styles from './projects.module.scss';
 import validateForm from './validateForm';
 

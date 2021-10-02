@@ -4,7 +4,7 @@ import ButtonsGroup from '../ButtonsGroup/ButtonsGroup';
 import Button from 'ui/Button/Button';
 import Rule from './components/Rule/Rule';
 
-import { generateRandomHash } from '../../../../utils/string';
+import { generateRandomHash } from 'lib/utils/string';
 import { cloneDeep } from 'lodash';
 import { useActions } from 'hooks/useActions';
 import { useTypedSelector } from 'hooks/useTypedSelector';

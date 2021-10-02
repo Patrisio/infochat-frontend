@@ -1,6 +1,6 @@
 import { generateUrlWithGetParams } from './';
 import { Response } from './types';
-import { host } from '../lib/utils/constants';
+import { host } from 'lib/utils/constants';
 
 interface RequestApi {
   method?: Method,

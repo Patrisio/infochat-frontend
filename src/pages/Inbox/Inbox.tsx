@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, Suspense, lazy } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router';
-import { Context } from '../../context/Context';
+
 import { useActions } from 'hooks/useActions';
 import { useTypedSelector } from 'hooks/useTypedSelector';
 
@@ -11,16 +11,17 @@ import Button from 'ui/Button/Button';
 import Modal, { ModalProps } from 'ui/Modal/Modal';
 import ClientInfoSkeleton from 'ui/Skeleton/ClientInfoSkeleton/ClientInfoSkeleton';
 
+import { getAllInboxMessages } from 'lib/utils/messages';
+import { isProjectOwner } from 'lib/utils/accessRights';
+import { getClientName } from 'lib/utils/clientData';
+
 import AppealsContainerSelector from './components/AppealsContainerSelector/AppealsContainerSelector';
 import InboxSidebar from './components/InboxSidebar/InboxSidebar';
 
 import styles from './inbox.module.scss';
 import man from '../../assets/man.png';
-import { getAllInboxMessages } from '../../lib/utils/messages';
-import { isProjectOwner } from '../../lib/utils/accessRights';
-import { getClientName } from '../../utils/clientData';
-import { IUser } from '../../context/Context';
-import { DialogType, IIncomingMessage, IMessagesHistory } from '../../types/inbox';
+import { IUser, Context } from '../../context/Context';
+import { DialogType, IIncomingMessage } from '../../types/inbox';
 
 const AppealsContainerMessages = lazy(() => import('./components/AppealsContainerMessages/AppealsContainerMessages'));
 const PersonInfo = lazy(() => import('./components/PersonInfo/PersonInfo'));

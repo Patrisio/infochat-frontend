@@ -13,11 +13,13 @@ import ClientPreview from './components/ClientPreview/ClientPreview';
 
 import { useActions } from 'hooks/useActions';
 import { useTypedSelector } from 'hooks/useTypedSelector';
+
+import { Role } from 'lib/utils/accessRights';
+import { getChangeInFieldValue } from 'lib/utils/clientData';
+
 import { SelectedClient, ModificationInterface } from '../../../../types/inbox';
 import styles from './personInfo.module.scss';
-import { getChangeInFieldValue } from '../../../../utils/clientData';
 import socket from '../../../../socket';
-import { Role } from '../../../../lib/utils/accessRights';
 
 interface PersonInfoProps {
   selectedClient: SelectedClient,

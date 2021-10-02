@@ -6,7 +6,7 @@ import styles from './datePresets.module.scss';
 import {
   datePresets, getMomentDate, formatDateToCustomDate,
   getYesterday, getWeekPeriod, getMonthPeriod
-} from '../../lib/utils/date';
+} from 'lib/utils/date';
 
 interface DatePresetsProps {
   onChange: (date: string | { from: string, to: string }) => void,

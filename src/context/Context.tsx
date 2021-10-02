@@ -1,5 +1,5 @@
 import { createContext, Dispatch, SetStateAction } from 'react';
-import { Role } from '../lib/utils/accessRights';
+import { Role } from 'lib/utils/accessRights';
 
 export interface Project {
   id: number,

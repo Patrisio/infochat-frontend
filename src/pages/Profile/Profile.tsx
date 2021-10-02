@@ -1,19 +1,21 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router';
 
-import InboxSidebar from '../Inbox/components/InboxSidebar/InboxSidebar';
 import Title from 'ui/Typography/Title/Title';
 import Header from 'ui/Header/Header';
 import Input from 'ui/Input/Input';
-import EditableUserForm from '../../modules/EditableUserForm/EditableUserForm';
 
-import { Context } from '../../context/Context';
-import { getAllInboxMessages } from '../../lib/utils/messages';
-import { getTimezones, getTimezoneByCode, USER_TIME_ZONE } from '../../lib/utils/date';
+import { getAllInboxMessages } from 'lib/utils/messages';
+import { getTimezones, getTimezoneByCode, USER_TIME_ZONE } from 'lib/utils/date';
+import { updateToken } from 'lib/utils/token';
+
 import { useActions } from 'hooks/useActions';
 import { useTypedSelector } from 'hooks/useTypedSelector';
+
+import { Context } from '../../context/Context';
 import styles from './profile.module.scss';
-import { updateToken } from '../../lib/utils/token';
+import EditableUserForm from '../../modules/EditableUserForm/EditableUserForm';
+import InboxSidebar from '../Inbox/components/InboxSidebar/InboxSidebar';
 
 interface FormData {
   email: string,

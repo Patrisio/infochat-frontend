@@ -1,5 +1,5 @@
 import { IUser } from '../context/Context';
-import { Role } from '../lib/utils/accessRights';
+import { Role } from 'lib/utils/accessRights';
 import { Settings } from '../types/channels';
 import { IMessagesHistory } from '../types/inbox';
 

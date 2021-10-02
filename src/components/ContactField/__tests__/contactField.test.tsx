@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-import { findByTestAttr } from '../../../test/testUtils';
+import { findByTestAttr } from 'lib/utils/testUtils';
 import ContactField from '../ContactField';
 import styles from '../contactField.module.scss';
 import Button from '../../Button/Button';

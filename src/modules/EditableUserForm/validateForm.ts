@@ -1,7 +1,7 @@
 import {
   checkPassword, checkConfirmPassword,
   checkName, checkSurname, checkEmail
-} from '../../utils/formValidationRules';
+} from 'lib/utils/formValidationRules';
 
 export default function validateForm(values: any, meta: any) {
   let errors: any = {};

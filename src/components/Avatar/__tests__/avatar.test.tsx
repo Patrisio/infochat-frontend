@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../../../setupTests';
 import { mount } from 'enzyme';
-import { findByTestAttr } from "../../../test/testUtils";
+import { findByTestAttr } from 'lib/utils/testUtils';
 import Avatar from '../Avatar';
 import styles from './avatar.module.scss';
 

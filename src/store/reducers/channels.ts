@@ -1,8 +1,9 @@
 import { Condition, ChannelsState, ChannelsAction, ChannelsActionTypes } from '../../types/channels';
 
 import cloneDeep from 'lodash/cloneDeep';
-import { generateRandomHash } from '../../utils/string';
-import { DEFAULT_TIME_ZONE } from '../../lib/utils/date';
+
+import { generateRandomHash } from 'lib/utils/string';
+import { DEFAULT_TIME_ZONE } from 'lib/utils/date';
 
 const DEFAULT_TIME_WITHOUT_ANSWER = 10;
 

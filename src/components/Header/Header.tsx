@@ -14,8 +14,8 @@ import Avatar from 'ui/Avatar/Avatar';
 import { useActions } from 'hooks/useActions';
 
 import styles from './header.module.scss';
-import { isProjectOwner } from '../../lib/utils/accessRights';
-import { updateToken } from '../../lib/utils/token';
+import { isProjectOwner } from 'lib/utils/accessRights';
+import { updateToken } from 'lib/utils/token';
 
 export default function Header() {
   const { currentUser, setCurrentUser } = useContext(Context);

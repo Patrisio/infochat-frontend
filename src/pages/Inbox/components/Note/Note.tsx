@@ -4,7 +4,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import Avatar from 'ui/Avatar/Avatar';
 
-import { formatDateToCustomDate } from '../../../../lib/utils/date';
+import { formatDateToCustomDate } from 'lib/utils/date';
 import styles from './note.module.scss';
 
 

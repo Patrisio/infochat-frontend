@@ -10,21 +10,24 @@ import Animal from 'ui/Animal/Animal';
 
 import socket from '../../socket';
 import styles from './chat.module.scss';
+import { getLogicalSign, getScriptCondition } from './helpers';
+
 import { useActions } from 'hooks/useActions';
 import { useTypedSelector } from 'hooks/useTypedSelector';
-import { getLogicalSign, getScriptCondition } from './helpers';
-import { numericSort } from '../../lib/utils/sort';
-import { getEntityIdByValue } from '../../lib/utils/entity';
-import { scrollToBottomOfWrapper } from '../../lib/utils/scroll';
-import { businessHours, weekdays, isDateBetween } from '../../lib/utils/date';
-import { replaceWhiteSpaceToBr } from '../../utils/string';
+
+import { numericSort } from 'lib/utils/sort';
+import { getEntityIdByValue } from 'lib/utils/entity';
+import { scrollToBottomOfWrapper } from 'lib/utils/scroll';
+import { businessHours, weekdays, isDateBetween } from 'lib/utils/date';
+import { replaceWhiteSpaceToBr } from 'lib/utils/string';
+
 import { Settings, Rule, Condition, BusinessDay } from '../../types/channels';
 import { BotMessage, Message } from '../../api/types';
+import { request } from '../Channels/components/ClockBlock/constants';
 
 import theme1 from '../../assets/theme1-big.png';
 import theme2 from '../../assets/theme2-big.png';
 import theme3 from '../../assets/theme3-big.png';
-import { request } from '../Channels/components/ClockBlock/constants';
 
 interface RuleStep {
   ruleId: string,

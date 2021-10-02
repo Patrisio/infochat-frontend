@@ -1,4 +1,4 @@
-import { ONE_MONTH, THREE_MONTHS, SIX_MONTHS, YEAR } from '../../lib/utils/date';
+import { ONE_MONTH, THREE_MONTHS, SIX_MONTHS, YEAR } from 'lib/utils/date';
 
 export interface Period {
   id: number,

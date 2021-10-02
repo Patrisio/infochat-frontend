@@ -9,7 +9,7 @@ import Button from 'ui/Button/Button';
 
 import styles from './inviteForm.module.scss';
 import validateForm from './validateForm';
-import { updateToken } from '../../lib/utils/token';
+import { updateToken } from 'lib/utils/token';
 import socket from '../../socket';
 import { Response } from '../../api/types';
 

@@ -6,7 +6,7 @@ import Animal from 'ui/Animal/Animal';
 import Textarea from 'ui/Textarea/Textarea';
 import Popup from 'ui/Popup/Popup';
 
-import { getClientName } from '../../../../../../utils/clientData';
+import { getClientName } from 'lib/utils/clientData';
 import styles from './clientPreview.module.scss';
 import { InboxState } from '../../../../../../types/inbox';
 import { useActions } from 'hooks/useActions';

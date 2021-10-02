@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
+import cloneDeep from 'lodash/cloneDeep';
 
 import Table from 'ui/Table/Table';
 import Title from 'ui/Typography/Title/Title';
@@ -12,9 +13,9 @@ import useForm from 'hooks/useForm';
 import { useActions } from 'hooks/useActions';
 import { useTypedSelector } from 'hooks/useTypedSelector';
 
+import { generateRandomHash } from 'lib/utils/string';
+
 import styles from './templates.module.scss';
-import cloneDeep from 'lodash/cloneDeep';
-import { generateRandomHash } from '../../utils/string';
 import validateForm from './validateForm';
 
 interface ModalProps {

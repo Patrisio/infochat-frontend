@@ -4,7 +4,7 @@ import { useParams } from 'react-router';
 import Button from 'ui/Button/Button';
 
 import styles from './installBlock.module.scss';
-import { isProduction, host, localBackendHost } from '../../../../lib/utils/constants';
+import { isProduction, host, localBackendHost } from 'lib/utils/constants';
 
 export default function InstallBlock() {
   const [buttonText, setButtonText] = useState('Скопировать код в буфер');

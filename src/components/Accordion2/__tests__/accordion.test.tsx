@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-import { findByTestAttr } from "../../../test/testUtils";
+import { findByTestAttr } from 'lib/utils/testUtils';
 import Accordion from '../Accordion2';
 import install from '../../../assets/install.svg';
 

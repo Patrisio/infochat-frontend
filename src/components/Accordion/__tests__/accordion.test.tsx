@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-import { findByTestAttr } from "../../../test/testUtils";
+import { findByTestAttr } from 'lib/utils/testUtils';
 import Accordion from '../Accordion';
 import Panel from '../components/Panel/Panel';
 import styles from '../accordion.module.scss';
@@ -57,7 +57,7 @@ describe('Тестирование аккордиона', () => {
         content={<div>erfe</div>}
       />
     );
-    
+
     wrapper.find('.accordionHeader').simulate('click');
     expect(wrapper.find('.accordionBody').length).toEqual(0);
 
