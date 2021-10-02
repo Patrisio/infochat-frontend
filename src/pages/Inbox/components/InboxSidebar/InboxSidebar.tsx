@@ -3,7 +3,7 @@ import { Link, useHistory, useParams } from 'react-router-dom';
 import { faInbox, faEnvelope, faEnvelopeOpen, faAt, faComments, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cloneDeep from 'lodash/cloneDeep';
-import { defaultSelectedClient } from '..//reducers/inbox';
+import { defaultSelectedClient } from 'store/reducers/inbox';
 
 import Sidebar from 'ui/Sidebar/Sidebar';
 import SidebarList from 'ui/Sidebar/components/SidebarList/SidebarList';

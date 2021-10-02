@@ -13,7 +13,7 @@ import usePrevious from 'hooks/usePrevious';
 import { useTypedSelector } from 'hooks/useTypedSelector';
 
 import styles from './appealsContainerMessages.module.scss';
-import { defaultSelectedClient } from '..//reducers/inbox';
+import { defaultSelectedClient } from 'store/reducers/inbox';
 import socket from '../../../../socket';
 
 import { SelectedClient, } from 'types/inbox';
