@@ -28,7 +28,7 @@ import operators from 'assets/operators.svg';
 import style from 'assets/style.svg';
 
 import styles from './channels.module.scss';
-import colors from '../../scss/variables.module.scss';
+import colors from 'scss/variables.module.scss';
 
 interface ModalProps {
   show: boolean,

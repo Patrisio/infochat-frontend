@@ -15,7 +15,7 @@ import Tariff from '../Tariff/Tariff';
 import Bills from '../Bills/Bills';
 
 import styles from './settings.module.scss';
-import colors from '../../scss/variables.module.scss';
+import colors from 'scss/variables.module.scss';
 
 export default function Settings() {
   let { projectId, pageId } = useParams<{ projectId: string, pageId: string }>();

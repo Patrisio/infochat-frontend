@@ -14,7 +14,7 @@ import Spin from './components/Spin/Spin';
 import Notification from './components/Notification/Notification';
 
 import 'normalize.css';
-import './scss/App.scss';
+import 'scss/App.scss';
 
 export default function App() {
   const [hasAuthError, setAuthError] = useState(false);

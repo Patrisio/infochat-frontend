@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './modal.module.scss';
-import colors from '../../scss/variables.module.scss';
+import colors from 'scss/variables.module.scss';
 
 export interface ModalProps {
   show: boolean,

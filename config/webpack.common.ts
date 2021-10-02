@@ -69,6 +69,7 @@ const commonConfig: any = {
       assets: path.resolve(__dirname, '..', 'src', 'assets'),
       api: path.resolve(__dirname, '..', 'src', 'api'),
       types: path.resolve(__dirname, '..', 'src', 'types'),
+      scss: path.resolve(__dirname, '..', 'src', 'scss'),
     },
   },
   plugins: [

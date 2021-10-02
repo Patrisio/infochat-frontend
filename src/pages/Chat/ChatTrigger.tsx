@@ -11,7 +11,7 @@ import chatTriggerIcon from 'assets/chat-trigger-icon.svg';
 import { Settings } from 'types/channels';
 
 import styles from './chat.module.scss';
-import colors from '../../scss/variables.module.scss';
+import colors from 'scss/variables.module.scss';
 
 interface ParamTypes {
   clientId: string,

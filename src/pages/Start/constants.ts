@@ -6,7 +6,7 @@ import tariff from 'assets/tariff.svg';
 import bills from 'assets/bills.svg';
 import billingHistory from 'assets/billing-history.svg';
 
-import colors from '../../scss/variables.module.scss';
+import colors from 'scss/variables.module.scss';
 
 interface Feature {
   imageSrc: string,

@@ -12,7 +12,7 @@ import { useActions } from 'hooks/useActions';
 import { useTypedSelector } from 'hooks/useTypedSelector';
 
 import styles from './chatPreview.module.scss';
-import colors from '../../../../scss/variables.module.scss';
+import colors from 'scss/variables.module.scss';
 
 interface Background {
   id: number,
