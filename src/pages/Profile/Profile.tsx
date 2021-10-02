@@ -10,8 +10,8 @@ import EditableUserForm from '../../modules/EditableUserForm/EditableUserForm';
 import { Context } from '../../context/Context';
 import { getAllInboxMessages } from '../../lib/utils/messages';
 import { getTimezones, getTimezoneByCode, USER_TIME_ZONE } from '../../lib/utils/date';
-import { useActions } from '../../hooks/useActions';
-import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { useActions } from 'hooks/useActions';
+import { useTypedSelector } from 'hooks/useTypedSelector';
 import styles from './profile.module.scss';
 import { updateToken } from '../../lib/utils/token';
 

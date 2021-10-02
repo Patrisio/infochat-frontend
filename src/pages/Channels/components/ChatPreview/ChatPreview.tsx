@@ -8,8 +8,8 @@ import theme1 from '../../../../assets/theme1-big.png';
 import theme2 from '../../../../assets/theme2-big.png';
 import theme3 from '../../../../assets/theme3-big.png';
 
-import { useActions } from '../../../../hooks/useActions';
-import { useTypedSelector } from '../../../../hooks/useTypedSelector';
+import { useActions } from 'hooks/useActions';
+import { useTypedSelector } from 'hooks/useTypedSelector';
 
 import styles from './chatPreview.module.scss';
 import colors from '../../../../scss/variables.module.scss';

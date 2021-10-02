@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import { useParams, useHistory } from 'react-router';
-import useForm from '../../hooks/useForm';
+
+import useForm from 'hooks/useForm';
+import { useActions } from 'hooks/useActions';
 
 import Input from 'ui/Input/Input';
 import Button from 'ui/Button/Button';
 
 import styles from './inviteForm.module.scss';
-import { useActions } from '../../hooks/useActions';
 import validateForm from './validateForm';
 import { updateToken } from '../../lib/utils/token';
 import socket from '../../socket';

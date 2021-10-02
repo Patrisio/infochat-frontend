@@ -18,8 +18,8 @@ import ChatPreview from './components/ChatPreview/ChatPreview';
 
 import styles from './channels.module.scss';
 import colors from '../../scss/variables.module.scss';
-import { useActions } from '../../hooks/useActions';
-import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { useActions } from 'hooks/useActions';
+import { useTypedSelector } from 'hooks/useTypedSelector';
 
 import chat from '../../assets/chat.svg';
 import chatChannels from '../../assets/chat-channels.svg';

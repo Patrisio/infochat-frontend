@@ -9,8 +9,8 @@ import ButtonsGroup from '../ButtonsGroup/ButtonsGroup';
 import styles from './clockBlock.module.scss';
 import { generateRandomHash } from '../../../../utils/string';
 import { responseTime, request } from './constants';
-import { useActions } from '../../../../hooks/useActions';
-import { useTypedSelector } from '../../../../hooks/useTypedSelector';
+import { useActions } from 'hooks/useActions';
+import { useTypedSelector } from 'hooks/useTypedSelector';
 import { getTimezones, getTimezoneByCode } from '../../../../lib/utils/date';
 import { getEntityIdByValue } from '../../../../lib/utils/entity';
 

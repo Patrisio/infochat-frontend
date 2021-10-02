@@ -5,7 +5,7 @@ import 'moment/locale/ru';
 import Animal from 'ui/Animal/Animal';
 
 import styles from './messageInner.module.scss';
-import { useTypedSelector } from '../../../../hooks/useTypedSelector';
+import { useTypedSelector } from 'hooks/useTypedSelector';
 import { IMessagesHistory } from '../../../../types/inbox';
 
 interface MessageInputProps {

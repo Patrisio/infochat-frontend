@@ -9,8 +9,8 @@ import socket from '../../../../socket';
 import styles from './messageInputContainer.module.scss';
 import { scrollToBottomOfWrapper } from '../../../../lib/utils/scroll';
 import { replaceBrToWhiteSpace, replaceWhiteSpaceToBr } from '../../../../utils/string';
-import { useActions } from '../../../../hooks/useActions';
-import { useTypedSelector } from '../../../../hooks/useTypedSelector';
+import { useActions } from 'hooks/useActions';
+import { useTypedSelector } from 'hooks/useTypedSelector';
 import { Context } from '../../../../context/Context';
 
 import { IMessagesHistory } from '../../../../types/inbox';

@@ -6,8 +6,8 @@ import Rule from './components/Rule/Rule';
 
 import { generateRandomHash } from '../../../../utils/string';
 import { cloneDeep } from 'lodash';
-import { useActions } from '../../../../hooks/useActions';
-import { useTypedSelector } from '../../../../hooks/useTypedSelector';
+import { useActions } from 'hooks/useActions';
+import { useTypedSelector } from 'hooks/useTypedSelector';
 import styles from './automationBlock.module.scss';
 import { Rule as RuleInerface, Condition } from '../../../../types/channels';
 

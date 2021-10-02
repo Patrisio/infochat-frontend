@@ -64,6 +64,7 @@ const commonConfig: any = {
     extensions: ['.tsx', '.ts', '.js'],
     alias: {
       ui: path.resolve(__dirname, '..', 'src', 'components'),
+      hooks: path.resolve(__dirname, '..', 'src', 'hooks'),
     },
   },
   plugins: [

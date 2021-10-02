@@ -2,7 +2,7 @@ import React from 'react';
 
 import FeatureCard from '../FeatureCard/FeatureCard';
 
-import { useTypedSelector } from '../../../../hooks/useTypedSelector';
+import { useTypedSelector } from 'hooks/useTypedSelector';
 
 import styles from './features.module.scss';
 

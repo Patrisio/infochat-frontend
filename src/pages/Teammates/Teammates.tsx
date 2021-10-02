@@ -2,8 +2,6 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router';
 import cloneDeep from 'lodash/cloneDeep';
 
-import useForm from '../../hooks/useForm';
-
 import Title from 'ui/Typography/Title/Title';
 import Input from 'ui/Input/Input';
 import Button from 'ui/Button/Button';
@@ -13,8 +11,9 @@ import Table from 'ui/Table/Table';
 import Badge from 'ui/Badge/Badge';
 import EditableUserForm from '../../modules/EditableUserForm/EditableUserForm';
 
-import { useActions } from '../../hooks/useActions';
-import { useTypedSelector } from '../../hooks/useTypedSelector';
+import useForm from 'hooks/useForm';
+import { useActions } from 'hooks/useActions';
+import { useTypedSelector } from 'hooks/useTypedSelector';
 
 import styles from './teammates.module.scss';
 import { generateRandomHash } from '../../utils/string';

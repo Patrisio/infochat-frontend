@@ -10,8 +10,8 @@ import Animal from 'ui/Animal/Animal';
 
 import socket from '../../socket';
 import styles from './chat.module.scss';
-import { useActions } from '../../hooks/useActions';
-import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { useActions } from 'hooks/useActions';
+import { useTypedSelector } from 'hooks/useTypedSelector';
 import { getLogicalSign, getScriptCondition } from './helpers';
 import { numericSort } from '../../lib/utils/sort';
 import { getEntityIdByValue } from '../../lib/utils/entity';

@@ -11,7 +11,7 @@ import Switcher from 'ui/Switcher/Switcher';
 import Popup from 'ui/Popup/Popup';
 import Avatar from 'ui/Avatar/Avatar';
 
-import { useActions } from '../../hooks/useActions';
+import { useActions } from 'hooks/useActions';
 
 import styles from './header.module.scss';
 import { isProjectOwner } from '../../lib/utils/accessRights';

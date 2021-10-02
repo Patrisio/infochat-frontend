@@ -5,8 +5,8 @@ import { useParams } from 'react-router';
 import Title from 'ui/Typography/Title/Title';
 import Button from 'ui/Button/Button';
 
-import { useActions } from '../../../../hooks/useActions';
-import { useTypedSelector } from '../../../../hooks/useTypedSelector';
+import { useActions } from 'hooks/useActions';
+import { useTypedSelector } from 'hooks/useTypedSelector';
 
 import { bonus } from '../../../../lib/utils/bonus';
 import { YEAR } from '../../../../lib/utils/date';

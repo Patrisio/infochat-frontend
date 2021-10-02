@@ -2,8 +2,8 @@ import React from 'react';
 
 import Button from 'ui/Button/Button';
 
-import { useActions } from '../../../../hooks/useActions';
-import { useTypedSelector } from '../../../../hooks/useTypedSelector';
+import { useActions } from 'hooks/useActions';
+import { useTypedSelector } from 'hooks/useTypedSelector';
 
 import styles from './counter.module.scss';
 

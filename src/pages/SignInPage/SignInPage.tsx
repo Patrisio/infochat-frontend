@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
-import useForm from '../../hooks/useForm';
+import useForm from 'hooks/useForm';
+import { useActions } from 'hooks/useActions';
 
 import Input from 'ui/Input/Input';
 import Button from 'ui/Button/Button';
 
-import { useActions } from '../../hooks/useActions';
 import styles from './SignInPage.module.scss';
 import validateForm from './validateForm';
 import { NotificationContext } from '../../context/NotificationContext';

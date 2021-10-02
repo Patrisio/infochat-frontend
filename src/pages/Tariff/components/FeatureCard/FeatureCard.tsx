@@ -4,8 +4,8 @@ import Title from 'ui/Typography/Title/Title';
 import Button from 'ui/Button/Button';
 import Counter from '../Counter/Counter';
 
-import { useActions } from '../../../../hooks/useActions';
-import { useTypedSelector } from '../../../../hooks/useTypedSelector';
+import { useActions } from 'hooks/useActions';
+import { useTypedSelector } from 'hooks/useTypedSelector';
 
 import { Feature } from '../../constants';
 import styles from './featureCard.module.scss';

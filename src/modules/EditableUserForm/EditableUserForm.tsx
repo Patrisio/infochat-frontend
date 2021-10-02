@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import Input from 'ui/Input/Input';
 import Button from 'ui/Button/Button';
 
-import useForm from '../../hooks/useForm';
+import useForm from 'hooks/useForm';
 
 import { Context } from '../../context/Context';
 import styles from './editableUserForm.module.scss';

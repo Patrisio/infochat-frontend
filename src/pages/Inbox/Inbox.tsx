@@ -2,8 +2,8 @@ import React, { useState, useEffect, useContext, Suspense, lazy } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router';
 import { Context } from '../../context/Context';
-import { useActions } from '../../hooks/useActions';
-import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { useActions } from 'hooks/useActions';
+import { useTypedSelector } from 'hooks/useTypedSelector';
 
 import Header from 'ui/Header/Header';
 import Spin from 'ui/Spin/Spin';

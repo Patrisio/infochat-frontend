@@ -6,7 +6,7 @@ import Periods from './components/Periods/Periods';
 import Features from './components/Features/Features';
 import TotalTariffPlan from './components/TotalTariffPlan/TotalTariffPlan';
 
-import { useActions } from '../../hooks/useActions';
+import { useActions } from 'hooks/useActions';
 import styles from './tariff.module.scss';
 
 export default function Tariff() {

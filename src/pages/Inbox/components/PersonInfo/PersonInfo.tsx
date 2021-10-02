@@ -11,8 +11,8 @@ import GeneralInfo from './components/GeneralInfo/GeneralInfo';
 import AssignedTeammates from './components/AssignedTeammates/AssignedTeammates';
 import ClientPreview from './components/ClientPreview/ClientPreview';
 
-import { useActions } from '../../../../hooks/useActions';
-import { useTypedSelector } from '../../../../hooks/useTypedSelector';
+import { useActions } from 'hooks/useActions';
+import { useTypedSelector } from 'hooks/useTypedSelector';
 import { SelectedClient, ModificationInterface } from '../../../../types/inbox';
 import styles from './personInfo.module.scss';
 import { getChangeInFieldValue } from '../../../../utils/clientData';

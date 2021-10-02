@@ -5,8 +5,8 @@ import Tabs from 'ui/Tabs/Tabs';
 import ButtonsGroup from '../ButtonsGroup/ButtonsGroup';
 
 import styles from './operatorsBlock.module.scss';
-import { useActions } from '../../../../hooks/useActions';
-import { useTypedSelector } from '../../../../hooks/useTypedSelector';
+import { useActions } from 'hooks/useActions';
+import { useTypedSelector } from 'hooks/useTypedSelector';
 import { Operator } from '../../../../types/channels';
 
 interface OperatorsBlockProps {

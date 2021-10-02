@@ -7,7 +7,7 @@ import Button from 'ui/Button/Button';
 import { ModalProps } from 'ui/Modal/Modal';
 
 import { Context } from '../../../../../../context/Context';
-import { useActions } from '../../../../../../hooks/useActions';
+import { useActions } from 'hooks/useActions';
 import { InboxState } from '../../../../../../types/inbox';
 import styles from './notes.module.scss';
 import socket from '../../../../../../socket';

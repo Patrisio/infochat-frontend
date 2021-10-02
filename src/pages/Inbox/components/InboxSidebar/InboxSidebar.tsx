@@ -10,8 +10,8 @@ import SidebarList from 'ui/Sidebar/components/SidebarList/SidebarList';
 import Avatar from 'ui/Avatar/Avatar';
 import Badge from 'ui/Badge/Badge';
 
-import { useActions } from '../../../../hooks/useActions';
-import { useTypedSelector } from '../../../../hooks/useTypedSelector';
+import { useActions } from 'hooks/useActions';
+import { useTypedSelector } from 'hooks/useTypedSelector';
 import styles from './inboxSidebar.module.scss';
 import { Teammate } from '../../../../types/teammates';
 import { isProjectOwner } from '../../../../lib/utils/accessRights';

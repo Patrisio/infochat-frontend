@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 
-import useForm from '../../hooks/useForm';
-
 import Table from 'ui/Table/Table';
 import Title from 'ui/Typography/Title/Title';
 import Button from 'ui/Button/Button';
@@ -10,8 +8,9 @@ import Modal from 'ui/Modal/Modal';
 import Input from 'ui/Input/Input';
 import Textarea from 'ui/Textarea/Textarea';
 
-import { useActions } from '../../hooks/useActions';
-import { useTypedSelector } from '../../hooks/useTypedSelector';
+import useForm from 'hooks/useForm';
+import { useActions } from 'hooks/useActions';
+import { useTypedSelector } from 'hooks/useTypedSelector';
 
 import styles from './templates.module.scss';
 import cloneDeep from 'lodash/cloneDeep';

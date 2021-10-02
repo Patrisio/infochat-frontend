@@ -4,12 +4,12 @@ import { useParams } from 'react-router';
 import Input, { IData } from 'ui/Input/Input';
 import Tabs from 'ui/Tabs/Tabs';
 
-import { useTypedSelector } from '../../../../../../hooks/useTypedSelector';
+import { useTypedSelector } from 'hooks/useTypedSelector';
 
 import styles from './assignedTeammates.module.scss';
 import { Teammate } from '../../../../../../types/teammates';
 import { InboxState } from '../../../../../../types/inbox';
-import { useActions } from '../../../../../../hooks/useActions';
+import { useActions } from 'hooks/useActions';
 import socket from '../../../../../../socket';
 
 interface ITeammate {

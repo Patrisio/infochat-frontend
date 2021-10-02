@@ -4,8 +4,8 @@ import { useParams } from 'react-router';
 import Button from 'ui/Button/Button';
 
 import styles from './buttonsGroup.module.scss';
-import { useActions } from '../../../../hooks/useActions';
-import { useTypedSelector } from '../../../../hooks/useTypedSelector';
+import { useActions } from 'hooks/useActions';
+import { useTypedSelector } from 'hooks/useTypedSelector';
 
 interface ButtonsGroupProps {
   hasChanges: boolean,

@@ -8,9 +8,9 @@ import { ModalProps } from 'ui/Modal/Modal';
 import MessageInner from '../MessageInner/MessageInner';
 import MessageInputContainer from '../MessageInputContainer/MessageInputContainer';
 
-import { useActions } from '../../../../hooks/useActions';
-import usePrevious from '../../../../hooks/usePrevious';
-import { useTypedSelector } from '../../../../hooks/useTypedSelector';
+import { useActions } from 'hooks/useActions';
+import usePrevious from 'hooks/usePrevious';
+import { useTypedSelector } from 'hooks/useTypedSelector';
 
 import styles from './appealsContainerMessages.module.scss';
 import { defaultSelectedClient } from '../../../../store/reducers/inbox';

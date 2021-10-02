@@ -6,8 +6,8 @@ import Textarea from 'ui/Textarea/Textarea';
 import Switcher from 'ui/Switcher/Switcher';
 import ButtonsGroup from '../ButtonsGroup/ButtonsGroup';
 
-import { useActions } from '../../../../hooks/useActions';
-import { useTypedSelector } from '../../../../hooks/useTypedSelector';
+import { useActions } from 'hooks/useActions';
+import { useTypedSelector } from 'hooks/useTypedSelector';
 import { Settings } from '../../../../types/channels';
 import styles from './generalSettingsBlock.module.scss';
 

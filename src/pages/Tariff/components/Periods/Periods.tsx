@@ -2,8 +2,8 @@ import React from 'react';
 
 import Input from 'ui/Input/Input';
 
-import { useActions } from '../../../../hooks/useActions';
-import { useTypedSelector } from '../../../../hooks/useTypedSelector';
+import { useActions } from 'hooks/useActions';
+import { useTypedSelector } from 'hooks/useTypedSelector';
 
 import { bonus } from '../../../../lib/utils/bonus';
 import { periods, Period } from '../../constants';

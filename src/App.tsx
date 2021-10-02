@@ -8,7 +8,7 @@ import { Context, IUser } from './context/Context';
 import { NotificationContext, NotificationInterface } from './context/NotificationContext';
 import { SidebarContext, SidebarInterface } from './context/SidebarContext';
 
-import { useActions } from './hooks/useActions';
+import { useActions } from 'hooks/useActions';
 import { isProjectOwner } from './lib/utils/accessRights';
 import Spin from './components/Spin/Spin';
 import Notification from './components/Notification/Notification';
