@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-import arrowRight from '../../../../assets/arrow-right.svg';
+import arrowRight from 'assets/arrow-right.svg';
 import styles from './panel.module.scss';
 
 interface PanelProps {

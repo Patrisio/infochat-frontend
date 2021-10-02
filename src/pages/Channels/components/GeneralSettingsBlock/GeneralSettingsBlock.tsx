@@ -11,9 +11,9 @@ import { useTypedSelector } from 'hooks/useTypedSelector';
 import { Settings } from '../../../../types/channels';
 import styles from './generalSettingsBlock.module.scss';
 
-import theme1 from '../../../../assets/theme1.png';
-import theme2 from '../../../../assets/theme2.png';
-import theme3 from '../../../../assets/theme3.png';
+import theme1 from 'assets/theme1.png';
+import theme2 from 'assets/theme2.png';
+import theme3 from 'assets/theme3.png';
 
 interface Location {
   id: string,

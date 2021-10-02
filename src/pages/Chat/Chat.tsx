@@ -25,9 +25,9 @@ import { Settings, Rule, Condition, BusinessDay } from '../../types/channels';
 import { BotMessage, Message } from '../../api/types';
 import { request } from '../Channels/components/ClockBlock/constants';
 
-import theme1 from '../../assets/theme1-big.png';
-import theme2 from '../../assets/theme2-big.png';
-import theme3 from '../../assets/theme3-big.png';
+import theme1 from 'assets/theme1-big.png';
+import theme2 from 'assets/theme2-big.png';
+import theme3 from 'assets/theme3-big.png';
 
 interface RuleStep {
   ruleId: string,

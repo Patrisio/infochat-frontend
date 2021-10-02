@@ -1,8 +1,8 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import { findByTestAttr } from 'lib/utils/testUtils';
 import Accordion from '../Accordion2';
-import install from '../../../assets/install.svg';
+import install from 'assets/install.svg';
 
 const panels = [
   {

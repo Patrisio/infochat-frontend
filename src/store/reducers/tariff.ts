@@ -1,8 +1,8 @@
 import { TariffState, TariffActionTypes } from '../../types/tariff';
 
-import operatorsTariff from '../../assets/operators-tariff.svg';
-import chatTariff from '../../assets/chat-tariff.svg';
-import templatesTariff from '../../assets/templates-tariff.svg';
+import operatorsTariff from 'assets/operators-tariff.svg';
+import chatTariff from 'assets/chat-tariff.svg';
+import templatesTariff from 'assets/templates-tariff.svg';
 
 const initialState: TariffState = {
   period: 1,

@@ -1,10 +1,10 @@
-import channels from '../../assets/channels.svg';
-import teammates from '../../assets/teammates.svg';
-import template from '../../assets/template.svg';
-import stats from '../../assets/stats.svg';
-import tariff from '../../assets/tariff.svg';
-import bills from '../../assets/bills.svg';
-import billingHistory from '../../assets/billing-history.svg';
+import channels from 'assets/channels.svg';
+import teammates from 'assets/teammates.svg';
+import template from 'assets/template.svg';
+import stats from 'assets/stats.svg';
+import tariff from 'assets/tariff.svg';
+import bills from 'assets/bills.svg';
+import billingHistory from 'assets/billing-history.svg';
 
 import colors from '../../scss/variables.module.scss';
 

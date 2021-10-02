@@ -7,7 +7,7 @@ import { useActions } from 'hooks/useActions';
 import { useTypedSelector } from 'hooks/useTypedSelector';
 
 import socket from '../../socket';
-import chatTriggerIcon from '../../assets/chat-trigger-icon.svg';
+import chatTriggerIcon from 'assets/chat-trigger-icon.svg';
 import { Settings } from '../../types/channels';
 
 import styles from './chat.module.scss';

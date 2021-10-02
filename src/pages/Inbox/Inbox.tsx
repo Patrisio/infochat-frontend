@@ -19,7 +19,7 @@ import AppealsContainerSelector from './components/AppealsContainerSelector/Appe
 import InboxSidebar from './components/InboxSidebar/InboxSidebar';
 
 import styles from './inbox.module.scss';
-import man from '../../assets/man.png';
+import man from 'assets/man.png';
 import { IUser, Context } from '../../context/Context';
 import { DialogType, IIncomingMessage } from '../../types/inbox';
 

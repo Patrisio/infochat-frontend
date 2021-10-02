@@ -16,18 +16,19 @@ import ClockBlock from './components/ClockBlock/ClockBlock';
 import AutomationBlock from './components/AutomationBlock/AutomationBlock';
 import ChatPreview from './components/ChatPreview/ChatPreview';
 
-import styles from './channels.module.scss';
-import colors from '../../scss/variables.module.scss';
 import { useActions } from 'hooks/useActions';
 import { useTypedSelector } from 'hooks/useTypedSelector';
 
-import chat from '../../assets/chat.svg';
-import chatChannels from '../../assets/chat-channels.svg';
-import invite from '../../assets/invite.svg';
-import clock from '../../assets/clock.svg';
-import install from '../../assets/install.svg';
-import operators from '../../assets/operators.svg';
-import style from '../../assets/style.svg';
+import chat from 'assets/chat.svg';
+import chatChannels from 'assets/chat-channels.svg';
+import invite from 'assets/invite.svg';
+import clock from 'assets/clock.svg';
+import install from 'assets/install.svg';
+import operators from 'assets/operators.svg';
+import style from 'assets/style.svg';
+
+import styles from './channels.module.scss';
+import colors from '../../scss/variables.module.scss';
 
 interface ModalProps {
   show: boolean,
