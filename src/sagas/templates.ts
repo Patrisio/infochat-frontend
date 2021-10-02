@@ -1,5 +1,5 @@
 import { call, put, takeEvery, StrictEffect } from 'redux-saga/effects';
-import { templateAdd, templateDelete, templateEdit, getTemplates } from '../api/dataLayer';
+import { templateAdd, templateDelete, templateEdit, getTemplates } from 'api/dataLayer';
 import {
   TemplatesActionTypes, fetchTemplatesAction, addTemplateAction,
   editTemplateAction, deleteTemplateAction,

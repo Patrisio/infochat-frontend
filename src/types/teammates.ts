@@ -1,7 +1,7 @@
 import {
   TeammateAddPayload, RemoveTeammatePayload, TeammateUpdatePayload,
   GetTeammatesPayload, TeammateUpdateSaga,
-} from '../api/types';
+} from 'api/types';
 
 export interface Teammate {
   avatar: string,

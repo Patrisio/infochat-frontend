@@ -3,7 +3,7 @@ import {
   IncomingMessagesFetchPayload, MessagesStatusUpdatePayload, SelectedClientUpdatePayload,
   NoteAddPayload, NoteDeletePayload, ToSelectedTeammateRemapDialogsPayload, BotMessage,
   Message, Callbacks,
-} from '../api/types';
+} from 'api/types';
 
 export type Noop<T> = (arg: T) => void;
 

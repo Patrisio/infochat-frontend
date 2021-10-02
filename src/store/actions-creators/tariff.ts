@@ -1,5 +1,5 @@
 import { TariffActionTypes, TariffAction } from '../../types/tariff';
-import { TariffPlanUpdatePayload, TariffPlanFetchPayload } from '../../api/types';
+import { TariffPlanUpdatePayload, TariffPlanFetchPayload } from 'api/types';
 import { TariffPeriod } from '../../types/tariff';
 
 export const updateTariffPlan = (payload: Partial<TariffPlanUpdatePayload>): TariffAction => ({

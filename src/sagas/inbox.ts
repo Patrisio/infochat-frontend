@@ -3,7 +3,7 @@ import {
   incomingMessagesFetch, clientAppealDelete,
   selectedClientUpdate, messageToInboxAdd, selectedClientInfoGet,
   messagesStatusUpdate, noteAdd, noteDelete, toSelectedTeammateRemapDialogs,
-} from '../api/dataLayer';
+} from 'api/dataLayer';
 import { InboxActionTypes, InboxAction } from '../types/inbox';
 
 function* fetchIncomingMessages(action: InboxAction): Generator<StrictEffect> {

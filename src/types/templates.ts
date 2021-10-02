@@ -1,4 +1,4 @@
-import { TemplateAddPayload, GetTemplatesPayload, TemplateEditPayload, TemplateDeletePayload } from '../api/types';
+import { TemplateAddPayload, GetTemplatesPayload, TemplateEditPayload, TemplateDeletePayload } from 'api/types';
 
 interface Template {
   id: string,

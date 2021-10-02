@@ -1,4 +1,4 @@
-import { ProjectAddPayload } from '../api/types';
+import { ProjectAddPayload } from 'api/types';
 
 export enum ProjectsActionTypes {
   PROJECT_ADD = 'PROJECT_ADD',

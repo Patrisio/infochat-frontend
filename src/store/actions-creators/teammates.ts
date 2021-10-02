@@ -2,7 +2,7 @@ import { TeammatesActionTypes, TeammatesAction } from '../../types/teammates';
 import {
   TeammateAddPayload, RemoveTeammatePayload, TeammateUpdatePayload,
   GetTeammatesPayload, TeammateUpdateSaga,
-} from '../../api/types';
+} from 'api/types';
 
 export const addTeammate = (payload: TeammateAddPayload): TeammatesAction => ({
   type: TeammatesActionTypes.TEAMMATE_ADD,

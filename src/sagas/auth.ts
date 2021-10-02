@@ -1,6 +1,6 @@
 import { call, put, takeEvery, StrictEffect } from 'redux-saga/effects';
-import { inviteUser, signIn, signUp, fetchCurrentUser, jwtDecode } from '../api/dataLayer';
-import { Response } from '../api/types';
+import { inviteUser, signIn, signUp, fetchCurrentUser, jwtDecode } from 'api/dataLayer';
+import { Response } from 'api/types';
 import {
   AuthActionTypes, authInviteAction, getCurrentUserAction,
   authSignUpAction, authSignInAction, decodeJwtAction,

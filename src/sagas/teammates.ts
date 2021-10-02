@@ -1,5 +1,5 @@
 import { call, put, takeEvery, StrictEffect } from 'redux-saga/effects';
-import { getTeammates, teammateAdd, sendEmail, removeTeammate, teammateUpdate } from '../api/dataLayer';
+import { getTeammates, teammateAdd, sendEmail, removeTeammate, teammateUpdate } from 'api/dataLayer';
 import {
   TeammatesActionTypes, fetchTeammatesAction, deleteTeammateAction,
   updateTeammateAction, addTeammateAction,

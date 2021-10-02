@@ -1,4 +1,4 @@
-import { TariffPlanUpdatePayload, TariffPlanFetchPayload } from '../api/types';
+import { TariffPlanUpdatePayload, TariffPlanFetchPayload } from 'api/types';
 
 interface Plan {
   [key: string]: {

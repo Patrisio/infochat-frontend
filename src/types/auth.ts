@@ -1,7 +1,7 @@
 import {
   InviteUserPayload, SignInPayload, SignUpPayload,
   JwtDecodePayload, FetchCurrentUserPayload,
-} from '../api/types';
+} from 'api/types';
 
 export enum AuthActionTypes {
   AUTH_INVITE = 'AUTH_INVITE',

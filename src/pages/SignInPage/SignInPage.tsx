@@ -11,7 +11,7 @@ import styles from './SignInPage.module.scss';
 import validateForm from './validateForm';
 import { NotificationContext } from '../../context/NotificationContext';
 import { updateToken } from 'lib/utils/token';
-import { Response } from '../../api/types';
+import { Response } from 'api/types';
 
 export default function SignUpPage()  {
   const { authSignIn } = useActions();

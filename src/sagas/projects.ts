@@ -1,5 +1,5 @@
 import { call, put, takeEvery, StrictEffect } from 'redux-saga/effects';
-import { projectAdd } from '../api/dataLayer';
+import { projectAdd } from 'api/dataLayer';
 import { ProjectsAction, ProjectsActionTypes } from '../types/projects';
 
 function* addProject(action: ProjectsAction): Generator<StrictEffect> {

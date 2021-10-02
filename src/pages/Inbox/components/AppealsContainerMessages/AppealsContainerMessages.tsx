@@ -17,7 +17,7 @@ import { defaultSelectedClient } from '../../../../store/reducers/inbox';
 import socket from '../../../../socket';
 
 import { SelectedClient, } from '../../../../types/inbox';
-import { MessagesStatusUpdatePayload } from '../../../../api/types';
+import { MessagesStatusUpdatePayload } from 'api/types';
 
 interface AppealsContainerMessagesProps {
   clientName: string,

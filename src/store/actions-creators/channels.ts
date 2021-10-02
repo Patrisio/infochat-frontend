@@ -2,7 +2,7 @@ import { ChannelsActionTypes, ChannelsAction, Channel } from '../../types/channe
 import {
   ChannelAddPayload, ChatSettingsSavePayload, GetChannelsPayload,
   ChatSettingsFetchPayload, 
-} from '../../api/types';
+} from 'api/types';
 
 export const fetchChannels = (payload: GetChannelsPayload): ChannelsAction => ({
   type: ChannelsActionTypes.FETCH_CHANNELS,

@@ -22,7 +22,7 @@ import { businessHours, weekdays, isDateBetween } from 'lib/utils/date';
 import { replaceWhiteSpaceToBr } from 'lib/utils/string';
 
 import { Settings, Rule, Condition, BusinessDay } from '../../types/channels';
-import { BotMessage, Message } from '../../api/types';
+import { BotMessage, Message } from 'api/types';
 import { request } from '../Channels/components/ClockBlock/constants';
 
 import theme1 from 'assets/theme1-big.png';

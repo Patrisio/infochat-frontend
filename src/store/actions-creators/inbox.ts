@@ -6,7 +6,7 @@ import {
   SelectedClientInfoGetPayload, ClientAppealDeletePayload, MessageToInboxAddPayload,
   IncomingMessagesFetchPayload, MessagesStatusUpdatePayload, SelectedClientUpdatePayload,
   NoteAddPayload, NoteDeletePayload, ToSelectedTeammateRemapDialogsPayload, BotMessage, Message,
-} from '../../api/types';
+} from 'api/types';
 
 export const addMessage = (payload: Partial<MessageToInboxAddPayload> | BotMessage | Message[] | string): InboxAction => ({
   type: InboxActionTypes.MESSAGES_ADD,

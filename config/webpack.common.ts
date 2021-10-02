@@ -67,6 +67,7 @@ const commonConfig: any = {
       hooks: path.resolve(__dirname, '..', 'src', 'hooks'),
       lib: path.resolve(__dirname, '..', 'src', 'lib'),
       assets: path.resolve(__dirname, '..', 'src', 'assets'),
+      api: path.resolve(__dirname, '..', 'src', 'api'),
     },
   },
   plugins: [

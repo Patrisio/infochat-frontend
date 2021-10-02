@@ -1,7 +1,7 @@
 import {
   ChannelAddPayload, ChatSettingsSavePayload, GetChannelsPayload,
   ChatSettingsFetchPayload,
-} from '../api/types';
+} from 'api/types';
 
 export interface Channel {
   name: string
