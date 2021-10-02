@@ -31,7 +31,7 @@ import {
   ClientAppealDeletePayload,
   JwtDecodePayload,
   ToSelectedTeammateRemapDialogsPayload,
-} from 'types';
+} from 'api/types';
 
 export async function inviteUser(payload: InviteUserPayload): Promise<Response> {
   const { username, password, projectId, inviteId } = payload;

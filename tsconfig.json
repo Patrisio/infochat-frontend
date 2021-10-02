@@ -11,16 +11,16 @@
     "esModuleInterop": true,
     "preserveConstEnums": true,
     "paths": {
-      "ui/*": ["src/components/*"],
-      "hooks/*": ["src/hooks/*"],
-      "lib/*": ["src/lib/*"],
-      "api/*": ["src/api/*"],
-      "types/*": ["src/types/*"],
-      "scss/*": ["src/scss/*"],
-      "context/*": ["src/context/*"],
-      "modules/*": ["src/modules/*"],
-      "pages/*": ["src/pages/*"],
-      "store/*": ["src/store/*"]
+      "ui/*": ["./src/components/*"],
+      "hooks/*": ["./src/hooks/*"],
+      "lib/*": ["./src/lib/*"],
+      "api/*": ["./src/api/*"],
+      "types/*": ["./src/types/*"],
+      "scss/*": ["./src/scss/*"],
+      "context/*": ["./src/context/*"],
+      "modules/*": ["./src/modules/*"],
+      "pages/*": ["./src/pages/*"],
+      "store/*": ["./src/store/*"]
     }
   },
   "include": [
