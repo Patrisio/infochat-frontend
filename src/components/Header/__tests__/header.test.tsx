@@ -1,5 +1,5 @@
 
-import { updateTeammate } from '../../../store/actions-creators/teammates';
+import { updateTeammate } from 'store/actions-creators/teammates';
 import { TeammatesActionTypes } from 'types/teammates';
 
 describe('Тестирование Header', () => {
