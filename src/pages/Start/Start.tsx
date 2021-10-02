@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useParams, useLocation } from 'react-router-dom';
 
-import Title from '../../components/Typography/Title/Title';
+import Title from 'ui/Typography/Title/Title';
 
 import { getSettingsFeatures, getBillingFeatures } from './constants';
 import styles from './start.module.scss';

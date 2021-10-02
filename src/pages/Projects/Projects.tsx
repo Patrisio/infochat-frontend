@@ -3,12 +3,12 @@ import { useHistory } from 'react-router';
 import cloneDeep from 'lodash/cloneDeep';
 
 import InboxSidebar from '../Inbox/components/InboxSidebar/InboxSidebar';
-import Title from '../../components/Typography/Title/Title';
-import Header from '../../components/Header/Header';
-import Modal from '../../components/Modal/Modal';
-import Table from '../../components/Table/Table';
-import Button from '../../components/Button/Button';
-import Input from '../../components/Input/Input';
+import Title from 'ui/Typography/Title/Title';
+import Header from 'ui/Header/Header';
+import Modal from 'ui/Modal/Modal';
+import Table from 'ui/Table/Table';
+import Button from 'ui/Button/Button';
+import Input from 'ui/Input/Input';
 
 import useForm from '../../hooks/useForm';
 

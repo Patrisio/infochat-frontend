@@ -5,10 +5,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cloneDeep from 'lodash/cloneDeep';
 import { defaultSelectedClient } from '../../../../store/reducers/inbox';
 
-import Sidebar from '../../../../components/Sidebar/Sidebar';
-import SidebarList from '../../../../components/Sidebar/components/SidebarList/SidebarList';
-import Avatar from '../../../../components/Avatar/Avatar';
-import Badge from '../../../../components/Badge/Badge';
+import Sidebar from 'ui/Sidebar/Sidebar';
+import SidebarList from 'ui/Sidebar/components/SidebarList/SidebarList';
+import Avatar from 'ui/Avatar/Avatar';
+import Badge from 'ui/Badge/Badge';
 
 import { useActions } from '../../../../hooks/useActions';
 import { useTypedSelector } from '../../../../hooks/useTypedSelector';

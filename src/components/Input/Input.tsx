@@ -1,8 +1,9 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react';
-import styles from './input.module.scss';
+import React, { useState, useRef, useEffect } from 'react';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimesCircle, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+
+import styles from './input.module.scss';
 
 export interface IData {
   id?: string | number,

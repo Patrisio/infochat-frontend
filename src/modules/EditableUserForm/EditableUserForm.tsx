@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 
-import Input from '../../components/Input/Input';
-import Button from '../../components/Button/Button';
+import Input from 'ui/Input/Input';
+import Button from 'ui/Button/Button';
 
 import useForm from '../../hooks/useForm';
 

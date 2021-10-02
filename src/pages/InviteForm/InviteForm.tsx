@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { useParams, useHistory } from 'react-router';
 import useForm from '../../hooks/useForm';
 
-import Input from '../../components/Input/Input';
-import Button from '../../components/Button/Button';
+import Input from 'ui/Input/Input';
+import Button from 'ui/Button/Button';
 
 import styles from './inviteForm.module.scss';
 import { useActions } from '../../hooks/useActions';

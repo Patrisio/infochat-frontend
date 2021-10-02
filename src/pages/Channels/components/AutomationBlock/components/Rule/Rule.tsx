@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
-import Button from '../../../../../../components/Button/Button';
-import Switcher from '../../../../../../components/Switcher/Switcher';
-import Input from '../../../../../../components/Input/Input';
-import Textarea from '../../../../../../components/Textarea/Textarea';
+import Button from 'ui/Button/Button';
+import Switcher from 'ui/Switcher/Switcher';
+import Input from 'ui/Input/Input';
+import Textarea from 'ui/Textarea/Textarea';
 import Condition from '../../components/Condition/Condition';
 import ButtonsGroup from '../../../ButtonsGroup/ButtonsGroup';
 

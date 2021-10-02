@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import ButtonsGroup from '../ButtonsGroup/ButtonsGroup';
-import Button from '../../../../components/Button/Button';
+import Button from 'ui/Button/Button';
 import Rule from './components/Rule/Rule';
 
 import { generateRandomHash } from '../../../../utils/string';

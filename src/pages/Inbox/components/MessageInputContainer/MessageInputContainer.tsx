@@ -2,8 +2,8 @@ import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 
-import Popup from '../../../../components/Popup/Popup';
-import Textarea from '../../../../components/Textarea/Textarea';
+import Popup from 'ui/Popup/Popup';
+import Textarea from 'ui/Textarea/Textarea';
 
 import socket from '../../../../socket';
 import styles from './messageInputContainer.module.scss';
@@ -13,8 +13,7 @@ import { useActions } from '../../../../hooks/useActions';
 import { useTypedSelector } from '../../../../hooks/useTypedSelector';
 import { Context } from '../../../../context/Context';
 
-import { MessageToInboxAddPayload, } from '../../../../api/types';
-import { IIncomingMessage, IMessagesHistory } from '../../../../types/inbox';
+import { IMessagesHistory } from '../../../../types/inbox';
 
 interface MessageInputContainerProps {
   messagesHistoryContainerElement: HTMLDivElement | null,

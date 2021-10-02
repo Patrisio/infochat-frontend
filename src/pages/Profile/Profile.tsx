@@ -2,9 +2,9 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router';
 
 import InboxSidebar from '../Inbox/components/InboxSidebar/InboxSidebar';
-import Title from '../../components/Typography/Title/Title';
-import Header from '../../components/Header/Header';
-import Input from '../../components/Input/Input';
+import Title from 'ui/Typography/Title/Title';
+import Header from 'ui/Header/Header';
+import Input from 'ui/Input/Input';
 import EditableUserForm from '../../modules/EditableUserForm/EditableUserForm';
 
 import { Context } from '../../context/Context';
@@ -14,7 +14,6 @@ import { useActions } from '../../hooks/useActions';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import styles from './profile.module.scss';
 import { updateToken } from '../../lib/utils/token';
-import { Response } from '../../api/types';
 
 interface FormData {
   email: string,

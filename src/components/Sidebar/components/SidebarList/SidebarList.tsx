@@ -1,5 +1,6 @@
 import React from 'react';
 import CSS from 'csstype';
+
 import styles from './sidebarList.module.scss';
 import SidebarItem from '../SidebarItem/SidebarItem';
 

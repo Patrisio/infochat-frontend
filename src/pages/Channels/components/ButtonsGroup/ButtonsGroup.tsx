@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 
-import Button from '../../../../components/Button/Button';
+import Button from 'ui/Button/Button';
 
 import styles from './buttonsGroup.module.scss';
 import { useActions } from '../../../../hooks/useActions';

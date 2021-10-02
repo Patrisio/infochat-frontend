@@ -4,12 +4,13 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import useForm from '../../hooks/useForm';
 
-import Title from '../../components/Typography/Title/Title';
-import Input from '../../components/Input/Input';
-import Button from '../../components/Button/Button';
-import Avatar from '../../components/Avatar/Avatar';
-import Modal from '../../components/Modal/Modal';
-import Table from '../../components/Table/Table';
+import Title from 'ui/Typography/Title/Title';
+import Input from 'ui/Input/Input';
+import Button from 'ui/Button/Button';
+import Avatar from 'ui/Avatar/Avatar';
+import Modal from 'ui/Modal/Modal';
+import Table from 'ui/Table/Table';
+import Badge from 'ui/Badge/Badge';
 import EditableUserForm from '../../modules/EditableUserForm/EditableUserForm';
 
 import { useActions } from '../../hooks/useActions';
@@ -19,7 +20,6 @@ import styles from './teammates.module.scss';
 import { generateRandomHash } from '../../utils/string';
 import { isProjectOwner, Role } from '../../lib/utils/accessRights';
 import validateForm from './validateForm';
-import Badge from '../../components/Badge/Badge';
 import { updateToken } from '../../lib/utils/token';
 import { NotificationContext } from '../../context/NotificationContext';
 import socket from '../../socket';

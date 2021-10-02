@@ -5,11 +5,11 @@ import { Context } from '../../context/Context';
 import { useActions } from '../../hooks/useActions';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 
-import Header from '../../components/Header/Header';
-import Spin from '../../components/Spin/Spin';
-import Button from '../../components/Button/Button';
-import Modal, { ModalProps } from '../../components//Modal/Modal';
-import ClientInfoSkeleton from '../../components/Skeleton/ClientInfoSkeleton/ClientInfoSkeleton';
+import Header from 'ui/Header/Header';
+import Spin from 'ui/Spin/Spin';
+import Button from 'ui/Button/Button';
+import Modal, { ModalProps } from 'ui/Modal/Modal';
+import ClientInfoSkeleton from 'ui/Skeleton/ClientInfoSkeleton/ClientInfoSkeleton';
 
 import AppealsContainerSelector from './components/AppealsContainerSelector/AppealsContainerSelector';
 import InboxSidebar from './components/InboxSidebar/InboxSidebar';

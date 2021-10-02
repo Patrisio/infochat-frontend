@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import Input from '../Input/Input';
-import Button from '../Button/Button';
+import Input from 'ui/Input/Input';
+import Button from 'ui/Button/Button';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane, faCheck } from '@fortawesome/free-solid-svg-icons';

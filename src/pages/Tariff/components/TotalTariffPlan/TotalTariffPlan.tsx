@@ -2,8 +2,8 @@ import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useParams } from 'react-router';
 
-import Title from '../../../../components/Typography/Title/Title';
-import Button from '../../../../components/Button/Button';
+import Title from 'ui/Typography/Title/Title';
+import Button from 'ui/Button/Button';
 
 import { useActions } from '../../../../hooks/useActions';
 import { useTypedSelector } from '../../../../hooks/useTypedSelector';

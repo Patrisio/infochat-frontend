@@ -1,15 +1,15 @@
 import React from 'react';
 import { useParams } from 'react-router';
 
-import Accordion from '../../../../components/Accordion/Accordion';
-import ClientInfoSkeleton from '../../../../components/Skeleton/ClientInfoSkeleton/ClientInfoSkeleton';
+import Accordion from 'ui/Accordion/Accordion';
+import ClientInfoSkeleton from 'ui/Skeleton/ClientInfoSkeleton/ClientInfoSkeleton';
+import { ModalProps } from 'ui/Modal/Modal';
 
 import ChangesHistory from './components/ChangesHistory/ChangesHistory';
 import Notes from './components/Notes/Notes';
 import GeneralInfo from './components/GeneralInfo/GeneralInfo';
 import AssignedTeammates from './components/AssignedTeammates/AssignedTeammates';
 import ClientPreview from './components/ClientPreview/ClientPreview';
-import { ModalProps } from '../../../../components/Modal/Modal';
 
 import { useActions } from '../../../../hooks/useActions';
 import { useTypedSelector } from '../../../../hooks/useTypedSelector';

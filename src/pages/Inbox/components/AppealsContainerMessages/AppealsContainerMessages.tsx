@@ -3,8 +3,8 @@ import { useParams } from 'react-router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArchive } from '@fortawesome/free-solid-svg-icons';
 
-import Button from '../../../../components/Button/Button';
-import { ModalProps } from '../../../../components/Modal/Modal';
+import Button from 'ui/Button/Button';
+import { ModalProps } from 'ui/Modal/Modal';
 import MessageInner from '../MessageInner/MessageInner';
 import MessageInputContainer from '../MessageInputContainer/MessageInputContainer';
 

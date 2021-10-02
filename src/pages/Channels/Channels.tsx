@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import cloneDeep from 'lodash/cloneDeep';
 
-import Table from '../../components/Table/Table';
-import Button from '../../components/Button/Button';
-import Modal from '../../components/Modal/Modal';
-import Title from '../../components/Typography/Title/Title';
-import Switcher from '../../components/Switcher/Switcher';
-import Accordion from '../../components/Accordion2/Accordion2';
+import Table from 'ui/Table/Table';
+import Button from 'ui/Button/Button';
+import Modal from 'ui/Modal/Modal';
+import Title from 'ui/Typography/Title/Title';
+import Switcher from 'ui/Switcher/Switcher';
+import Accordion from 'ui/Accordion2/Accordion2';
 
 import InstallBlock from './components/InstallBlock/InstallBlock';
 import GeneralSettingsBlock from './components/GeneralSettingsBlock/GeneralSettingsBlock';

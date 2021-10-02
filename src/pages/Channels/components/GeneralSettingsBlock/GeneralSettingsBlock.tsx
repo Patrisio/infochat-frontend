@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { cloneDeep, debounce } from 'lodash';
 
-import Input from '../../../../components/Input/Input';
-import Textarea from '../../../../components/Textarea/Textarea';
-import Switcher from '../../../../components/Switcher/Switcher';
+import Input from 'ui/Input/Input';
+import Textarea from 'ui/Textarea/Textarea';
+import Switcher from 'ui/Switcher/Switcher';
 import ButtonsGroup from '../ButtonsGroup/ButtonsGroup';
 
 import { useActions } from '../../../../hooks/useActions';

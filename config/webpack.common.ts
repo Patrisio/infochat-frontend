@@ -62,6 +62,9 @@ const commonConfig: any = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
+    alias: {
+      ui: path.resolve(__dirname, '..', 'src', 'components'),
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 
-import Input, { IData } from '../../../../../../components/Input/Input';
-import Tabs from '../../../../../../components/Tabs/Tabs';
+import Input, { IData } from 'ui/Input/Input';
+import Tabs from 'ui/Tabs/Tabs';
 
 import { useTypedSelector } from '../../../../../../hooks/useTypedSelector';
 

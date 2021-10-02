@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useParams } from 'react-router';
 
-import Button from '../../../../components/Button/Button';
+import Button from 'ui/Button/Button';
 
 import styles from './installBlock.module.scss';
 import { isProduction, host, localBackendHost } from '../../../../lib/utils/constants';

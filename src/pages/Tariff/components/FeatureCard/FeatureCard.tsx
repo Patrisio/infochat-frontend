@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
-import Title from '../../../../components/Typography/Title/Title';
-import Button from '../../../../components/Button/Button';
-import Counter from '../../components/Counter/Counter';
+import Title from 'ui/Typography/Title/Title';
+import Button from 'ui/Button/Button';
+import Counter from '../Counter/Counter';
 
 import { useActions } from '../../../../hooks/useActions';
 import { useTypedSelector } from '../../../../hooks/useTypedSelector';

@@ -4,8 +4,8 @@ import { useParams, useHistory } from 'react-router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons';
 
-import Sidebar from '../../components/Sidebar/Sidebar';
-import SidebarList from '../../components/Sidebar/components/SidebarList/SidebarList';
+import Sidebar from 'ui/Sidebar/Sidebar';
+import SidebarList from 'ui/Sidebar/components/SidebarList/SidebarList';
 import Teammates from '../Teammates/Teammates';
 import Start from '../Start/Start';
 import Channels from '../Channels/Channels';

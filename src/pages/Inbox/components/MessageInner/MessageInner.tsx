@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import 'moment/locale/ru';
 
-import Animal from '../../../../components/Animal/Animal';
+import Animal from 'ui/Animal/Animal';
 
 import styles from './messageInner.module.scss';
 import { useTypedSelector } from '../../../../hooks/useTypedSelector';

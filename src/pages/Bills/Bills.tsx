@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import Title from '../../components/Typography/Title/Title';
-import Input from '../../components/Input/Input';
-import Button from '../../components/Button/Button';
+import Title from 'ui/Typography/Title/Title';
+import Input from 'ui/Input/Input';
+import Button from 'ui/Button/Button';
 
 import { THREE_MONTHS, SIX_MONTHS, YEAR } from '../../lib/utils/date';
 import { bonus } from '../../lib/utils/bonus';

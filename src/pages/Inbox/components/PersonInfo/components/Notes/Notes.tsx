@@ -2,9 +2,9 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useDispatch } from 'react-redux';
 
 import Note from '../../../Note/Note';
-import Textarea from '../../../../../../components/Textarea/Textarea';
-import Button from '../../../../../../components/Button/Button';
-import { ModalProps } from '../../../../../../components/Modal/Modal';
+import Textarea from 'ui/Textarea/Textarea';
+import Button from 'ui/Button/Button';
+import { ModalProps } from 'ui/Modal/Modal';
 
 import { Context } from '../../../../../../context/Context';
 import { useActions } from '../../../../../../hooks/useActions';

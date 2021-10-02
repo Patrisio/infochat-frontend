@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
 
-import Popup from '../../../../components/Popup/Popup';
+import Popup from 'ui/Popup/Popup';
 
 import { Context, Project } from '../../../../context/Context';
 import styles from './projectsSelector.module.scss';

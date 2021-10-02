@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import Input from '../../../../../../components/Input/Input';
+import Input from 'ui/Input/Input';
 
 import styles from './generalInfo.module.scss';
 import cloneDeep from 'lodash/cloneDeep';

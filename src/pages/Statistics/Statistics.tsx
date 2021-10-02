@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
-import Title from '../../components/Typography/Title/Title';
-import Input from '../../components/Input/Input';
-import DatePresets from '../../components/DatePresets/DatePresets';
-import SimpleBarChart from '../../components/SimpleBarChart/SimpleBarChart';
+import Title from 'ui/Typography/Title/Title';
+import Input from 'ui/Input/Input';
+import DatePresets from 'ui/DatePresets/DatePresets';
+import SimpleBarChart from 'ui/SimpleBarChart/SimpleBarChart';
 
 import styles from './statistics.module.scss';
 

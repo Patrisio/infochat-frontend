@@ -3,15 +3,15 @@ import { useParams } from 'react-router';
 import moment from 'moment-timezone';
 import { throttle } from 'lodash';
 
-import ContactField from '../../components/ContactField/ContactField';
-import Button from '../../components/Button/Button';
-import Textarea from '../../components/Textarea/Textarea';
+import ContactField from 'ui/ContactField/ContactField';
+import Button from 'ui/Button/Button';
+import Textarea from 'ui/Textarea/Textarea';
+import Animal from 'ui/Animal/Animal';
 
 import socket from '../../socket';
 import styles from './chat.module.scss';
 import { useActions } from '../../hooks/useActions';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
-import Animal from '../../components/Animal/Animal';
 import { getLogicalSign, getScriptCondition } from './helpers';
 import { numericSort } from '../../lib/utils/sort';
 import { getEntityIdByValue } from '../../lib/utils/entity';

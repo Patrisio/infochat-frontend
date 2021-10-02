@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-import Input from '../../../../components/Input/Input';
-import Tabs from '../../../../components/Tabs/Tabs';
+import Input from 'ui/Input/Input';
+import Tabs from 'ui/Tabs/Tabs';
 import ButtonsGroup from '../ButtonsGroup/ButtonsGroup';
 
 import styles from './operatorsBlock.module.scss';

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Button from '../../../../components/Button/Button';
+import Button from 'ui/Button/Button';
 
 import { useActions } from '../../../../hooks/useActions';
 import { useTypedSelector } from '../../../../hooks/useTypedSelector';

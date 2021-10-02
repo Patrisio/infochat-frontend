@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import Input from '../../components/Input/Input';
+import Input from 'ui/Input/Input';
 
 import styles from './datePresets.module.scss';
 import {

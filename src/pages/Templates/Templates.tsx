@@ -3,12 +3,12 @@ import { useParams } from 'react-router';
 
 import useForm from '../../hooks/useForm';
 
-import Table from '../../components/Table/Table';
-import Title from '../../components/Typography/Title/Title';
-import Button from '../../components/Button/Button';
-import Modal from '../../components/Modal/Modal';
-import Input from '../../components/Input/Input';
-import Textarea from '../../components/Textarea/Textarea';
+import Table from 'ui/Table/Table';
+import Title from 'ui/Typography/Title/Title';
+import Button from 'ui/Button/Button';
+import Modal from 'ui/Modal/Modal';
+import Input from 'ui/Input/Input';
+import Textarea from 'ui/Textarea/Textarea';
 
 import { useActions } from '../../hooks/useActions';
 import { useTypedSelector } from '../../hooks/useTypedSelector';

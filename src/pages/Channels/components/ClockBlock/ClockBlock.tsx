@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import moment from 'moment-timezone';
 
 import BusinessHours from './components/BusinessHours/BusinessHours';
-import Button from '../../../../components/Button/Button';
-import Input from '../../../../components/Input/Input';
+import Button from 'ui/Button/Button';
+import Input from 'ui/Input/Input';
 import ButtonsGroup from '../ButtonsGroup/ButtonsGroup';
 
 import styles from './clockBlock.module.scss';

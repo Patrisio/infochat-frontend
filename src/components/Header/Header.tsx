@@ -7,9 +7,9 @@ import { faUserEdit, faLayerGroup, faSignOutAlt } from '@fortawesome/free-solid-
 import socket from '../../socket';
 import { Context } from '../../context/Context';
 
-import Switcher from '../Switcher/Switcher';
-import Popup from '../Popup/Popup';
-import Avatar from '../Avatar/Avatar';
+import Switcher from 'ui/Switcher/Switcher';
+import Popup from 'ui/Popup/Popup';
+import Avatar from 'ui/Avatar/Avatar';
 
 import { useActions } from '../../hooks/useActions';
 

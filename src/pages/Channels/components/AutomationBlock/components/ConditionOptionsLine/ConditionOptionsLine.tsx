@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Input from '../../../../../../components/Input/Input';
+import Input from 'ui/Input/Input';
 
 import styles from './conditionOptionsLine.module.scss';
 

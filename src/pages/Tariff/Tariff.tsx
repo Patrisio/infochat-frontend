@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
 
-import Title from '../../components/Typography/Title/Title';
+import Title from 'ui/Typography/Title/Title';
 import Periods from './components/Periods/Periods';
 import Features from './components/Features/Features';
 import TotalTariffPlan from './components/TotalTariffPlan/TotalTariffPlan';

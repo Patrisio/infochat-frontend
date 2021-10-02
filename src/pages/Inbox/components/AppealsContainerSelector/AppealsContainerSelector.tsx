@@ -6,11 +6,11 @@ import 'moment/locale/ru';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
-import Animal from '../../../../components/Animal/Animal';
-import Popup from '../../../../components/Popup/Popup';
-import Input from '../../../../components/Input/Input';
-import Button from '../../../../components/Button/Button';
-import AppealsSkeleton from '../../../../components/Skeleton/AppealsSkeleton/AppealsSkeleton';
+import Animal from 'ui/Animal/Animal';
+import Popup from 'ui/Popup/Popup';
+import Input from 'ui/Input/Input';
+import Button from 'ui/Button/Button';
+import AppealsSkeleton from 'ui/Skeleton/AppealsSkeleton/AppealsSkeleton';
 
 import { SidebarContext } from '../../../../context/SidebarContext';
 import { IIncomingMessage, IMessagesHistory, SelectedClient, Filters } from '../../../../types/inbox';

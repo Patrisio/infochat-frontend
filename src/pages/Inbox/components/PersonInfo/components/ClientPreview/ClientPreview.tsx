@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisV, faUserLock, faUnlockAlt } from '@fortawesome/free-solid-svg-icons';
 
-import Animal from '../../../../../../components/Animal/Animal';
-import Textarea from '../../../../../../components/Textarea/Textarea';
-import Popup from '../../../../../../components/Popup/Popup';
+import Animal from 'ui/Animal/Animal';
+import Textarea from 'ui/Textarea/Textarea';
+import Popup from 'ui/Popup/Popup';
 
 import { getClientName } from '../../../../../../utils/clientData';
 import styles from './clientPreview.module.scss';

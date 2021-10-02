@@ -2,8 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
-import Avatar from '../../../../components/Avatar/Avatar';
-import { ModalProps } from '../../../../components/Modal/Modal';
+import Avatar from 'ui/Avatar/Avatar';
 
 import { formatDateToCustomDate } from '../../../../lib/utils/date';
 import styles from './note.module.scss';
