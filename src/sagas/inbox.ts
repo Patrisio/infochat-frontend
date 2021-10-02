@@ -4,7 +4,7 @@ import {
   selectedClientUpdate, messageToInboxAdd, selectedClientInfoGet,
   messagesStatusUpdate, noteAdd, noteDelete, toSelectedTeammateRemapDialogs,
 } from 'api/dataLayer';
-import { InboxActionTypes, InboxAction } from '../types/inbox';
+import { InboxActionTypes, InboxAction } from 'types/inbox';
 
 function* fetchIncomingMessages(action: InboxAction): Generator<StrictEffect> {
   try {

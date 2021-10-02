@@ -17,7 +17,7 @@ import { useTypedSelector } from 'hooks/useTypedSelector';
 import { Role } from 'lib/utils/accessRights';
 import { getChangeInFieldValue } from 'lib/utils/clientData';
 
-import { SelectedClient, ModificationInterface } from '../../../../types/inbox';
+import { SelectedClient, ModificationInterface } from 'types/inbox';
 import styles from './personInfo.module.scss';
 import socket from '../../../../socket';
 

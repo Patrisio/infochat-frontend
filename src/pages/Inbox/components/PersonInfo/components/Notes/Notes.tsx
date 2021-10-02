@@ -1,17 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useDispatch } from 'react-redux';
 
-import Note from '../../../Note/Note';
 import Textarea from 'ui/Textarea/Textarea';
 import Button from 'ui/Button/Button';
 import { ModalProps } from 'ui/Modal/Modal';
 
 import { Context } from '../../../../../../context/Context';
+import Note from '../../../Note/Note';
+
 import { useActions } from 'hooks/useActions';
-import { InboxState } from '../../../../../../types/inbox';
+import { InboxState } from 'types/inbox';
 import styles from './notes.module.scss';
 import socket from '../../../../../../socket';
-import { RenameLocation } from 'typescript';
 
 interface NotesProps {
   selectedClient: InboxState['selectedClient'],

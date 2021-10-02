@@ -3,7 +3,7 @@ import { templateAdd, templateDelete, templateEdit, getTemplates } from 'api/dat
 import {
   TemplatesActionTypes, fetchTemplatesAction, addTemplateAction,
   editTemplateAction, deleteTemplateAction,
-} from '../types/templates';
+} from 'types/templates';
 
 function* fetchTemplates({ payload }: fetchTemplatesAction): Generator<StrictEffect> {
   try {

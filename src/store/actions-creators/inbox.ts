@@ -1,7 +1,7 @@
 import {
   InboxActionTypes, InboxAction, Filters, IncomingMessage,
   IIncomingMessage, SelectedClient, IMessagesHistory,
-} from '../../types/inbox';
+} from 'types/inbox';
 import {
   SelectedClientInfoGetPayload, ClientAppealDeletePayload, MessageToInboxAddPayload,
   IncomingMessagesFetchPayload, MessagesStatusUpdatePayload, SelectedClientUpdatePayload,

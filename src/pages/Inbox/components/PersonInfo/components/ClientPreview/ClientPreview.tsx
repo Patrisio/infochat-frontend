@@ -8,7 +8,7 @@ import Popup from 'ui/Popup/Popup';
 
 import { getClientName } from 'lib/utils/clientData';
 import styles from './clientPreview.module.scss';
-import { InboxState } from '../../../../../../types/inbox';
+import { InboxState } from 'types/inbox';
 import { useActions } from 'hooks/useActions';
 import socket from '../../../../../../socket';
 import { ClientData } from '../../PersonInfo';

@@ -1,6 +1,6 @@
 
 import { updateTeammate } from '../../../store/actions-creators/teammates';
-import { TeammatesActionTypes } from '../../../types/teammates';
+import { TeammatesActionTypes } from 'types/teammates';
 
 describe('Тестирование Header', () => {
   test('Должен создать экшен обновления данных сотрудника', () => {

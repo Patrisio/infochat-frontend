@@ -9,7 +9,7 @@ import { cloneDeep } from 'lodash';
 import { useActions } from 'hooks/useActions';
 import { useTypedSelector } from 'hooks/useTypedSelector';
 import styles from './automationBlock.module.scss';
-import { Rule as RuleInerface, Condition } from '../../../../types/channels';
+import { Rule as RuleInerface, Condition } from 'types/channels';
 
 
 interface AutomationBlockProps {

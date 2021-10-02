@@ -1,6 +1,6 @@
 import { call, put, takeEvery, all, StrictEffect } from 'redux-saga/effects';
 import { getChannels, channelAdd, chatSettingsSave, chatSettingsFetch } from 'api/dataLayer';
-import { ChannelsActionTypes, ChannelsAction } from '../types/channels';
+import { ChannelsActionTypes, ChannelsAction } from 'types/channels';
 
 function* fetchChannels(action: ChannelsAction): Generator<StrictEffect> {
   try {

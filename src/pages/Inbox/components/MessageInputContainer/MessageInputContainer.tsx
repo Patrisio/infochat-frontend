@@ -13,7 +13,7 @@ import { useActions } from 'hooks/useActions';
 import { useTypedSelector } from 'hooks/useTypedSelector';
 import { Context } from '../../../../context/Context';
 
-import { IMessagesHistory } from '../../../../types/inbox';
+import { IMessagesHistory } from 'types/inbox';
 
 interface MessageInputContainerProps {
   messagesHistoryContainerElement: HTMLDivElement | null,

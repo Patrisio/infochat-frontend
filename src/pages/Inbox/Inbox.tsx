@@ -21,7 +21,7 @@ import InboxSidebar from './components/InboxSidebar/InboxSidebar';
 import styles from './inbox.module.scss';
 import man from 'assets/man.png';
 import { IUser, Context } from '../../context/Context';
-import { DialogType, IIncomingMessage } from '../../types/inbox';
+import { DialogType, IIncomingMessage } from 'types/inbox';
 
 const AppealsContainerMessages = lazy(() => import('./components/AppealsContainerMessages/AppealsContainerMessages'));
 const PersonInfo = lazy(() => import('./components/PersonInfo/PersonInfo'));

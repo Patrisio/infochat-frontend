@@ -13,7 +13,7 @@ import Button from 'ui/Button/Button';
 import AppealsSkeleton from 'ui/Skeleton/AppealsSkeleton/AppealsSkeleton';
 
 import { SidebarContext } from '../../../../context/SidebarContext';
-import { IIncomingMessage, IMessagesHistory, SelectedClient, Filters } from '../../../../types/inbox';
+import { IIncomingMessage, IMessagesHistory, SelectedClient, Filters } from 'types/inbox';
 import { getClientName, getLastUnreadMessagesCount } from 'lib/utils/clientData';
 import { useActions } from 'hooks/useActions';
 import { useTypedSelector } from 'hooks/useTypedSelector';

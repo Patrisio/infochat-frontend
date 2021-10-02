@@ -1,4 +1,4 @@
-import { TeammatesActionTypes, TeammatesAction } from '../../types/teammates';
+import { TeammatesActionTypes, TeammatesAction } from 'types/teammates';
 import {
   TeammateAddPayload, RemoveTeammatePayload, TeammateUpdatePayload,
   GetTeammatesPayload, TeammateUpdateSaga,

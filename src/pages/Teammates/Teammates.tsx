@@ -24,7 +24,7 @@ import validateForm from './validateForm';
 import { NotificationContext } from '../../context/NotificationContext';
 import socket from '../../socket';
 import { Response } from 'api/types';
-import { Teammate } from '../../types/teammates';
+import { Teammate } from 'types/teammates';
 
 interface IParams {
   projectId: string,

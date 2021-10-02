@@ -4,7 +4,7 @@ import Input from 'ui/Input/Input';
 
 import styles from './generalInfo.module.scss';
 import cloneDeep from 'lodash/cloneDeep';
-import { InboxState } from '../../../../../../types/inbox';
+import { InboxState } from 'types/inbox';
 
 interface GeneralInfoItem {
   name: string,

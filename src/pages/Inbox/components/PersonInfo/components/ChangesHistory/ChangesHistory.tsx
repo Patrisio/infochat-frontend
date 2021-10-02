@@ -2,7 +2,7 @@ import React from 'react';
 
 import Modification from '../../../Modification/Modification';
 
-import { InboxState } from '../../../../../../types/inbox';
+import { InboxState } from 'types/inbox';
 
 interface ChangesHistoryProps {
   selectedClient: InboxState['selectedClient']

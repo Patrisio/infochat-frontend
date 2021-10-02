@@ -3,7 +3,7 @@ import { getTeammates, teammateAdd, sendEmail, removeTeammate, teammateUpdate } 
 import {
   TeammatesActionTypes, fetchTeammatesAction, deleteTeammateAction,
   updateTeammateAction, addTeammateAction,
-} from '../types/teammates';
+} from 'types/teammates';
 
 function* fetchTeammates({ payload }: fetchTeammatesAction): Generator<StrictEffect> {
   try {

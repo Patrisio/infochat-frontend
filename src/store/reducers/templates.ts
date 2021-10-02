@@ -1,6 +1,6 @@
-import { TemplatesState, TemplatesAction, TemplatesActionTypes } from '../../types/templates';
-
 import cloneDeep from 'lodash/cloneDeep';
+
+import { TemplatesState, TemplatesAction, TemplatesActionTypes } from 'types/templates';
 
 const initialState: TemplatesState = {
   templates: [],

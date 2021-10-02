@@ -1,6 +1,6 @@
-import { InboxState } from "../../types/inbox";
 import { IUser } from '../../context/Context';
-import { InboxMessages } from '../../types/inbox';
+import { InboxMessages, InboxState } from 'types/inbox';
+
 
 export function getAllInboxMessages(incomingMessages: InboxState['incomingMessages'], currentUser: IUser): InboxMessages {
   const unreadClientIds: InboxState['incomingMessages'] = [];

@@ -16,7 +16,7 @@ import styles from './appealsContainerMessages.module.scss';
 import { defaultSelectedClient } from '../../../../store/reducers/inbox';
 import socket from '../../../../socket';
 
-import { SelectedClient, } from '../../../../types/inbox';
+import { SelectedClient, } from 'types/inbox';
 import { MessagesStatusUpdatePayload } from 'api/types';
 
 interface AppealsContainerMessagesProps {

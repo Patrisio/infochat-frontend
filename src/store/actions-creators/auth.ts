@@ -1,4 +1,4 @@
-import { AuthActionTypes, AuthAction } from '../../types/auth';
+import { AuthActionTypes, AuthAction } from 'types/auth';
 
 export const authInvite = (payload: any): AuthAction => ({
   type: AuthActionTypes.AUTH_INVITE,

@@ -1,4 +1,4 @@
-import { TariffState, TariffActionTypes } from '../../types/tariff';
+import { TariffState, TariffActionTypes } from 'types/tariff';
 
 import operatorsTariff from 'assets/operators-tariff.svg';
 import chatTariff from 'assets/chat-tariff.svg';

@@ -1,7 +1,8 @@
 import { IUser } from '../context/Context';
 import { Role } from 'lib/utils/accessRights';
-import { Settings } from '../types/channels';
-import { IMessagesHistory } from '../types/inbox';
+
+import { Settings } from 'types/channels';
+import { IMessagesHistory } from 'types/inbox';
 
 interface FetchCurrentUserData extends IUser {}
 

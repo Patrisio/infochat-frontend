@@ -4,7 +4,7 @@ import { Response } from 'api/types';
 import {
   AuthActionTypes, authInviteAction, getCurrentUserAction,
   authSignUpAction, authSignInAction, decodeJwtAction,
-} from '../types/auth';
+} from 'types/auth';
 
 function* authInvite({ payload }: authInviteAction): Generator<StrictEffect> {
   try {

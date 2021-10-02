@@ -1,4 +1,4 @@
-import { TeammatesState, TeammatesAction, TeammatesActionTypes } from '../../types/teammates';
+import { TeammatesState, TeammatesAction, TeammatesActionTypes } from 'types/teammates';
 
 const initialState: TeammatesState = {
   teammates: [],

@@ -1,6 +1,6 @@
-import { Condition, ChannelsState, ChannelsAction, ChannelsActionTypes } from '../../types/channels';
-
 import cloneDeep from 'lodash/cloneDeep';
+
+import { Condition, ChannelsState, ChannelsAction, ChannelsActionTypes } from 'types/channels';
 
 import { generateRandomHash } from 'lib/utils/string';
 import { DEFAULT_TIME_ZONE } from 'lib/utils/date';

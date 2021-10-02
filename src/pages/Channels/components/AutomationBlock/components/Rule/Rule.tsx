@@ -8,7 +8,7 @@ import Condition from '../../components/Condition/Condition';
 import ButtonsGroup from '../../../ButtonsGroup/ButtonsGroup';
 
 import styles from './rule.module.scss';
-import { Condition as ConditionInterface } from '../../../../../../types/channels';
+import { Condition as ConditionInterface } from 'types/channels';
 
 interface Condition {
   variant: string,

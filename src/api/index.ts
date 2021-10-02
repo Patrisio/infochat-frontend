@@ -1,5 +1,5 @@
 import { requestApi, GET, POST } from './apiCore';
-import { Response } from './types';
+import { Response } from 'types';
 
 const VALUE_PATTERN = /\[.:\w+\]/g;
 const PARAM_PATTERN_NAME = /:\w+/g;

@@ -1,4 +1,4 @@
-import { ChannelsActionTypes, ChannelsAction, Channel } from '../../types/channels';
+import { ChannelsActionTypes, ChannelsAction, Channel } from 'types/channels';
 import {
   ChannelAddPayload, ChatSettingsSavePayload, GetChannelsPayload,
   ChatSettingsFetchPayload, 

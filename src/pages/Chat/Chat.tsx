@@ -21,7 +21,7 @@ import { scrollToBottomOfWrapper } from 'lib/utils/scroll';
 import { businessHours, weekdays, isDateBetween } from 'lib/utils/date';
 import { replaceWhiteSpaceToBr } from 'lib/utils/string';
 
-import { Settings, Rule, Condition, BusinessDay } from '../../types/channels';
+import { Settings, Rule, Condition, BusinessDay } from 'types/channels';
 import { BotMessage, Message } from 'api/types';
 import { request } from '../Channels/components/ClockBlock/constants';
 

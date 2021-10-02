@@ -8,7 +8,7 @@ import ButtonsGroup from '../ButtonsGroup/ButtonsGroup';
 
 import { useActions } from 'hooks/useActions';
 import { useTypedSelector } from 'hooks/useTypedSelector';
-import { Settings } from '../../../../types/channels';
+import { Settings } from 'types/channels';
 import styles from './generalSettingsBlock.module.scss';
 
 import theme1 from 'assets/theme1.png';

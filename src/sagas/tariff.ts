@@ -1,6 +1,6 @@
 import { call, put, takeEvery, StrictEffect } from 'redux-saga/effects';
 import { tariffPlanFetch, tariffPlanUpdate } from 'api/dataLayer';
-import { TariffActionTypes, TariffAction } from '../types/tariff';
+import { TariffActionTypes, TariffAction } from 'types/tariff';
 
 function* fetchTariffPlan(action: TariffAction): Generator<StrictEffect> {
   try {

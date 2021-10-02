@@ -1,4 +1,4 @@
-import { TemplatesActionTypes, TemplatesAction } from '../../types/templates';
+import { TemplatesActionTypes, TemplatesAction } from 'types/templates';
 import { TemplateAddPayload, GetTemplatesPayload, TemplateEditPayload, TemplateDeletePayload } from 'api/types';
 
 export const fetchTemplates = (payload: GetTemplatesPayload): TemplatesAction => ({
