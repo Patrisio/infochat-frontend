@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { SidebarContext } from '../../../../context/SidebarContext';
+import { SidebarContext } from 'context/SidebarContext';
 import CSS from 'csstype';
 import styles from './sidebarItem.module.scss';
 

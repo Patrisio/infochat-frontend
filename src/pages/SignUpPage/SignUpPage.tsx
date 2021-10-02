@@ -9,7 +9,7 @@ import Button from 'ui/Button/Button';
 
 import styles from './SignUpPage.module.scss';
 import validateForm from './validateForm';
-import { NotificationContext } from '../../context/NotificationContext';
+import { NotificationContext } from 'context/NotificationContext';
 import { updateToken } from 'lib/utils/token';
 import { Response } from 'api/types';
 

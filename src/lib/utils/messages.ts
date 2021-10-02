@@ -1,4 +1,4 @@
-import { IUser } from '../../context/Context';
+import { IUser } from 'context/Context';
 import { InboxMessages, InboxState } from 'types/inbox';
 
 

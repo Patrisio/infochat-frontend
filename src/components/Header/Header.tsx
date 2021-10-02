@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserEdit, faLayerGroup, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 import socket from '../../socket';
-import { Context } from '../../context/Context';
+import { Context } from 'context/Context';
 
 import Switcher from 'ui/Switcher/Switcher';
 import Popup from 'ui/Popup/Popup';

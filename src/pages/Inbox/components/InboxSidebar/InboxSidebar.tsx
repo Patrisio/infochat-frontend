@@ -15,8 +15,8 @@ import { useTypedSelector } from 'hooks/useTypedSelector';
 import styles from './inboxSidebar.module.scss';
 import { Teammate } from 'types/teammates';
 import { isProjectOwner } from 'lib/utils/accessRights';
-import { Context } from '../../../../context/Context';
-import { SidebarContext } from '../../../../context/SidebarContext';
+import { Context } from 'context/Context';
+import { SidebarContext } from 'context/SidebarContext';
 
 interface Channel {
   name: string,

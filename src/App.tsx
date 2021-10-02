@@ -4,9 +4,9 @@ import { useHistory, useParams } from 'react-router-dom';
 import Router from './router/router';
 import socket from './socket';
 
-import { Context, IUser } from './context/Context';
-import { NotificationContext, NotificationInterface } from './context/NotificationContext';
-import { SidebarContext, SidebarInterface } from './context/SidebarContext';
+import { Context, IUser } from 'context/Context';
+import { NotificationContext, NotificationInterface } from 'context/NotificationContext';
+import { SidebarContext, SidebarInterface } from 'context/SidebarContext';
 
 import { useActions } from 'hooks/useActions';
 import { isProjectOwner } from 'lib/utils/accessRights';

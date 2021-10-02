@@ -5,7 +5,7 @@ import Button from 'ui/Button/Button';
 
 import useForm from 'hooks/useForm';
 
-import { Context } from '../../context/Context';
+import { Context } from 'context/Context';
 import styles from './editableUserForm.module.scss';
 import validateForm from './validateForm';
 

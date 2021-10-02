@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
-import { NotificationContext, NotificationContextProps } from '../../context/NotificationContext';
+import { NotificationContext, NotificationContextProps } from 'context/NotificationContext';
 import styles from './notification.module.scss';
 
 export default function Notification() {

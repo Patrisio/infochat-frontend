@@ -12,12 +12,12 @@ import Input from 'ui/Input/Input';
 import Button from 'ui/Button/Button';
 import AppealsSkeleton from 'ui/Skeleton/AppealsSkeleton/AppealsSkeleton';
 
-import { SidebarContext } from '../../../../context/SidebarContext';
+import { SidebarContext } from 'context/SidebarContext';
 import { IIncomingMessage, IMessagesHistory, SelectedClient, Filters } from 'types/inbox';
 import { getClientName, getLastUnreadMessagesCount } from 'lib/utils/clientData';
 import { useActions } from 'hooks/useActions';
 import { useTypedSelector } from 'hooks/useTypedSelector';
-import { Context } from '../../../../context/Context';
+import { Context } from 'context/Context';
 import styles from './appealsContainerSelector.module.scss';
 
 interface FilterVariant {

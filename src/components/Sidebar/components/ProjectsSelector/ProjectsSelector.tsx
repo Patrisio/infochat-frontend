@@ -5,7 +5,7 @@ import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
 
 import Popup from 'ui/Popup/Popup';
 
-import { Context, Project } from '../../../../context/Context';
+import { Context, Project } from 'context/Context';
 import styles from './projectsSelector.module.scss';
 
 interface ProjectsSelectorProps {

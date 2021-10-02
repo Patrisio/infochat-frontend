@@ -4,7 +4,7 @@ import Textarea from 'ui/Textarea/Textarea';
 import Button from 'ui/Button/Button';
 import { ModalProps } from 'ui/Modal/Modal';
 
-import { Context } from '../../../../../../context/Context';
+import { Context } from 'context/Context';
 import Note from '../../../Note/Note';
 
 import { useActions } from 'hooks/useActions';

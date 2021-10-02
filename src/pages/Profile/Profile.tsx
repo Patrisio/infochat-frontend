@@ -12,7 +12,7 @@ import { updateToken } from 'lib/utils/token';
 import { useActions } from 'hooks/useActions';
 import { useTypedSelector } from 'hooks/useTypedSelector';
 
-import { Context } from '../../context/Context';
+import { Context } from 'context/Context';
 import styles from './profile.module.scss';
 import EditableUserForm from '../../modules/EditableUserForm/EditableUserForm';
 import InboxSidebar from '../Inbox/components/InboxSidebar/InboxSidebar';

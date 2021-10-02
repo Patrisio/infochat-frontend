@@ -11,7 +11,7 @@ import { scrollToBottomOfWrapper } from 'lib/utils/scroll';
 import { replaceBrToWhiteSpace, replaceWhiteSpaceToBr } from 'lib/utils/string';
 import { useActions } from 'hooks/useActions';
 import { useTypedSelector } from 'hooks/useTypedSelector';
-import { Context } from '../../../../context/Context';
+import { Context } from 'context/Context';
 
 import { IMessagesHistory } from 'types/inbox';
 
