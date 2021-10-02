@@ -9,7 +9,7 @@ import Avatar from 'ui/Avatar/Avatar';
 import Modal from 'ui/Modal/Modal';
 import Table from 'ui/Table/Table';
 import Badge from 'ui/Badge/Badge';
-import EditableUserForm from '../../modules/EditableUserForm/EditableUserForm';
+import EditableUserForm from 'modules/EditableUserForm/EditableUserForm';
 
 import useForm from 'hooks/useForm';
 import { useActions } from 'hooks/useActions';

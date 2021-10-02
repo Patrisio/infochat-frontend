@@ -14,7 +14,7 @@ import { useTypedSelector } from 'hooks/useTypedSelector';
 
 import { Context } from 'context/Context';
 import styles from './profile.module.scss';
-import EditableUserForm from '../../modules/EditableUserForm/EditableUserForm';
+import EditableUserForm from 'modules/EditableUserForm/EditableUserForm';
 import InboxSidebar from '../Inbox/components/InboxSidebar/InboxSidebar';
 
 interface FormData {
