@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Button.module.scss';
+import styles from './button.module.scss';
 
 interface IButtonProps {
   children: React.ReactNode,
