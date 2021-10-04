@@ -21,5 +21,5 @@ module.exports = {
 
     // disable rules from base configurations
      "for-direction": "off",
-}
+  }
 };
