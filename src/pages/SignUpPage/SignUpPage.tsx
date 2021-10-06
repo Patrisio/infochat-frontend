@@ -22,6 +22,7 @@ export default function SignUpPage()  {
     email: string,
     password: string,
     phone: string,
+    projectName: string,
     username: string,
   }, activateCallback: () => void) => {
     const successCallback = (data: {
@@ -60,6 +61,7 @@ export default function SignUpPage()  {
     {
       username: '',
       phone: '',
+      projectName: '',
       email: '',
       password: '',
     },
@@ -92,6 +94,15 @@ export default function SignUpPage()  {
           fluid
           onChange={handleChange}
           errorMessage={errors.phone}
+          classNames={styles.inputField}
+        />
+        <Input
+          placeholder='Название проекта'
+          type='text'
+          name='projectName'
+          fluid
+          onChange={handleChange}
+          errorMessage={errors.projectName}
           classNames={styles.inputField}
         />
         <Input
