@@ -56,7 +56,7 @@ export default function Channels() {
     height: '',
   });
   const { channels: connectedChannels } = useTypedSelector(state => state.channels);
-  console.log(connectedChannels, 'connectedChannels');
+
   let { projectId } = useParams<{ projectId: string }>();
   const { addChannel, fetchChannels, fetchChatSettings, updateChannelStatusByChannelName } = useActions();
 

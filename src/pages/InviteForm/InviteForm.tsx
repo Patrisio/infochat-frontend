@@ -44,7 +44,6 @@ export default function InviteForm() {
             iat: number,
             exp: number,
           }) => {
-            console.log(decodeToken, 'decodeToken');
             socket.emit('setActiveTeammateStatus', {
               username,
               email: decodeToken.email,

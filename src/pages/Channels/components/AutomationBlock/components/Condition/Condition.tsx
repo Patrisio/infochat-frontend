@@ -24,7 +24,6 @@ export default function Condition({
   deleteCondition, updateCondition, toggleChanges
 }: Props) {
   const [conditionVariantId, setConditionVariantId] = useState(variant);
-  console.log(conditionVariantId, "conditionVariantId");
   useEffect(() => setConditionVariantId(variant), [variant]);
 
   const conditionsVariants = [
@@ -47,7 +46,6 @@ export default function Condition({
   ];
 
   const selectOption = (property: {[key: string]: string | number}) => {
-    console.log(property, 'property');
     updateCondition(ruleId, id as string, property);
     toggleChanges(true);
   };

@@ -107,17 +107,6 @@ export default function Chat() {
     } : {};
   };
 
-  // const postMessageChatEventHandler = (message: any) => {
-  //   console.log(message, '__MESSAGE++');
-  //   switch (message.event) {
-  //     case 'acceptDataFromClientWebsite':
-  //       savedClientChatSettings = message.localStorageClientChatSettings;
-  //       parentWindowOrigin = message.origin;
-  //       savedRulesSteps = message.localStorageRulesSteps;
-  //       break;
-  //   }
-  // };
-
   const sendMessagesPullToGetClientData = () => {
     const username = 'bot';
 
@@ -194,7 +183,6 @@ export default function Chat() {
     const messagesPull = [warningMessage, communicationMethodsMessage, variantsMessage ];
     
     const sendBotMessage = (message: BotMessage) => {
-      console.log(message, 'BOT_MESSAGE');
       addMessage(message);
     };
 
@@ -254,7 +242,6 @@ export default function Chat() {
 
       const clientWeekdayWithChatSettingsTimezone: number = moment().tz(chatSettings.timezone).weekday();
       if (checkClientSentMessageInNotBusinessHoursByWeekday(clientWeekdayWithChatSettingsTimezone)) {
-        console.log('NON_WORKING_HOURS');
         sendMessagesPullToGetClientData();
       }
     }
@@ -277,12 +264,6 @@ export default function Chat() {
 
   useEffect(() => {
     window.parent.postMessage({ event: 'getDataFromClientWebsite' }, '*');
-    console.log('ttttttttttttt');
-    // const messageHandler = (e: any) => {
-    //   console.log('erdtfygvubhnjlmk');
-    //   postMessageChatEventHandler(e.data);
-    // }
-    // window.addEventListener('message', messageHandler);
 
     socket.emit('joinRoom', clientId);
 
@@ -355,7 +336,6 @@ export default function Chat() {
           } else {
             if (allowedConditionOperatorsIds.includes(condition.operator)) {
               logicalOperator = getLogicalSign(condition.operator);
-              console.log(parentWindowOrigin, 'parentWindowOrigin');
               syncConditionsResults.push(getScriptCondition(logicalOperator, condition.value, parentWindowOrigin));
             }
           }
@@ -491,7 +471,6 @@ export default function Chat() {
       projectId,
       clientId,
       successCallback: (clientData: ClientData) => {
-        console.log(clientData, 'clientData');
         if (clientData.isBlocked) {
           closeChatIframes();
           return;

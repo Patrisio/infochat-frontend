@@ -323,7 +323,7 @@ export default function AppealsContainerSelector({
             const clientName = getClientName(incomingMessage.avatarColor, incomingMessage.avatarName);
             const unreadMessagesCount = getLastUnreadMessagesCount(incomingMessage);
             const isUnreadMessageBlockAndNotSelected = !(incomingMessage.clientId === selectedClientId) && unreadMessagesCount > 0;
-            console.log(incomingMessage);
+
             return (
               <div
                 key={idx}

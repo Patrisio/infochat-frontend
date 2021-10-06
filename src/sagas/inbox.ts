@@ -112,7 +112,6 @@ function* getSelectedClientInfo(action: InboxAction): Generator<StrictEffect> {
 
 function* addNote(action: InboxAction): Generator<StrictEffect> {
   try {
-    console.log(action.payload);
     yield call(noteAdd, action.payload);
   } catch (e) {
     yield put({
@@ -135,7 +134,6 @@ function* deleteNote(action: InboxAction): Generator<StrictEffect> {
 
 function* deleteClientAppealByClientId(action: InboxAction): Generator<StrictEffect> {
   try {
-    console.log(action.payload);
     yield call(clientAppealDelete, action.payload);
   } catch (e) {
     yield put({

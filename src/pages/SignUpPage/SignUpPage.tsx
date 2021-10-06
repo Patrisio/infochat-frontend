@@ -68,7 +68,6 @@ export default function SignUpPage()  {
     validateForm,
     signUpUser
   );
-  console.log(isSubmitting, 'isSubmitting');
 
   return (
     <div className={styles.formWrapper}>

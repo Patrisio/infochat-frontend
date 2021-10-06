@@ -392,7 +392,6 @@ export default function Teammates() {
   ];
 
   const saveData = ({ oldEmail, role }: { oldEmail: string, role: Role }, values: InviteTeammate) => {
-    console.log(values, '__VALLLLL');
     const { name, surname, ...restFormData } = values;
     const username = `${name} ${surname}`;
 

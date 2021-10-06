@@ -117,7 +117,6 @@ export default function Notes({ selectedClient, setModalProps, closeModal }: Not
 
   useEffect(() => {
     setNotes(selectedClient.notes);
-    console.log('UPDATED_STATE');
   }, [selectedClient.notes]);
 
   return (

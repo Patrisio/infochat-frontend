@@ -46,7 +46,6 @@ export default function AutomationBlock({ setActiveTab }: AutomationBlockProps) 
   };
 
   const deleteRule = (ruleId: string) => {
-    console.log(ruleId);
     updateChannelSettings({ rules: rules.filter((rule) => rule.id !== ruleId) });
     toggleChanges(true);
   };

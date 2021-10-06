@@ -59,7 +59,6 @@ export default function ChatPreview() {
 
     if (triggerRef) {
       const buttonWidth = Math.ceil((triggerRef.getBoundingClientRect().width) / parseFloat(settings.buttonScale));
-      console.log(buttonWidth);
       updateChannelSettings({ buttonWidth });
     }
   }, [settings.buttonText, settings.buttonScale]);

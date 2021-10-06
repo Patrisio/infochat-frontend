@@ -25,7 +25,7 @@ export default function App() {
   } = useActions();
   const history = useHistory();
   const { projectId } = useParams<{ projectId: string }>();
-  console.log(useParams(), 'dddd');
+
   const currentUserDataIsNeeded = (url: string) => {
     const pagesWithoutCurrentUserData = ['iframe', 'signup', 'signin', 'invite'];
     return !pagesWithoutCurrentUserData.find((page: string) => url.includes(page));
@@ -66,9 +66,6 @@ export default function App() {
         setCurrentUser(currentUser);
         setAuthError(false);
         socket.emit('joinRoom', currentUser.projects[0].id);
-        socket.on('msgToClient', (message: any) => {
-          console.log(message);
-        });
       };
       const errorCallback = () => {
         setAuthError(true);

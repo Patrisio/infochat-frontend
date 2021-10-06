@@ -21,7 +21,6 @@ export default function Switcher({ onChange, value = false }: SwitcherProps) {
         checked={isActive}
         onChange={() => {
           toggle(prev => {
-            console.log(!prev);
             return !prev;
           });
         }}
